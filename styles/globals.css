@@ -1,0 +1,39 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=DM+Sans:wght@300;400;500&display=swap');
+
+:root {
+  --navy:        #002147;
+  --orange:      #FF8C00;
+  --yellow:      #FFFCEB;
+  --paper:       #FFFFFF;
+  --gold:        #c9a96e;
+  --gold-lt:     #e8d5b0;
+  --black:       #0a0a0a;
+  --white:       #ffffff;
+  --gray-50:     #fafaf8;
+  --gray-100:    #f5f4f1;
+  --gray-200:    #e8e6e0;
+  --gray-400:    #9a9690;
+  --gray-600:    #5f5e5a;
+  --gray-700:    #3d3b37;
+  --green:       #27ae60;
+  --red:         #c0392b;
+  --blue:        #185FA5;
+  --font-d:      'Playfair Display', Georgia, serif;
+  --font-b:      'DM Sans', sans-serif;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: var(--font-b);
+  background: var(--gray-100);
+  color: var(--black);
+  -webkit-font-smoothing: antialiased;
+}
+
+a { color: inherit; text-decoration: none; }
+input, select, textarea, button { font-family: var(--font-b); }
+
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--gray-100); }
+::-webkit-scrollbar-thumb { background: var(--gray-200); border-radius: 3px; }
