@@ -27,15 +27,6 @@ export default function Login() {
           <div id="sb-err" style={{fontSize:11,color:'#c0392b',marginBottom:8}}></div>
           <button type="submit" style={{width:'100%',background:'#FF8C00',color:'#fff',border:'none',padding:'13px',fontSize:13,fontWeight:700,letterSpacing:'.1em',textTransform:'uppercase',cursor:'pointer',borderRadius:3,fontFamily:'sans-serif',marginBottom:'1rem'}}>Access my portal →</button>
         </form>
-        <div style={{margin:'1rem 0',display:'flex',alignItems:'center',gap:10}}>
-          <div style={{flex:1,height:1,background:'#e8e6e0'}}/>
-          <span style={{fontSize:11,color:'#9a9690'}}>or quick access</span>
-          <div style={{flex:1,height:1,background:'#e8e6e0'}}/>
-        </div>
-        <div style={{display:'flex',gap:8,marginBottom:'1.25rem'}}>
-          <a href="/dashboard" style={{flex:1,display:'flex',alignItems:'center',justifyContent:'center',background:'#002147',color:'#FF8C00',padding:'10px',fontSize:11,fontWeight:700,textDecoration:'none',borderRadius:3,letterSpacing:'.06em',textTransform:'uppercase'}}>Contractor</a>
-          <a href="/client/dashboard" style={{flex:1,display:'flex',alignItems:'center',justifyContent:'center',background:'#f5f4f1',color:'#002147',padding:'10px',fontSize:11,fontWeight:700,textDecoration:'none',borderRadius:3,letterSpacing:'.06em',textTransform:'uppercase',border:'1px solid #e8e6e0'}}>Client</a>
-        </div>
         <p style={{fontSize:10,color:'#9a9690',textAlign:'center',lineHeight:1.8,margin:0}}>
           Contractors: michael@spanglerbuilt.com<br/>
           Clients: use your project email<br/>
