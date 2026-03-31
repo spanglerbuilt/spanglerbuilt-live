@@ -238,7 +238,7 @@ var PRODUCTS = {
       selected: 'Wide Plank Hardwood',
       options: ['Wide Plank Hardwood','Stone','Custom'],
       detail: {
-        brand: 'Hakwood',
+        brand: 'Boen / Hakwood',
         product: 'European Oak — 9.5" Wide',
         color: 'Smoked Pearl',
         spec: '9.5" wide · 5/8" · Hand-scraped · Live sawn',
@@ -254,7 +254,7 @@ var PRODUCTS = {
       options: ['Marble','Quartzite','Onyx'],
       detail: {
         brand: 'Antolini Luigi',
-        product: 'Calacatta Borghini Book-matched',
+        product: 'Calacatta Borghini — Book-matched',
         color: 'White with dramatic gold veining',
         spec: '3cm · Waterfall · Leathered or polished',
         price: '$180+/sf installed',
@@ -268,7 +268,7 @@ var PRODUCTS = {
       selected: 'Full Custom',
       options: ['Full Custom','Lacquered','Cerused Oak'],
       detail: {
-        brand: 'Plain and Fancy Cabinetry',
+        brand: 'Plain & Fancy / Brookhaven',
         product: 'Full custom — any style',
         color: 'Bespoke finish — client specified',
         spec: 'Full custom · Any wood · Any finish · Any hardware',
@@ -283,7 +283,7 @@ var PRODUCTS = {
       selected: 'Polished Gold',
       options: ['Polished Gold','Vintage Nickel','Custom'],
       detail: {
-        brand: 'Waterworks',
+        brand: 'Waterworks / Kallista',
         product: 'Custom faucet collection',
         color: 'Polished Gold / Unlacquered Brass',
         spec: 'Handcrafted · Ceramic disc · Lifetime',
@@ -298,7 +298,7 @@ var PRODUCTS = {
       selected: 'Natural Stone',
       options: ['Natural Marble','Travertine','Onyx'],
       detail: {
-        brand: 'Ann Sacks',
+        brand: 'Ann Sacks / Walker Zanger',
         product: 'Bianco Dolomite — Honed',
         color: 'White with soft grey veining',
         spec: '24x48 · Honed · Book-matched slabs',
@@ -324,14 +324,14 @@ var CAT_ORDER  = ['flooring','countertops','cabinets','fixtures','tile']
 function fmt(n){ return '$'+Math.round(n).toLocaleString('en-US') }
 
 export default function Presentation() {
-  var [tierKey, setTierKey] = useState('good')
-  var [catKey,  setCatKey]  = useState('flooring')
-  var [optIdx,  setOptIdx]  = useState(0)
+  var [tierKey, setTierKey]   = useState('good')
+  var [catKey,  setCatKey]    = useState('flooring')
+  var [optIdx,  setOptIdx]    = useState(0)
 
-  var tier   = TIER_INFO[tierKey]
-  var prods  = PRODUCTS[tierKey]
-  var prod   = prods[catKey]
-  var detail = prod.detail
+  var tier    = TIER_INFO[tierKey]
+  var prods   = PRODUCTS[tierKey]
+  var prod    = prods[catKey]
+  var detail  = prod.detail
 
   function nextTier() {
     var i = TIER_ORDER.indexOf(tierKey)
@@ -344,23 +344,29 @@ export default function Presentation() {
 
   return (
     <div style={{minHeight:'100vh',background:'#002147',fontFamily:'sans-serif',display:'flex',flexDirection:'column'}}>
+
+      {/* Topbar */}
       <div style={{background:'rgba(0,0,0,.4)',padding:'.75rem 2rem',display:'flex',alignItems:'center',justifyContent:'space-between',flexShrink:0}}>
         <div style={{display:'flex',alignItems:'center',gap:12}}>
           <img src="/logo.png" alt="SpanglerBuilt" style={{height:30,width:'auto'}}/>
           <span style={{fontSize:11,color:'rgba(255,255,255,.5)',letterSpacing:'.1em',textTransform:'uppercase'}}>Material Selections Presentation</span>
         </div>
-        <a href="/dashboard" style={{fontSize:11,color:'rgba(255,255,255,.4)',textDecoration:'none'}}>Back to dashboard</a>
+        <a href="/dashboard" style={{fontSize:11,color:'rgba(255,255,255,.4)',textDecoration:'none'}}>← Dashboard</a>
       </div>
+
+      {/* Tier selector */}
       <div style={{display:'flex',gap:6,justifyContent:'center',padding:'.75rem',flexShrink:0}}>
         {TIER_ORDER.map(function(t){
           var ti = TIER_INFO[t]
           return (
-            <button key={t} onClick={function(){setTierKey(t);setOptIdx(0)}} style={{padding:'6px 18px',fontSize:12,fontWeight:700,border:'2px solid '+(t===tierKey?ti.color:'rgba(255,255,255,.2)'),background:t===tierKey?ti.color:'transparent',color:t===tierKey?'#fff':'rgba(255,255,255,.5)',cursor:'pointer',borderRadius:20,fontFamily:'sans-serif',letterSpacing:'.06em',textTransform:'uppercase'}}>
+            <button key={t} onClick={function(){setTierKey(t);setOptIdx(0)}} style={{padding:'6px 18px',fontSize:12,fontWeight:700,border:'2px solid '+(t===tierKey?ti.color:'rgba(255,255,255,.2)'),background:t===tierKey?ti.color:'transparent',color:t===tierKey?'#fff':'rgba(255,255,255,.5)',cursor:'pointer',borderRadius:20,fontFamily:'sans-serif',letterSpacing:'.06em',textTransform:'uppercase',transition:'all .2s'}}>
               {ti.label} · {fmt(ti.price)}
             </button>
           )
         })}
       </div>
+
+      {/* Category tabs */}
       <div style={{display:'flex',gap:4,justifyContent:'center',padding:'0 1rem .75rem',flexShrink:0,flexWrap:'wrap'}}>
         {CAT_ORDER.map(function(c){
           var p = prods[c]
@@ -371,15 +377,21 @@ export default function Presentation() {
           )
         })}
       </div>
-      <div style={{flex:1,display:'flex',gap:0,maxWidth:1100,margin:'0 auto',width:'100%',padding:'0 1.5rem 1.5rem'}}>
+
+      {/* Main content */}
+      <div style={{flex:1,display:'flex',gap:0,maxWidth:1100,margin:'0 auto',width:'100%',padding:'0 1.5rem 1.5rem',minHeight:0}}>
+
+        {/* Left — product photo */}
         <div style={{flex:'0 0 45%',marginRight:'1.5rem'}}>
           <div style={{borderRadius:8,overflow:'hidden',height:280,background:'#001530',position:'relative'}}>
             <img src={detail.photo} alt={detail.product} style={{width:'100%',height:'100%',objectFit:'cover',opacity:.9}} onError={function(e){e.target.style.display='none'}}/>
-            <div style={{position:'absolute',bottom:0,left:0,right:0,background:'linear-gradient(transparent,rgba(0,0,0,.7))',padding:'1rem'}}>
+            <div style={{position:'absolute',bottom:0,left:0,right:0,background:'linear-gradient(transparent,rgba(0,0,0,.7)',padding:'1rem'}}>
               <div style={{fontSize:13,fontWeight:700,color:'#fff'}}>{detail.product}</div>
               <div style={{fontSize:11,color:'rgba(255,255,255,.7)'}}>{detail.brand}</div>
             </div>
           </div>
+
+          {/* Color swatches */}
           <div style={{marginTop:12}}>
             <div style={{fontSize:10,color:'rgba(255,255,255,.4)',textTransform:'uppercase',letterSpacing:'.08em',marginBottom:8}}>Available finishes</div>
             <div style={{display:'flex',gap:8}}>
@@ -392,25 +404,38 @@ export default function Presentation() {
             </div>
           </div>
         </div>
+
+        {/* Right — selection details */}
         <div style={{flex:1,display:'flex',flexDirection:'column',gap:12}}>
+
+          {/* Category header */}
           <div>
             <div style={{fontSize:10,color:'rgba(255,255,255,.4)',textTransform:'uppercase',letterSpacing:'.1em',marginBottom:4}}>{prod.category}</div>
             <div style={{fontSize:22,fontWeight:600,color:'#fff',marginBottom:2}}>{detail.product}</div>
             <div style={{fontSize:13,color:'rgba(255,255,255,.6)'}}>{detail.brand}</div>
           </div>
+
+          {/* Option selector */}
           <div>
             <div style={{fontSize:10,color:'rgba(255,255,255,.4)',textTransform:'uppercase',letterSpacing:'.08em',marginBottom:8}}>Material type</div>
             <div style={{display:'flex',gap:8,flexWrap:'wrap'}}>
               {prod.options.map(function(opt,i){return(
-                <button key={i} onClick={function(){setOptIdx(i)}} style={{padding:'8px 16px',fontSize:12,fontWeight:500,border:'2px solid '+(i===optIdx?'#FF8C00':'rgba(255,255,255,.2)'),background:i===optIdx?'rgba(255,140,0,.15)':'transparent',color:i===optIdx?'#FF8C00':'rgba(255,255,255,.6)',cursor:'pointer',borderRadius:4,fontFamily:'sans-serif'}}>
+                <button key={i} onClick={function(){setOptIdx(i)}} style={{padding:'8px 16px',fontSize:12,fontWeight:500,border:'2px solid '+(i===optIdx?'#FF8C00':'rgba(255,255,255,.2)'),background:i===optIdx?'rgba(255,140,0,.15)':'transparent',color:i===optIdx?'#FF8C00':'rgba(255,255,255,.6)',cursor:'pointer',borderRadius:4,fontFamily:'sans-serif',transition:'all .15s'}}>
                   {opt}
                 </button>
               )})}
             </div>
           </div>
+
+          {/* Spec details */}
           <div style={{background:'rgba(255,255,255,.06)',borderRadius:6,padding:'1rem',border:'1px solid rgba(255,255,255,.1)'}}>
             <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:10}}>
-              {[['Selected color',detail.color],['Specification',detail.spec],['Pricing',detail.price],['Tier',tier.label+' ('+tier.mult+')']].map(function(item){return(
+              {[
+                ['Selected color', detail.color],
+                ['Specification',  detail.spec],
+                ['Pricing',        detail.price],
+                ['Tier',           tier.label+' ('+tier.mult+')'],
+              ].map(function(item){return(
                 <div key={item[0]}>
                   <div style={{fontSize:9,color:'rgba(255,255,255,.35)',textTransform:'uppercase',letterSpacing:'.08em',marginBottom:3}}>{item[0]}</div>
                   <div style={{fontSize:12,color:'rgba(255,255,255,.85)',lineHeight:1.5}}>{item[1]}</div>
@@ -418,17 +443,21 @@ export default function Presentation() {
               )})}
             </div>
           </div>
-          <a href={detail.link} target="_blank" rel="noreferrer" style={{display:'flex',alignItems:'center',gap:8,background:'transparent',border:'1px solid rgba(255,255,255,.2)',color:'rgba(255,255,255,.6)',padding:'8px 14px',borderRadius:4,textDecoration:'none',fontSize:11,fontWeight:500,width:'fit-content'}}>
-            View at manufacturer website
+
+          {/* Manufacturer link */}
+          <a href={detail.link} target="_blank" rel="noreferrer" style={{display:'flex',alignItems:'center',gap:8,background:'transparent',border:'1px solid rgba(255,255,255,.2)',color:'rgba(255,255,255,.6)',padding:'8px 14px',borderRadius:4,textDecoration:'none',fontSize:11,fontWeight:500,letterSpacing:'.04em',width:'fit-content'}}>
+            View at {detail.brand.split('—')[0].trim()} ↗
           </a>
+
+          {/* Tier price summary */}
           <div style={{marginTop:'auto',background:'rgba(255,140,0,.1)',border:'1px solid rgba(255,140,0,.3)',borderRadius:6,padding:'10px 14px',display:'flex',justifyContent:'space-between',alignItems:'center'}}>
             <div>
               <div style={{fontSize:10,color:'rgba(255,255,255,.4)',textTransform:'uppercase',letterSpacing:'.08em',marginBottom:2}}>{tier.label} tier — total project</div>
               <div style={{fontSize:22,color:'#FF8C00',fontWeight:600}}>{fmt(tier.price)}</div>
             </div>
             <div style={{display:'flex',gap:8}}>
-              <button onClick={prevTier} disabled={TIER_ORDER.indexOf(tierKey)===0} style={{background:'transparent',border:'1px solid rgba(255,255,255,.2)',color:TIER_ORDER.indexOf(tierKey)===0?'rgba(255,255,255,.2)':'rgba(255,255,255,.7)',padding:'7px 14px',fontSize:11,cursor:TIER_ORDER.indexOf(tierKey)===0?'default':'pointer',borderRadius:3,fontFamily:'sans-serif'}}>Previous tier</button>
-              <button onClick={nextTier} disabled={TIER_ORDER.indexOf(tierKey)===TIER_ORDER.length-1} style={{background:TIER_ORDER.indexOf(tierKey)===TIER_ORDER.length-1?'transparent':'#FF8C00',border:'1px solid '+(TIER_ORDER.indexOf(tierKey)===TIER_ORDER.length-1?'rgba(255,255,255,.2)':'#FF8C00'),color:TIER_ORDER.indexOf(tierKey)===TIER_ORDER.length-1?'rgba(255,255,255,.2)':'#fff',padding:'7px 14px',fontSize:11,cursor:TIER_ORDER.indexOf(tierKey)===TIER_ORDER.length-1?'default':'pointer',borderRadius:3,fontFamily:'sans-serif'}}>Next tier</button>
+              <button onClick={prevTier} disabled={TIER_ORDER.indexOf(tierKey)===0} style={{background:'transparent',border:'1px solid rgba(255,255,255,.2)',color:TIER_ORDER.indexOf(tierKey)===0?'rgba(255,255,255,.2)':'rgba(255,255,255,.7)',padding:'7px 14px',fontSize:11,cursor:TIER_ORDER.indexOf(tierKey)===0?'default':'pointer',borderRadius:3,fontFamily:'sans-serif'}}>← Previous tier</button>
+              <button onClick={nextTier} disabled={TIER_ORDER.indexOf(tierKey)===TIER_ORDER.length-1} style={{background:TIER_ORDER.indexOf(tierKey)===TIER_ORDER.length-1?'transparent':'#FF8C00',border:'1px solid '+(TIER_ORDER.indexOf(tierKey)===TIER_ORDER.length-1?'rgba(255,255,255,.2)':'#FF8C00'),color:TIER_ORDER.indexOf(tierKey)===TIER_ORDER.length-1?'rgba(255,255,255,.2)':'#fff',padding:'7px 14px',fontSize:11,cursor:TIER_ORDER.indexOf(tierKey)===TIER_ORDER.length-1?'default':'pointer',borderRadius:3,fontFamily:'sans-serif'}}>Next tier →</button>
             </div>
           </div>
         </div>
