@@ -1,7 +1,25 @@
+import { useState, useEffect } from 'react'
 import { useSession, signOut } from 'next-auth/react'
 
 export default function Dashboard() {
   var { data: session } = useSession()
+  var [authChecked, setAuthChecked] = useState(false)
+
+  useEffect(function() {
+    try {
+      var auth = JSON.parse(localStorage.getItem('sb_auth') || 'null')
+      if (!auth || auth.role !== 'contractor') {
+        window.location.href = '/login'
+        return
+      }
+    } catch(e) {
+      window.location.href = '/login'
+      return
+    }
+    setAuthChecked(true)
+  }, [])
+
+  if (!authChecked) return null
 
   var modules = [
     {label:'Estimating tool',    href:'/contractor/estimate',  desc:'16 CSI divisions, G/B/B/L', icon:'$'},

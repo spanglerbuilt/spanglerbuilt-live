@@ -1,11 +1,15 @@
 import { useState } from 'react'
 
 var CONTRACTOR_EMAIL = 'michael@spanglerbuilt.com'
+var CONTRACTOR_PASS  = 'spangler2026'   // change this in production
 
 export default function Login() {
-  var [email,   setEmail]   = useState('')
-  var [error,   setError]   = useState('')
-  var [loading, setLoading] = useState(false)
+  var [email,    setEmail]    = useState('')
+  var [password, setPassword] = useState('')
+  var [error,    setError]    = useState('')
+  var [loading,  setLoading]  = useState(false)
+
+  var isContractor = email.trim().toLowerCase() === CONTRACTOR_EMAIL.toLowerCase()
 
   function handleLogin(e) {
     e.preventDefault()
@@ -13,10 +17,21 @@ export default function Login() {
     setLoading(true)
     setError('')
     var clean = email.trim().toLowerCase()
-    // Route based on email
+
     if (clean === CONTRACTOR_EMAIL.toLowerCase()) {
+      if (password !== CONTRACTOR_PASS) {
+        setError('Incorrect password. Contact michael@spanglerbuilt.com for access.')
+        setLoading(false)
+        return
+      }
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('sb_auth', JSON.stringify({ role:'contractor', email: clean, ts: Date.now() }))
+      }
       window.location.href = '/dashboard'
     } else if (clean.includes('@') && clean.includes('.')) {
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('sb_auth', JSON.stringify({ role:'client', email: clean, ts: Date.now() }))
+      }
       window.location.href = '/client/dashboard'
     } else {
       setError('Please enter a valid email address.')
@@ -41,28 +56,39 @@ export default function Login() {
             <input
               type="email"
               value={email}
-              onChange={function(e){setEmail(e.target.value)}}
+              onChange={function(e){setEmail(e.target.value); setError('')}}
               placeholder="you@email.com"
               required
               style={{width:'100%',padding:'10px 12px',border:'1px solid #e8e6e0',borderRadius:3,fontSize:13,fontFamily:'sans-serif',outline:'none',background:'#FFFCEB',boxSizing:'border-box'}}
             />
           </div>
-          {error && <div style={{fontSize:12,color:'#c0392b',marginBottom:10}}>{error}</div>}
-          <button type="submit" disabled={loading||!email.trim()} style={{width:'100%',background:'#FF8C00',color:'#fff',border:'none',padding:'12px',fontSize:12,fontWeight:700,letterSpacing:'.1em',textTransform:'uppercase',cursor:'pointer',borderRadius:3,fontFamily:'sans-serif',opacity:loading||!email.trim()?0.6:1,marginBottom:'1rem'}}>
+
+          {isContractor && (
+            <div style={{marginBottom:12}}>
+              <label style={{display:'block',fontSize:10,fontWeight:500,color:'#9a9690',textTransform:'uppercase',letterSpacing:'.08em',marginBottom:5}}>Password</label>
+              <input
+                type="password"
+                value={password}
+                onChange={function(e){setPassword(e.target.value); setError('')}}
+                placeholder="Enter password"
+                required
+                autoFocus
+                style={{width:'100%',padding:'10px 12px',border:'1px solid #e8e6e0',borderRadius:3,fontSize:13,fontFamily:'sans-serif',outline:'none',background:'#FFFCEB',boxSizing:'border-box'}}
+              />
+            </div>
+          )}
+
+          {error && <div style={{fontSize:12,color:'#c0392b',marginBottom:10,background:'#fdecea',padding:'8px 10px',borderRadius:3,border:'1px solid #f5c6cb'}}>{error}</div>}
+
+          <button type="submit"
+            disabled={loading || !email.trim() || (isContractor && !password)}
+            style={{width:'100%',background:'#FF8C00',color:'#fff',border:'none',padding:'12px',fontSize:12,fontWeight:700,letterSpacing:'.1em',textTransform:'uppercase',cursor:'pointer',borderRadius:3,fontFamily:'sans-serif',opacity:(loading || !email.trim() || (isContractor && !password)) ? 0.5 : 1}}>
             {loading ? 'Loading...' : 'Access my portal →'}
           </button>
         </form>
-        <div style={{margin:'1rem 0',display:'flex',alignItems:'center',gap:10}}>
-          <div style={{flex:1,height:1,background:'#e8e6e0'}}/>
-          <span style={{fontSize:11,color:'#9a9690'}}>or quick access</span>
-          <div style={{flex:1,height:1,background:'#e8e6e0'}}/>
-        </div>
-        <div style={{display:'flex',gap:8,marginBottom:'1.5rem'}}>
-          <a href="/dashboard" style={{flex:1,display:'flex',alignItems:'center',justifyContent:'center',background:'#002147',color:'#FF8C00',padding:'10px',fontSize:11,fontWeight:700,textDecoration:'none',borderRadius:3,letterSpacing:'.06em',textTransform:'uppercase'}}>Contractor</a>
-          <a href="/client/dashboard" style={{flex:1,display:'flex',alignItems:'center',justifyContent:'center',background:'#f5f4f1',color:'#002147',padding:'10px',fontSize:11,fontWeight:700,textDecoration:'none',borderRadius:3,letterSpacing:'.06em',textTransform:'uppercase',border:'1px solid #e8e6e0'}}>Client</a>
-        </div>
-        <p style={{fontSize:10,color:'#9a9690',textAlign:'center',lineHeight:1.8,margin:0}}>
-          Contractors: michael@spanglerbuilt.com<br/>
+
+        <p style={{fontSize:10,color:'#9a9690',textAlign:'center',lineHeight:1.9,margin:'1.5rem 0 0'}}>
+          Contractors: use michael@spanglerbuilt.com<br/>
           Clients: use the email on your project agreement<br/>
           <a href="tel:4044927650" style={{color:'#FF8C00',textDecoration:'none'}}>Questions? (404) 492-7650</a>
         </p>
