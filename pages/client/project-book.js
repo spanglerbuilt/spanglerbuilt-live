@@ -53,28 +53,39 @@ var TIER_COLORS = {
 
 // Photos keyed by selection category id
 var CATEGORY_PHOTOS = {
-  flooring:    'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=80',
-  tile:        'https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?w=600&q=80',
-  cabinets:    'https://images.unsplash.com/photo-1556909172-54557c7e4fb7?w=600&q=80',
-  countertops: 'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=600&q=80',
-  fixtures:    'https://images.unsplash.com/photo-1585704032915-c3400ca199e7?w=600&q=80',
-  vanity:      'https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?w=600&q=80',
-  shower:      'https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?w=600&q=80',
-  lighting:    'https://images.unsplash.com/photo-1565814329452-e1efa11c5b89?w=600&q=80',
-  paint:       'https://images.unsplash.com/photo-1562259929-b4e1fd3aef09?w=600&q=80',
-  doors:       'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=80',
+  flooring:     'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=80',
+  lighting:     'https://images.unsplash.com/photo-1565814329452-e1efa11c5b89?w=600&q=80',
+  paint:        'https://images.unsplash.com/photo-1562259929-b4e1fd3aef09?w=600&q=80',
+  doors:        'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=80',
+  bath_floor:   'https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?w=600&q=80',
+  shower_wall:  'https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?w=600&q=80',
+  shower_floor: 'https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?w=600&q=80',
+  shower_bench: 'https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?w=600&q=80',
+  shower_door:  'https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?w=600&q=80',
+  toilet:       'https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?w=600&q=80',
+  fixtures:     'https://images.unsplash.com/photo-1585704032915-c3400ca199e7?w=600&q=80',
+  vanity:       'https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?w=600&q=80',
+  cabinets:     'https://images.unsplash.com/photo-1556909172-54557c7e4fb7?w=600&q=80',
+  countertops:  'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=600&q=80',
+  // legacy keys
+  tile:  'https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?w=600&q=80',
+  shower:'https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?w=600&q=80',
 }
 
 var ROOM_CATS = [
   { room:'Main Area',  cats:['flooring','lighting','paint','doors'] },
-  { room:'Bathroom',   cats:['tile','fixtures','vanity','shower'] },
+  { room:'Bathroom',   cats:['bath_floor','shower_wall','shower_floor','shower_bench','shower_door','toilet','fixtures','vanity'] },
   { room:'Bar Area',   cats:['cabinets','countertops'] },
 ]
 
 var CAT_LABELS = {
-  flooring:'Flooring', tile:'Bathroom tile', cabinets:'Bar cabinets',
-  countertops:'Bar countertop', fixtures:'Fixtures & Hardware', vanity:'Bathroom vanity',
-  shower:'Shower enclosure', lighting:'Lighting', paint:'Paint colors', doors:'Interior doors',
+  flooring:'Flooring', lighting:'Lighting package', paint:'Paint colors', doors:'Interior doors',
+  bath_floor:'Floor tile', shower_wall:'Shower wall tile', shower_floor:'Shower floor tile',
+  shower_bench:'Shower bench & niche', shower_door:'Shower door / enclosure', toilet:'Toilet',
+  fixtures:'Faucets & hardware', vanity:'Vanity',
+  cabinets:'Bar cabinets', countertops:'Bar countertop',
+  // legacy
+  tile:'Bathroom tile', shower:'Shower enclosure',
 }
 
 function fmt(n){ return '$' + Math.round(n).toLocaleString('en-US') }
@@ -102,6 +113,7 @@ function H2(props) {
 export default function ProjectBook() {
   var [estimate,   setEstimate]   = useState(null)
   var [selections, setSelections] = useState({})
+  var [approved,   setApproved]   = useState(false)
 
   useEffect(function() {
     if (typeof window === 'undefined') return
@@ -112,6 +124,9 @@ export default function ProjectBook() {
     try {
       var sel = localStorage.getItem('sb_selections')
       if (sel) setSelections(JSON.parse(sel))
+    } catch(e) {}
+    try {
+      if (localStorage.getItem('sb_approved') === '1') setApproved(true)
     } catch(e) {}
   }, [])
 
@@ -146,7 +161,13 @@ export default function ProjectBook() {
           <div style={{fontSize:11,color:'rgba(255,255,255,.5)',letterSpacing:'.2em',textTransform:'uppercase',fontFamily:'sans-serif',marginBottom:'1rem'}}>Project proposal and agreement</div>
           <div style={{fontSize:44,color:'#fff',fontWeight:400,lineHeight:1.15,marginBottom:'.75rem'}}>{DEFAULT_PROJECT.client}</div>
           <div style={{fontSize:16,color:'rgba(255,255,255,.65)',marginBottom:'.5rem',fontFamily:'sans-serif'}}>{DEFAULT_PROJECT.address}</div>
-          <div style={{fontSize:14,color:'#FF8C00',fontFamily:'sans-serif',marginBottom:'2.5rem'}}>{DEFAULT_PROJECT.type} · {tierLabel} Tier · {fmt(price)}</div>
+          <div style={{fontSize:14,color:'#FF8C00',fontFamily:'sans-serif',marginBottom: approved ? '1rem' : '2.5rem'}}>{DEFAULT_PROJECT.type} · {tierLabel} Tier · {fmt(price)}</div>
+          {approved && (
+            <div style={{display:'inline-flex',alignItems:'center',gap:8,background:'rgba(59,109,17,.3)',border:'1px solid rgba(59,109,17,.6)',borderRadius:4,padding:'8px 16px',marginBottom:'1.5rem'}}>
+              <span style={{color:'#90EE90',fontSize:14}}>✓</span>
+              <span style={{fontSize:12,color:'rgba(255,255,255,.8)',fontFamily:'sans-serif',fontWeight:600}}>Selections approved — ready for contract</span>
+            </div>
+          )}
           <div style={{background:'rgba(255,255,255,.08)',border:'1px solid rgba(255,255,255,.12)',borderRadius:4,padding:'1.5rem 2rem',display:'inline-block'}}>
             <div style={{display:'grid',gridTemplateColumns:'repeat(2,1fr)',gap:'1rem 3rem'}}>
               {[['Project',DEFAULT_PROJECT.number],['Tier',tierLabel+' — '+fmt(price)],['Timeline',DEFAULT_PROJECT.start+' to '+DEFAULT_PROJECT.end],['Prepared',DEFAULT_PROJECT.prepared]].map(function(item){return(
@@ -253,7 +274,7 @@ export default function ProjectBook() {
       <div className="pb"><SectionBar label="Material Selections"/></div>
       <Section>
         <Eyebrow>{tierLabel} tier materials</Eyebrow>
-        <H2>Your confirmed selections</H2>
+        <H2>Your confirmed selections {approved && <span style={{fontSize:14,background:'#eaf3de',color:'#3B6D11',padding:'3px 12px',borderRadius:20,fontFamily:'sans-serif',fontWeight:600,letterSpacing:'.04em',verticalAlign:'middle'}}>✓ Approved</span>}</H2>
         {!hasSelections && (
           <div style={{background:'#FFFCEB',border:'1px solid #FF8C00',borderRadius:4,padding:'1.25rem 1.5rem',fontSize:12,color:'#3d3b37',fontFamily:'sans-serif',lineHeight:1.7}}>
             Material selections have not been confirmed yet. Visit the <strong>My Selections</strong> section of your client portal to choose your finishes. Once confirmed, they will appear here automatically.
