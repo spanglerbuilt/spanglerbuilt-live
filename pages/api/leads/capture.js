@@ -27,6 +27,12 @@ export default async function handler(req, res) {
     return res.status(400).json({ error: 'Name and email are required' })
   }
 
+  // If Supabase is not configured, still return a success with a generated project number
+  if (!process.env.SUPABASE_URL || !process.env.SUPABASE_SERVICE_KEY) {
+    var fallbackPn = 'SB-' + new Date().getFullYear() + '-' + String(Math.floor(Math.random()*900)+100)
+    return res.status(200).json({ ok:true, projectNumber: fallbackPn, ballpark: null, message: 'Received — Supabase not yet configured' })
+  }
+
   try {
     var supabaseLib = await import('@supabase/supabase-js')
     var supabase = supabaseLib.createClient(

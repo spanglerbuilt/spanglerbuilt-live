@@ -42,6 +42,23 @@ export default function LeadsPage() {
   const [form,     setForm]     = useState(BLANK_FORM)
   const [viewing,  setViewing]  = useState(null)
   const [editNote, setEditNote] = useState('')
+  const [webCount, setWebCount] = useState(0)
+
+  // Fetch web-submitted leads from API and prepend to list
+  useEffect(function() {
+    fetch('/api/leads/list')
+      .then(function(r){ return r.json() })
+      .then(function(json) {
+        if (!json.leads || json.leads.length === 0) return
+        setWebCount(json.leads.length)
+        setLeads(function(prev) {
+          // Avoid duplicates: remove any existing entries that have fromWeb flag, then prepend fresh ones
+          var local = prev.filter(function(l){ return !l.fromWeb })
+          return json.leads.concat(local)
+        })
+      })
+      .catch(function(){}) // silently fail if API unavailable
+  }, [])
 
   useEffect(function() {
     if (typeof window === 'undefined') return
@@ -238,8 +255,16 @@ export default function LeadsPage() {
 
       <div style={S.wrap}>
         <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:'1rem',flexWrap:'wrap',gap:8}}>
-          <div style={{fontFamily:'Georgia,serif',fontSize:18,fontWeight:500,color:'#002147'}}>Lead pipeline</div>
-          <button onClick={()=>setShowNew(true)} style={{background:'#FF8C00',color:'#fff',border:'none',padding:'7px 18px',fontSize:11,fontWeight:700,letterSpacing:'.08em',textTransform:'uppercase',cursor:'pointer',borderRadius:3,fontFamily:'sans-serif'}}>+ New lead</button>
+          <div>
+            <div style={{fontFamily:'Georgia,serif',fontSize:18,fontWeight:500,color:'#002147'}}>Lead pipeline</div>
+            {webCount > 0 && <div style={{fontSize:11,color:'#3B6D11',marginTop:2}}>✓ {webCount} lead{webCount!==1?'s':''} from website contact form</div>}
+          </div>
+          <div style={{display:'flex',gap:8,alignItems:'center'}}>
+            <div style={{fontSize:10,color:'#9a9690',background:'#f5f4f1',border:'1px solid #e8e6e0',padding:'5px 10px',borderRadius:3}}>
+              Contact form: <span style={{color:'#002147',fontWeight:600}}>spanglerbuilt.com/contact</span>
+            </div>
+            <button onClick={()=>setShowNew(true)} style={{background:'#FF8C00',color:'#fff',border:'none',padding:'7px 18px',fontSize:11,fontWeight:700,letterSpacing:'.08em',textTransform:'uppercase',cursor:'pointer',borderRadius:3,fontFamily:'sans-serif'}}>+ New lead</button>
+          </div>
         </div>
 
         <div style={{display:'flex',gap:6,flexWrap:'wrap',marginBottom:'1rem'}}>
@@ -269,7 +294,10 @@ export default function LeadsPage() {
                   <tr key={lead.id} onClick={()=>openLead(lead)} style={{cursor:'pointer'}}
                     onMouseEnter={e=>e.currentTarget.style.background='#FFFCEB'}
                     onMouseLeave={e=>e.currentTarget.style.background='#fff'}>
-                    <td style={{...S.td,color:'#185FA5',fontWeight:500,fontSize:11}}>{lead.pn}</td>
+                    <td style={{...S.td,color:'#185FA5',fontWeight:500,fontSize:11}}>
+                      {lead.pn}
+                      {lead.fromWeb && <span style={{marginLeft:5,background:'#e3f2fd',color:'#0d47a1',fontSize:8,fontWeight:700,padding:'1px 5px',borderRadius:2,textTransform:'uppercase'}}>Web</span>}
+                    </td>
                     <td style={S.td}>{lead.name}</td>
                     <td style={S.td}>{lead.type}</td>
                     <td style={{...S.td,fontWeight:500}}>${(lead.value||0).toLocaleString()}</td>
