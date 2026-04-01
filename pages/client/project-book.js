@@ -53,9 +53,9 @@ var STEPS = [
 
 function Hero(props) {
   return (
-    <div style={{overflow:'hidden',height:'auto',marginBottom:0}}>
-      <img src={props.src} alt="" style={{width:'100%',height:'100%',objectFit:'cover',display:'block'}} onError={function(e){e.target.style.opacity=0}}/>
-      <div style={{background:'rgba(0,33,71,.85)',display:'flex',alignItems:'flex-end',padding:'1rem 3rem',marginTop:-2}}>
+    <div style={{overflow:'hidden',marginBottom:0}}>
+      <img src={props.src} alt="" style={{width:'100%',height:180,objectFit:'cover',display:'block'}} onError={function(e){e.target.style.opacity=0}}/>
+      <div style={{background:'rgba(0,33,71,.9)',padding:'1rem 3rem'}}>
         <div style={{fontSize:10,color:'#FF8C00',letterSpacing:'.2em',textTransform:'uppercase',fontFamily:'sans-serif'}}>{props.label}</div>
       </div>
     </div>
