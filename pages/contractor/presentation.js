@@ -465,3 +465,5 @@ export default function Presentation() {
     </div>
   )
 }
+
+export async function getServerSideProps() { return { props: {} } }
