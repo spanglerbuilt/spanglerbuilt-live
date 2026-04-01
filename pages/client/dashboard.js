@@ -101,3 +101,5 @@ export default function ClientDashboard() {
     </div>
   )
 }
+
+export async function getServerSideProps() { return { props: {} } }
