@@ -278,6 +278,10 @@ export default function ProjectBook() {
       </div>
     </div>
   )
+<<<<<<< HEAD
 }
 
 export async function getServerSideProps() { return { props: {} } }
+=======
+}export async function getServerSideProps() { return { props: {} } }
+>>>>>>> 40fc55441b136fbf13f51c17c6e807020be8112b
