@@ -7,14 +7,6 @@ var PROJECT = {
   start:'April 28, 2026', end:'June 20, 2026', prepared:'March 31, 2026',
 }
 
-var PHOTOS = {
-  cover:'https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=1200&q=80',
-  about:'https://images.unsplash.com/photo-1541888946425-d81bb19240f5?w=1200&q=80',
-  scope:'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=1200&q=80',
-  payment:'https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=1200&q=80',
-  warranty:'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1200&q=80',
-}
-
 var HEADSHOT = 'https://images.squarespace-cdn.com/content/v1/69358d7c8272151c17be540c/f801ea2e-5193-427a-aacb-eff13f1ae8cf/IMG_6546.jpg'
 
 var MILESTONES = [
@@ -51,13 +43,10 @@ var STEPS = [
   {n:'06',t:'Closeout and warranty',   d:'We walk the project together, complete the punch list, and hand you a 1-year warranty.'},
 ]
 
-function Hero(props) {
+function SectionBar(props) {
   return (
-    <div style={{overflow:'hidden',marginBottom:0}}>
-      <img src={props.src} alt="" style={{width:'100%',height:180,objectFit:'cover',display:'block'}} onError={function(e){e.target.style.opacity=0}}/>
-      <div style={{background:'rgba(0,33,71,.9)',padding:'1rem 3rem'}}>
-        <div style={{fontSize:10,color:'#FF8C00',letterSpacing:'.2em',textTransform:'uppercase',fontFamily:'sans-serif'}}>{props.label}</div>
-      </div>
+    <div style={{background:'#002147',borderLeft:'6px solid #FF8C00',padding:'1rem 2rem'}}>
+      <div style={{fontSize:10,color:'#FF8C00',letterSpacing:'.2em',textTransform:'uppercase',fontFamily:'sans-serif'}}>{props.label}</div>
     </div>
   )
 }
@@ -111,7 +100,7 @@ export default function ProjectBook() {
       </div>
 
       {/* ABOUT */}
-      <div className="pb"><Hero src={PHOTOS.about} label="About SpanglerBuilt"/></div>
+      <div className="pb"><SectionBar label="About SpanglerBuilt"/></div>
       <Section>
         <Eyebrow>A message from our founder</Eyebrow>
         <H2>Michael Spangler, CEO and Founder</H2>
@@ -145,7 +134,7 @@ export default function ProjectBook() {
       </Section>
 
       {/* PROCESS */}
-      <div className="pb"><Hero src={PHOTOS.about} label="How We Work"/></div>
+      <div className="pb"><SectionBar label="How We Work"/></div>
       <Section>
         <Eyebrow>Our process</Eyebrow>
         <H2>How SpanglerBuilt works</H2>
@@ -163,7 +152,7 @@ export default function ProjectBook() {
       </Section>
 
       {/* ESTIMATE */}
-      <div className="pb"><Hero src={PHOTOS.scope} label="Your Estimate"/></div>
+      <div className="pb"><SectionBar label="Your Estimate"/></div>
       <Section>
         <Eyebrow>Your selected tier</Eyebrow>
         <H2>{PROJECT.tier} Tier — {fmt(PROJECT.price)}</H2>
@@ -188,7 +177,7 @@ export default function ProjectBook() {
       </Section>
 
       {/* SCOPE */}
-      <div className="pb"><Hero src={PHOTOS.scope} label="Scope of Work"/></div>
+      <div className="pb"><SectionBar label="Scope of Work"/></div>
       <Section>
         <Eyebrow>What we are building</Eyebrow>
         <H2>Scope of work</H2>
@@ -211,7 +200,7 @@ export default function ProjectBook() {
       </Section>
 
       {/* PAYMENT */}
-      <div className="pb"><Hero src={PHOTOS.payment} label="Payment Schedule"/></div>
+      <div className="pb"><SectionBar label="Payment Schedule"/></div>
       <Section>
         <Eyebrow>5-milestone payment plan</Eyebrow>
         <H2>Payment schedule</H2>
@@ -237,7 +226,7 @@ export default function ProjectBook() {
       </Section>
 
       {/* WARRANTY */}
-      <div className="pb"><Hero src={PHOTOS.warranty} label="Warranty and Agreement"/></div>
+      <div className="pb"><SectionBar label="Warranty and Agreement"/></div>
       <div style={{padding:'2.5rem 3rem'}}>
         <Eyebrow>Workmanship warranty</Eyebrow>
         <H2>1-year warranty and authorization</H2>
@@ -278,10 +267,6 @@ export default function ProjectBook() {
       </div>
     </div>
   )
-<<<<<<< HEAD
 }
 
 export async function getServerSideProps() { return { props: {} } }
-=======
-}export async function getServerSideProps() { return { props: {} } }
->>>>>>> 40fc55441b136fbf13f51c17c6e807020be8112b
