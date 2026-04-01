@@ -8,6 +8,7 @@ export default function Dashboard() {
     {label:'Lead pipeline',      href:'/contractor/leads',     desc:'All projects and contacts',  icon:'◉'},
     {label:'Project templates',  href:'/contractor/templates', desc:'Searchable and cloneable',   icon:'◈'},
     {label:'AI tools',           href:'/ai',                   desc:'Claude-powered generation',  icon:'✦'},
+    {label:'Options & Upgrades',  href:'/contractor/options',   desc:'Build upgrade packages',      icon:'◈'},
     {label:'Client selections',  href:'/contractor/selections',desc:'Material choices by tier',   icon:'✓'},
     {label:'Contact form',       href:'/contact',              desc:'Lead intake and AI ballpark', icon:'↗'},
   ]
@@ -20,7 +21,7 @@ export default function Dashboard() {
   ]
 
   return (
-    <div style={{minHeight:'100vh',background:'#f5f4f1',fontFamily:'sans-serif'}}>
+    <div style={{minHeight:'100vh',background:'#fff',fontFamily:'sans-serif'}}>
       <div style={{background:'#002147',padding:'1rem 2rem',display:'flex',alignItems:'center',justifyContent:'space-between',borderBottom:'3px solid #FF8C00'}}>
         <img src="/logo.png" alt="SpanglerBuilt" style={{height:38,width:'auto'}}/>
         <div style={{display:'flex',gap:16,alignItems:'center'}}>
@@ -54,7 +55,7 @@ export default function Dashboard() {
         </div>
 
         <div style={{fontSize:10,fontWeight:500,color:'#9a9690',textTransform:'uppercase',letterSpacing:'.05em',marginBottom:'.75rem'}}>Quick actions</div>
-        <div style={{display:'grid',gridTemplateColumns:'repeat(3,minmax(0,1fr))',gap:10,marginBottom:'1.5rem'}}>
+        <div style={{display:'grid',gridTemplateColumns:'repeat(4,minmax(0,1fr))',gap:10,marginBottom:'1.5rem'}}>
           {modules.map(function(m){return (
             <a key={m.href} href={m.href} style={{display:'flex',gap:12,alignItems:'center',padding:'1rem',background:'#fff',border:'1px solid #e8e6e0',borderRadius:4,textDecoration:'none',borderLeft:'4px solid #002147'}}>
               <div style={{width:36,height:36,background:'#002147',borderRadius:'50%',display:'flex',alignItems:'center',justifyContent:'center',fontSize:16,color:'#FF8C00',flexShrink:0}}>{m.icon}</div>

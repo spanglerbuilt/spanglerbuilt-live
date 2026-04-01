@@ -22,7 +22,7 @@ export default function MessagesPage() {
   function onKey(e) { if (e.key==='Enter' && !e.shiftKey) { e.preventDefault(); send() } }
 
   return (
-    <div style={{minHeight:'100vh',background:'#f5f4f1',fontFamily:'sans-serif',display:'flex',flexDirection:'column'}}>
+    <div style={{minHeight:'100vh',background:'#fff',fontFamily:'sans-serif',display:'flex',flexDirection:'column'}}>
       <div style={{background:'#002147',padding:'1rem 2rem',display:'flex',alignItems:'center',justifyContent:'space-between',borderBottom:'3px solid #FF8C00',flexShrink:0}}>
         <div style={{fontFamily:'Georgia,serif',fontSize:16,color:'#fff',fontWeight:700,letterSpacing:'.08em'}}>SPANGLERBUILT <span style={{fontSize:11,color:'#FF8C00',fontWeight:400}}> · MESSAGES</span></div>
         <a href="/client/dashboard" style={{fontSize:11,color:'rgba(255,255,255,.6)',textDecoration:'none'}}>← My project</a>

@@ -9,7 +9,7 @@ export default function PhotosPage() {
   ]
   const phases = [...new Set(photos.map(p=>p.phase))]
   return (
-    <div style={{minHeight:'100vh',background:'#f5f4f1',fontFamily:'sans-serif'}}>
+    <div style={{minHeight:'100vh',background:'#fff',fontFamily:'sans-serif'}}>
       <div style={{background:'#002147',padding:'1rem 2rem',display:'flex',alignItems:'center',justifyContent:'space-between',borderBottom:'3px solid #FF8C00'}}>
         <div style={{fontFamily:'Georgia,serif',fontSize:16,color:'#fff',fontWeight:700,letterSpacing:'.08em'}}>SPANGLERBUILT <span style={{fontSize:11,color:'#FF8C00',fontWeight:400}}> · PROGRESS PHOTOS</span></div>
         <a href="/client/dashboard" style={{fontSize:11,color:'rgba(255,255,255,.6)',textDecoration:'none'}}>← My project</a>

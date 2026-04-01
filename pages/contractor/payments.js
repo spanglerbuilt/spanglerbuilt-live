@@ -45,18 +45,105 @@ var STATUS_STYLE = {
 function fmt(n) { return '$' + Math.round(n).toLocaleString('en-US') }
 
 export default function PaymentsPage() {
-  var [selected, setSelected] = useState(null)
+  var [selected,     setSelected]     = useState(null)
+  var [invoiceFor,   setInvoiceFor]   = useState(null) // {project, milestone}
+  var [copied,       setCopied]       = useState(false)
+  var [markPaid,     setMarkPaid]     = useState({}) // {pn-idx: true}
+  var [projects,     setProjects]     = useState(PROJECTS)
 
-  var totalPaid = PROJECTS.reduce(function(s,p){
+  var totalPaid = projects.reduce(function(s,p){
     return s + p.milestones.filter(function(m){return m.status==='paid'}).reduce(function(ms,m){return ms+(p.contract*m.pct/100)},0)
   },0)
-  var totalDue = PROJECTS.reduce(function(s,p){
+  var totalDue = projects.reduce(function(s,p){
     return s + p.milestones.filter(function(m){return m.status==='due'}).reduce(function(ms,m){return ms+(p.contract*m.pct/100)},0)
   },0)
-  var totalContract = PROJECTS.reduce(function(s,p){return s+p.contract},0)
+  var totalContract = projects.reduce(function(s,p){return s+p.contract},0)
+
+  function openInvoice(project, milestone, idx) {
+    setInvoiceFor({project, milestone, idx})
+    setCopied(false)
+  }
+
+  function getInvoiceText(project, milestone) {
+    var amount = project.contract * milestone.pct / 100
+    return [
+      'INVOICE — SPANGLERBUILT INC.',
+      '44 Milton Ave, Suite 243 · Woodstock, GA 30188',
+      '(404) 492-7650 · michael@spanglerbuilt.com',
+      '',
+      'Project: ' + project.pn + ' — ' + project.client,
+      'Type: ' + project.type,
+      'Contract total: ' + fmt(project.contract),
+      '',
+      'MILESTONE: ' + milestone.label,
+      'Milestone: ' + milestone.pct + '% of contract',
+      'Amount due: ' + fmt(amount),
+      'Due date: ' + milestone.date,
+      '',
+      'Payment methods: Check payable to SpanglerBuilt Inc.',
+      'or Zelle: michael@spanglerbuilt.com',
+      '',
+      'Thank you for your business.',
+    ].join('\n')
+  }
+
+  function copyInvoice() {
+    if (!invoiceFor) return
+    var text = getInvoiceText(invoiceFor.project, invoiceFor.milestone)
+    navigator.clipboard.writeText(text).then(function(){
+      setCopied(true)
+      setTimeout(function(){setCopied(false)}, 2500)
+    })
+  }
+
+  function markAsPaid(projectId, milestoneIdx) {
+    setProjects(projects.map(function(p) {
+      if (p.id !== projectId) return p
+      return {
+        ...p,
+        milestones: p.milestones.map(function(m, i) {
+          if (i !== milestoneIdx) return m
+          return {...m, status:'paid', date: new Date().toLocaleDateString('en-US',{month:'short',day:'numeric'})}
+        })
+      }
+    }))
+    setInvoiceFor(null)
+  }
 
   return (
-    <div style={{minHeight:'100vh',background:'#f5f4f1',fontFamily:'sans-serif'}}>
+    <div style={{minHeight:'100vh',background:'#fff',fontFamily:'sans-serif'}}>
+
+      {/* Invoice modal */}
+      {invoiceFor && (
+        <div style={{position:'fixed',top:0,left:0,right:0,bottom:0,background:'rgba(0,33,71,.85)',zIndex:100,display:'flex',alignItems:'center',justifyContent:'center',padding:'1rem'}}>
+          <div style={{background:'#fff',borderRadius:4,maxWidth:500,width:'100%',border:'3px solid #FF8C00',overflow:'hidden'}}>
+            <div style={{background:'#002147',padding:'1rem 1.5rem',display:'flex',justifyContent:'space-between',alignItems:'center',borderBottom:'2px solid #FF8C00'}}>
+              <span style={{color:'#FF8C00',fontSize:13,fontWeight:700}}>Invoice — {invoiceFor.project.pn}</span>
+              <button onClick={()=>setInvoiceFor(null)} style={{background:'transparent',border:'none',color:'rgba(255,255,255,.5)',fontSize:16,cursor:'pointer'}}>✕</button>
+            </div>
+            <div style={{padding:'1.5rem'}}>
+              <div style={{background:'#f5f4f1',borderRadius:3,padding:'1rem',marginBottom:'1rem',fontFamily:'monospace',fontSize:12,whiteSpace:'pre-wrap',lineHeight:1.7,color:'#3d3b37',maxHeight:280,overflowY:'auto'}}>
+                {getInvoiceText(invoiceFor.project, invoiceFor.milestone)}
+              </div>
+              <div style={{background:'#FFFCEB',border:'1px solid #FF8C00',borderRadius:3,padding:'8px 12px',marginBottom:'1rem',fontSize:12,color:'#3d3b37'}}>
+                <strong style={{color:'#002147'}}>{fmt(invoiceFor.project.contract * invoiceFor.milestone.pct / 100)}</strong> due by {invoiceFor.milestone.date} · {invoiceFor.milestone.pct}% milestone
+              </div>
+              <div style={{display:'flex',gap:8}}>
+                <button onClick={copyInvoice} style={{flex:1,background:copied?'#3B6D11':'#FF8C00',color:'#fff',border:'none',padding:'10px',fontSize:12,fontWeight:700,cursor:'pointer',borderRadius:3,fontFamily:'sans-serif',letterSpacing:'.06em',textTransform:'uppercase',transition:'background .2s'}}>
+                  {copied ? '✓ Copied to clipboard' : 'Copy invoice text'}
+                </button>
+                <button onClick={()=>markAsPaid(invoiceFor.project.id, invoiceFor.idx)} style={{background:'#002147',color:'#FF8C00',border:'none',padding:'10px 16px',fontSize:11,fontWeight:700,cursor:'pointer',borderRadius:3,fontFamily:'sans-serif'}}>
+                  Mark paid
+                </button>
+                <button onClick={()=>setInvoiceFor(null)} style={{background:'transparent',border:'1px solid #e8e6e0',color:'#9a9690',padding:'10px 14px',fontSize:11,cursor:'pointer',borderRadius:3,fontFamily:'sans-serif'}}>
+                  Close
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
       <div style={{background:'#002147',padding:'1rem 2rem',display:'flex',alignItems:'center',justifyContent:'space-between',borderBottom:'3px solid #FF8C00'}}>
         <div style={{display:'flex',alignItems:'center',gap:12}}>
           <img src="/logo.png" alt="SpanglerBuilt" style={{height:34,width:'auto'}}/>
@@ -67,13 +154,12 @@ export default function PaymentsPage() {
 
       <div style={{maxWidth:1000,margin:'0 auto',padding:'1.5rem'}}>
 
-        {/* Summary metrics */}
         <div style={{display:'grid',gridTemplateColumns:'repeat(4,1fr)',gap:10,marginBottom:'1.5rem'}}>
           {[
             ['Total contract value', fmt(totalContract), '#002147'],
             ['Collected to date',    fmt(totalPaid),     '#3B6D11'],
             ['Due right now',        fmt(totalDue),      '#e65100'],
-            ['Active projects',      PROJECTS.length,    '#002147'],
+            ['Active projects',      projects.length,    '#002147'],
           ].map(function(item){return(
             <div key={item[0]} style={{background:'#fff',border:'1px solid #e8e6e0',borderRadius:4,padding:'.75rem 1rem',borderTop:'3px solid '+item[2]}}>
               <div style={{fontSize:10,color:'#9a9690',textTransform:'uppercase',letterSpacing:'.05em',marginBottom:4}}>{item[0]}</div>
@@ -82,24 +168,21 @@ export default function PaymentsPage() {
           )})}
         </div>
 
-        {/* Due now alert */}
         {totalDue > 0 && (
           <div style={{background:'#FFFCEB',border:'1px solid #FF8C00',borderRadius:4,padding:'10px 14px',marginBottom:'1.25rem',fontSize:12,color:'#3d3b37',display:'flex',justifyContent:'space-between',alignItems:'center'}}>
-            <span><strong style={{color:'#002147'}}>Action needed:</strong> {fmt(totalDue)} is due right now across {PROJECTS.filter(function(p){return p.milestones.some(function(m){return m.status==='due'})}).length} projects</span>
+            <span><strong style={{color:'#002147'}}>Action needed:</strong> {fmt(totalDue)} is due right now across {projects.filter(function(p){return p.milestones.some(function(m){return m.status==='due'})}).length} projects</span>
             <span style={{fontSize:11,color:'#FF8C00',fontWeight:500}}>Send invoices ↓</span>
           </div>
         )}
 
-        {/* Project payment cards */}
-        {PROJECTS.map(function(project){
-          var paid     = project.milestones.filter(function(m){return m.status==='paid'}).reduce(function(s,m){return s+(project.contract*m.pct/100)},0)
-          var due      = project.milestones.filter(function(m){return m.status==='due'}).reduce(function(s,m){return s+(project.contract*m.pct/100)},0)
-          var paidPct  = Math.round((paid/project.contract)*100)
-          var isOpen   = selected===project.id
+        {projects.map(function(project){
+          var paid    = project.milestones.filter(function(m){return m.status==='paid'}).reduce(function(s,m){return s+(project.contract*m.pct/100)},0)
+          var due     = project.milestones.filter(function(m){return m.status==='due'}).reduce(function(s,m){return s+(project.contract*m.pct/100)},0)
+          var paidPct = Math.round((paid/project.contract)*100)
+          var isOpen  = selected===project.id
 
           return (
             <div key={project.id} style={{background:'#fff',border:'1px solid #e8e6e0',borderRadius:4,overflow:'hidden',marginBottom:10}}>
-              {/* Project header */}
               <div style={{padding:'1rem 1.25rem',display:'flex',alignItems:'center',justifyContent:'space-between',cursor:'pointer',borderBottom:isOpen?'1px solid #e8e6e0':'none'}} onClick={function(){setSelected(isOpen?null:project.id)}}>
                 <div>
                   <div style={{fontSize:13,fontWeight:500,color:'#002147',marginBottom:2}}>{project.client}</div>
@@ -126,7 +209,6 @@ export default function PaymentsPage() {
                 </div>
               </div>
 
-              {/* Milestone breakdown */}
               {isOpen && (
                 <div>
                   {project.milestones.map(function(m,i){
@@ -147,7 +229,7 @@ export default function PaymentsPage() {
                           <span style={{fontSize:13,fontWeight:500,color:'#002147'}}>{fmt(amount)}</span>
                           <span style={{background:sc.bg,color:sc.color,fontSize:9,fontWeight:700,padding:'2px 8px',borderRadius:3}}>{sc.label}</span>
                           {m.status==='due' && (
-                            <button style={{background:'#FF8C00',color:'#fff',border:'none',padding:'5px 12px',fontSize:10,fontWeight:700,cursor:'pointer',borderRadius:3,fontFamily:'sans-serif',letterSpacing:'.06em'}}>
+                            <button onClick={function(){openInvoice(project,m,i)}} style={{background:'#FF8C00',color:'#fff',border:'none',padding:'5px 12px',fontSize:10,fontWeight:700,cursor:'pointer',borderRadius:3,fontFamily:'sans-serif',letterSpacing:'.06em'}}>
                               Send invoice
                             </button>
                           )}
@@ -168,3 +250,5 @@ export default function PaymentsPage() {
     </div>
   )
 }
+
+export async function getServerSideProps() { return { props: {} } }

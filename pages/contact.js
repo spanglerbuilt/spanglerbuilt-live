@@ -75,7 +75,7 @@ export default function ContactPage() {
   // Success screen
   if (step === 4 && result) {
     return (
-      <div style={{minHeight:'100vh',background:'#f5f4f1',fontFamily:'sans-serif'}}>
+      <div style={{minHeight:'100vh',background:'#fff',fontFamily:'sans-serif'}}>
         {topbar}
         <div style={{maxWidth:600,margin:'3rem auto',padding:'0 1.5rem',textAlign:'center'}}>
           <div style={{background:'#fff',border:'1px solid #e8e6e0',borderRadius:4,padding:'3rem',borderTop:'4px solid #FF8C00'}}>
@@ -108,7 +108,7 @@ export default function ContactPage() {
   }
 
   return (
-    <div style={{minHeight:'100vh',background:'#f5f4f1',fontFamily:'sans-serif'}}>
+    <div style={{minHeight:'100vh',background:'#fff',fontFamily:'sans-serif'}}>
       {topbar}
       {stepBar}
       <div style={{maxWidth:680,margin:'0 auto',padding:'1.5rem'}}>

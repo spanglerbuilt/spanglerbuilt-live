@@ -1,6 +1,6 @@
-function fmt(n){ return '$' + Math.round(n).toLocaleString('en-US') }
+import { useState, useEffect } from 'react'
 
-var PROJECT = {
+var DEFAULT_PROJECT = {
   number:'SB-2026-001', client:'Ryan & Dori Mendel',
   address:'4995 Shadow Glen Ct, Dunwoody, GA 30338',
   type:'Basement Renovation', tier:'Better', price:62500,
@@ -9,20 +9,20 @@ var PROJECT = {
 
 var HEADSHOT = 'https://images.squarespace-cdn.com/content/v1/69358d7c8272151c17be540c/f801ea2e-5193-427a-aacb-eff13f1ae8cf/IMG_6546.jpg'
 
-var MILESTONES = [
-  {label:'Deposit — contract signing',    pct:25,amount:15625,date:'April 28'},
-  {label:'Demo and framing complete',      pct:25,amount:15625,date:'May 12'},
-  {label:'Drywall and rough-ins complete', pct:25,amount:15625,date:'May 28'},
-  {label:'Paint, flooring and trim',       pct:20,amount:12500,date:'June 10'},
-  {label:'Final punch list and closeout',  pct:5, amount:3125, date:'June 20'},
+var DEFAULT_MILESTONES = [
+  {label:'Deposit — contract signing',    pct:25,date:'April 28'},
+  {label:'Demo and framing complete',     pct:25,date:'May 12'},
+  {label:'Drywall and rough-ins complete',pct:25,date:'May 28'},
+  {label:'Paint, flooring and trim',      pct:20,date:'June 10'},
+  {label:'Final punch list and closeout', pct:5, date:'June 20'},
 ]
 
 var PHASES = [
-  {num:1,name:'Pre-construction',           dates:'April 14-28',   items:['Site visit and final measurements','Permit application submitted','Material selections finalized','Subcontractor schedule confirmed']},
-  {num:2,name:'Demo and framing',           dates:'April 28-May 12',items:['Existing finishes demolished','Concrete floor prepped and leveled','Moisture barrier installed','Perimeter and interior walls framed']},
-  {num:3,name:'Rough mechanicals',          dates:'May 12-28',     items:['Bathroom plumbing rough-in','Electrical panel review and new circuits','20 LED recessed light rough-in','HVAC ductwork extension']},
-  {num:4,name:'Insulation drywall finishes',dates:'May 28-June 10',items:['Spray foam — rim joists','Drywall hang and finish level 4','Tile — bathroom floor and shower walls','LVP flooring installation','Paint 2 coats']},
-  {num:5,name:'Fixtures trim and closeout', dates:'June 10-20',    items:['Plumbing fixtures installed','Bar cabinets and countertop','Interior doors and hardware','Electrical fixtures and lighting','Final walkthrough']},
+  {num:1,name:'Pre-construction',           dates:'April 14–28',    items:['Site visit and final measurements','Permit application submitted','Material selections finalized','Subcontractor schedule confirmed']},
+  {num:2,name:'Demo and framing',           dates:'April 28–May 12',items:['Existing finishes demolished','Concrete floor prepped and leveled','Moisture barrier installed','Perimeter and interior walls framed']},
+  {num:3,name:'Rough mechanicals',          dates:'May 12–28',      items:['Bathroom plumbing rough-in','Electrical panel review and new circuits','20 LED recessed light rough-in','HVAC ductwork extension']},
+  {num:4,name:'Insulation, drywall & finishes',dates:'May 28–June 10',items:['Spray foam — rim joists','Drywall hang and finish level 4','Tile — bathroom floor and shower walls','LVP flooring installation','Paint 2 coats']},
+  {num:5,name:'Fixtures, trim & closeout',  dates:'June 10–20',     items:['Plumbing fixtures installed','Bar cabinets and countertop','Interior doors and hardware','Electrical fixtures and lighting','Final walkthrough']},
 ]
 
 var TENANTS = [
@@ -42,6 +42,42 @@ var STEPS = [
   {n:'05',t:'Build',                   d:'Michael is on your job site every day. Direct access by phone, text, or client portal.'},
   {n:'06',t:'Closeout and warranty',   d:'We walk the project together, complete the punch list, and hand you a 1-year warranty.'},
 ]
+
+var TIER_PRICES = { good:53000, better:62500, best:73000, luxury:87500 }
+var TIER_COLORS = {
+  good:  { color:'#3B6D11', bg:'#eaf3de' },
+  better:{ color:'#185FA5', bg:'#e6f1fb' },
+  best:  { color:'#534AB7', bg:'#eeedfe' },
+  luxury:{ color:'#854F0B', bg:'#faeeda' },
+}
+
+// Photos keyed by selection category id
+var CATEGORY_PHOTOS = {
+  flooring:    'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=80',
+  tile:        'https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?w=600&q=80',
+  cabinets:    'https://images.unsplash.com/photo-1556909172-54557c7e4fb7?w=600&q=80',
+  countertops: 'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=600&q=80',
+  fixtures:    'https://images.unsplash.com/photo-1585704032915-c3400ca199e7?w=600&q=80',
+  vanity:      'https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?w=600&q=80',
+  shower:      'https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?w=600&q=80',
+  lighting:    'https://images.unsplash.com/photo-1565814329452-e1efa11c5b89?w=600&q=80',
+  paint:       'https://images.unsplash.com/photo-1562259929-b4e1fd3aef09?w=600&q=80',
+  doors:       'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=80',
+}
+
+var ROOM_CATS = [
+  { room:'Main Area',  cats:['flooring','lighting','paint','doors'] },
+  { room:'Bathroom',   cats:['tile','fixtures','vanity','shower'] },
+  { room:'Bar Area',   cats:['cabinets','countertops'] },
+]
+
+var CAT_LABELS = {
+  flooring:'Flooring', tile:'Bathroom tile', cabinets:'Bar cabinets',
+  countertops:'Bar countertop', fixtures:'Fixtures & Hardware', vanity:'Bathroom vanity',
+  shower:'Shower enclosure', lighting:'Lighting', paint:'Paint colors', doors:'Interior doors',
+}
+
+function fmt(n){ return '$' + Math.round(n).toLocaleString('en-US') }
 
 function SectionBar(props) {
   return (
@@ -64,6 +100,32 @@ function H2(props) {
 }
 
 export default function ProjectBook() {
+  var [estimate,   setEstimate]   = useState(null)
+  var [selections, setSelections] = useState({})
+
+  useEffect(function() {
+    if (typeof window === 'undefined') return
+    try {
+      var est = localStorage.getItem('sb_estimate')
+      if (est) setEstimate(JSON.parse(est))
+    } catch(e) {}
+    try {
+      var sel = localStorage.getItem('sb_selections')
+      if (sel) setSelections(JSON.parse(sel))
+    } catch(e) {}
+  }, [])
+
+  var tierKey    = estimate ? estimate.tier : 'better'
+  var tierLabel  = estimate ? estimate.label : DEFAULT_PROJECT.tier
+  var price      = estimate ? estimate.grand : DEFAULT_PROJECT.price
+  var tc         = TIER_COLORS[tierKey] || TIER_COLORS.better
+
+  var milestones = DEFAULT_MILESTONES.map(function(m){
+    return Object.assign({}, m, { amount: Math.round(price * m.pct / 100) })
+  })
+
+  var hasSelections = Object.keys(selections).length > 0
+
   return (
     <div style={{background:'#fff',color:'#002147',fontFamily:'Georgia,serif',maxWidth:900,margin:'0 auto'}}>
       <style>{'.no-print{} @media print{.no-print{display:none!important}.pb{page-break-before:always}} @page{margin:.75in;size:letter}'}</style>
@@ -82,12 +144,12 @@ export default function ProjectBook() {
           <img src="/logo.png" alt="SpanglerBuilt" style={{height:48,width:'auto',marginBottom:'2rem'}}/>
           <div style={{width:48,height:4,background:'#FF8C00',borderRadius:2,marginBottom:'1rem'}}/>
           <div style={{fontSize:11,color:'rgba(255,255,255,.5)',letterSpacing:'.2em',textTransform:'uppercase',fontFamily:'sans-serif',marginBottom:'1rem'}}>Project proposal and agreement</div>
-          <div style={{fontSize:44,color:'#fff',fontWeight:400,lineHeight:1.15,marginBottom:'.75rem'}}>{PROJECT.client}</div>
-          <div style={{fontSize:16,color:'rgba(255,255,255,.65)',marginBottom:'.5rem',fontFamily:'sans-serif'}}>{PROJECT.address}</div>
-          <div style={{fontSize:14,color:'#FF8C00',fontFamily:'sans-serif',marginBottom:'2.5rem'}}>{PROJECT.type} · {PROJECT.tier} Tier · {fmt(PROJECT.price)}</div>
+          <div style={{fontSize:44,color:'#fff',fontWeight:400,lineHeight:1.15,marginBottom:'.75rem'}}>{DEFAULT_PROJECT.client}</div>
+          <div style={{fontSize:16,color:'rgba(255,255,255,.65)',marginBottom:'.5rem',fontFamily:'sans-serif'}}>{DEFAULT_PROJECT.address}</div>
+          <div style={{fontSize:14,color:'#FF8C00',fontFamily:'sans-serif',marginBottom:'2.5rem'}}>{DEFAULT_PROJECT.type} · {tierLabel} Tier · {fmt(price)}</div>
           <div style={{background:'rgba(255,255,255,.08)',border:'1px solid rgba(255,255,255,.12)',borderRadius:4,padding:'1.5rem 2rem',display:'inline-block'}}>
             <div style={{display:'grid',gridTemplateColumns:'repeat(2,1fr)',gap:'1rem 3rem'}}>
-              {[['Project',PROJECT.number],['Tier',PROJECT.tier+' — '+fmt(PROJECT.price)],['Timeline',PROJECT.start+' to '+PROJECT.end],['Prepared',PROJECT.prepared]].map(function(item){return(
+              {[['Project',DEFAULT_PROJECT.number],['Tier',tierLabel+' — '+fmt(price)],['Timeline',DEFAULT_PROJECT.start+' to '+DEFAULT_PROJECT.end],['Prepared',DEFAULT_PROJECT.prepared]].map(function(item){return(
                 <div key={item[0]}>
                   <div style={{fontSize:9,color:'rgba(255,255,255,.4)',textTransform:'uppercase',letterSpacing:'.1em',fontFamily:'sans-serif',marginBottom:4}}>{item[0]}</div>
                   <div style={{fontSize:12,color:'#fff',fontFamily:'sans-serif'}}>{item[1]}</div>
@@ -155,25 +217,81 @@ export default function ProjectBook() {
       <div className="pb"><SectionBar label="Your Estimate"/></div>
       <Section>
         <Eyebrow>Your selected tier</Eyebrow>
-        <H2>{PROJECT.tier} Tier — {fmt(PROJECT.price)}</H2>
+        <H2>{tierLabel} Tier — {fmt(price)}</H2>
         <div style={{display:'grid',gridTemplateColumns:'repeat(4,1fr)',gap:10,marginBottom:'1.5rem'}}>
-          {[['Good','$53,000','#3B6D11'],['Better','$62,500','#185FA5'],['Best','$73,000','#534AB7'],['Luxury','$87,500','#854F0B']].map(function(t){
-            var sel=t[0]===PROJECT.tier
+          {['good','better','best','luxury'].map(function(t){
+            var sel = t === tierKey
+            var c   = TIER_COLORS[t]
             return(
-              <div key={t[0]} style={{border:sel?'3px solid '+t[2]:'1px solid #e8e6e0',borderRadius:4,padding:'1rem',background:sel?t[2]+'11':'#fafaf8',textAlign:'center'}}>
-                <div style={{fontSize:10,fontWeight:700,color:sel?t[2]:'#9a9690',letterSpacing:'.1em',textTransform:'uppercase',fontFamily:'sans-serif',marginBottom:6}}>{t[0]}{sel?' ✓':''}</div>
-                <div style={{fontSize:20,fontWeight:sel?700:400,color:sel?t[2]:'#c0c0c0',fontFamily:'sans-serif'}}>{t[1]}</div>
+              <div key={t} style={{border:sel?'3px solid '+c.color:'1px solid #e8e6e0',borderRadius:4,padding:'1rem',background:sel?c.bg:'#fafaf8',textAlign:'center'}}>
+                <div style={{fontSize:10,fontWeight:700,color:sel?c.color:'#9a9690',letterSpacing:'.1em',textTransform:'uppercase',fontFamily:'sans-serif',marginBottom:6}}>{t.charAt(0).toUpperCase()+t.slice(1)}{sel?' ✓':''}</div>
+                <div style={{fontSize:20,fontWeight:sel?700:400,color:sel?c.color:'#c0c0c0',fontFamily:'sans-serif'}}>{fmt(TIER_PRICES[t])}</div>
               </div>
             )
           })}
         </div>
         <div style={{background:'#002147',padding:'1.5rem 2rem',borderRadius:4,display:'flex',justifyContent:'space-between',alignItems:'center',borderLeft:'6px solid #FF8C00'}}>
           <div>
-            <div style={{fontSize:10,color:'rgba(255,255,255,.5)',textTransform:'uppercase',letterSpacing:'.1em',fontFamily:'sans-serif',marginBottom:4}}>Contract total — {PROJECT.tier} tier</div>
-            <div style={{fontSize:13,color:'rgba(255,255,255,.6)',fontFamily:'sans-serif'}}>{PROJECT.type} · {PROJECT.address}</div>
+            <div style={{fontSize:10,color:'rgba(255,255,255,.5)',textTransform:'uppercase',letterSpacing:'.1em',fontFamily:'sans-serif',marginBottom:4}}>Contract total — {tierLabel} tier</div>
+            <div style={{fontSize:13,color:'rgba(255,255,255,.6)',fontFamily:'sans-serif'}}>{DEFAULT_PROJECT.type} · {DEFAULT_PROJECT.address}</div>
+            {estimate && (
+              <div style={{display:'flex',gap:20,marginTop:8}}>
+                {[['Direct cost',estimate.direct],['Contingency',estimate.cont],['O&P',estimate.op],['GA sales tax',estimate.tax]].map(function(item){return(
+                  <div key={item[0]}>
+                    <div style={{fontSize:9,color:'rgba(255,255,255,.4)',textTransform:'uppercase',letterSpacing:'.06em',marginBottom:2}}>{item[0]}</div>
+                    <div style={{fontSize:12,color:'rgba(255,255,255,.7)',fontFamily:'sans-serif'}}>{item[1]?fmt(item[1]):'—'}</div>
+                  </div>
+                )})}
+              </div>
+            )}
           </div>
-          <div style={{fontSize:36,fontWeight:700,color:'#FF8C00',fontFamily:'sans-serif'}}>{fmt(PROJECT.price)}</div>
+          <div style={{fontSize:36,fontWeight:700,color:'#FF8C00',fontFamily:'sans-serif'}}>{fmt(price)}</div>
         </div>
+      </Section>
+
+      {/* MATERIAL SELECTIONS */}
+      <div className="pb"><SectionBar label="Material Selections"/></div>
+      <Section>
+        <Eyebrow>{tierLabel} tier materials</Eyebrow>
+        <H2>Your confirmed selections</H2>
+        {!hasSelections && (
+          <div style={{background:'#FFFCEB',border:'1px solid #FF8C00',borderRadius:4,padding:'1.25rem 1.5rem',fontSize:12,color:'#3d3b37',fontFamily:'sans-serif',lineHeight:1.7}}>
+            Material selections have not been confirmed yet. Visit the <strong>My Selections</strong> section of your client portal to choose your finishes. Once confirmed, they will appear here automatically.
+          </div>
+        )}
+        {hasSelections && ROOM_CATS.map(function(rc) {
+          var roomSels = rc.cats.filter(function(c){ return selections[c] })
+          if (roomSels.length === 0) return null
+          return (
+            <div key={rc.room} style={{marginBottom:'2rem'}}>
+              <div style={{fontSize:10,fontWeight:700,color:tc.color,textTransform:'uppercase',letterSpacing:'.12em',fontFamily:'sans-serif',marginBottom:12,borderBottom:'2px solid '+tc.color,paddingBottom:6}}>{rc.room}</div>
+              <div style={{display:'grid',gridTemplateColumns:'repeat(2,1fr)',gap:'1rem'}}>
+                {roomSels.map(function(catId) {
+                  var sel   = selections[catId]
+                  var photo = CATEGORY_PHOTOS[catId]
+                  return (
+                    <div key={catId} style={{border:'1px solid #e8e6e0',borderRadius:4,overflow:'hidden'}}>
+                      {photo && <img src={photo} alt={catId} style={{width:'100%',height:120,objectFit:'cover',display:'block'}} onError={function(e){e.target.style.display='none'}}/>}
+                      <div style={{padding:'10px 14px'}}>
+                        <div style={{fontSize:9,color:'#9a9690',textTransform:'uppercase',letterSpacing:'.08em',fontFamily:'sans-serif',marginBottom:3}}>{CAT_LABELS[catId] || catId}</div>
+                        <div style={{display:'flex',alignItems:'center',gap:8}}>
+                          <div style={{width:20,height:20,borderRadius:'50%',background:sel.hex||'#ccc',border:'1px solid rgba(0,0,0,.12)',flexShrink:0}}/>
+                          <div style={{fontSize:13,fontWeight:600,color:'#002147',fontFamily:'sans-serif'}}>{sel.value}</div>
+                        </div>
+                        {sel.brand && <div style={{fontSize:10,color:'#9a9690',marginTop:3,fontFamily:'sans-serif'}}>{sel.brand}</div>}
+                      </div>
+                    </div>
+                  )
+                })}
+              </div>
+            </div>
+          )
+        })}
+        {hasSelections && (
+          <div style={{background:'#f5f4f1',borderRadius:4,padding:'10px 14px',marginTop:'.5rem',fontSize:11,color:'#9a9690',fontFamily:'sans-serif'}}>
+            All selections above are confirmed by client. Material orders will be placed per project schedule.
+          </div>
+        )}
       </Section>
 
       {/* SCOPE */}
@@ -208,7 +326,7 @@ export default function ProjectBook() {
           <div style={{display:'grid',gridTemplateColumns:'36px 1fr 60px 100px 110px',gap:16,padding:'10px 20px',background:'#002147',fontSize:9,fontWeight:700,color:'#FF8C00',textTransform:'uppercase',letterSpacing:'.1em',fontFamily:'sans-serif'}}>
             <span>#</span><span>Milestone</span><span>%</span><span>Due</span><span style={{textAlign:'right'}}>Amount</span>
           </div>
-          {MILESTONES.map(function(m,i){return(
+          {milestones.map(function(m,i){return(
             <div key={i} style={{display:'grid',gridTemplateColumns:'36px 1fr 60px 100px 110px',gap:16,padding:'14px 20px',borderTop:'1px solid #f5f4f1',alignItems:'center',background:i%2===0?'#fff':'#fafaf8'}}>
               <div style={{width:28,height:28,borderRadius:'50%',background:'#002147',display:'flex',alignItems:'center',justifyContent:'center',fontSize:11,fontWeight:700,color:'#FF8C00',fontFamily:'sans-serif'}}>{i+1}</div>
               <div style={{fontSize:12,color:'#002147',fontFamily:'sans-serif'}}>{m.label}</div>
@@ -220,7 +338,7 @@ export default function ProjectBook() {
           <div style={{display:'grid',gridTemplateColumns:'36px 1fr 60px 100px 110px',gap:16,padding:'14px 20px',background:'#002147',alignItems:'center'}}>
             <div/><div style={{fontSize:12,fontWeight:700,color:'rgba(255,255,255,.7)',fontFamily:'sans-serif'}}>Total contract value</div>
             <div style={{fontSize:12,color:'rgba(255,255,255,.4)',fontFamily:'sans-serif'}}>100%</div><div/>
-            <div style={{fontSize:20,fontWeight:700,color:'#FF8C00',fontFamily:'sans-serif',textAlign:'right'}}>{fmt(PROJECT.price)}</div>
+            <div style={{fontSize:20,fontWeight:700,color:'#FF8C00',fontFamily:'sans-serif',textAlign:'right'}}>{fmt(price)}</div>
           </div>
         </div>
       </Section>
@@ -261,7 +379,7 @@ export default function ProjectBook() {
           <div style={{fontSize:9,color:'#9a9690',fontFamily:'sans-serif',textAlign:'right',lineHeight:1.7}}>
             SpanglerBuilt Inc. · 44 Milton Ave, Suite 243 · Woodstock, GA 30188<br/>
             (404) 492-7650 · michael@spanglerbuilt.com · spanglerbuilt.com<br/>
-            Licensed General Contractor · State of Georgia · {PROJECT.number}
+            Licensed General Contractor · State of Georgia · {DEFAULT_PROJECT.number}
           </div>
         </div>
       </div>
@@ -270,4 +388,3 @@ export default function ProjectBook() {
 }
 
 export async function getServerSideProps() { return { props: {} } }
-

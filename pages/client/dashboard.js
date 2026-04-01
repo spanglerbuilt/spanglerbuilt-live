@@ -5,6 +5,7 @@ var NAV = [
   {href:'/client/estimate',   label:'Estimate',       icon:'$', desc:'View and select your tier',       alert:true,  alertMsg:'Action needed'},
   {href:'/client/scope',      label:'Scope of work',  icon:'◻', desc:'What is included phase by phase',  alert:false},
   {href:'/client/selections', label:'My selections',  icon:'✓', desc:'Choose your materials',            alert:true,  alertMsg:'10 pending'},
+  {href:'/client/options',   label:'Options & upgrades',icon:'◈',desc:'Customize finishes & see pricing',  alert:false},
   {href:'/client/documents',  label:'Documents',      icon:'✦', desc:'Contract, proposals, sign',        alert:true,  alertMsg:'1 to sign'},
   {href:'/client/photos',     label:'Progress photos',icon:'◉', desc:'Latest site photos',               alert:false},
   {href:'/client/punch-list', label:'Punch list',     icon:'☑', desc:'Submit items and track status',    alert:false},
@@ -21,7 +22,7 @@ export default function ClientDashboard() {
   var clientName = session ? session.user.name : 'Ryan and Dori Mendel'
 
   return (
-    <div style={{minHeight:'100vh',background:'#f5f4f1',fontFamily:'sans-serif'}}>
+    <div style={{minHeight:'100vh',background:'#fff',fontFamily:'sans-serif'}}>
       <div style={{background:'#002147',padding:'1rem 2rem',display:'flex',alignItems:'center',justifyContent:'space-between',borderBottom:'3px solid #FF8C00'}}>
         <img src="/logo.png" alt="SpanglerBuilt" style={{height:32,width:'auto'}}/>
         <div style={{display:'flex',gap:12,alignItems:'center'}}>
@@ -69,6 +70,7 @@ export default function ClientDashboard() {
           <div style={{fontSize:13,color:'#3d3b37',lineHeight:1.9}}>
             · <a href="/client/estimate" style={{color:'#FF8C00',fontWeight:500}}>Select your project tier</a> — Good, Better, Best, or Luxury.<br/>
             · <a href="/client/selections" style={{color:'#FF8C00',fontWeight:500}}>10 material selections</a> are waiting for your input.<br/>
+            · <a href="/client/options" style={{color:'#FF8C00',fontWeight:500}}>Review options &amp; upgrades</a> — customize your finishes.<br/>
             · <a href="/client/documents" style={{color:'#FF8C00',fontWeight:500}}>1 document</a> ready for your review and signature.
           </div>
         </div>

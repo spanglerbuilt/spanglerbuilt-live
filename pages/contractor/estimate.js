@@ -1,295 +1,569 @@
 import { useState } from 'react'
 
-const TIER_MULT = { good: 1.0, better: 1.18, best: 1.38, luxury: 1.65 }
+// ─── Tier multipliers ───────────────────────────────────────────────────────
+const TIER_MULT   = { good: 1.0, better: 1.18, best: 1.38, luxury: 1.65 }
 const TIER_LABELS = { good: 'Good', better: 'Better', best: 'Best', luxury: 'Luxury' }
 
-const DIVISIONS = [
+// ─── CSI Divisions ──────────────────────────────────────────────────────────
+const INIT_DIVISIONS = [
   { num: '01', name: 'General requirements', items: [
-    { desc: 'Project management & supervision', qty: 1, unit: 'LS', rate: 3200 },
-    { desc: 'Building permit', qty: 1, unit: 'LS', rate: 1850 },
-    { desc: 'Temporary facilities & site protection', qty: 1, unit: 'LS', rate: 650 },
-    { desc: 'Dumpster / waste removal (2 pulls)', qty: 2, unit: 'EA', rate: 525 },
-    { desc: 'Final cleaning & punch list', qty: 1, unit: 'LS', rate: 475 },
+    { id:'d01-1', desc: 'Project management & supervision',    qty: 1,   unit: 'LS', rate: 3200 },
+    { id:'d01-2', desc: 'Building permit',                     qty: 1,   unit: 'LS', rate: 1850 },
+    { id:'d01-3', desc: 'Temporary facilities & site protection', qty: 1, unit: 'LS', rate: 650 },
+    { id:'d01-4', desc: 'Dumpster / waste removal (2 pulls)',  qty: 2,   unit: 'EA', rate: 525 },
+    { id:'d01-5', desc: 'Final cleaning & punch list',         qty: 1,   unit: 'LS', rate: 475 },
   ]},
   { num: '02', name: 'Existing conditions', items: [
-    { desc: 'Selective demo — existing framing/drywall', qty: 665, unit: 'SF', rate: 1.85 },
-    { desc: 'Concrete floor prep & grinding', qty: 665, unit: 'SF', rate: 1.25 },
-    { desc: 'Moisture testing & vapor barrier', qty: 665, unit: 'SF', rate: 0.95 },
-    { desc: 'Egress window assessment', qty: 1, unit: 'LS', rate: 350 },
-    { desc: 'Haul-off & disposal', qty: 1, unit: 'LS', rate: 750 },
+    { id:'d02-1', desc: 'Selective demo — existing framing/drywall', qty: 665, unit: 'SF', rate: 1.85 },
+    { id:'d02-2', desc: 'Concrete floor prep & grinding',      qty: 665, unit: 'SF', rate: 1.25 },
+    { id:'d02-3', desc: 'Moisture testing & vapor barrier',    qty: 665, unit: 'SF', rate: 0.95 },
+    { id:'d02-4', desc: 'Egress window assessment',            qty: 1,   unit: 'LS', rate: 350 },
+    { id:'d02-5', desc: 'Haul-off & disposal',                 qty: 1,   unit: 'LS', rate: 750 },
   ]},
   { num: '03', name: 'Concrete', items: [
-    { desc: 'Concrete crack repair & patching', qty: 1, unit: 'LS', rate: 850 },
-    { desc: 'Floor leveling compound', qty: 665, unit: 'SF', rate: 1.75 },
-    { desc: 'Bathroom rough-in saw cut & patch', qty: 1, unit: 'LS', rate: 1200 },
+    { id:'d03-1', desc: 'Concrete crack repair & patching',    qty: 1,   unit: 'LS', rate: 850 },
+    { id:'d03-2', desc: 'Floor leveling compound',             qty: 665, unit: 'SF', rate: 1.75 },
+    { id:'d03-3', desc: 'Bathroom rough-in saw cut & patch',   qty: 1,   unit: 'LS', rate: 1200 },
   ]},
   { num: '04', name: 'Masonry', items: [
-    { desc: 'Masonry wall waterproofing seal', qty: 1, unit: 'LS', rate: 1100 },
-    { desc: 'CMU block repair / tuckpointing', qty: 1, unit: 'LS', rate: 650, allowance: true },
+    { id:'d04-1', desc: 'Masonry wall waterproofing seal',     qty: 1,   unit: 'LS', rate: 1100 },
+    { id:'d04-2', desc: 'CMU block repair / tuckpointing',     qty: 1,   unit: 'LS', rate: 650,  allowance: true },
   ]},
   { num: '05', name: 'Metals', items: [
-    { desc: 'Steel lally column wrap', qty: 2, unit: 'EA', rate: 425 },
-    { desc: 'Metal stair stringers', qty: 1, unit: 'LS', rate: 600, allowance: true },
+    { id:'d05-1', desc: 'Steel lally column wrap',             qty: 2,   unit: 'EA', rate: 425 },
+    { id:'d05-2', desc: 'Metal stair stringers',               qty: 1,   unit: 'LS', rate: 600,  allowance: true },
   ]},
   { num: '06', name: 'Wood & plastics', items: [
-    { desc: 'Pressure-treated bottom plate', qty: 200, unit: 'LF', rate: 3.25 },
-    { desc: 'Stud framing — perimeter & interior', qty: 665, unit: 'SF', rate: 4.50 },
-    { desc: 'Soffit & beam box framing', qty: 1, unit: 'LS', rate: 1250 },
-    { desc: 'Custom bar framing & rough carpentry', qty: 1, unit: 'LS', rate: 2200 },
-    { desc: 'Bathroom backing & blocking', qty: 1, unit: 'LS', rate: 450 },
-    { desc: 'Stair handrail & guardrail', qty: 1, unit: 'LS', rate: 1100 },
+    { id:'d06-1', desc: 'Pressure-treated bottom plate',       qty: 200, unit: 'LF', rate: 3.25 },
+    { id:'d06-2', desc: 'Stud framing — perimeter & interior', qty: 665, unit: 'SF', rate: 4.50 },
+    { id:'d06-3', desc: 'Soffit & beam box framing',           qty: 1,   unit: 'LS', rate: 1250 },
+    { id:'d06-4', desc: 'Custom bar framing & rough carpentry',qty: 1,   unit: 'LS', rate: 2200 },
+    { id:'d06-5', desc: 'Bathroom backing & blocking',         qty: 1,   unit: 'LS', rate: 450 },
+    { id:'d06-6', desc: 'Stair handrail & guardrail',          qty: 1,   unit: 'LS', rate: 1100 },
   ]},
   { num: '07', name: 'Thermal & moisture', items: [
-    { desc: 'Closed-cell spray foam — rim joists', qty: 120, unit: 'LF', rate: 8.50 },
-    { desc: 'Rigid foam insulation — perimeter walls', qty: 665, unit: 'SF', rate: 2.25 },
-    { desc: 'Batt insulation — interior partitions', qty: 400, unit: 'SF', rate: 1.65 },
-    { desc: 'Bathroom waterproofing membrane', qty: 85, unit: 'SF', rate: 6.50 },
+    { id:'d07-1', desc: 'Closed-cell spray foam — rim joists', qty: 120, unit: 'LF', rate: 8.50 },
+    { id:'d07-2', desc: 'Rigid foam insulation — perimeter walls', qty: 665, unit: 'SF', rate: 2.25 },
+    { id:'d07-3', desc: 'Batt insulation — interior partitions', qty: 400, unit: 'SF', rate: 1.65 },
+    { id:'d07-4', desc: 'Bathroom waterproofing membrane',     qty: 85,  unit: 'SF', rate: 6.50 },
   ]},
   { num: '08', name: 'Openings', items: [
-    { desc: 'Prehung interior door — hollow core', qty: 3, unit: 'EA', rate: 385 },
-    { desc: 'Prehung bathroom door w/ privacy hardware', qty: 1, unit: 'EA', rate: 425 },
-    { desc: 'Barn door / bypass — bar room', qty: 1, unit: 'EA', rate: 650, allowance: true },
-    { desc: 'Door hardware — passage & privacy sets', qty: 4, unit: 'EA', rate: 95 },
-    { desc: 'Egress window', qty: 1, unit: 'EA', rate: 2200, allowance: true },
+    { id:'d08-1', desc: 'Prehung interior door — hollow core', qty: 3,   unit: 'EA', rate: 385 },
+    { id:'d08-2', desc: 'Prehung bathroom door w/ privacy hardware', qty: 1, unit: 'EA', rate: 425 },
+    { id:'d08-3', desc: 'Barn door / bypass — bar room',       qty: 1,   unit: 'EA', rate: 650,  allowance: true },
+    { id:'d08-4', desc: 'Door hardware — passage & privacy sets', qty: 4, unit: 'EA', rate: 95 },
+    { id:'d08-5', desc: 'Egress window',                       qty: 1,   unit: 'EA', rate: 2200, allowance: true },
   ]},
   { num: '09', name: 'Finishes', items: [
-    { desc: 'LVP flooring — main areas', qty: 600, unit: 'SF', rate: 6.25, allowance: true },
-    { desc: 'LVP installation labor', qty: 600, unit: 'SF', rate: 2.75 },
-    { desc: 'Tile flooring — bathroom', qty: 65, unit: 'SF', rate: 8.50, allowance: true },
-    { desc: 'Tile installation labor — bathroom', qty: 65, unit: 'SF', rate: 7.00 },
-    { desc: 'Shower tile — walls', qty: 120, unit: 'SF', rate: 9.00, allowance: true },
-    { desc: 'Shower tile installation labor', qty: 120, unit: 'SF', rate: 9.50 },
-    { desc: 'Drywall — hang & finish (level 4)', qty: 665, unit: 'SF', rate: 4.75 },
-    { desc: 'Moisture-resistant drywall — bathroom', qty: 150, unit: 'SF', rate: 5.50 },
-    { desc: 'Ceiling drywall — hang & finish', qty: 665, unit: 'SF', rate: 3.85 },
-    { desc: 'Paint — walls, ceilings, trim (2 coats)', qty: 665, unit: 'SF', rate: 2.50 },
-    { desc: 'Bathroom paint', qty: 1, unit: 'LS', rate: 450 },
-    { desc: 'Schluter / trim strips & transitions', qty: 1, unit: 'LS', rate: 325 },
+    { id:'d09-1', desc: 'LVP flooring — main areas',           qty: 600, unit: 'SF', rate: 6.25, allowance: true },
+    { id:'d09-2', desc: 'LVP installation labor',              qty: 600, unit: 'SF', rate: 2.75 },
+    { id:'d09-3', desc: 'Tile flooring — bathroom',            qty: 65,  unit: 'SF', rate: 8.50, allowance: true },
+    { id:'d09-4', desc: 'Tile installation labor — bathroom',  qty: 65,  unit: 'SF', rate: 7.00 },
+    { id:'d09-5', desc: 'Shower tile — walls',                 qty: 120, unit: 'SF', rate: 9.00, allowance: true },
+    { id:'d09-6', desc: 'Shower tile installation labor',      qty: 120, unit: 'SF', rate: 9.50 },
+    { id:'d09-7', desc: 'Drywall — hang & finish (level 4)',   qty: 665, unit: 'SF', rate: 4.75 },
+    { id:'d09-8', desc: 'Moisture-resistant drywall — bathroom', qty: 150, unit: 'SF', rate: 5.50 },
+    { id:'d09-9', desc: 'Ceiling drywall — hang & finish',     qty: 665, unit: 'SF', rate: 3.85 },
+    { id:'d09-10',desc: 'Paint — walls, ceilings, trim (2 coats)', qty: 665, unit: 'SF', rate: 2.50 },
+    { id:'d09-11',desc: 'Bathroom paint',                      qty: 1,   unit: 'LS', rate: 450 },
+    { id:'d09-12',desc: 'Schluter / trim strips & transitions', qty: 1,  unit: 'LS', rate: 325 },
   ]},
   { num: '10', name: 'Specialties', items: [
-    { desc: 'Bath accessories', qty: 1, unit: 'LS', rate: 425, allowance: true },
-    { desc: 'Shower niche', qty: 1, unit: 'EA', rate: 350 },
-    { desc: 'Medicine cabinet', qty: 1, unit: 'EA', rate: 275, allowance: true },
+    { id:'d10-1', desc: 'Bath accessories',                    qty: 1,   unit: 'LS', rate: 425,  allowance: true },
+    { id:'d10-2', desc: 'Shower niche',                        qty: 1,   unit: 'EA', rate: 350 },
+    { id:'d10-3', desc: 'Medicine cabinet',                    qty: 1,   unit: 'EA', rate: 275,  allowance: true },
   ]},
   { num: '11', name: 'Equipment', items: [
-    { desc: 'Bar sink rough-in & fixture', qty: 1, unit: 'LS', rate: 485, allowance: true },
-    { desc: 'Wet bar refrigerator rough-in', qty: 1, unit: 'LS', rate: 225 },
+    { id:'d11-1', desc: 'Bar sink rough-in & fixture',         qty: 1,   unit: 'LS', rate: 485,  allowance: true },
+    { id:'d11-2', desc: 'Wet bar refrigerator rough-in',       qty: 1,   unit: 'LS', rate: 225 },
   ]},
   { num: '12', name: 'Furnishings', items: [
-    { desc: 'Bar base cabinets — 3 ea', qty: 3, unit: 'EA', rate: 400, allowance: true },
-    { desc: 'Bar upper cabinets — 3 ea', qty: 3, unit: 'EA', rate: 400, allowance: true },
-    { desc: 'Bar countertop — solid surface', qty: 1, unit: 'LS', rate: 1850, allowance: true },
-    { desc: 'Vanity cabinet & top', qty: 1, unit: 'LS', rate: 875, allowance: true },
+    { id:'d12-1', desc: 'Bar base cabinets — 3 ea',            qty: 3,   unit: 'EA', rate: 400,  allowance: true },
+    { id:'d12-2', desc: 'Bar upper cabinets — 3 ea',           qty: 3,   unit: 'EA', rate: 400,  allowance: true },
+    { id:'d12-3', desc: 'Bar countertop — solid surface',      qty: 1,   unit: 'LS', rate: 1850, allowance: true },
+    { id:'d12-4', desc: 'Vanity cabinet & top',                qty: 1,   unit: 'LS', rate: 875,  allowance: true },
   ]},
   { num: '14', name: 'Conveying equipment', items: [
-    { desc: 'Stair nosing & landing strip', qty: 1, unit: 'LS', rate: 285 },
+    { id:'d14-1', desc: 'Stair nosing & landing strip',        qty: 1,   unit: 'LS', rate: 285 },
   ]},
   { num: '15', name: 'Mechanical', items: [
-    { desc: 'Bathroom plumbing rough-in (DWV)', qty: 1, unit: 'LS', rate: 2200 },
-    { desc: 'Plumbing fixtures — toilet, vanity, shower', qty: 1, unit: 'LS', rate: 1850, allowance: true },
-    { desc: 'HVAC extension — ductwork & 2 registers', qty: 1, unit: 'LS', rate: 1650 },
-    { desc: 'Exhaust fan — bathroom', qty: 1, unit: 'EA', rate: 385 },
-    { desc: 'Bar sink plumbing rough-in', qty: 1, unit: 'LS', rate: 850 },
-    { desc: 'Laundry hookup / utility rough-in', qty: 1, unit: 'LS', rate: 550 },
+    { id:'d15-1', desc: 'Bathroom plumbing rough-in (DWV)',    qty: 1,   unit: 'LS', rate: 2200 },
+    { id:'d15-2', desc: 'Plumbing fixtures — toilet, vanity, shower', qty: 1, unit: 'LS', rate: 1850, allowance: true },
+    { id:'d15-3', desc: 'HVAC extension — ductwork & 2 registers', qty: 1, unit: 'LS', rate: 1650 },
+    { id:'d15-4', desc: 'Exhaust fan — bathroom',              qty: 1,   unit: 'EA', rate: 385 },
+    { id:'d15-5', desc: 'Bar sink plumbing rough-in',          qty: 1,   unit: 'LS', rate: 850 },
+    { id:'d15-6', desc: 'Laundry hookup / utility rough-in',   qty: 1,   unit: 'LS', rate: 550 },
   ]},
   { num: '16', name: 'Electrical', items: [
-    { desc: 'Panel capacity review & circuit additions', qty: 1, unit: 'LS', rate: 850 },
-    { desc: 'LED recessed lights — 4" (20 fixtures)', qty: 20, unit: 'EA', rate: 95 },
-    { desc: 'Dimmer switches', qty: 4, unit: 'EA', rate: 65 },
-    { desc: 'Electrical outlets — 15 amp', qty: 12, unit: 'EA', rate: 85 },
-    { desc: 'GFCI outlets (wet areas)', qty: 6, unit: 'EA', rate: 95 },
-    { desc: 'Bathroom vanity light rough-in', qty: 1, unit: 'LS', rate: 185 },
-    { desc: 'Bar area under-cabinet lighting', qty: 1, unit: 'LS', rate: 425 },
-    { desc: 'Smoke & CO detectors', qty: 2, unit: 'EA', rate: 125 },
-    { desc: 'Electrical panel schedule update', qty: 1, unit: 'LS', rate: 275 },
+    { id:'d16-1', desc: 'Panel capacity review & circuit additions', qty: 1, unit: 'LS', rate: 850 },
+    { id:'d16-2', desc: 'LED recessed lights — 4" (20 fixtures)', qty: 20, unit: 'EA', rate: 95 },
+    { id:'d16-3', desc: 'Dimmer switches',                     qty: 4,   unit: 'EA', rate: 65 },
+    { id:'d16-4', desc: 'Electrical outlets — 15 amp',         qty: 12,  unit: 'EA', rate: 85 },
+    { id:'d16-5', desc: 'GFCI outlets (wet areas)',            qty: 6,   unit: 'EA', rate: 95 },
+    { id:'d16-6', desc: 'Bathroom vanity light rough-in',      qty: 1,   unit: 'LS', rate: 185 },
+    { id:'d16-7', desc: 'Bar area under-cabinet lighting',     qty: 1,   unit: 'LS', rate: 425 },
+    { id:'d16-8', desc: 'Smoke & CO detectors',                qty: 2,   unit: 'EA', rate: 125 },
+    { id:'d16-9', desc: 'Electrical panel schedule update',    qty: 1,   unit: 'LS', rate: 275 },
   ]},
 ]
 
-function fmt(n) { return '$' + Math.round(n).toLocaleString('en-US') }
+// ─── Material catalog ────────────────────────────────────────────────────────
+const CATALOG = [
+  // ── Flooring ──
+  { id:'c01', div:'09', cat:'Flooring', types:['basement','kitchen','addition','bath'],
+    desc:'Shaw Floorté Pro LVP', brand:'Shaw Floors', spec:'6mm · Waterproof · Click-lock', qty:600, unit:'SF', rate:6.25, allowance:true,
+    link:'https://www.shawfloors.com' },
+  { id:'c02', div:'09', cat:'Flooring', types:['basement','kitchen','addition'],
+    desc:'COREtec Plus Enhanced LVP', brand:'COREtec', spec:'9" wide · 8mm · Cork underlay', qty:600, unit:'SF', rate:7.85, allowance:true,
+    link:'https://www.coretecfloors.com' },
+  { id:'c03', div:'09', cat:'Flooring', types:['kitchen','addition'],
+    desc:'Anderson Tuftex Bernina Oak', brand:'Anderson Tuftex', spec:'Engineered hardwood · 7" wide', qty:400, unit:'SF', rate:9.49, allowance:true,
+    link:'https://www.andersontuftex.com' },
+  { id:'c04', div:'09', cat:'Flooring', types:['basement','kitchen','bath'],
+    desc:'LVP installation labor', brand:'In-house', spec:'Click-lock · Glue-down option', qty:600, unit:'SF', rate:2.75,
+    link:null },
+  { id:'c05', div:'09', cat:'Flooring', types:['kitchen','addition','bath'],
+    desc:'Hardwood installation labor', brand:'In-house', spec:'Nail-down or float', qty:400, unit:'SF', rate:4.25,
+    link:null },
+  // ── Tile ──
+  { id:'c06', div:'09', cat:'Tile', types:['basement','bath'],
+    desc:'Daltile Restore 12×24 ceramic', brand:'Daltile', spec:'Rectified · Frost resistant', qty:65, unit:'SF', rate:4.99, allowance:true,
+    link:'https://www.daltile.com' },
+  { id:'c07', div:'09', cat:'Tile', types:['basement','bath','kitchen'],
+    desc:'MSI Carrara White 24×24', brand:'MSI Surfaces', spec:'Porcelain · Polished · Rectified', qty:65, unit:'SF', rate:8.99, allowance:true,
+    link:'https://www.msisurfaces.com' },
+  { id:'c08', div:'09', cat:'Tile', types:['bath','basement'],
+    desc:'Tile installation labor — floor', brand:'In-house', spec:'Thinset · Grout · Sealed', qty:65, unit:'SF', rate:7.00,
+    link:null },
+  { id:'c09', div:'09', cat:'Tile', types:['bath','basement'],
+    desc:'Shower wall tile installation labor', brand:'In-house', spec:'Large format capable', qty:120, unit:'SF', rate:9.50,
+    link:null },
+  { id:'c10', div:'07', cat:'Tile', types:['bath','basement'],
+    desc:'Schluter Kerdi waterproofing membrane', brand:'Schluter Systems', spec:'Sheet membrane · Full coverage', qty:85, unit:'SF', rate:6.50,
+    link:'https://www.schluter.com' },
+  // ── Cabinets & countertops ──
+  { id:'c11', div:'12', cat:'Cabinets', types:['kitchen','basement'],
+    desc:'Hampton Bay shaker stock — base', brand:'Hampton Bay (Home Depot)', spec:'Plywood box · Soft-close hinges', qty:3, unit:'EA', rate:400, allowance:true,
+    link:'https://www.homedepot.com' },
+  { id:'c12', div:'12', cat:'Cabinets', types:['kitchen','basement'],
+    desc:'KraftMaid dovetail shaker — semi-custom', brand:'KraftMaid', spec:'Dovetail drawers · Soft-close', qty:1, unit:'LS', rate:4200, allowance:true,
+    link:'https://www.kraftmaid.com' },
+  { id:'c13', div:'12', cat:'Cabinets', types:['kitchen'],
+    desc:'Dura Supreme inset shaker — best', brand:'Dura Supreme', spec:'Inset doors · Soft-close · Any finish', qty:1, unit:'LS', rate:7800, allowance:true,
+    link:'https://www.durasupreme.com' },
+  { id:'c14', div:'12', cat:'Countertops', types:['kitchen','basement'],
+    desc:'Wilsonart HD laminate', brand:'Wilsonart', spec:'1.5" post-form · Easy clean', qty:30, unit:'SF', rate:28, allowance:true,
+    link:'https://www.wilsonart.com' },
+  { id:'c15', div:'12', cat:'Countertops', types:['kitchen','basement'],
+    desc:'Silestone quartz — Eternal Calacatta', brand:'Silestone by Cosentino', spec:'3cm · Eased edge · NSF certified', qty:30, unit:'SF', rate:65, allowance:true,
+    link:'https://www.silestone.com' },
+  { id:'c16', div:'12', cat:'Countertops', types:['kitchen','basement'],
+    desc:'Cambria Brittanicca Warm quartz', brand:'Cambria', spec:'3cm · Waterfall edge option', qty:30, unit:'SF', rate:95, allowance:true,
+    link:'https://www.cambriausa.com' },
+  // ── Plumbing fixtures ──
+  { id:'c17', div:'15', cat:'Plumbing', types:['bath','basement','kitchen'],
+    desc:'Moen Align faucet — brushed nickel', brand:'Moen', spec:'Lifetime warranty · ADA compliant', qty:1, unit:'EA', rate:245, allowance:true,
+    link:'https://www.moen.com' },
+  { id:'c18', div:'15', cat:'Plumbing', types:['bath','basement'],
+    desc:'Delta Trinsic faucet — matte black', brand:'Delta', spec:'Touch2O · Magnetic docking', qty:1, unit:'EA', rate:385, allowance:true,
+    link:'https://www.deltafaucet.com' },
+  { id:'c19', div:'15', cat:'Plumbing', types:['bath'],
+    desc:'Toilet — Kohler Cimarron elongated', brand:'Kohler', spec:'1.28 gpf · Right-height · ADA', qty:1, unit:'EA', rate:285, allowance:true,
+    link:'https://www.us.kohler.com' },
+  { id:'c20', div:'15', cat:'Plumbing', types:['bath','basement'],
+    desc:'Shower valve — Moen Posi-Temp', brand:'Moen', spec:'Pressure-balance · Lifetime', qty:1, unit:'EA', rate:225, allowance:true,
+    link:'https://www.moen.com' },
+  { id:'c21', div:'15', cat:'Plumbing', types:['bath'],
+    desc:'Bathtub — Kohler freestanding soaker', brand:'Kohler', spec:'67" cast iron · Floor mount', qty:1, unit:'EA', rate:1850, allowance:true,
+    link:'https://www.us.kohler.com' },
+  // ── Lighting ──
+  { id:'c22', div:'16', cat:'Lighting', types:['basement','kitchen','bath','addition'],
+    desc:'Halo 6" LED recessed (per fixture)', brand:'Halo', spec:'2700K · Dimmable · Airtight', qty:1, unit:'EA', rate:95,
+    link:'https://www.acuitybrands.com' },
+  { id:'c23', div:'16', cat:'Lighting', types:['kitchen','bath'],
+    desc:'Pendant light rough-in (per fixture)', brand:'In-house', spec:'Canopy, wire, j-box', qty:1, unit:'EA', rate:145,
+    link:null },
+  { id:'c24', div:'16', cat:'Lighting', types:['kitchen','basement'],
+    desc:'Under-cabinet LED strip lighting', brand:'In-house', spec:'Low-voltage · Dimmer included', qty:1, unit:'LS', rate:425,
+    link:null },
+  // ── Drywall ──
+  { id:'c25', div:'09', cat:'Drywall', types:['basement','kitchen','bath','addition'],
+    desc:'Drywall hang & finish (level 4)', brand:'In-house', spec:'Blueboard · Level 4 taping', qty:665, unit:'SF', rate:4.75,
+    link:null },
+  { id:'c26', div:'09', cat:'Drywall', types:['bath','basement'],
+    desc:'Moisture-resistant drywall', brand:'Georgia-Pacific DensArmor', spec:'Mold/moisture resistant', qty:150, unit:'SF', rate:5.50,
+    link:null },
+  // ── Paint ──
+  { id:'c27', div:'09', cat:'Paint', types:['basement','kitchen','bath','addition'],
+    desc:'Sherwin-Williams Emerald — interior', brand:'Sherwin-Williams', spec:'2 coats · Low VOC · Excellent hide', qty:665, unit:'SF', rate:2.50,
+    link:'https://www.sherwin-williams.com' },
+  { id:'c28', div:'09', cat:'Paint', types:['bath'],
+    desc:'Bathroom paint — full room', brand:'Sherwin-Williams', spec:'Moisture-resistant formula', qty:1, unit:'LS', rate:450,
+    link:'https://www.sherwin-williams.com' },
+  // ── Insulation ──
+  { id:'c29', div:'07', cat:'Insulation', types:['basement','addition'],
+    desc:'Closed-cell spray foam — rim joists', brand:'Demilec / Icynene', spec:'2" min · R-13 per inch', qty:120, unit:'LF', rate:8.50,
+    link:null },
+  { id:'c30', div:'07', cat:'Insulation', types:['basement','addition'],
+    desc:'Rigid foam board — perimeter walls', brand:'Owens Corning FOAMULAR', spec:'R-10 · Continuous coverage', qty:665, unit:'SF', rate:2.25,
+    link:'https://www.owenscorning.com' },
+  // ── Vanity / Bath ──
+  { id:'c31', div:'12', cat:'Vanity', types:['bath','basement'],
+    desc:'Glacier Bay 30" vanity w/ mirror', brand:'Glacier Bay (Home Depot)', spec:'Soft-close door · Integrated top', qty:1, unit:'EA', rate:875, allowance:true,
+    link:'https://www.homedepot.com' },
+  { id:'c32', div:'12', cat:'Vanity', types:['bath'],
+    desc:'Style Selections 36" double vanity', brand:'Style Selections (Lowes)', spec:'Quartz top · Soft-close', qty:1, unit:'EA', rate:1450, allowance:true,
+    link:'https://www.lowes.com' },
+  // ── Shower enclosure ──
+  { id:'c33', div:'08', cat:'Shower', types:['bath','basement'],
+    desc:'DreamLine Flex semi-frameless shower door', brand:'DreamLine', spec:'Semi-frameless · 3/8" glass', qty:1, unit:'EA', rate:850, allowance:true,
+    link:'https://www.dreamline.com' },
+  { id:'c34', div:'08', cat:'Shower', types:['bath'],
+    desc:'DreamLine Enigma-X frameless door', brand:'DreamLine', spec:'Full frameless · 3/8" glass · Brushed nickel', qty:1, unit:'EA', rate:1250, allowance:true,
+    link:'https://www.dreamline.com' },
+  // ── Kitchen appliances ──
+  { id:'c35', div:'11', cat:'Appliances', types:['kitchen'],
+    desc:'Range hood — 30" under-cabinet', brand:'Broan', spec:'400 CFM · 3-speed · LED', qty:1, unit:'EA', rate:425, allowance:true,
+    link:'https://www.broan-nutone.com' },
+  { id:'c36', div:'11', cat:'Appliances', types:['kitchen'],
+    desc:'Dishwasher rough-in & supply', brand:'In-house', spec:'240V circuit · water supply + drain', qty:1, unit:'LS', rate:385,
+    link:null },
+  { id:'c37', div:'11', cat:'Appliances', types:['kitchen'],
+    desc:'Gas line rough-in — range', brand:'In-house', spec:'3/4" black iron · Tested', qty:1, unit:'LS', rate:650,
+    link:null },
+]
+
+const CAT_ORDER = ['Flooring','Tile','Drywall','Paint','Cabinets','Countertops','Vanity','Shower','Plumbing','Lighting','Insulation','Appliances']
+const PROJECT_TYPES = ['all','basement','kitchen','bath','addition']
+const TYPE_LABELS   = { all:'All types', basement:'Basement', kitchen:'Kitchen', bath:'Bathroom', addition:'Addition' }
+
+function fmt(n)  { return '$' + Math.round(n).toLocaleString('en-US') }
 function fmtD(n) { return '$' + parseFloat(n).toFixed(2) }
 
 function divSubtotal(div) {
-  return div.items.reduce((s, i) => s + i.qty * i.rate, 0)
+  return div.items.reduce(function(s,i){ return s + i.qty * i.rate }, 0)
 }
 
-function calcTotals(tier) {
-  const direct = DIVISIONS.reduce((s, d) => s + divSubtotal(d), 0)
-  const mult   = TIER_MULT[tier]
-  const tiered = direct * mult
-  const cont   = tiered * 0.05
-  const op     = (tiered + cont) * 0.10
-  const tax    = (tiered + cont + op) * 0.08
+function calcTotals(divisions, tier) {
+  var direct = divisions.reduce(function(s,d){ return s + divSubtotal(d) }, 0)
+  var mult   = TIER_MULT[tier]
+  var tiered = direct * mult
+  var cont   = tiered * 0.05
+  var op     = (tiered + cont) * 0.10
+  var tax    = (tiered + cont + op) * 0.08
   return { direct, tiered, cont, op, tax, grand: tiered + cont + op + tax }
 }
 
-const S = {
-  page:    { minHeight: '100vh', background: '#f5f4f1', fontFamily: 'sans-serif' },
-  topbar:  { background: '#002147', padding: '1rem 2rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between' },
-  brand:   { fontFamily: 'Georgia,serif', fontSize: 16, color: '#fff', fontWeight: 700, letterSpacing: '.08em' },
-  back:    { fontSize: 11, color: '#9a9690', textDecoration: 'none' },
-  wrap:    { padding: '1.5rem', maxWidth: 1100, margin: '0 auto' },
-  metGrid: { display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 10, marginBottom: '1.25rem' },
-  met:     { background: '#fff', border: '1px solid #e8e6e0', borderRadius: 4, padding: '.7rem .9rem' },
-  metL:    { fontSize: 10, color: '#9a9690', marginBottom: 2, textTransform: 'uppercase', letterSpacing: '.04em' },
-  metV:    { fontSize: 18, fontWeight: 500 },
-  tierRow: { display: 'flex', gap: 6, marginBottom: '1rem', flexWrap: 'wrap' },
-  divCard: { background: '#fff', border: '1px solid #e8e6e0', borderRadius: 4, overflow: 'hidden', marginBottom: 8 },
-  divHdr:  { padding: '8px 12px', background: '#FFFCEB', display: 'flex', alignItems: 'center', cursor: 'pointer', borderBottom: '1px solid #e8e6e0' },
-  tbl:     { width: '100%', borderCollapse: 'collapse', fontSize: 11 },
-  th:      { padding: '5px 10px', background: '#f5f4f1', fontSize: 10, fontWeight: 500, color: '#9a9690', textTransform: 'uppercase', letterSpacing: '.04em', textAlign: 'left', borderBottom: '1px solid #e8e6e0' },
-  td:      { padding: '6px 10px', borderBottom: '1px solid #f5f4f1', color: '#3d3b37' },
-  totalBar:{ background: '#002147', color: '#FF8C00', padding: '12px 16px', borderRadius: 4, display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '.75rem' },
-  payCard: { background: '#fff', border: '1px solid #e8e6e0', borderRadius: 4, overflow: 'hidden', marginBottom: 8 },
-  payRow:  { display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '7px 12px', borderBottom: '1px solid #f5f4f1', fontSize: 12 },
+const TIER_STYLES = {
+  good:   { borderColor:'#3B6D11', background:'#eaf3de', color:'#3B6D11' },
+  better: { borderColor:'#185FA5', background:'#e6f1fb', color:'#185FA5' },
+  best:   { borderColor:'#534AB7', background:'#eeedfe', color:'#534AB7' },
+  luxury: { borderColor:'#854F0B', background:'#faeeda', color:'#854F0B' },
 }
 
-const TIER_STYLES = {
-  good:   { border: '1px solid', borderColor: '#3B6D11', background: '#eaf3de', color: '#3B6D11' },
-  better: { border: '1px solid', borderColor: '#185FA5', background: '#e6f1fb', color: '#185FA5' },
-  best:   { border: '1px solid', borderColor: '#534AB7', background: '#eeedfe', color: '#534AB7' },
-  luxury: { border: '1px solid', borderColor: '#854F0B', background: '#faeeda', color: '#854F0B' },
-}
+const PAYMENTS = [
+  { label:'Deposit — contract signing',       pct:25 },
+  { label:'Demo & framing complete',           pct:25 },
+  { label:'Drywall & rough-ins complete',      pct:25 },
+  { label:'Paint, flooring & trim complete',   pct:20 },
+  { label:'Final punch list & CO',             pct:5  },
+]
 
 export default function EstimatePage() {
-  const [tier,     setTier]     = useState('good')
-  const [openDivs, setOpenDivs] = useState({})
+  var [tier,       setTier]       = useState('good')
+  var [openDivs,   setOpenDivs]   = useState({})
+  var [divisions,  setDivisions]  = useState(INIT_DIVISIONS)
+  var [catSearch,  setCatSearch]  = useState('')
+  var [catType,    setCatType]    = useState('all')
+  var [catExpand,  setCatExpand]  = useState({})   // category name → expanded
+  var [added,      setAdded]      = useState({})   // catalogId → true (visual indicator)
 
-  const totals = calcTotals(tier)
-  const mult   = TIER_MULT[tier]
+  var totals = calcTotals(divisions, tier)
+  var mult   = TIER_MULT[tier]
 
   function toggleDiv(num) {
-    setOpenDivs(prev => ({ ...prev, [num]: !prev[num] }))
+    setOpenDivs(function(prev){ return Object.assign({}, prev, { [num]: !prev[num] }) })
   }
 
-  const tierBtn = (t) => (
-    <button key={t} onClick={() => setTier(t)} style={{
-      padding: '5px 14px', fontSize: 11, fontFamily: 'inherit', fontWeight: 500,
-      cursor: 'pointer', borderRadius: 3,
-      ...(tier === t ? TIER_STYLES[t] : { border: '1px solid #e8e6e0', background: '#fff', color: '#9a9690' }),
-    }}>{TIER_LABELS[t]}</button>
-  )
+  function toggleCat(cat) {
+    setCatExpand(function(prev){ return Object.assign({}, prev, { [cat]: !prev[cat] }) })
+  }
 
-  const PAYMENTS = [
-    { label: 'Deposit — contract signing', pct: 25 },
-    { label: 'Demo & framing complete',    pct: 25 },
-    { label: 'Drywall & rough-ins complete', pct: 25 },
-    { label: 'Paint, flooring & trim complete', pct: 20 },
-    { label: 'Final punch list & CO',       pct: 5  },
-  ]
+  function addItem(catItem) {
+    var newItem = {
+      id:        'cat-' + catItem.id + '-' + Date.now(),
+      desc:      catItem.desc,
+      qty:       catItem.qty,
+      unit:      catItem.unit,
+      rate:      catItem.rate,
+      allowance: catItem.allowance || false,
+      fromCatalog: true,
+    }
+    setDivisions(function(prev) {
+      return prev.map(function(d) {
+        if (d.num !== catItem.div) return d
+        return Object.assign({}, d, { items: [...d.items, newItem] })
+      })
+    })
+    setOpenDivs(function(prev){ return Object.assign({}, prev, { [catItem.div]: true }) })
+    setAdded(function(prev){ return Object.assign({}, prev, { [catItem.id]: true }) })
+  }
+
+  function removeItem(divNum, itemId) {
+    setDivisions(function(prev) {
+      return prev.map(function(d) {
+        if (d.num !== divNum) return d
+        return Object.assign({}, d, { items: d.items.filter(function(i){ return i.id !== itemId }) })
+      })
+    })
+  }
+
+  // Filter catalog
+  var filteredCatalog = CATALOG.filter(function(item) {
+    var matchType = catType === 'all' || item.types.includes(catType)
+    var q = catSearch.toLowerCase()
+    var matchSearch = !q || item.desc.toLowerCase().includes(q) || item.brand.toLowerCase().includes(q) || item.cat.toLowerCase().includes(q)
+    return matchType && matchSearch
+  })
+
+  // Group by category
+  var catalogGroups = {}
+  CAT_ORDER.forEach(function(cat) {
+    var items = filteredCatalog.filter(function(i){ return i.cat === cat })
+    if (items.length > 0) catalogGroups[cat] = items
+  })
+
+  var tierBtn = function(t) {
+    return (
+      <button key={t} onClick={function(){ setTier(t) }} style={{
+        padding:'5px 14px', fontSize:11, fontFamily:'inherit', fontWeight:500, cursor:'pointer', borderRadius:3,
+        border:'1px solid',
+        ...(tier === t ? TIER_STYLES[t] : { borderColor:'#e8e6e0', background:'#fff', color:'#9a9690' }),
+      }}>{TIER_LABELS[t]}</button>
+    )
+  }
 
   return (
-    <div style={S.page}>
-      <div style={S.topbar}>
-        <div style={S.brand}>SPANGLERBUILT <span style={{ fontSize: 11, color: '#c9a96e', fontWeight: 400 }}> · ESTIMATING</span></div>
-        <a href="/dashboard" style={S.back}>← Dashboard</a>
+    <div style={{minHeight:'100vh',background:'#fff',fontFamily:'sans-serif'}}>
+
+      {/* Topbar */}
+      <div style={{background:'#002147',padding:'1rem 2rem',display:'flex',alignItems:'center',justifyContent:'space-between',borderBottom:'3px solid #FF8C00'}}>
+        <div style={{fontFamily:'Georgia,serif',fontSize:16,color:'#fff',fontWeight:700,letterSpacing:'.08em'}}>
+          SPANGLERBUILT <span style={{fontSize:11,color:'#c9a96e',fontWeight:400}}> · ESTIMATING</span>
+        </div>
+        <a href="/dashboard" style={{fontSize:11,color:'#9a9690',textDecoration:'none'}}>← Dashboard</a>
       </div>
 
-      <div style={S.wrap}>
-        <div style={{ marginBottom: '1rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 8 }}>
-          <div>
-            <div style={{ fontSize: 18, fontWeight: 500, fontFamily: 'Georgia,serif' }}>Mendel Basement Renovation</div>
-            <div style={{ fontSize: 11, color: '#9a9690' }}>SB-2026-001 · 4995 Shadow Glen Ct, Dunwoody GA · 665 sf</div>
+      {/* Two-column layout */}
+      <div style={{display:'flex',alignItems:'flex-start',maxWidth:1380,margin:'0 auto',padding:'1.5rem',gap:16}}>
+
+        {/* ── LEFT: Material catalog ────────────────────────────────────────── */}
+        <div style={{width:300,flexShrink:0,position:'sticky',top:'1.5rem'}}>
+
+          <div style={{background:'#002147',borderRadius:'4px 4px 0 0',padding:'10px 14px',borderBottom:'2px solid #FF8C00'}}>
+            <div style={{fontSize:11,fontWeight:700,color:'#FF8C00',textTransform:'uppercase',letterSpacing:'.1em',marginBottom:8}}>Material catalog</div>
+            <input
+              value={catSearch} onChange={function(e){setCatSearch(e.target.value)}}
+              placeholder="Search materials..."
+              style={{width:'100%',padding:'6px 10px',border:'1px solid rgba(255,255,255,.15)',borderRadius:3,fontSize:11,fontFamily:'sans-serif',outline:'none',background:'rgba(255,255,255,.08)',color:'#fff',boxSizing:'border-box'}}
+            />
           </div>
-          <div style={S.tierRow}>{['good','better','best','luxury'].map(tierBtn)}</div>
+
+          {/* Project type filter */}
+          <div style={{display:'flex',background:'#001838',borderBottom:'1px solid rgba(255,255,255,.08)',overflowX:'auto'}}>
+            {PROJECT_TYPES.map(function(t){ return (
+              <button key={t} onClick={function(){setCatType(t)}} style={{
+                flex:1,padding:'6px 2px',fontSize:9,fontWeight:700,fontFamily:'sans-serif',cursor:'pointer',
+                letterSpacing:'.04em',textTransform:'uppercase',border:'none',whiteSpace:'nowrap',
+                background: catType===t ? '#FF8C00' : 'transparent',
+                color: catType===t ? '#fff' : 'rgba(255,255,255,.45)',
+                borderBottom: catType===t ? '2px solid #FF8C00' : '2px solid transparent',
+              }}>{TYPE_LABELS[t]}</button>
+            )})}
+          </div>
+
+          {/* Catalog items */}
+          <div style={{background:'#fff',border:'1px solid #e8e6e0',borderTop:'none',borderRadius:'0 0 4px 4px',maxHeight:'calc(100vh - 220px)',overflowY:'auto'}}>
+            {Object.keys(catalogGroups).length === 0 && (
+              <div style={{padding:'2rem',textAlign:'center',fontSize:11,color:'#9a9690'}}>No items match your search.</div>
+            )}
+            {Object.entries(catalogGroups).map(function([cat, items]) {
+              var isExp = catExpand[cat] !== false // default open
+              return (
+                <div key={cat} style={{borderBottom:'1px solid #f5f4f1'}}>
+                  <div onClick={function(){toggleCat(cat)}} style={{padding:'7px 12px',background:'#f5f4f1',display:'flex',alignItems:'center',justifyContent:'space-between',cursor:'pointer',borderBottom:'1px solid #e8e6e0'}}>
+                    <span style={{fontSize:10,fontWeight:700,color:'#002147',textTransform:'uppercase',letterSpacing:'.06em'}}>{cat}</span>
+                    <span style={{fontSize:10,color:'#9a9690'}}>{isExp?'▲':'▼'} {items.length}</span>
+                  </div>
+                  {isExp && items.map(function(item) {
+                    var isAdded = !!added[item.id]
+                    return (
+                      <div key={item.id} style={{padding:'9px 12px',borderBottom:'1px solid #f9f8f6',background:isAdded?'#FFFCEB':'#fff'}}>
+                        <div style={{display:'flex',alignItems:'flex-start',justifyContent:'space-between',gap:6,marginBottom:4}}>
+                          <div style={{flex:1,minWidth:0}}>
+                            <div style={{fontSize:11,fontWeight:500,color:'#002147',lineHeight:1.3,marginBottom:1}}>{item.desc}</div>
+                            <div style={{fontSize:10,color:'#9a9690'}}>{item.brand}</div>
+                            <div style={{fontSize:10,color:'#9a9690'}}>{item.spec}</div>
+                          </div>
+                          {item.link && (
+                            <a href={item.link} target="_blank" rel="noopener noreferrer" onClick={function(e){e.stopPropagation()}}
+                              style={{fontSize:9,color:'#185FA5',textDecoration:'none',flexShrink:0,marginTop:2}}>↗ link</a>
+                          )}
+                        </div>
+                        <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',marginTop:5}}>
+                          <div>
+                            <span style={{fontSize:12,fontWeight:600,color:'#002147'}}>{fmtD(item.rate)}</span>
+                            <span style={{fontSize:9,color:'#9a9690',marginLeft:3}}>/{item.unit} · DIV {item.div}</span>
+                            {item.allowance && <span style={{marginLeft:5,background:'#fff3e0',color:'#e65100',fontSize:8,fontWeight:700,padding:'1px 4px',borderRadius:2}}>allowance</span>}
+                          </div>
+                          <button onClick={function(){addItem(item)}}
+                            style={{background:isAdded?'#eaf3de':'#FF8C00',color:isAdded?'#3B6D11':'#fff',border:'none',padding:'3px 10px',fontSize:9,fontWeight:700,cursor:'pointer',borderRadius:3,fontFamily:'sans-serif',letterSpacing:'.04em',textTransform:'uppercase',whiteSpace:'nowrap'}}>
+                            {isAdded ? '✓ Added' : '+ Add'}
+                          </button>
+                        </div>
+                      </div>
+                    )
+                  })}
+                </div>
+              )
+            })}
+          </div>
         </div>
 
-        <div style={S.metGrid}>
-          <div style={S.met}><div style={S.metL}>Direct cost</div><div style={S.metV}>{fmt(totals.direct)}</div></div>
-          <div style={S.met}><div style={S.metL}>Tier ({TIER_LABELS[tier]})</div><div style={S.metV}>{fmt(totals.tiered)}</div></div>
-          <div style={S.met}><div style={S.metL}>Contingency + O&P</div><div style={S.metV}>{fmt(totals.cont + totals.op)}</div></div>
-          <div style={{ ...S.met, borderColor: '#3B6D11' }}><div style={S.metL}>Contract total</div><div style={{ ...S.metV, color: '#002147' }}>{fmt(totals.grand)}</div></div>
-        </div>
+        {/* ── RIGHT: Estimate ───────────────────────────────────────────────── */}
+        <div style={{flex:1,minWidth:0}}>
 
-        <div style={{ fontSize: 10, fontWeight: 500, color: '#9a9690', textTransform: 'uppercase', letterSpacing: '.05em', marginBottom: '.5rem' }}>Division line items — click to expand</div>
+          <div style={{marginBottom:'1rem',display:'flex',alignItems:'center',justifyContent:'space-between',flexWrap:'wrap',gap:8}}>
+            <div>
+              <div style={{fontSize:18,fontWeight:500,fontFamily:'Georgia,serif'}}>Mendel Basement Renovation</div>
+              <div style={{fontSize:11,color:'#9a9690'}}>SB-2026-001 · 4995 Shadow Glen Ct, Dunwoody GA · 665 sf</div>
+            </div>
+            <div style={{display:'flex',gap:6,flexWrap:'wrap'}}>
+              {['good','better','best','luxury'].map(tierBtn)}
+            </div>
+          </div>
 
-        {DIVISIONS.map(div => {
-          const sub  = divSubtotal(div)
-          const adj  = sub * mult
-          const open = !!openDivs[div.num]
-          return (
-            <div key={div.num} style={S.divCard}>
-              <div style={S.divHdr} onClick={() => toggleDiv(div.num)}>
-                <span style={{ fontSize: 9, fontWeight: 700, letterSpacing: '.1em', color: '#9a9690', marginRight: 10, textTransform: 'uppercase' }}>DIV {div.num}</span>
-                <span style={{ flex: 1, fontSize: 12, fontWeight: 500 }}>{div.name}</span>
-                <span style={{ fontSize: 12, fontWeight: 500, color: '#002147', marginRight: 8 }}>{fmt(adj)}</span>
-                <span style={{ fontSize: 10, color: '#9a9690' }}>{open ? '▲' : '▼'}</span>
+          {/* Summary metrics */}
+          <div style={{display:'grid',gridTemplateColumns:'repeat(4,1fr)',gap:10,marginBottom:'1.25rem'}}>
+            {[
+              ['Direct cost',       fmt(totals.direct)],
+              ['Tier ('+TIER_LABELS[tier]+')', fmt(totals.tiered)],
+              ['Contingency + O&P', fmt(totals.cont + totals.op)],
+              ['Contract total',    fmt(totals.grand)],
+            ].map(function(item,i){ return (
+              <div key={item[0]} style={{background:'#fff',border:'1px solid '+(i===3?'#3B6D11':'#e8e6e0'),borderRadius:4,padding:'.7rem .9rem'}}>
+                <div style={{fontSize:10,color:'#9a9690',marginBottom:2,textTransform:'uppercase',letterSpacing:'.04em'}}>{item[0]}</div>
+                <div style={{fontSize:18,fontWeight:500,color:i===3?'#002147':'inherit'}}>{item[1]}</div>
               </div>
-              {open && (
-                <table style={S.tbl}>
-                  <thead>
-                    <tr>
-                      <th style={{ ...S.th, width: '45%' }}>Description</th>
-                      <th style={S.th}>Qty</th>
-                      <th style={S.th}>Unit</th>
-                      <th style={S.th}>Rate</th>
-                      <th style={{ ...S.th, textAlign: 'right' }}>Base</th>
-                      <th style={{ ...S.th, textAlign: 'right' }}>{TIER_LABELS[tier]}</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {div.items.map((item, i) => {
-                      const base = item.qty * item.rate
-                      const adj2 = base * mult
-                      return (
-                        <tr key={i}>
-                          <td style={S.td}>
-                            {item.desc}
-                            {item.allowance && <span style={{ marginLeft: 6, background: '#fff3e0', color: '#e65100', fontSize: 9, fontWeight: 700, padding: '1px 5px', borderRadius: 3 }}>allowance</span>}
-                          </td>
-                          <td style={{ ...S.td, color: '#9a9690' }}>{item.qty}</td>
-                          <td style={{ ...S.td, color: '#9a9690' }}>{item.unit}</td>
-                          <td style={{ ...S.td, color: '#9a9690' }}>{fmtD(item.rate)}</td>
-                          <td style={{ ...S.td, textAlign: 'right' }}>{fmt(base)}</td>
-                          <td style={{ ...S.td, textAlign: 'right', fontWeight: 500, color: '#002147' }}>{fmt(adj2)}</td>
-                        </tr>
-                      )
-                    })}
-                    <tr style={{ background: '#f5f4f1' }}>
-                      <td colSpan={4} style={{ ...S.td, fontWeight: 500 }}>Division {div.num} subtotal</td>
-                      <td style={{ ...S.td, textAlign: 'right', fontWeight: 500 }}>{fmt(sub)}</td>
-                      <td style={{ ...S.td, textAlign: 'right', fontWeight: 500, color: '#002147' }}>{fmt(adj)}</td>
-                    </tr>
-                  </tbody>
-                </table>
-              )}
-            </div>
-          )
-        })}
+            )})}
+          </div>
 
-        <div style={{ fontSize: 10, fontWeight: 500, color: '#9a9690', textTransform: 'uppercase', letterSpacing: '.05em', margin: '.75rem 0 .5rem' }}>Below the line</div>
-        <div style={S.payCard}>
-          {[
-            ['Direct cost subtotal', fmt(totals.direct)],
-            [TIER_LABELS[tier] + ' tier (' + mult.toFixed(2) + '×)', fmt(totals.tiered)],
-            ['Contingency (5%)', fmt(totals.cont)],
-            ['Overhead & profit (10%)', fmt(totals.op)],
-            ['Georgia sales tax (8%)', fmt(totals.tax)],
-          ].map(([l, v]) => (
-            <div key={l} style={S.payRow}><span style={{ color: '#9a9690' }}>{l}</span><span style={{ fontWeight: 500 }}>{v}</span></div>
-          ))}
-        </div>
+          <div style={{fontSize:10,fontWeight:500,color:'#9a9690',textTransform:'uppercase',letterSpacing:'.05em',marginBottom:'.5rem'}}>Division line items — click to expand</div>
 
-        <div style={S.totalBar}>
-          <span style={{ fontSize: 11, fontWeight: 500, letterSpacing: '.1em', textTransform: 'uppercase', opacity: .7 }}>{TIER_LABELS[tier]} tier — contract total</span>
-          <span style={{ fontSize: 24, fontWeight: 500 }}>{fmt(totals.grand)}</span>
-        </div>
+          {divisions.map(function(div) {
+            var sub  = divSubtotal(div)
+            var adj  = sub * mult
+            var open = !!openDivs[div.num]
+            return (
+              <div key={div.num} style={{background:'#fff',border:'1px solid #e8e6e0',borderRadius:4,overflow:'hidden',marginBottom:8}}>
+                <div style={{padding:'8px 12px',background:'#FFFCEB',display:'flex',alignItems:'center',cursor:'pointer',borderBottom:'1px solid #e8e6e0'}} onClick={function(){toggleDiv(div.num)}}>
+                  <span style={{fontSize:9,fontWeight:700,letterSpacing:'.1em',color:'#9a9690',marginRight:10,textTransform:'uppercase'}}>DIV {div.num}</span>
+                  <span style={{flex:1,fontSize:12,fontWeight:500}}>{div.name}</span>
+                  <span style={{fontSize:12,fontWeight:500,color:'#002147',marginRight:8}}>{fmt(adj)}</span>
+                  <span style={{fontSize:10,color:'#9a9690'}}>{open?'▲':'▼'}</span>
+                </div>
+                {open && (
+                  <table style={{width:'100%',borderCollapse:'collapse',fontSize:11}}>
+                    <thead>
+                      <tr>
+                        <th style={{padding:'5px 10px',background:'#f5f4f1',fontSize:10,fontWeight:500,color:'#9a9690',textTransform:'uppercase',letterSpacing:'.04em',textAlign:'left',borderBottom:'1px solid #e8e6e0',width:'42%'}}>Description</th>
+                        <th style={{padding:'5px 10px',background:'#f5f4f1',fontSize:10,fontWeight:500,color:'#9a9690',textTransform:'uppercase',letterSpacing:'.04em',textAlign:'left',borderBottom:'1px solid #e8e6e0'}}>Qty</th>
+                        <th style={{padding:'5px 10px',background:'#f5f4f1',fontSize:10,fontWeight:500,color:'#9a9690',textTransform:'uppercase',letterSpacing:'.04em',textAlign:'left',borderBottom:'1px solid #e8e6e0'}}>Unit</th>
+                        <th style={{padding:'5px 10px',background:'#f5f4f1',fontSize:10,fontWeight:500,color:'#9a9690',textTransform:'uppercase',letterSpacing:'.04em',textAlign:'left',borderBottom:'1px solid #e8e6e0'}}>Rate</th>
+                        <th style={{padding:'5px 10px',background:'#f5f4f1',fontSize:10,fontWeight:500,color:'#9a9690',textTransform:'uppercase',letterSpacing:'.04em',textAlign:'right',borderBottom:'1px solid #e8e6e0'}}>Base</th>
+                        <th style={{padding:'5px 10px',background:'#f5f4f1',fontSize:10,fontWeight:500,color:'#9a9690',textTransform:'uppercase',letterSpacing:'.04em',textAlign:'right',borderBottom:'1px solid #e8e6e0'}}>{TIER_LABELS[tier]}</th>
+                        <th style={{padding:'5px 10px',background:'#f5f4f1',fontSize:10,fontWeight:500,color:'#9a9690',textTransform:'uppercase',letterSpacing:'.04em',textAlign:'right',borderBottom:'1px solid #e8e6e0',width:28}}></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {div.items.map(function(item, i) {
+                        var base = item.qty * item.rate
+                        var adj2 = base * mult
+                        return (
+                          <tr key={item.id} style={{background:item.fromCatalog?'#FFFCEB':'inherit'}}>
+                            <td style={{padding:'6px 10px',borderBottom:'1px solid #f5f4f1',color:'#3d3b37'}}>
+                              {item.fromCatalog && <span style={{marginRight:5,background:'#FF8C00',color:'#fff',fontSize:8,fontWeight:700,padding:'1px 4px',borderRadius:2}}>catalog</span>}
+                              {item.desc}
+                              {item.allowance && <span style={{marginLeft:6,background:'#fff3e0',color:'#e65100',fontSize:9,fontWeight:700,padding:'1px 5px',borderRadius:3}}>allowance</span>}
+                            </td>
+                            <td style={{padding:'6px 10px',borderBottom:'1px solid #f5f4f1',color:'#9a9690'}}>{item.qty}</td>
+                            <td style={{padding:'6px 10px',borderBottom:'1px solid #f5f4f1',color:'#9a9690'}}>{item.unit}</td>
+                            <td style={{padding:'6px 10px',borderBottom:'1px solid #f5f4f1',color:'#9a9690'}}>{fmtD(item.rate)}</td>
+                            <td style={{padding:'6px 10px',borderBottom:'1px solid #f5f4f1',textAlign:'right'}}>{fmt(base)}</td>
+                            <td style={{padding:'6px 10px',borderBottom:'1px solid #f5f4f1',textAlign:'right',fontWeight:500,color:'#002147'}}>{fmt(adj2)}</td>
+                            <td style={{padding:'6px 10px',borderBottom:'1px solid #f5f4f1',textAlign:'right'}}>
+                              {item.fromCatalog && (
+                                <button onClick={function(){removeItem(div.num, item.id)}}
+                                  style={{background:'transparent',border:'none',color:'#c0392b',fontSize:11,cursor:'pointer',padding:'0 2px',fontFamily:'sans-serif'}}>✕</button>
+                              )}
+                            </td>
+                          </tr>
+                        )
+                      })}
+                      <tr style={{background:'#f5f4f1'}}>
+                        <td colSpan={4} style={{padding:'6px 10px',borderBottom:'1px solid #f5f4f1',fontWeight:500}}>Division {div.num} subtotal</td>
+                        <td style={{padding:'6px 10px',borderBottom:'1px solid #f5f4f1',textAlign:'right',fontWeight:500}}>{fmt(sub)}</td>
+                        <td style={{padding:'6px 10px',borderBottom:'1px solid #f5f4f1',textAlign:'right',fontWeight:500,color:'#002147'}}>{fmt(adj)}</td>
+                        <td/>
+                      </tr>
+                    </tbody>
+                  </table>
+                )}
+              </div>
+            )
+          })}
 
-        <div style={{ fontSize: 10, fontWeight: 500, color: '#9a9690', textTransform: 'uppercase', letterSpacing: '.05em', margin: '.75rem 0 .5rem' }}>Payment schedule</div>
-        <div style={S.payCard}>
-          {PAYMENTS.map(p => (
-            <div key={p.label} style={S.payRow}>
-              <span style={{ color: '#9a9690', marginRight: 8, fontSize: 10 }}>{p.pct}%</span>
-              <span style={{ flex: 1 }}>{p.label}</span>
-              <span style={{ fontWeight: 500 }}>{fmt(totals.grand * p.pct / 100)}</span>
-            </div>
-          ))}
-        </div>
+          {/* Below the line */}
+          <div style={{fontSize:10,fontWeight:500,color:'#9a9690',textTransform:'uppercase',letterSpacing:'.05em',margin:'.75rem 0 .5rem'}}>Below the line</div>
+          <div style={{background:'#fff',border:'1px solid #e8e6e0',borderRadius:4,overflow:'hidden',marginBottom:8}}>
+            {[
+              ['Direct cost subtotal',                    fmt(totals.direct)],
+              [TIER_LABELS[tier]+' tier ('+mult.toFixed(2)+'×)', fmt(totals.tiered)],
+              ['Contingency (5%)',                         fmt(totals.cont)],
+              ['Overhead & profit (10%)',                  fmt(totals.op)],
+              ['Georgia sales tax (8%)',                   fmt(totals.tax)],
+            ].map(function(row){ return (
+              <div key={row[0]} style={{display:'flex',justifyContent:'space-between',alignItems:'center',padding:'7px 12px',borderBottom:'1px solid #f5f4f1',fontSize:12}}>
+                <span style={{color:'#9a9690'}}>{row[0]}</span><span style={{fontWeight:500}}>{row[1]}</span>
+              </div>
+            )})}
+          </div>
 
-        <div style={{ fontSize: 10, color: '#9a9690', marginTop: '.75rem', display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', gap: 4 }}>
-          <span>SpanglerBuilt Inc. · Michael Spangler, GC · (404) 492-7650 · michael@spanglerbuilt.com</span>
-          <span>Metro Atlanta market pricing · Valid 30 days</span>
+          <div style={{background:'#002147',color:'#FF8C00',padding:'12px 16px',borderRadius:4,display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:'.75rem'}}>
+            <span style={{fontSize:11,fontWeight:500,letterSpacing:'.1em',textTransform:'uppercase',opacity:.7}}>{TIER_LABELS[tier]} tier — contract total</span>
+            <span style={{fontSize:24,fontWeight:500}}>{fmt(totals.grand)}</span>
+          </div>
+
+          {/* Payment schedule */}
+          <div style={{fontSize:10,fontWeight:500,color:'#9a9690',textTransform:'uppercase',letterSpacing:'.05em',margin:'.75rem 0 .5rem'}}>Payment schedule</div>
+          <div style={{background:'#fff',border:'1px solid #e8e6e0',borderRadius:4,overflow:'hidden',marginBottom:8}}>
+            {PAYMENTS.map(function(p){ return (
+              <div key={p.label} style={{display:'flex',justifyContent:'space-between',alignItems:'center',padding:'7px 12px',borderBottom:'1px solid #f5f4f1',fontSize:12}}>
+                <span style={{color:'#9a9690',marginRight:8,fontSize:10}}>{p.pct}%</span>
+                <span style={{flex:1}}>{p.label}</span>
+                <span style={{fontWeight:500}}>{fmt(totals.grand * p.pct / 100)}</span>
+              </div>
+            )})}
+          </div>
+
+          <div style={{fontSize:10,color:'#9a9690',marginTop:'.75rem',display:'flex',justifyContent:'space-between',flexWrap:'wrap',gap:4}}>
+            <span>SpanglerBuilt Inc. · Michael Spangler, GC · (404) 492-7650 · michael@spanglerbuilt.com</span>
+            <span>Metro Atlanta market pricing · Valid 30 days</span>
+          </div>
         </div>
       </div>
     </div>
   )
 }
+
+export async function getServerSideProps() { return { props: {} } }

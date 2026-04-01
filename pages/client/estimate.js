@@ -100,6 +100,18 @@ export default function ClientEstimate() {
   const totals = tier ? calcTotals(tier) : null
 
   function confirmSelection() {
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('sb_estimate', JSON.stringify({
+        tier: tier,
+        label: TIER_LABELS[tier],
+        grand: Math.round(totals.grand),
+        direct: Math.round(totals.direct),
+        cont: Math.round(totals.cont),
+        op: Math.round(totals.op),
+        tax: Math.round(totals.tax),
+        confirmedAt: new Date().toISOString(),
+      }))
+    }
     setConfirmed(true)
     setTimeout(() => window.scrollTo({ top: 0, behavior: 'smooth' }), 100)
   }
@@ -116,7 +128,7 @@ export default function ClientEstimate() {
 
   if (confirmed) {
     return (
-      <div style={{minHeight:'100vh',background:'#f5f4f1',fontFamily:'sans-serif'}}>
+      <div style={{minHeight:'100vh',background:'#fff',fontFamily:'sans-serif'}}>
         {topbar}
         <div style={{maxWidth:700,margin:'3rem auto',padding:'0 1.5rem',textAlign:'center'}}>
           <div style={{background:'#fff',border:'1px solid #e8e6e0',borderRadius:4,padding:'3rem',borderTop:'4px solid #FF8C00'}}>
@@ -131,6 +143,7 @@ export default function ClientEstimate() {
                 3. Once signed, we schedule your start date and order materials.
               </div>
             </div>
+            <a href="/client/selections" style={{display:'inline-block',background:'#FF8C00',color:'#fff',padding:'12px 28px',fontSize:12,fontWeight:700,letterSpacing:'.1em',textTransform:'uppercase',textDecoration:'none',borderRadius:3,marginRight:8}}>Choose your materials →</a>
             <a href="tel:4044927650" style={{display:'inline-block',background:'#002147',color:'#fff',padding:'12px 28px',fontSize:12,fontWeight:700,letterSpacing:'.1em',textTransform:'uppercase',textDecoration:'none',borderRadius:3,marginRight:8}}>Call Michael</a>
             <button onClick={()=>{setConfirmed(false)}} style={{background:'transparent',border:'1px solid #e8e6e0',color:'#9a9690',padding:'12px 28px',fontSize:12,fontWeight:500,cursor:'pointer',borderRadius:3,fontFamily:'sans-serif'}}>Change selection</button>
           </div>
@@ -140,7 +153,7 @@ export default function ClientEstimate() {
   }
 
   return (
-    <div style={{minHeight:'100vh',background:'#f5f4f1',fontFamily:'sans-serif'}}>
+    <div style={{minHeight:'100vh',background:'#fff',fontFamily:'sans-serif'}}>
       {topbar}
 
       <div style={{maxWidth:900,margin:'0 auto',padding:'1.5rem'}}>
