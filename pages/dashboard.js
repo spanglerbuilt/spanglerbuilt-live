@@ -24,17 +24,29 @@ export default function Dashboard() {
   return (
     <div style={{minHeight:'100vh',background:'#fff',fontFamily:'sans-serif'}}>
       <div style={{background:'#002147',padding:'1rem 2rem',display:'flex',alignItems:'center',justifyContent:'space-between',borderBottom:'3px solid #FF8C00'}}>
-        <img src="/logo.png" alt="SpanglerBuilt" style={{height:38,width:'auto'}}/>
-        <div style={{display:'flex',gap:16,alignItems:'center'}}>
-          <a href="/contractor/leads"        style={{fontSize:11,color:'#fff',textDecoration:'none',opacity:.8}}>Leads</a>
-          <a href="/contractor/estimate"     style={{fontSize:11,color:'#fff',textDecoration:'none',opacity:.8}}>Estimate</a>
-          <a href="/contractor/options"      style={{fontSize:11,color:'#fff',textDecoration:'none',opacity:.8}}>Options</a>
-          <a href="/contractor/presentation" style={{fontSize:11,color:'#fff',textDecoration:'none',opacity:.8}}>Present</a>
-          <a href="/contractor/templates"    style={{fontSize:11,color:'#fff',textDecoration:'none',opacity:.8}}>Templates</a>
-          <a href="/ai"                      style={{fontSize:11,color:'#fff',textDecoration:'none',opacity:.8}}>AI</a>
+        <img src="/logo.png" alt="SpanglerBuilt" style={{height:38,width:'auto',flexShrink:0}}/>
+        <div style={{display:'flex',gap:8,alignItems:'center',justifyContent:'center',flex:1,margin:'0 2rem'}}>
+          {[
+            {href:'/contractor/leads',        label:'Leads'},
+            {href:'/contractor/estimate',     label:'Estimate'},
+            {href:'/contractor/options',      label:'Options'},
+            {href:'/contractor/presentation', label:'Presentation'},
+            {href:'/contractor/selections',   label:'Selections'},
+            {href:'/contractor/templates',    label:'Templates'},
+            {href:'/contact',                 label:'Contact'},
+            {href:'/ai',                      label:'AI'},
+          ].map(function(item){ return (
+            <a key={item.href} href={item.href} style={{fontSize:13,color:'#fff',textDecoration:'none',padding:'6px 14px',border:'1px solid rgba(255,255,255,.25)',borderRadius:4,fontWeight:500,letterSpacing:'.02em',whiteSpace:'nowrap',transition:'background .15s'}}
+              onMouseEnter={function(e){e.currentTarget.style.background='rgba(255,140,0,.15)';e.currentTarget.style.borderColor='#FF8C00'}}
+              onMouseLeave={function(e){e.currentTarget.style.background='transparent';e.currentTarget.style.borderColor='rgba(255,255,255,.25)'}}>
+              {item.label}
+            </a>
+          )})}
+        </div>
+        <div style={{flexShrink:0}}>
           {session
-            ? <button onClick={function(){signOut({callbackUrl:'/login'})}} style={{fontSize:11,color:'#FF8C00',background:'transparent',border:'1px solid #FF8C00',padding:'4px 12px',borderRadius:3,cursor:'pointer',fontFamily:'sans-serif'}}>Sign out</button>
-            : <a href="/login" style={{fontSize:11,color:'#FF8C00',textDecoration:'none',border:'1px solid #FF8C00',padding:'4px 12px',borderRadius:3}}>Sign in</a>
+            ? <button onClick={function(){signOut({callbackUrl:'/login'})}} style={{fontSize:12,color:'#FF8C00',background:'transparent',border:'1px solid #FF8C00',padding:'6px 14px',borderRadius:4,cursor:'pointer',fontFamily:'sans-serif',fontWeight:500}}>Sign out</button>
+            : <a href="/login" style={{fontSize:12,color:'#FF8C00',textDecoration:'none',border:'1px solid #FF8C00',padding:'6px 14px',borderRadius:4,fontWeight:500}}>Sign in</a>
           }
         </div>
       </div>
