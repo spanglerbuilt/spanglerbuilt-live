@@ -8,9 +8,10 @@ export default function Dashboard() {
     {label:'Lead pipeline',      href:'/contractor/leads',     desc:'All projects and contacts',  icon:'◉'},
     {label:'Project templates',  href:'/contractor/templates', desc:'Searchable and cloneable',   icon:'◈'},
     {label:'AI tools',           href:'/ai',                   desc:'Claude-powered generation',  icon:'✦'},
-    {label:'Options & Upgrades',  href:'/contractor/options',   desc:'Build upgrade packages',      icon:'◈'},
-    {label:'Client selections',  href:'/contractor/selections',desc:'Material choices by tier',   icon:'✓'},
-    {label:'Contact form',       href:'/contact',              desc:'Lead intake and AI ballpark', icon:'↗'},
+    {label:'Options & Upgrades',  href:'/contractor/options',      desc:'Build upgrade packages',      icon:'◈'},
+    {label:'Client selections',  href:'/contractor/selections',   desc:'Material choices by tier',   icon:'✓'},
+    {label:'Presentation',       href:'/contractor/presentation', desc:'Client-facing slide deck',    icon:'▶'},
+    {label:'Contact form',       href:'/contact',                 desc:'Lead intake and AI ballpark', icon:'↗'},
   ]
 
   var pipeline = [
@@ -25,10 +26,12 @@ export default function Dashboard() {
       <div style={{background:'#002147',padding:'1rem 2rem',display:'flex',alignItems:'center',justifyContent:'space-between',borderBottom:'3px solid #FF8C00'}}>
         <img src="/logo.png" alt="SpanglerBuilt" style={{height:38,width:'auto'}}/>
         <div style={{display:'flex',gap:16,alignItems:'center'}}>
-          <a href="/contractor/leads"     style={{fontSize:11,color:'#fff',textDecoration:'none',opacity:.8}}>Leads</a>
-          <a href="/contractor/estimate"  style={{fontSize:11,color:'#fff',textDecoration:'none',opacity:.8}}>Estimate</a>
-          <a href="/contractor/templates" style={{fontSize:11,color:'#fff',textDecoration:'none',opacity:.8}}>Templates</a>
-          <a href="/ai"                   style={{fontSize:11,color:'#fff',textDecoration:'none',opacity:.8}}>AI</a>
+          <a href="/contractor/leads"        style={{fontSize:11,color:'#fff',textDecoration:'none',opacity:.8}}>Leads</a>
+          <a href="/contractor/estimate"     style={{fontSize:11,color:'#fff',textDecoration:'none',opacity:.8}}>Estimate</a>
+          <a href="/contractor/options"      style={{fontSize:11,color:'#fff',textDecoration:'none',opacity:.8}}>Options</a>
+          <a href="/contractor/presentation" style={{fontSize:11,color:'#fff',textDecoration:'none',opacity:.8}}>Present</a>
+          <a href="/contractor/templates"    style={{fontSize:11,color:'#fff',textDecoration:'none',opacity:.8}}>Templates</a>
+          <a href="/ai"                      style={{fontSize:11,color:'#fff',textDecoration:'none',opacity:.8}}>AI</a>
           {session
             ? <button onClick={function(){signOut({callbackUrl:'/login'})}} style={{fontSize:11,color:'#FF8C00',background:'transparent',border:'1px solid #FF8C00',padding:'4px 12px',borderRadius:3,cursor:'pointer',fontFamily:'sans-serif'}}>Sign out</button>
             : <a href="/login" style={{fontSize:11,color:'#FF8C00',textDecoration:'none',border:'1px solid #FF8C00',padding:'4px 12px',borderRadius:3}}>Sign in</a>
