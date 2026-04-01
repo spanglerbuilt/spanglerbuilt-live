@@ -1,7 +1,9 @@
 import { useState } from 'react'
 
 var CONTRACTOR_EMAIL = 'michael@spanglerbuilt.com'
-var CONTRACTOR_PASS  = 'spangler2026'   // change this in production
+// Set NEXT_PUBLIC_CONTRACTOR_PASS in your Vercel / .env.local to require a password.
+// If the variable is not set, email alone is enough to access the contractor dashboard.
+var CONTRACTOR_PASS  = process.env.NEXT_PUBLIC_CONTRACTOR_PASS || ''
 
 export default function Login() {
   var [email,    setEmail]    = useState('')
@@ -9,7 +11,8 @@ export default function Login() {
   var [error,    setError]    = useState('')
   var [loading,  setLoading]  = useState(false)
 
-  var isContractor = email.trim().toLowerCase() === CONTRACTOR_EMAIL.toLowerCase()
+  var isContractor   = email.trim().toLowerCase() === CONTRACTOR_EMAIL.toLowerCase()
+  var needsPassword  = isContractor && CONTRACTOR_PASS !== ''
 
   function handleLogin(e) {
     e.preventDefault()
@@ -19,8 +22,8 @@ export default function Login() {
     var clean = email.trim().toLowerCase()
 
     if (clean === CONTRACTOR_EMAIL.toLowerCase()) {
-      if (password !== CONTRACTOR_PASS) {
-        setError('Incorrect password. Contact michael@spanglerbuilt.com for access.')
+      if (needsPassword && password !== CONTRACTOR_PASS) {
+        setError('Incorrect password.')
         setLoading(false)
         return
       }
@@ -63,7 +66,7 @@ export default function Login() {
             />
           </div>
 
-          {isContractor && (
+          {needsPassword && (
             <div style={{marginBottom:12}}>
               <label style={{display:'block',fontSize:10,fontWeight:500,color:'#9a9690',textTransform:'uppercase',letterSpacing:'.08em',marginBottom:5}}>Password</label>
               <input
@@ -81,16 +84,16 @@ export default function Login() {
           {error && <div style={{fontSize:12,color:'#c0392b',marginBottom:10,background:'#fdecea',padding:'8px 10px',borderRadius:3,border:'1px solid #f5c6cb'}}>{error}</div>}
 
           <button type="submit"
-            disabled={loading || !email.trim() || (isContractor && !password)}
+            disabled={loading || !email.trim() || (needsPassword && !password)}
             style={{width:'100%',background:'#FF8C00',color:'#fff',border:'none',padding:'12px',fontSize:12,fontWeight:700,letterSpacing:'.1em',textTransform:'uppercase',cursor:'pointer',borderRadius:3,fontFamily:'sans-serif',opacity:(loading || !email.trim() || (isContractor && !password)) ? 0.5 : 1}}>
             {loading ? 'Loading...' : 'Access my portal →'}
           </button>
         </form>
 
         <p style={{fontSize:10,color:'#9a9690',textAlign:'center',lineHeight:1.9,margin:'1.5rem 0 0'}}>
-          Contractors: use michael@spanglerbuilt.com<br/>
-          Clients: use the email on your project agreement<br/>
-          <a href="tel:4044927650" style={{color:'#FF8C00',textDecoration:'none'}}>Questions? (404) 492-7650</a>
+          <strong style={{color:'#002147'}}>Clients:</strong> enter the email address on your project agreement.<br/>
+          <strong style={{color:'#002147'}}>SpanglerBuilt team:</strong> use michael@spanglerbuilt.com<br/>
+          <a href="tel:4044927650" style={{color:'#FF8C00',textDecoration:'none'}}>Need help? (404) 492-7650</a>
         </p>
       </div>
       <div style={{marginTop:'1.5rem',textAlign:'center'}}>
