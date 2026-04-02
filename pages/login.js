@@ -1,8 +1,6 @@
 import { useState } from 'react'
 
 var CONTRACTOR_EMAIL = 'michael@spanglerbuilt.com'
-// Set NEXT_PUBLIC_CONTRACTOR_PASS in your Vercel / .env.local to require a password.
-// If the variable is not set, email alone is enough to access the contractor dashboard.
 var CONTRACTOR_PASS  = process.env.NEXT_PUBLIC_CONTRACTOR_PASS || ''
 
 export default function Login() {
@@ -11,95 +9,98 @@ export default function Login() {
   var [error,    setError]    = useState('')
   var [loading,  setLoading]  = useState(false)
 
-  var isContractor   = email.trim().toLowerCase() === CONTRACTOR_EMAIL.toLowerCase()
-  var needsPassword  = isContractor && CONTRACTOR_PASS !== ''
+  var isContractor  = email.trim().toLowerCase() === CONTRACTOR_EMAIL.toLowerCase()
+  var needsPassword = isContractor && CONTRACTOR_PASS !== ''
 
   function handleLogin(e) {
     e.preventDefault()
     if (!email.trim()) return
-    setLoading(true)
-    setError('')
+    setLoading(true); setError('')
     var clean = email.trim().toLowerCase()
 
     if (clean === CONTRACTOR_EMAIL.toLowerCase()) {
       if (needsPassword && password !== CONTRACTOR_PASS) {
-        setError('Incorrect password.')
-        setLoading(false)
-        return
+        setError('Incorrect password.'); setLoading(false); return
       }
-      if (typeof window !== 'undefined') {
-        localStorage.setItem('sb_auth', JSON.stringify({ role:'contractor', email: clean, ts: Date.now() }))
-      }
+      if (typeof window !== 'undefined') localStorage.setItem('sb_auth', JSON.stringify({ role:'contractor', email:clean, ts:Date.now() }))
       window.location.href = '/dashboard'
     } else if (clean.includes('@') && clean.includes('.')) {
-      if (typeof window !== 'undefined') {
-        localStorage.setItem('sb_auth', JSON.stringify({ role:'client', email: clean, ts: Date.now() }))
-      }
+      if (typeof window !== 'undefined') localStorage.setItem('sb_auth', JSON.stringify({ role:'client', email:clean, ts:Date.now() }))
       window.location.href = '/client/dashboard'
     } else {
-      setError('Please enter a valid email address.')
-      setLoading(false)
+      setError('Please enter a valid email address.'); setLoading(false)
     }
   }
 
+  var inp = {
+    width:'100%', padding:'11px 14px',
+    border:'1px solid rgba(255,255,255,.12)', borderRadius:4,
+    fontSize:14, background:'#1a1a1a', color:'rgba(255,255,255,.85)',
+    outline:'none', boxSizing:'border-box',
+  }
+
   return (
-    <div style={{minHeight:'100vh',background:'#002147',display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',padding:'1rem',fontFamily:'sans-serif'}}>
-      <div style={{background:'#fff',border:'3px solid #FF8C00',maxWidth:420,width:'100%',padding:'2.5rem',borderRadius:4}}>
-        <div style={{textAlign:'center',marginBottom:'1.5rem'}}>
-          <img src="/logo.png" alt="SpanglerBuilt" style={{width:190,height:'auto',marginBottom:'.75rem'}}/>
-          <div style={{fontSize:11,color:'#002147',letterSpacing:'.14em',textTransform:'uppercase',fontWeight:500}}>Client and Project Portal</div>
+    <div style={{minHeight:'100vh', background:'#0a0a0a', display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center', padding:'1rem'}}>
+      <div style={{
+        background:'#161616', border:'1px solid rgba(255,255,255,.1)',
+        borderTop:'3px solid #D06830', maxWidth:400, width:'100%',
+        padding:'2.5rem', borderRadius:6,
+      }}>
+        <div style={{textAlign:'center', marginBottom:'2rem'}}>
+          <img src="/logo.png" alt="SpanglerBuilt" style={{width:180, height:'auto', marginBottom:'1rem'}}/>
+          <div style={{fontSize:11, color:'rgba(255,255,255,.4)', letterSpacing:'.14em', textTransform:'uppercase'}}>Client &amp; Project Portal</div>
         </div>
-        <div style={{height:1,background:'#e8e6e0',marginBottom:'1.5rem'}}/>
-        <p style={{fontSize:13,color:'#5f5e5a',textAlign:'center',marginBottom:'1.5rem',lineHeight:1.7}}>
-          Enter your email address to access your portal.
+
+        <div style={{height:1, background:'rgba(255,255,255,.07)', marginBottom:'1.75rem'}}/>
+
+        <p style={{fontSize:13, color:'rgba(255,255,255,.45)', textAlign:'center', marginBottom:'1.5rem', lineHeight:1.7}}>
+          Enter the email address on your project agreement to access your portal.
         </p>
+
         <form onSubmit={handleLogin}>
           <div style={{marginBottom:12}}>
-            <label style={{display:'block',fontSize:10,fontWeight:500,color:'#9a9690',textTransform:'uppercase',letterSpacing:'.08em',marginBottom:5}}>Email address</label>
-            <input
-              type="email"
-              value={email}
-              onChange={function(e){setEmail(e.target.value); setError('')}}
-              placeholder="you@email.com"
-              required
-              style={{width:'100%',padding:'10px 12px',border:'1px solid #e8e6e0',borderRadius:3,fontSize:13,fontFamily:'sans-serif',outline:'none',background:'#FFFCEB',boxSizing:'border-box'}}
-            />
+            <label style={{display:'block', fontSize:11, fontWeight:600, color:'rgba(255,255,255,.4)', textTransform:'uppercase', letterSpacing:'.08em', marginBottom:6}}>Email address</label>
+            <input type="email" value={email} onChange={function(e){setEmail(e.target.value);setError('')}} placeholder="you@email.com" required style={inp}/>
           </div>
 
           {needsPassword && (
             <div style={{marginBottom:12}}>
-              <label style={{display:'block',fontSize:10,fontWeight:500,color:'#9a9690',textTransform:'uppercase',letterSpacing:'.08em',marginBottom:5}}>Password</label>
-              <input
-                type="password"
-                value={password}
-                onChange={function(e){setPassword(e.target.value); setError('')}}
-                placeholder="Enter password"
-                required
-                autoFocus
-                style={{width:'100%',padding:'10px 12px',border:'1px solid #e8e6e0',borderRadius:3,fontSize:13,fontFamily:'sans-serif',outline:'none',background:'#FFFCEB',boxSizing:'border-box'}}
-              />
+              <label style={{display:'block', fontSize:11, fontWeight:600, color:'rgba(255,255,255,.4)', textTransform:'uppercase', letterSpacing:'.08em', marginBottom:6}}>Password</label>
+              <input type="password" value={password} onChange={function(e){setPassword(e.target.value);setError('')}} placeholder="Enter password" required autoFocus style={inp}/>
             </div>
           )}
 
-          {error && <div style={{fontSize:12,color:'#c0392b',marginBottom:10,background:'#fdecea',padding:'8px 10px',borderRadius:3,border:'1px solid #f5c6cb'}}>{error}</div>}
+          {error && (
+            <div style={{fontSize:12, color:'#e57373', background:'rgba(192,57,43,.15)', border:'1px solid rgba(192,57,43,.3)', padding:'8px 12px', borderRadius:4, marginBottom:12}}>
+              {error}
+            </div>
+          )}
 
           <button type="submit"
             disabled={loading || !email.trim() || (needsPassword && !password)}
-            style={{width:'100%',background:'#FF8C00',color:'#fff',border:'none',padding:'12px',fontSize:12,fontWeight:700,letterSpacing:'.1em',textTransform:'uppercase',cursor:'pointer',borderRadius:3,fontFamily:'sans-serif',opacity:(loading || !email.trim() || (isContractor && !password)) ? 0.5 : 1}}>
-            {loading ? 'Loading...' : 'Access my portal →'}
+            style={{
+              width:'100%', background:'#D06830', color:'#fff', border:'none',
+              padding:'13px', fontSize:13, fontWeight:700, letterSpacing:'.08em',
+              textTransform:'uppercase', cursor:'pointer', borderRadius:4,
+              opacity:(loading || !email.trim()) ? 0.5 : 1,
+            }}>
+            {loading ? 'Loading…' : 'Access My Portal →'}
           </button>
         </form>
 
-        <p style={{fontSize:10,color:'#9a9690',textAlign:'center',lineHeight:1.9,margin:'1.5rem 0 0'}}>
-          <strong style={{color:'#002147'}}>Clients:</strong> enter the email address on your project agreement.<br/>
-          <strong style={{color:'#002147'}}>SpanglerBuilt team:</strong> use michael@spanglerbuilt.com<br/>
-          <a href="tel:4044927650" style={{color:'#FF8C00',textDecoration:'none'}}>Need help? (404) 492-7650</a>
+        <p style={{fontSize:11, color:'rgba(255,255,255,.3)', textAlign:'center', lineHeight:2, marginTop:'1.5rem'}}>
+          <strong style={{color:'rgba(255,255,255,.5)'}}>Clients:</strong> use the email on your project agreement.<br/>
+          <strong style={{color:'rgba(255,255,255,.5)'}}>SpanglerBuilt team:</strong> michael@spanglerbuilt.com<br/>
+          44 Milton Ave, Alpharetta GA 30009<br/>
+          <a href="tel:4044927650" style={{color:'#D06830'}}>Need help? (404) 492-7650</a>
         </p>
       </div>
-      <div style={{marginTop:'1.5rem',textAlign:'center'}}>
-        <div style={{fontSize:10,color:'rgba(255,255,255,.25)',letterSpacing:'.1em'}}>WE BUILD MORE THAN PROJECTS — WE BUILD LIFESTYLES</div>
+
+      <div style={{marginTop:'1.5rem', fontSize:10, color:'rgba(255,255,255,.15)', letterSpacing:'.1em', textAlign:'center'}}>
+        WE BUILD MORE THAN PROJECTS — WE BUILD LIFESTYLES
       </div>
     </div>
   )
 }
+
 export async function getServerSideProps() { return { props: {} } }

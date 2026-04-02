@@ -396,22 +396,22 @@ export default function EstimatePage() {
       <button key={t} onClick={function(){ setTier(t) }} style={{
         padding:'5px 14px', fontSize:11, fontFamily:'inherit', fontWeight:500, cursor:'pointer', borderRadius:3,
         border:'1px solid',
-        ...(tier === t ? TIER_STYLES[t] : { borderColor:'#e8e6e0', background:'#fff', color:'#9a9690' }),
+        ...(tier === t ? TIER_STYLES[t] : { borderColor:'#e8e6e0', background:'#fff', color:'rgba(255,255,255,.35)' }),
       }}>{TIER_LABELS[t]}</button>
     )
   }
 
   return (
-    <div style={{minHeight:'100vh',background:'#fff',fontFamily:'sans-serif'}}>
+    <div style={{minHeight:'100vh',background:'#111',fontFamily:'Poppins,sans-serif'}}>
 
       {/* Topbar */}
-      <div style={{background:'#002147',padding:'1rem 2rem',display:'flex',alignItems:'center',justifyContent:'space-between',borderBottom:'3px solid #FF8C00'}}>
-        <div style={{fontFamily:'Georgia,serif',fontSize:16,color:'#fff',fontWeight:700,letterSpacing:'.08em'}}>
+      <div style={{background:'#0a0a0a',padding:'1rem 2rem',display:'flex',alignItems:'center',justifyContent:'space-between',borderBottom:'3px solid #D06830'}}>
+        <div style={{fontFamily:'Poppins,sans-serif',fontSize:16,color:'#fff',fontWeight:700,letterSpacing:'.08em'}}>
           SPANGLERBUILT <span style={{fontSize:11,color:'#c9a96e',fontWeight:400}}> · ESTIMATING</span>
         </div>
         <div style={{display:'flex',gap:12,alignItems:'center'}}>
-          <a href="/contractor/catalog" style={{fontSize:11,color:'#9a9690',textDecoration:'none'}}>Catalog ↗</a>
-          <a href="/dashboard" style={{fontSize:11,color:'#9a9690',textDecoration:'none'}}>← Dashboard</a>
+          <a href="/contractor/catalog" style={{fontSize:11,color:'rgba(255,255,255,.35)',textDecoration:'none'}}>Catalog ↗</a>
+          <a href="/dashboard" style={{fontSize:11,color:'rgba(255,255,255,.35)',textDecoration:'none'}}>← Dashboard</a>
         </div>
       </div>
 
@@ -421,12 +421,12 @@ export default function EstimatePage() {
         {/* ── LEFT: Material catalog ────────────────────────────────────────── */}
         <div style={{width:300,flexShrink:0,position:'sticky',top:'1.5rem'}}>
 
-          <div style={{background:'#002147',borderRadius:'4px 4px 0 0',padding:'10px 14px',borderBottom:'2px solid #FF8C00'}}>
-            <div style={{fontSize:11,fontWeight:700,color:'#FF8C00',textTransform:'uppercase',letterSpacing:'.1em',marginBottom:8}}>Material catalog</div>
+          <div style={{background:'#0a0a0a',borderRadius:'4px 4px 0 0',padding:'10px 14px',borderBottom:'2px solid #D06830'}}>
+            <div style={{fontSize:11,fontWeight:700,color:'#D06830',textTransform:'uppercase',letterSpacing:'.1em',marginBottom:8}}>Material catalog</div>
             <input
               value={catSearch} onChange={function(e){setCatSearch(e.target.value)}}
               placeholder="Search materials..."
-              style={{width:'100%',padding:'6px 10px',border:'1px solid rgba(255,255,255,.15)',borderRadius:3,fontSize:11,fontFamily:'sans-serif',outline:'none',background:'rgba(255,255,255,.08)',color:'#fff',boxSizing:'border-box'}}
+              style={{width:'100%',padding:'6px 10px',border:'1px solid rgba(255,255,255,.15)',borderRadius:3,fontSize:11,fontFamily:'Poppins,sans-serif',outline:'none',background:'rgba(255,255,255,.08)',color:'#fff',boxSizing:'border-box'}}
             />
           </div>
 
@@ -434,37 +434,37 @@ export default function EstimatePage() {
           <div style={{display:'flex',background:'#001838',borderBottom:'1px solid rgba(255,255,255,.08)',overflowX:'auto'}}>
             {PROJECT_TYPES.map(function(t){ return (
               <button key={t} onClick={function(){setCatType(t)}} style={{
-                flex:1,padding:'6px 2px',fontSize:9,fontWeight:700,fontFamily:'sans-serif',cursor:'pointer',
+                flex:1,padding:'6px 2px',fontSize:9,fontWeight:700,fontFamily:'Poppins,sans-serif',cursor:'pointer',
                 letterSpacing:'.04em',textTransform:'uppercase',border:'none',whiteSpace:'nowrap',
-                background: catType===t ? '#FF8C00' : 'transparent',
+                background: catType===t ? '#D06830' : 'transparent',
                 color: catType===t ? '#fff' : 'rgba(255,255,255,.45)',
-                borderBottom: catType===t ? '2px solid #FF8C00' : '2px solid transparent',
+                borderBottom: catType===t ? '2px solid #D06830' : '2px solid transparent',
               }}>{TYPE_LABELS[t]}</button>
             )})}
           </div>
 
           {/* Catalog items */}
-          <div style={{background:'#fff',border:'1px solid #e8e6e0',borderTop:'none',borderRadius:'0 0 4px 4px',maxHeight:'calc(100vh - 220px)',overflowY:'auto'}}>
+          <div style={{background:'#161616',border:'1px solid rgba(255,255,255,.09)',borderTop:'none',borderRadius:'0 0 4px 4px',maxHeight:'calc(100vh - 220px)',overflowY:'auto'}}>
             {Object.keys(catalogGroups).length === 0 && (
-              <div style={{padding:'2rem',textAlign:'center',fontSize:11,color:'#9a9690'}}>No items match your search.</div>
+              <div style={{padding:'2rem',textAlign:'center',fontSize:11,color:'rgba(255,255,255,.35)'}}>No items match your search.</div>
             )}
             {Object.entries(catalogGroups).map(function([cat, items]) {
               var isExp = catExpand[cat] !== false // default open
               return (
                 <div key={cat} style={{borderBottom:'1px solid #f5f4f1'}}>
-                  <div onClick={function(){toggleCat(cat)}} style={{padding:'7px 12px',background:'#f5f4f1',display:'flex',alignItems:'center',justifyContent:'space-between',cursor:'pointer',borderBottom:'1px solid #e8e6e0'}}>
-                    <span style={{fontSize:10,fontWeight:700,color:'#002147',textTransform:'uppercase',letterSpacing:'.06em'}}>{cat}</span>
-                    <span style={{fontSize:10,color:'#9a9690'}}>{isExp?'▲':'▼'} {items.length}</span>
+                  <div onClick={function(){toggleCat(cat)}} style={{padding:'7px 12px',background:'#1a1a1a',display:'flex',alignItems:'center',justifyContent:'space-between',cursor:'pointer',borderBottom:'1px solid #e8e6e0'}}>
+                    <span style={{fontSize:10,fontWeight:700,color:'#0a0a0a',textTransform:'uppercase',letterSpacing:'.06em'}}>{cat}</span>
+                    <span style={{fontSize:10,color:'rgba(255,255,255,.35)'}}>{isExp?'▲':'▼'} {items.length}</span>
                   </div>
                   {isExp && items.map(function(item) {
                     var isAdded = !!added[item.id]
                     return (
-                      <div key={item.id} style={{padding:'9px 12px',borderBottom:'1px solid #f9f8f6',background:isAdded?'#FFFCEB':'#fff'}}>
+                      <div key={item.id} style={{padding:'9px 12px',borderBottom:'1px solid #f9f8f6',background:isAdded?'rgba(208,104,48,.1)':'#fff'}}>
                         <div style={{display:'flex',alignItems:'flex-start',justifyContent:'space-between',gap:6,marginBottom:4}}>
                           <div style={{flex:1,minWidth:0}}>
-                            <div style={{fontSize:11,fontWeight:500,color:'#002147',lineHeight:1.3,marginBottom:1}}>{item.desc}</div>
-                            <div style={{fontSize:10,color:'#9a9690'}}>{item.brand}</div>
-                            <div style={{fontSize:10,color:'#9a9690'}}>{item.spec}</div>
+                            <div style={{fontSize:11,fontWeight:500,color:'#0a0a0a',lineHeight:1.3,marginBottom:1}}>{item.desc}</div>
+                            <div style={{fontSize:10,color:'rgba(255,255,255,.35)'}}>{item.brand}</div>
+                            <div style={{fontSize:10,color:'rgba(255,255,255,.35)'}}>{item.spec}</div>
                           </div>
                           {item.link && (
                             <a href={item.link} target="_blank" rel="noopener noreferrer" onClick={function(e){e.stopPropagation()}}
@@ -473,12 +473,12 @@ export default function EstimatePage() {
                         </div>
                         <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',marginTop:5}}>
                           <div>
-                            <span style={{fontSize:12,fontWeight:600,color:'#002147'}}>{fmtD(item.rate)}</span>
-                            <span style={{fontSize:9,color:'#9a9690',marginLeft:3}}>/{item.unit} · DIV {item.div}</span>
+                            <span style={{fontSize:12,fontWeight:600,color:'#0a0a0a'}}>{fmtD(item.rate)}</span>
+                            <span style={{fontSize:9,color:'rgba(255,255,255,.35)',marginLeft:3}}>/{item.unit} · DIV {item.div}</span>
                             {item.allowance && <span style={{marginLeft:5,background:'#fff3e0',color:'#e65100',fontSize:8,fontWeight:700,padding:'1px 4px',borderRadius:2}}>allowance</span>}
                           </div>
                           <button onClick={function(){addItem(item)}}
-                            style={{background:isAdded?'#eaf3de':'#FF8C00',color:isAdded?'#3B6D11':'#fff',border:'none',padding:'3px 10px',fontSize:9,fontWeight:700,cursor:'pointer',borderRadius:3,fontFamily:'sans-serif',letterSpacing:'.04em',textTransform:'uppercase',whiteSpace:'nowrap'}}>
+                            style={{background:isAdded?'#eaf3de':'#D06830',color:isAdded?'#3B6D11':'#fff',border:'none',padding:'3px 10px',fontSize:9,fontWeight:700,cursor:'pointer',borderRadius:3,fontFamily:'Poppins,sans-serif',letterSpacing:'.04em',textTransform:'uppercase',whiteSpace:'nowrap'}}>
                             {isAdded ? '✓ Added' : '+ Add'}
                           </button>
                         </div>
@@ -496,13 +496,13 @@ export default function EstimatePage() {
 
           <div style={{marginBottom:'1rem',display:'flex',alignItems:'center',justifyContent:'space-between',flexWrap:'wrap',gap:8}}>
             <div>
-              <div style={{fontSize:18,fontWeight:500,fontFamily:'Georgia,serif'}}>Mendel Basement Renovation</div>
-              <div style={{fontSize:11,color:'#9a9690'}}>SB-2026-001 · 4995 Shadow Glen Ct, Dunwoody GA · 665 sf</div>
+              <div style={{fontSize:18,fontWeight:500,fontFamily:'Poppins,sans-serif'}}>Mendel Basement Renovation</div>
+              <div style={{fontSize:11,color:'rgba(255,255,255,.35)'}}>SB-2026-001 · 4995 Shadow Glen Ct, Dunwoody GA · 665 sf</div>
             </div>
             <div style={{display:'flex',gap:6,flexWrap:'wrap',alignItems:'center'}}>
               {['good','better','best','luxury'].map(tierBtn)}
               <button onClick={saveToProjectBook}
-                style={{background:'#002147',color:'#FF8C00',border:'2px solid #FF8C00',padding:'5px 14px',fontSize:11,fontWeight:700,cursor:'pointer',borderRadius:3,fontFamily:'sans-serif',letterSpacing:'.06em',textTransform:'uppercase'}}>
+                style={{background:'#0a0a0a',color:'#D06830',border:'2px solid #D06830',padding:'5px 14px',fontSize:11,fontWeight:700,cursor:'pointer',borderRadius:3,fontFamily:'Poppins,sans-serif',letterSpacing:'.06em',textTransform:'uppercase'}}>
                 {savedMsg || 'Save to project book →'}
               </button>
             </div>
@@ -516,14 +516,14 @@ export default function EstimatePage() {
               ['Contingency + O&P', fmt(totals.cont + totals.op)],
               ['Contract total',    fmt(totals.grand)],
             ].map(function(item,i){ return (
-              <div key={item[0]} style={{background:'#fff',border:'1px solid '+(i===3?'#3B6D11':'#e8e6e0'),borderRadius:4,padding:'.7rem .9rem'}}>
-                <div style={{fontSize:10,color:'#9a9690',marginBottom:2,textTransform:'uppercase',letterSpacing:'.04em'}}>{item[0]}</div>
-                <div style={{fontSize:18,fontWeight:500,color:i===3?'#002147':'inherit'}}>{item[1]}</div>
+              <div key={item[0]} style={{background:'#161616',border:'1px solid '+(i===3?'#3B6D11':'#e8e6e0'),borderRadius:4,padding:'.7rem .9rem'}}>
+                <div style={{fontSize:10,color:'rgba(255,255,255,.35)',marginBottom:2,textTransform:'uppercase',letterSpacing:'.04em'}}>{item[0]}</div>
+                <div style={{fontSize:18,fontWeight:500,color:i===3?'#0a0a0a':'inherit'}}>{item[1]}</div>
               </div>
             )})}
           </div>
 
-          <div style={{fontSize:10,fontWeight:500,color:'#9a9690',textTransform:'uppercase',letterSpacing:'.05em',marginBottom:'.5rem'}}>Division line items — click to expand</div>
+          <div style={{fontSize:10,fontWeight:500,color:'rgba(255,255,255,.35)',textTransform:'uppercase',letterSpacing:'.05em',marginBottom:'.5rem'}}>Division line items — click to expand</div>
 
           {divisions.map(function(div) {
             var isExcluded = !!excludedDivs[div.num]
@@ -533,8 +533,8 @@ export default function EstimatePage() {
             var adj  = sub * mult
             var open = !!openDivs[div.num]
             return (
-              <div key={div.num} style={{background:'#fff',border:'1px solid '+(isExcluded?'#e0ddd8':'#e8e6e0'),borderRadius:4,overflow:'hidden',marginBottom:8,opacity:isExcluded?0.6:1}}>
-                <div style={{padding:'8px 12px',background:isExcluded?'#f5f4f1':'#FFFCEB',display:'flex',alignItems:'center',borderBottom:'1px solid #e8e6e0'}}>
+              <div key={div.num} style={{background:'#161616',border:'1px solid '+(isExcluded?'#e0ddd8':'#e8e6e0'),borderRadius:4,overflow:'hidden',marginBottom:8,opacity:isExcluded?0.6:1}}>
+                <div style={{padding:'8px 12px',background:isExcluded?'#f5f4f1':'rgba(208,104,48,.1)',display:'flex',alignItems:'center',borderBottom:'1px solid #e8e6e0'}}>
                   {/* On/off toggle — stops it from contributing to total */}
                   <div onClick={function(e){e.stopPropagation();toggleExcludeDiv(div.num)}}
                     title={isExcluded?'Click to include this division':'Click to exclude this division'}
@@ -544,20 +544,20 @@ export default function EstimatePage() {
                   <span onClick={function(){toggleDiv(div.num)}} style={{fontSize:9,fontWeight:700,letterSpacing:'.1em',color:isExcluded?'#bbb':'#9a9690',marginRight:10,textTransform:'uppercase',cursor:'pointer'}}>DIV {div.num}</span>
                   <span onClick={function(){toggleDiv(div.num)}} style={{flex:1,fontSize:12,fontWeight:500,color:isExcluded?'#bbb':'inherit',textDecoration:isExcluded?'line-through':'none',cursor:'pointer'}}>{div.name}</span>
                   {isExcluded && <span style={{fontSize:10,color:'#bbb',marginRight:8,fontStyle:'italic'}}>excluded</span>}
-                  <span style={{fontSize:12,fontWeight:500,color:isExcluded?'#bbb':'#002147',marginRight:8}}>{isExcluded?'—':fmt(adj)}</span>
-                  <span onClick={function(){toggleDiv(div.num)}} style={{fontSize:10,color:'#9a9690',cursor:'pointer'}}>{open?'▲':'▼'}</span>
+                  <span style={{fontSize:12,fontWeight:500,color:isExcluded?'#bbb':'#0a0a0a',marginRight:8}}>{isExcluded?'—':fmt(adj)}</span>
+                  <span onClick={function(){toggleDiv(div.num)}} style={{fontSize:10,color:'rgba(255,255,255,.35)',cursor:'pointer'}}>{open?'▲':'▼'}</span>
                 </div>
                 {open && (
                   <table style={{width:'100%',borderCollapse:'collapse',fontSize:11}}>
                     <thead>
                       <tr>
-                        <th style={{padding:'5px 10px',background:'#f5f4f1',fontSize:10,fontWeight:500,color:'#9a9690',textTransform:'uppercase',letterSpacing:'.04em',textAlign:'left',borderBottom:'1px solid #e8e6e0',width:'42%'}}>Description</th>
-                        <th style={{padding:'5px 10px',background:'#f5f4f1',fontSize:10,fontWeight:500,color:'#9a9690',textTransform:'uppercase',letterSpacing:'.04em',textAlign:'left',borderBottom:'1px solid #e8e6e0'}}>Qty</th>
-                        <th style={{padding:'5px 10px',background:'#f5f4f1',fontSize:10,fontWeight:500,color:'#9a9690',textTransform:'uppercase',letterSpacing:'.04em',textAlign:'left',borderBottom:'1px solid #e8e6e0'}}>Unit</th>
-                        <th style={{padding:'5px 10px',background:'#f5f4f1',fontSize:10,fontWeight:500,color:'#9a9690',textTransform:'uppercase',letterSpacing:'.04em',textAlign:'left',borderBottom:'1px solid #e8e6e0'}}>Rate</th>
-                        <th style={{padding:'5px 10px',background:'#f5f4f1',fontSize:10,fontWeight:500,color:'#9a9690',textTransform:'uppercase',letterSpacing:'.04em',textAlign:'right',borderBottom:'1px solid #e8e6e0'}}>Base</th>
-                        <th style={{padding:'5px 10px',background:'#f5f4f1',fontSize:10,fontWeight:500,color:'#9a9690',textTransform:'uppercase',letterSpacing:'.04em',textAlign:'right',borderBottom:'1px solid #e8e6e0'}}>{TIER_LABELS[tier]}</th>
-                        <th style={{padding:'5px 10px',background:'#f5f4f1',fontSize:10,fontWeight:500,color:'#9a9690',textTransform:'uppercase',letterSpacing:'.04em',textAlign:'right',borderBottom:'1px solid #e8e6e0',width:28}}></th>
+                        <th style={{padding:'5px 10px',background:'#1a1a1a',fontSize:10,fontWeight:500,color:'rgba(255,255,255,.35)',textTransform:'uppercase',letterSpacing:'.04em',textAlign:'left',borderBottom:'1px solid #e8e6e0',width:'42%'}}>Description</th>
+                        <th style={{padding:'5px 10px',background:'#1a1a1a',fontSize:10,fontWeight:500,color:'rgba(255,255,255,.35)',textTransform:'uppercase',letterSpacing:'.04em',textAlign:'left',borderBottom:'1px solid #e8e6e0'}}>Qty</th>
+                        <th style={{padding:'5px 10px',background:'#1a1a1a',fontSize:10,fontWeight:500,color:'rgba(255,255,255,.35)',textTransform:'uppercase',letterSpacing:'.04em',textAlign:'left',borderBottom:'1px solid #e8e6e0'}}>Unit</th>
+                        <th style={{padding:'5px 10px',background:'#1a1a1a',fontSize:10,fontWeight:500,color:'rgba(255,255,255,.35)',textTransform:'uppercase',letterSpacing:'.04em',textAlign:'left',borderBottom:'1px solid #e8e6e0'}}>Rate</th>
+                        <th style={{padding:'5px 10px',background:'#1a1a1a',fontSize:10,fontWeight:500,color:'rgba(255,255,255,.35)',textTransform:'uppercase',letterSpacing:'.04em',textAlign:'right',borderBottom:'1px solid #e8e6e0'}}>Base</th>
+                        <th style={{padding:'5px 10px',background:'#1a1a1a',fontSize:10,fontWeight:500,color:'rgba(255,255,255,.35)',textTransform:'uppercase',letterSpacing:'.04em',textAlign:'right',borderBottom:'1px solid #e8e6e0'}}>{TIER_LABELS[tier]}</th>
+                        <th style={{padding:'5px 10px',background:'#1a1a1a',fontSize:10,fontWeight:500,color:'rgba(255,255,255,.35)',textTransform:'uppercase',letterSpacing:'.04em',textAlign:'right',borderBottom:'1px solid #e8e6e0',width:28}}></th>
                       </tr>
                     </thead>
                     <tbody>
@@ -566,8 +566,8 @@ export default function EstimatePage() {
                         var base = item.qty * item.rate
                         var adj2 = base * mult
                         return (
-                          <tr key={item.id} style={{background:itemExcluded?'#fafafa':item.fromCatalog?'#FFFCEB':'inherit',opacity:itemExcluded?0.45:1}}>
-                            <td style={{padding:'6px 10px',borderBottom:'1px solid #f5f4f1',color:'#3d3b37'}}>
+                          <tr key={item.id} style={{background:itemExcluded?'#fafafa':item.fromCatalog?'rgba(208,104,48,.1)':'inherit',opacity:itemExcluded?0.45:1}}>
+                            <td style={{padding:'6px 10px',borderBottom:'1px solid #f5f4f1',color:'rgba(255,255,255,.65)'}}>
                               <div style={{display:'flex',alignItems:'center',gap:6}}>
                                 {/* per-item toggle */}
                                 <div onClick={function(){toggleExcludeItem(item.id)}}
@@ -576,30 +576,30 @@ export default function EstimatePage() {
                                   <div style={{position:'absolute',top:1.5,left:excludedItems[item.id]?1.5:11,width:11,height:11,borderRadius:'50%',background:'#fff',transition:'left .15s',boxShadow:'0 1px 2px rgba(0,0,0,.2)'}}/>
                                 </div>
                                 <span style={{textDecoration:itemExcluded?'line-through':'none'}}>
-                                  {item.fromCatalog && <span style={{marginRight:5,background:'#FF8C00',color:'#fff',fontSize:8,fontWeight:700,padding:'1px 4px',borderRadius:2}}>catalog</span>}
+                                  {item.fromCatalog && <span style={{marginRight:5,background:'#D06830',color:'#fff',fontSize:8,fontWeight:700,padding:'1px 4px',borderRadius:2}}>catalog</span>}
                                   {item.desc}
                                   {item.allowance && <span style={{marginLeft:6,background:'#fff3e0',color:'#e65100',fontSize:9,fontWeight:700,padding:'1px 5px',borderRadius:3}}>allowance</span>}
                                 </span>
                               </div>
                             </td>
-                            <td style={{padding:'6px 10px',borderBottom:'1px solid #f5f4f1',color:'#9a9690'}}>{item.qty}</td>
-                            <td style={{padding:'6px 10px',borderBottom:'1px solid #f5f4f1',color:'#9a9690'}}>{item.unit}</td>
-                            <td style={{padding:'6px 10px',borderBottom:'1px solid #f5f4f1',color:'#9a9690'}}>{fmtD(item.rate)}</td>
+                            <td style={{padding:'6px 10px',borderBottom:'1px solid #f5f4f1',color:'rgba(255,255,255,.35)'}}>{item.qty}</td>
+                            <td style={{padding:'6px 10px',borderBottom:'1px solid #f5f4f1',color:'rgba(255,255,255,.35)'}}>{item.unit}</td>
+                            <td style={{padding:'6px 10px',borderBottom:'1px solid #f5f4f1',color:'rgba(255,255,255,.35)'}}>{fmtD(item.rate)}</td>
                             <td style={{padding:'6px 10px',borderBottom:'1px solid #f5f4f1',textAlign:'right',textDecoration:itemExcluded?'line-through':'none',color:itemExcluded?'#bbb':'inherit'}}>{fmt(base)}</td>
-                            <td style={{padding:'6px 10px',borderBottom:'1px solid #f5f4f1',textAlign:'right',fontWeight:500,color:itemExcluded?'#bbb':'#002147',textDecoration:itemExcluded?'line-through':'none'}}>{fmt(adj2)}</td>
+                            <td style={{padding:'6px 10px',borderBottom:'1px solid #f5f4f1',textAlign:'right',fontWeight:500,color:itemExcluded?'#bbb':'#0a0a0a',textDecoration:itemExcluded?'line-through':'none'}}>{fmt(adj2)}</td>
                             <td style={{padding:'6px 10px',borderBottom:'1px solid #f5f4f1',textAlign:'right'}}>
                               {item.fromCatalog && (
                                 <button onClick={function(){removeItem(div.num, item.id)}}
-                                  style={{background:'transparent',border:'none',color:'#c0392b',fontSize:11,cursor:'pointer',padding:'0 2px',fontFamily:'sans-serif'}}>✕</button>
+                                  style={{background:'transparent',border:'none',color:'#c0392b',fontSize:11,cursor:'pointer',padding:'0 2px',fontFamily:'Poppins,sans-serif'}}>✕</button>
                               )}
                             </td>
                           </tr>
                         )
                       })}
-                      <tr style={{background:'#f5f4f1'}}>
+                      <tr style={{background:'#1a1a1a'}}>
                         <td colSpan={4} style={{padding:'6px 10px',borderBottom:'1px solid #f5f4f1',fontWeight:500}}>Division {div.num} subtotal</td>
                         <td style={{padding:'6px 10px',borderBottom:'1px solid #f5f4f1',textAlign:'right',fontWeight:500}}>{fmt(sub)}</td>
-                        <td style={{padding:'6px 10px',borderBottom:'1px solid #f5f4f1',textAlign:'right',fontWeight:500,color:'#002147'}}>{fmt(adj)}</td>
+                        <td style={{padding:'6px 10px',borderBottom:'1px solid #f5f4f1',textAlign:'right',fontWeight:500,color:'#0a0a0a'}}>{fmt(adj)}</td>
                         <td/>
                       </tr>
                     </tbody>
@@ -610,8 +610,8 @@ export default function EstimatePage() {
           })}
 
           {/* Below the line */}
-          <div style={{fontSize:10,fontWeight:500,color:'#9a9690',textTransform:'uppercase',letterSpacing:'.05em',margin:'.75rem 0 .5rem'}}>Below the line</div>
-          <div style={{background:'#fff',border:'1px solid #e8e6e0',borderRadius:4,overflow:'hidden',marginBottom:8}}>
+          <div style={{fontSize:10,fontWeight:500,color:'rgba(255,255,255,.35)',textTransform:'uppercase',letterSpacing:'.05em',margin:'.75rem 0 .5rem'}}>Below the line</div>
+          <div style={{background:'#161616',border:'1px solid rgba(255,255,255,.09)',borderRadius:4,overflow:'hidden',marginBottom:8}}>
             {[
               ['Direct cost subtotal',                    fmt(totals.direct)],
               [TIER_LABELS[tier]+' tier ('+mult.toFixed(2)+'×)', fmt(totals.tiered)],
@@ -620,29 +620,29 @@ export default function EstimatePage() {
               ['Georgia sales tax (8%)',                   fmt(totals.tax)],
             ].map(function(row){ return (
               <div key={row[0]} style={{display:'flex',justifyContent:'space-between',alignItems:'center',padding:'7px 12px',borderBottom:'1px solid #f5f4f1',fontSize:12}}>
-                <span style={{color:'#9a9690'}}>{row[0]}</span><span style={{fontWeight:500}}>{row[1]}</span>
+                <span style={{color:'rgba(255,255,255,.35)'}}>{row[0]}</span><span style={{fontWeight:500}}>{row[1]}</span>
               </div>
             )})}
           </div>
 
-          <div style={{background:'#002147',color:'#FF8C00',padding:'12px 16px',borderRadius:4,display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:'.75rem'}}>
+          <div style={{background:'#0a0a0a',color:'#D06830',padding:'12px 16px',borderRadius:4,display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:'.75rem'}}>
             <span style={{fontSize:11,fontWeight:500,letterSpacing:'.1em',textTransform:'uppercase',opacity:.7}}>{TIER_LABELS[tier]} tier — contract total</span>
             <span style={{fontSize:24,fontWeight:500}}>{fmt(totals.grand)}</span>
           </div>
 
           {/* Payment schedule */}
-          <div style={{fontSize:10,fontWeight:500,color:'#9a9690',textTransform:'uppercase',letterSpacing:'.05em',margin:'.75rem 0 .5rem'}}>Payment schedule</div>
-          <div style={{background:'#fff',border:'1px solid #e8e6e0',borderRadius:4,overflow:'hidden',marginBottom:8}}>
+          <div style={{fontSize:10,fontWeight:500,color:'rgba(255,255,255,.35)',textTransform:'uppercase',letterSpacing:'.05em',margin:'.75rem 0 .5rem'}}>Payment schedule</div>
+          <div style={{background:'#161616',border:'1px solid rgba(255,255,255,.09)',borderRadius:4,overflow:'hidden',marginBottom:8}}>
             {PAYMENTS.map(function(p){ return (
               <div key={p.label} style={{display:'flex',justifyContent:'space-between',alignItems:'center',padding:'7px 12px',borderBottom:'1px solid #f5f4f1',fontSize:12}}>
-                <span style={{color:'#9a9690',marginRight:8,fontSize:10}}>{p.pct}%</span>
+                <span style={{color:'rgba(255,255,255,.35)',marginRight:8,fontSize:10}}>{p.pct}%</span>
                 <span style={{flex:1}}>{p.label}</span>
                 <span style={{fontWeight:500}}>{fmt(totals.grand * p.pct / 100)}</span>
               </div>
             )})}
           </div>
 
-          <div style={{fontSize:10,color:'#9a9690',marginTop:'.75rem',display:'flex',justifyContent:'space-between',flexWrap:'wrap',gap:4}}>
+          <div style={{fontSize:10,color:'rgba(255,255,255,.35)',marginTop:'.75rem',display:'flex',justifyContent:'space-between',flexWrap:'wrap',gap:4}}>
             <span>SpanglerBuilt Inc. · Michael Spangler, GC · (404) 492-7650 · michael@spanglerbuilt.com</span>
             <span>Metro Atlanta market pricing · Valid 30 days</span>
           </div>

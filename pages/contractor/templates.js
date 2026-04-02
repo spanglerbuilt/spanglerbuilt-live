@@ -197,25 +197,25 @@ export default function TemplatesPage() {
   }
 
   const S = {
-    label: { fontSize:10, color:'#9a9690', textTransform:'uppercase', letterSpacing:'.08em', marginBottom:5, display:'block' },
-    input: { width:'100%', padding:'8px 10px', border:'1px solid #e8e6e0', borderRadius:3, fontSize:13, fontFamily:'sans-serif', outline:'none', background:'#FFFCEB', boxSizing:'border-box' },
+    label: { fontSize:10, color:'rgba(255,255,255,.35)', textTransform:'uppercase', letterSpacing:'.08em', marginBottom:5, display:'block' },
+    input: { width:'100%', padding:'8px 10px', border:'1px solid rgba(255,255,255,.09)', borderRadius:3, fontSize:13, fontFamily:'Poppins,sans-serif', outline:'none', background:'rgba(208,104,48,.1)', boxSizing:'border-box' },
     overlay: { position:'fixed', top:0, left:0, right:0, bottom:0, background:'rgba(0,33,71,.85)', zIndex:100, display:'flex', alignItems:'center', justifyContent:'center', padding:'1rem', overflowY:'auto' },
   }
 
   return (
-    <div style={{minHeight:'100vh',background:'#fff',fontFamily:'sans-serif'}}>
+    <div style={{minHeight:'100vh',background:'#111',fontFamily:'Poppins,sans-serif'}}>
 
       {/* Clone modal */}
       {cloning && (
         <div style={{...S.overlay}}>
-          <div style={{background:'#fff',borderRadius:4,maxWidth:560,width:'100%',overflow:'hidden',border:'3px solid #FF8C00'}}>
-            <div style={{background:'#002147',padding:'1rem 1.5rem',display:'flex',justifyContent:'space-between',alignItems:'center',borderBottom:'2px solid #FF8C00'}}>
-              <div style={{color:'#FF8C00',fontSize:13,fontWeight:700}}>Start new project from template</div>
+          <div style={{background:'#161616',borderRadius:4,maxWidth:560,width:'100%',overflow:'hidden',border:'3px solid #D06830'}}>
+            <div style={{background:'#0a0a0a',padding:'1rem 1.5rem',display:'flex',justifyContent:'space-between',alignItems:'center',borderBottom:'2px solid #D06830'}}>
+              <div style={{color:'#D06830',fontSize:13,fontWeight:700}}>Start new project from template</div>
               <button onClick={()=>{setCloning(null);setCloneForm({clientName:'',clientEmail:'',address:'',sqft:'',tier:'good'})}} style={{background:'transparent',border:'none',color:'rgba(255,255,255,.5)',fontSize:16,cursor:'pointer'}}>✕</button>
             </div>
             <div style={{padding:'1.5rem'}}>
-              <div style={{background:'#FFFCEB',border:'1px solid #FF8C00',borderRadius:3,padding:'10px 12px',marginBottom:'1.25rem',fontSize:12,color:'#3d3b37'}}>
-                <strong style={{color:'#002147'}}>Template:</strong> {cloning.name}
+              <div style={{background:'rgba(208,104,48,.1)',border:'1px solid #D06830',borderRadius:3,padding:'10px 12px',marginBottom:'1.25rem',fontSize:12,color:'rgba(255,255,255,.65)'}}>
+                <strong style={{color:'#0a0a0a'}}>Template:</strong> {cloning.name}
               </div>
               <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:12,marginBottom:12}}>
                 <div>
@@ -245,7 +245,7 @@ export default function TemplatesPage() {
                   </select>
                 </div>
               </div>
-              <div style={{background:'#f5f4f1',borderRadius:3,padding:'10px 12px',marginBottom:'1.25rem',fontSize:11,color:'#9a9690'}}>
+              <div style={{background:'#1a1a1a',borderRadius:3,padding:'10px 12px',marginBottom:'1.25rem',fontSize:11,color:'rgba(255,255,255,.35)'}}>
                 Creates project {new Date().getFullYear()}-XXX, pre-fills the estimate with all {cloning.divisions} divisions, and sets up the client portal.
               </div>
               <div style={{display:'flex',gap:8}}>
@@ -257,10 +257,10 @@ export default function TemplatesPage() {
                     }
                     window.location.href = '/contractor/leads'
                   }}
-                  style={{background:cloneForm.clientName.trim()?'#FF8C00':'#e8e6e0',color:cloneForm.clientName.trim()?'#fff':'#9a9690',border:'none',padding:'10px 24px',fontSize:12,fontWeight:700,letterSpacing:'.08em',textTransform:'uppercase',cursor:cloneForm.clientName.trim()?'pointer':'default',borderRadius:3,fontFamily:'sans-serif',flex:1}}>
+                  style={{background:cloneForm.clientName.trim()?'#D06830':'#e8e6e0',color:cloneForm.clientName.trim()?'#fff':'#9a9690',border:'none',padding:'10px 24px',fontSize:12,fontWeight:700,letterSpacing:'.08em',textTransform:'uppercase',cursor:cloneForm.clientName.trim()?'pointer':'default',borderRadius:3,fontFamily:'Poppins,sans-serif',flex:1}}>
                   Create project →
                 </button>
-                <button onClick={()=>{setCloning(null);setCloneForm({clientName:'',clientEmail:'',address:'',sqft:'',tier:'good'})}} style={{background:'transparent',border:'1px solid #e8e6e0',color:'#9a9690',padding:'10px 16px',fontSize:11,cursor:'pointer',borderRadius:3,fontFamily:'sans-serif'}}>Cancel</button>
+                <button onClick={()=>{setCloning(null);setCloneForm({clientName:'',clientEmail:'',address:'',sqft:'',tier:'good'})}} style={{background:'transparent',border:'1px solid rgba(255,255,255,.09)',color:'rgba(255,255,255,.35)',padding:'10px 16px',fontSize:11,cursor:'pointer',borderRadius:3,fontFamily:'Poppins,sans-serif'}}>Cancel</button>
               </div>
             </div>
           </div>
@@ -270,9 +270,9 @@ export default function TemplatesPage() {
       {/* New / edit template modal */}
       {showNew && (
         <div style={{...S.overlay,alignItems:'flex-start',paddingTop:'2rem'}}>
-          <div style={{background:'#fff',borderRadius:4,maxWidth:620,width:'100%',overflow:'hidden',border:'3px solid #FF8C00',marginBottom:'2rem'}}>
-            <div style={{background:'#002147',padding:'1rem 1.5rem',display:'flex',justifyContent:'space-between',alignItems:'center',borderBottom:'2px solid #FF8C00'}}>
-              <div style={{color:'#FF8C00',fontSize:13,fontWeight:700}}>{editing ? 'Edit template' : 'New template'}</div>
+          <div style={{background:'#161616',borderRadius:4,maxWidth:620,width:'100%',overflow:'hidden',border:'3px solid #D06830',marginBottom:'2rem'}}>
+            <div style={{background:'#0a0a0a',padding:'1rem 1.5rem',display:'flex',justifyContent:'space-between',alignItems:'center',borderBottom:'2px solid #D06830'}}>
+              <div style={{color:'#D06830',fontSize:13,fontWeight:700}}>{editing ? 'Edit template' : 'New template'}</div>
               <button onClick={()=>{setShowNew(false);setEditing(null)}} style={{background:'transparent',border:'none',color:'rgba(255,255,255,.5)',fontSize:16,cursor:'pointer'}}>✕</button>
             </div>
             <div style={{padding:'1.5rem'}}>
@@ -300,7 +300,7 @@ export default function TemplatesPage() {
                   </div>
                 ))}
               </div>
-              <div style={{fontSize:10,color:'#9a9690',textTransform:'uppercase',letterSpacing:'.08em',marginBottom:8}}>Tier pricing</div>
+              <div style={{fontSize:10,color:'rgba(255,255,255,.35)',textTransform:'uppercase',letterSpacing:'.08em',marginBottom:8}}>Tier pricing</div>
               <div style={{display:'grid',gridTemplateColumns:'repeat(4,1fr)',gap:10,marginBottom:12}}>
                 {[['Good','tierGood'],['Better','tierBetter'],['Best','tierBest'],['Luxury','tierLuxury']].map(([l,k])=>(
                   <div key={k}>
@@ -314,10 +314,10 @@ export default function TemplatesPage() {
                 <textarea value={newForm.scope} onChange={e=>setNewForm({...newForm,scope:e.target.value})} rows={6} placeholder={'Demo existing finishes\nConcrete floor prep\n...'} style={{...S.input,resize:'vertical'}}/>
               </div>
               <div style={{display:'flex',gap:8}}>
-                <button onClick={saveTemplate} disabled={!newForm.name.trim()} style={{flex:1,background:'#FF8C00',color:'#fff',border:'none',padding:'10px',fontSize:12,fontWeight:700,cursor:'pointer',borderRadius:3,fontFamily:'sans-serif',letterSpacing:'.08em',textTransform:'uppercase',opacity:!newForm.name.trim()?.6:1}}>
+                <button onClick={saveTemplate} disabled={!newForm.name.trim()} style={{flex:1,background:'#D06830',color:'#fff',border:'none',padding:'10px',fontSize:12,fontWeight:700,cursor:'pointer',borderRadius:3,fontFamily:'Poppins,sans-serif',letterSpacing:'.08em',textTransform:'uppercase',opacity:!newForm.name.trim()?.6:1}}>
                   {editing ? 'Save changes' : 'Create template'} →
                 </button>
-                <button onClick={()=>{setShowNew(false);setEditing(null)}} style={{background:'transparent',border:'1px solid #e8e6e0',color:'#9a9690',padding:'10px 16px',fontSize:11,cursor:'pointer',borderRadius:3,fontFamily:'sans-serif'}}>Cancel</button>
+                <button onClick={()=>{setShowNew(false);setEditing(null)}} style={{background:'transparent',border:'1px solid rgba(255,255,255,.09)',color:'rgba(255,255,255,.35)',padding:'10px 16px',fontSize:11,cursor:'pointer',borderRadius:3,fontFamily:'Poppins,sans-serif'}}>Cancel</button>
               </div>
             </div>
           </div>
@@ -325,10 +325,10 @@ export default function TemplatesPage() {
       )}
 
       {/* Topbar */}
-      <div style={{background:'#002147',padding:'1rem 2rem',display:'flex',alignItems:'center',justifyContent:'space-between',borderBottom:'3px solid #FF8C00'}}>
+      <div style={{background:'#0a0a0a',padding:'1rem 2rem',display:'flex',alignItems:'center',justifyContent:'space-between',borderBottom:'3px solid #D06830'}}>
         <div style={{display:'flex',alignItems:'center',gap:12}}>
           <img src='/logo.png' alt='SpanglerBuilt' style={{height:34,width:'auto'}}/>
-          <span style={{fontSize:11,color:'#FF8C00',letterSpacing:'.12em',textTransform:'uppercase',fontWeight:500}}>&nbsp;· Project Templates</span>
+          <span style={{fontSize:11,color:'#D06830',letterSpacing:'.12em',textTransform:'uppercase',fontWeight:500}}>&nbsp;· Project Templates</span>
         </div>
         <a href="/dashboard" style={{fontSize:11,color:'rgba(255,255,255,.6)',textDecoration:'none'}}>← Dashboard</a>
       </div>
@@ -338,101 +338,101 @@ export default function TemplatesPage() {
         <div style={{display:'flex',gap:10,marginBottom:'1.25rem',flexWrap:'wrap',alignItems:'center'}}>
           <input value={search} onChange={e=>setSearch(e.target.value)}
             placeholder="Search templates — basement, kitchen, 665sf, bar..."
-            style={{flex:1,minWidth:220,padding:'9px 12px',border:'1px solid #e8e6e0',borderRadius:3,fontSize:13,fontFamily:'sans-serif',outline:'none',background:'#FFFCEB'}}/>
+            style={{flex:1,minWidth:220,padding:'9px 12px',border:'1px solid rgba(255,255,255,.09)',borderRadius:3,fontSize:13,fontFamily:'Poppins,sans-serif',outline:'none',background:'rgba(208,104,48,.1)'}}/>
           <div style={{display:'flex',gap:4}}>
             {types.map(t=>(
               <button key={t} onClick={()=>setFilterType(t)} style={{
-                padding:'6px 14px',fontSize:11,border:'1px solid',fontFamily:'sans-serif',fontWeight:500,cursor:'pointer',borderRadius:3,
-                borderColor:filterType===t?'#002147':'#e8e6e0',
-                background:filterType===t?'#002147':'#fff',
-                color:filterType===t?'#FF8C00':'#9a9690',
+                padding:'6px 14px',fontSize:11,border:'1px solid',fontFamily:'Poppins,sans-serif',fontWeight:500,cursor:'pointer',borderRadius:3,
+                borderColor:filterType===t?'#0a0a0a':'#e8e6e0',
+                background:filterType===t?'#0a0a0a':'#fff',
+                color:filterType===t?'#D06830':'#9a9690',
               }}>{t==='All'?'All types':t}</button>
             ))}
           </div>
-          <button onClick={openNew} style={{background:'#FF8C00',color:'#fff',border:'none',padding:'8px 16px',fontSize:11,fontWeight:700,letterSpacing:'.08em',textTransform:'uppercase',cursor:'pointer',borderRadius:3,fontFamily:'sans-serif',whiteSpace:'nowrap'}}>
+          <button onClick={openNew} style={{background:'#D06830',color:'#fff',border:'none',padding:'8px 16px',fontSize:11,fontWeight:700,letterSpacing:'.08em',textTransform:'uppercase',cursor:'pointer',borderRadius:3,fontFamily:'Poppins,sans-serif',whiteSpace:'nowrap'}}>
             + New template
           </button>
         </div>
 
-        <div style={{fontSize:11,color:'#9a9690',marginBottom:'1rem'}}>{filtered.length} template{filtered.length!==1?'s':''} · {templates.reduce((s,t)=>s+t.uses,0)} total uses</div>
+        <div style={{fontSize:11,color:'rgba(255,255,255,.35)',marginBottom:'1rem'}}>{filtered.length} template{filtered.length!==1?'s':''} · {templates.reduce((s,t)=>s+t.uses,0)} total uses</div>
 
         <div style={{display:'grid',gap:10}}>
           {filtered.map(tmpl => {
             const tc  = TYPE_COLORS[tmpl.code] || TYPE_COLORS.BSM
             const exp = expanded === tmpl.id
             return (
-              <div key={tmpl.id} style={{background:'#fff',border:'1px solid #e8e6e0',borderRadius:4,overflow:'hidden',borderLeft:'4px solid #002147'}}>
+              <div key={tmpl.id} style={{background:'#161616',border:'1px solid rgba(255,255,255,.09)',borderRadius:4,overflow:'hidden',borderLeft:'4px solid #0a0a0a'}}>
 
                 <div style={{padding:'1rem 1.25rem',display:'flex',gap:12,alignItems:'flex-start',cursor:'pointer'}} onClick={()=>setExpanded(exp?null:tmpl.id)}>
                   <div style={{flexShrink:0}}>
                     <span style={{background:tc.bg,color:tc.color,fontSize:10,fontWeight:700,padding:'3px 8px',borderRadius:3,display:'block',textAlign:'center',letterSpacing:'.06em'}}>{tmpl.code}</span>
                   </div>
                   <div style={{flex:1,minWidth:0}}>
-                    <div style={{fontSize:14,fontWeight:500,color:'#002147',marginBottom:3}}>{tmpl.name}</div>
-                    <div style={{fontSize:12,color:'#9a9690',marginBottom:6}}>{tmpl.desc}</div>
+                    <div style={{fontSize:14,fontWeight:500,color:'#0a0a0a',marginBottom:3}}>{tmpl.name}</div>
+                    <div style={{fontSize:12,color:'rgba(255,255,255,.35)',marginBottom:6}}>{tmpl.desc}</div>
                     <div style={{display:'flex',gap:6,flexWrap:'wrap'}}>
                       {tmpl.tags.map(tag=>(
-                        <span key={tag} style={{background:'#f5f4f1',color:'#5f5e5a',fontSize:10,padding:'1px 7px',borderRadius:3}}>{tag}</span>
+                        <span key={tag} style={{background:'#1a1a1a',color:'rgba(255,255,255,.5)',fontSize:10,padding:'1px 7px',borderRadius:3}}>{tag}</span>
                       ))}
                     </div>
                   </div>
                   <div style={{display:'flex',gap:16,flexShrink:0,alignItems:'flex-start'}}>
                     <div style={{textAlign:'right'}}>
-                      <div style={{fontSize:10,color:'#9a9690',marginBottom:2,textTransform:'uppercase',letterSpacing:'.06em'}}>Good tier est.</div>
-                      <div style={{fontSize:15,fontWeight:500,color:'#002147'}}>{fmt(tmpl.tiers.good)}</div>
+                      <div style={{fontSize:10,color:'rgba(255,255,255,.35)',marginBottom:2,textTransform:'uppercase',letterSpacing:'.06em'}}>Good tier est.</div>
+                      <div style={{fontSize:15,fontWeight:500,color:'#0a0a0a'}}>{fmt(tmpl.tiers.good)}</div>
                     </div>
                     <div style={{textAlign:'right'}}>
-                      <div style={{fontSize:10,color:'#9a9690',marginBottom:2,textTransform:'uppercase',letterSpacing:'.06em'}}>Used</div>
-                      <div style={{fontSize:15,fontWeight:500,color:'#002147'}}>{tmpl.uses}×</div>
+                      <div style={{fontSize:10,color:'rgba(255,255,255,.35)',marginBottom:2,textTransform:'uppercase',letterSpacing:'.06em'}}>Used</div>
+                      <div style={{fontSize:15,fontWeight:500,color:'#0a0a0a'}}>{tmpl.uses}×</div>
                     </div>
-                    <div style={{fontSize:12,color:'#9a9690',marginTop:2}}>{exp?'▲':'▼'}</div>
+                    <div style={{fontSize:12,color:'rgba(255,255,255,.35)',marginTop:2}}>{exp?'▲':'▼'}</div>
                   </div>
                 </div>
 
                 {exp && (
                   <div style={{borderTop:'1px solid #f5f4f1'}}>
-                    <div style={{display:'grid',gridTemplateColumns:'repeat(4,1fr)',gap:1,background:'#e8e6e0'}}>
+                    <div style={{display:'grid',gridTemplateColumns:'repeat(4,1fr)',gap:1,background:'rgba(255,255,255,.08)'}}>
                       {Object.entries(tmpl.tiers).map(([tier,val])=>{
                         const tc2 = {good:{c:'#3B6D11',bg:'#eaf3de'},better:{c:'#185FA5',bg:'#e6f1fb'},best:{c:'#534AB7',bg:'#eeedfe'},luxury:{c:'#854F0B',bg:'#faeeda'}}[tier]
                         return (
                           <div key={tier} style={{background:'#fff',padding:'10px 14px',textAlign:'center'}}>
                             <div style={{fontSize:9,fontWeight:700,color:tc2.c,textTransform:'uppercase',letterSpacing:'.1em',marginBottom:4}}>{tier}</div>
-                            <div style={{fontSize:16,fontWeight:500,color:'#002147'}}>{fmt(val)}</div>
+                            <div style={{fontSize:16,fontWeight:500,color:'#0a0a0a'}}>{fmt(val)}</div>
                           </div>
                         )
                       })}
                     </div>
 
-                    <div style={{display:'flex',gap:0,background:'#f5f4f1',borderTop:'1px solid #e8e6e0',borderBottom:'1px solid #e8e6e0'}}>
+                    <div style={{display:'flex',gap:0,background:'#1a1a1a',borderTop:'1px solid #e8e6e0',borderBottom:'1px solid #e8e6e0'}}>
                       {[['Sq footage',tmpl.sqft+' sf'],['Duration',tmpl.duration],['Phases',tmpl.phases],['Divisions',tmpl.divisions]].map(([l,v])=>(
                         <div key={l} style={{flex:1,padding:'8px 14px',borderRight:'1px solid #e8e6e0'}}>
-                          <div style={{fontSize:9,color:'#9a9690',textTransform:'uppercase',letterSpacing:'.06em',marginBottom:2}}>{l}</div>
-                          <div style={{fontSize:12,fontWeight:500,color:'#002147'}}>{v}</div>
+                          <div style={{fontSize:9,color:'rgba(255,255,255,.35)',textTransform:'uppercase',letterSpacing:'.06em',marginBottom:2}}>{l}</div>
+                          <div style={{fontSize:12,fontWeight:500,color:'#0a0a0a'}}>{v}</div>
                         </div>
                       ))}
                       <div style={{flex:2,padding:'8px 14px'}}>
-                        <div style={{fontSize:9,color:'#9a9690',textTransform:'uppercase',letterSpacing:'.06em',marginBottom:2}}>Last used</div>
-                        <div style={{fontSize:11,color:'#5f5e5a'}}>{tmpl.lastUsed}</div>
+                        <div style={{fontSize:9,color:'rgba(255,255,255,.35)',textTransform:'uppercase',letterSpacing:'.06em',marginBottom:2}}>Last used</div>
+                        <div style={{fontSize:11,color:'rgba(255,255,255,.5)'}}>{tmpl.lastUsed}</div>
                       </div>
                     </div>
 
                     <div style={{padding:'1rem 1.25rem',display:'grid',gridTemplateColumns:'1fr 1fr',gap:'4px 24px'}}>
                       {tmpl.scope.map((item,i)=>(
-                        <div key={i} style={{display:'flex',gap:8,alignItems:'flex-start',padding:'3px 0',fontSize:12,color:'#3d3b37'}}>
-                          <span style={{color:'#FF8C00',fontSize:11,flexShrink:0,marginTop:1}}>✓</span>
+                        <div key={i} style={{display:'flex',gap:8,alignItems:'flex-start',padding:'3px 0',fontSize:12,color:'rgba(255,255,255,.65)'}}>
+                          <span style={{color:'#D06830',fontSize:11,flexShrink:0,marginTop:1}}>✓</span>
                           <span>{item}</span>
                         </div>
                       ))}
                     </div>
 
                     <div style={{padding:'0 1.25rem 1rem',display:'flex',gap:8}}>
-                      <button onClick={function(){setCloning(tmpl)}} style={{background:'#FF8C00',color:'#fff',border:'none',padding:'9px 20px',fontSize:11,fontWeight:700,letterSpacing:'.08em',textTransform:'uppercase',cursor:'pointer',borderRadius:3,fontFamily:'sans-serif'}}>
+                      <button onClick={function(){setCloning(tmpl)}} style={{background:'#D06830',color:'#fff',border:'none',padding:'9px 20px',fontSize:11,fontWeight:700,letterSpacing:'.08em',textTransform:'uppercase',cursor:'pointer',borderRadius:3,fontFamily:'Poppins,sans-serif'}}>
                         Use template →
                       </button>
-                      <button onClick={function(){openEdit(tmpl)}} style={{background:'transparent',border:'1px solid #002147',color:'#002147',padding:'9px 16px',fontSize:11,cursor:'pointer',borderRadius:3,fontFamily:'sans-serif'}}>
+                      <button onClick={function(){openEdit(tmpl)}} style={{background:'transparent',border:'1px solid #0a0a0a',color:'#0a0a0a',padding:'9px 16px',fontSize:11,cursor:'pointer',borderRadius:3,fontFamily:'Poppins,sans-serif'}}>
                         Edit
                       </button>
-                      <button onClick={function(){duplicate(tmpl)}} style={{background:'transparent',border:'1px solid #e8e6e0',color:'#9a9690',padding:'9px 16px',fontSize:11,cursor:'pointer',borderRadius:3,fontFamily:'sans-serif'}}>
+                      <button onClick={function(){duplicate(tmpl)}} style={{background:'transparent',border:'1px solid rgba(255,255,255,.09)',color:'rgba(255,255,255,.35)',padding:'9px 16px',fontSize:11,cursor:'pointer',borderRadius:3,fontFamily:'Poppins,sans-serif'}}>
                         Duplicate
                       </button>
                     </div>
@@ -443,7 +443,7 @@ export default function TemplatesPage() {
           })}
         </div>
 
-        <div style={{marginTop:'1.5rem',fontSize:10,color:'#9a9690',textAlign:'center'}}>
+        <div style={{marginTop:'1.5rem',fontSize:10,color:'rgba(255,255,255,.35)',textAlign:'center'}}>
           SpanglerBuilt Inc. · Project template library · michael@spanglerbuilt.com · (404) 492-7650
         </div>
       </div>

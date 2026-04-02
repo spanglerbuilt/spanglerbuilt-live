@@ -48,40 +48,40 @@ export default function DocumentsPage() {
   const pendingCount = docs.filter(d => d.status === 'pending').length
 
   return (
-    <div style={{minHeight:'100vh',background:'#fff',fontFamily:'sans-serif'}}>
+    <div style={{minHeight:'100vh',background:'#111',fontFamily:'Poppins,sans-serif'}}>
 
       {/* Document viewer modal */}
       {viewing && (
         <div style={{position:'fixed',top:0,left:0,right:0,bottom:0,background:'rgba(0,33,71,.85)',zIndex:100,display:'flex',alignItems:'center',justifyContent:'center',padding:'1rem'}}>
-          <div style={{background:'#fff',borderRadius:4,maxWidth:580,width:'100%',border:'3px solid #FF8C00',overflow:'hidden',display:'flex',flexDirection:'column',maxHeight:'90vh'}}>
-            <div style={{background:'#002147',padding:'1rem 1.5rem',display:'flex',justifyContent:'space-between',alignItems:'center',borderBottom:'2px solid #FF8C00',flexShrink:0}}>
+          <div style={{background:'#161616',borderRadius:4,maxWidth:580,width:'100%',border:'3px solid #D06830',overflow:'hidden',display:'flex',flexDirection:'column',maxHeight:'90vh'}}>
+            <div style={{background:'#0a0a0a',padding:'1rem 1.5rem',display:'flex',justifyContent:'space-between',alignItems:'center',borderBottom:'2px solid #D06830',flexShrink:0}}>
               <div>
-                <div style={{color:'#FF8C00',fontSize:13,fontWeight:700}}>{viewing.title}</div>
+                <div style={{color:'#D06830',fontSize:13,fontWeight:700}}>{viewing.title}</div>
                 <div style={{color:'rgba(255,255,255,.4)',fontSize:10,marginTop:2}}>{viewing.type} · {viewing.date}</div>
               </div>
               <button onClick={()=>setViewing(null)} style={{background:'transparent',border:'none',color:'rgba(255,255,255,.5)',fontSize:16,cursor:'pointer',flexShrink:0}}>✕</button>
             </div>
             <div style={{padding:'1.5rem',overflowY:'auto',flex:1}}>
-              <pre style={{fontFamily:'sans-serif',fontSize:12,lineHeight:1.8,color:'#3d3b37',whiteSpace:'pre-wrap',margin:0}}>
+              <pre style={{fontFamily:'Poppins,sans-serif',fontSize:12,lineHeight:1.8,color:'rgba(255,255,255,.65)',whiteSpace:'pre-wrap',margin:0}}>
                 {viewing.content}
               </pre>
             </div>
             <div style={{padding:'1rem 1.5rem',borderTop:'1px solid #e8e6e0',flexShrink:0}}>
               {viewing.action === 'Sign now' && !signing && (
-                <button onClick={()=>setSigning(true)} style={{width:'100%',background:'#FF8C00',color:'#fff',border:'none',padding:'10px',fontSize:12,fontWeight:700,cursor:'pointer',borderRadius:3,fontFamily:'sans-serif',letterSpacing:'.08em',textTransform:'uppercase'}}>
+                <button onClick={()=>setSigning(true)} style={{width:'100%',background:'#D06830',color:'#fff',border:'none',padding:'10px',fontSize:12,fontWeight:700,cursor:'pointer',borderRadius:3,fontFamily:'Poppins,sans-serif',letterSpacing:'.08em',textTransform:'uppercase'}}>
                   Sign this document →
                 </button>
               )}
               {viewing.action === 'Sign now' && signing && !signed && (
                 <div>
-                  <div style={{fontSize:11,color:'#5f5e5a',marginBottom:10,lineHeight:1.6}}>
+                  <div style={{fontSize:11,color:'rgba(255,255,255,.5)',marginBottom:10,lineHeight:1.6}}>
                     By clicking below you confirm your electronic signature and agreement to all terms in this document.
                   </div>
                   <div style={{display:'flex',gap:8}}>
-                    <button onClick={confirmSign} style={{flex:1,background:'#002147',color:'#FF8C00',border:'none',padding:'10px',fontSize:12,fontWeight:700,cursor:'pointer',borderRadius:3,fontFamily:'sans-serif'}}>
+                    <button onClick={confirmSign} style={{flex:1,background:'#0a0a0a',color:'#D06830',border:'none',padding:'10px',fontSize:12,fontWeight:700,cursor:'pointer',borderRadius:3,fontFamily:'Poppins,sans-serif'}}>
                       ✓ Confirm and sign
                     </button>
-                    <button onClick={()=>setSigning(false)} style={{background:'transparent',border:'1px solid #e8e6e0',color:'#9a9690',padding:'10px 14px',fontSize:11,cursor:'pointer',borderRadius:3,fontFamily:'sans-serif'}}>
+                    <button onClick={()=>setSigning(false)} style={{background:'transparent',border:'1px solid rgba(255,255,255,.09)',color:'rgba(255,255,255,.35)',padding:'10px 14px',fontSize:11,cursor:'pointer',borderRadius:3,fontFamily:'Poppins,sans-serif'}}>
                       Cancel
                     </button>
                   </div>
@@ -94,16 +94,16 @@ export default function DocumentsPage() {
               )}
               {viewing.action === 'Review' && viewing.status === 'pending' && (
                 <div style={{display:'flex',gap:8}}>
-                  <button onClick={approveChangeOrder} style={{flex:1,background:'#3B6D11',color:'#fff',border:'none',padding:'10px',fontSize:12,fontWeight:700,cursor:'pointer',borderRadius:3,fontFamily:'sans-serif'}}>
+                  <button onClick={approveChangeOrder} style={{flex:1,background:'#3B6D11',color:'#fff',border:'none',padding:'10px',fontSize:12,fontWeight:700,cursor:'pointer',borderRadius:3,fontFamily:'Poppins,sans-serif'}}>
                     ✓ Approve change order
                   </button>
-                  <button onClick={()=>setViewing(null)} style={{background:'transparent',border:'1px solid #e8e6e0',color:'#9a9690',padding:'10px 14px',fontSize:11,cursor:'pointer',borderRadius:3,fontFamily:'sans-serif'}}>
+                  <button onClick={()=>setViewing(null)} style={{background:'transparent',border:'1px solid rgba(255,255,255,.09)',color:'rgba(255,255,255,.35)',padding:'10px 14px',fontSize:11,cursor:'pointer',borderRadius:3,fontFamily:'Poppins,sans-serif'}}>
                     Close
                   </button>
                 </div>
               )}
               {(viewing.action === 'View' || viewing.status === 'signed' || viewing.status === 'approved') && viewing.action !== 'Sign now' && viewing.action !== 'Review' && (
-                <button onClick={()=>setViewing(null)} style={{width:'100%',background:'#f5f4f1',color:'#002147',border:'1px solid #e8e6e0',padding:'10px',fontSize:11,cursor:'pointer',borderRadius:3,fontFamily:'sans-serif'}}>
+                <button onClick={()=>setViewing(null)} style={{width:'100%',background:'#1a1a1a',color:'#0a0a0a',border:'1px solid rgba(255,255,255,.09)',padding:'10px',fontSize:11,cursor:'pointer',borderRadius:3,fontFamily:'Poppins,sans-serif'}}>
                   Close
                 </button>
               )}
@@ -112,19 +112,19 @@ export default function DocumentsPage() {
         </div>
       )}
 
-      <div style={{background:'#002147',padding:'1rem 2rem',display:'flex',alignItems:'center',justifyContent:'space-between',borderBottom:'3px solid #FF8C00'}}>
-        <div style={{fontFamily:'Georgia,serif',fontSize:16,color:'#fff',fontWeight:700,letterSpacing:'.08em'}}>SPANGLERBUILT <span style={{fontSize:11,color:'#FF8C00',fontWeight:400}}> · DOCUMENTS</span></div>
+      <div style={{background:'#0a0a0a',padding:'1rem 2rem',display:'flex',alignItems:'center',justifyContent:'space-between',borderBottom:'3px solid #D06830'}}>
+        <div style={{fontFamily:'Poppins,sans-serif',fontSize:16,color:'#fff',fontWeight:700,letterSpacing:'.08em'}}>SPANGLERBUILT <span style={{fontSize:11,color:'#D06830',fontWeight:400}}> · DOCUMENTS</span></div>
         <a href="/client/dashboard" style={{fontSize:11,color:'rgba(255,255,255,.6)',textDecoration:'none'}}>← My project</a>
       </div>
 
       <div style={{maxWidth:800,margin:'0 auto',padding:'1.5rem'}}>
         {pendingCount > 0 && (
-          <div style={{background:'#FFFCEB',border:'1px solid #FF8C00',borderRadius:4,padding:'10px 14px',marginBottom:'1.25rem',fontSize:12,color:'#3d3b37'}}>
-            <strong style={{color:'#002147'}}>{pendingCount} document{pendingCount>1?'s':''} need your attention</strong> — review and sign to keep your project moving.
+          <div style={{background:'rgba(208,104,48,.1)',border:'1px solid #D06830',borderRadius:4,padding:'10px 14px',marginBottom:'1.25rem',fontSize:12,color:'rgba(255,255,255,.65)'}}>
+            <strong style={{color:'#0a0a0a'}}>{pendingCount} document{pendingCount>1?'s':''} need your attention</strong> — review and sign to keep your project moving.
           </div>
         )}
-        <div style={{background:'#fff',border:'1px solid #e8e6e0',borderRadius:4,overflow:'hidden'}}>
-          <div style={{background:'#002147',padding:'8px 1rem',display:'grid',gridTemplateColumns:'80px 1fr 100px 80px 90px',gap:10,fontSize:10,fontWeight:500,color:'#FF8C00',textTransform:'uppercase',letterSpacing:'.06em'}}>
+        <div style={{background:'#161616',border:'1px solid rgba(255,255,255,.09)',borderRadius:4,overflow:'hidden'}}>
+          <div style={{background:'#0a0a0a',padding:'8px 1rem',display:'grid',gridTemplateColumns:'80px 1fr 100px 80px 90px',gap:10,fontSize:10,fontWeight:500,color:'#D06830',textTransform:'uppercase',letterSpacing:'.06em'}}>
             <span>Type</span><span>Document</span><span>Status</span><span>Date</span><span></span>
           </div>
           {docs.map((doc,i)=>{
@@ -132,23 +132,23 @@ export default function DocumentsPage() {
             const action = doc.status === 'signed' ? 'View' : doc.status === 'approved' ? 'View' : doc.action
             return (
               <div key={doc.id} style={{display:'grid',gridTemplateColumns:'80px 1fr 100px 80px 90px',gap:10,padding:'12px 1rem',borderTop:i===0?'none':'1px solid #f5f4f1',alignItems:'center',fontSize:12,cursor:'pointer'}}
-                onMouseEnter={e=>e.currentTarget.style.background='#FFFCEB'}
+                onMouseEnter={e=>e.currentTarget.style.background='rgba(208,104,48,.1)'}
                 onMouseLeave={e=>e.currentTarget.style.background='#fff'}>
-                <span style={{fontSize:9,fontWeight:700,color:'#002147',textTransform:'uppercase',letterSpacing:'.06em',background:'#e6f1fb',padding:'2px 6px',borderRadius:3,textAlign:'center'}}>{doc.type}</span>
+                <span style={{fontSize:9,fontWeight:700,color:'#0a0a0a',textTransform:'uppercase',letterSpacing:'.06em',background:'#e6f1fb',padding:'2px 6px',borderRadius:3,textAlign:'center'}}>{doc.type}</span>
                 <div onClick={()=>openDoc(doc)}>
-                  <div style={{fontWeight:500,color:'#002147',marginBottom:2}}>{doc.title}</div>
-                  <div style={{fontSize:10,color:'#9a9690'}}>{doc.size}</div>
+                  <div style={{fontWeight:500,color:'#0a0a0a',marginBottom:2}}>{doc.title}</div>
+                  <div style={{fontSize:10,color:'rgba(255,255,255,.35)'}}>{doc.size}</div>
                 </div>
                 <span><span style={{background:sc.bg,color:sc.color,fontSize:9,fontWeight:700,padding:'2px 7px',borderRadius:3}}>{sc.label}</span></span>
-                <span style={{color:'#9a9690',fontSize:11}}>{doc.date}</span>
-                <button onClick={()=>openDoc(doc)} style={{background:doc.status==='pending'?'#FF8C00':'#002147',color:'#fff',border:'none',padding:'5px 12px',fontSize:10,fontWeight:700,letterSpacing:'.06em',textTransform:'uppercase',cursor:'pointer',borderRadius:3,fontFamily:'sans-serif'}}>
+                <span style={{color:'rgba(255,255,255,.35)',fontSize:11}}>{doc.date}</span>
+                <button onClick={()=>openDoc(doc)} style={{background:doc.status==='pending'?'#D06830':'#0a0a0a',color:'#fff',border:'none',padding:'5px 12px',fontSize:10,fontWeight:700,letterSpacing:'.06em',textTransform:'uppercase',cursor:'pointer',borderRadius:3,fontFamily:'Poppins,sans-serif'}}>
                   {action}
                 </button>
               </div>
             )
           })}
         </div>
-        <div style={{marginTop:'1rem',fontSize:11,color:'#9a9690',textAlign:'center'}}>
+        <div style={{marginTop:'1rem',fontSize:11,color:'rgba(255,255,255,.35)',textAlign:'center'}}>
           Questions about any document? Call Michael at (404) 492-7650
         </div>
       </div>

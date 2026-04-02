@@ -95,8 +95,8 @@ var TIER_COLORS = {
 }
 
 var BADGE_STYLE = {
-  'Included': { bg:'#002147', color:'#fff' },
-  'Upgrade':  { bg:'#FF8C00', color:'#fff' },
+  'Included': { bg:'#0a0a0a', color:'#fff' },
+  'Upgrade':  { bg:'#D06830', color:'#fff' },
   'Premium':  { bg:'#854F0B', color:'#fff' },
 }
 
@@ -138,20 +138,20 @@ export default function OptionsBuilder() {
   }
 
   var S = {
-    label: { fontSize:10, color:'#9a9690', textTransform:'uppercase', letterSpacing:'.08em', marginBottom:5, display:'block' },
-    input: { width:'100%', padding:'7px 10px', border:'1px solid #e8e6e0', borderRadius:3, fontSize:12, fontFamily:'sans-serif', outline:'none', background:'#FFFCEB', boxSizing:'border-box' },
+    label: { fontSize:10, color:'rgba(255,255,255,.35)', textTransform:'uppercase', letterSpacing:'.08em', marginBottom:5, display:'block' },
+    input: { width:'100%', padding:'7px 10px', border:'1px solid rgba(255,255,255,.09)', borderRadius:3, fontSize:12, fontFamily:'Poppins,sans-serif', outline:'none', background:'rgba(208,104,48,.1)', boxSizing:'border-box' },
     overlay: { position:'fixed', top:0, left:0, right:0, bottom:0, background:'rgba(0,33,71,.9)', zIndex:200, display:'flex', alignItems:'center', justifyContent:'center', padding:'1rem', overflowY:'auto' },
   }
 
   return (
-    <div style={{minHeight:'100vh',background:'#fff',fontFamily:'sans-serif'}}>
+    <div style={{minHeight:'100vh',background:'#111',fontFamily:'Poppins,sans-serif'}}>
 
       {/* Edit option modal */}
       {editOpt && (
         <div style={S.overlay}>
-          <div style={{background:'#fff',borderRadius:4,maxWidth:500,width:'100%',border:'3px solid #FF8C00',overflow:'hidden'}}>
-            <div style={{background:'#002147',padding:'1rem 1.5rem',display:'flex',justifyContent:'space-between',alignItems:'center',borderBottom:'2px solid #FF8C00'}}>
-              <span style={{color:'#FF8C00',fontSize:13,fontWeight:700}}>Edit option</span>
+          <div style={{background:'#161616',borderRadius:4,maxWidth:500,width:'100%',border:'3px solid #D06830',overflow:'hidden'}}>
+            <div style={{background:'#0a0a0a',padding:'1rem 1.5rem',display:'flex',justifyContent:'space-between',alignItems:'center',borderBottom:'2px solid #D06830'}}>
+              <span style={{color:'#D06830',fontSize:13,fontWeight:700}}>Edit option</span>
               <button onClick={function(){setEditOpt(null)}} style={{background:'transparent',border:'none',color:'rgba(255,255,255,.5)',fontSize:16,cursor:'pointer'}}>✕</button>
             </div>
             <div style={{padding:'1.5rem',display:'grid',gap:12}}>
@@ -162,8 +162,8 @@ export default function OptionsBuilder() {
                 </div>
               )})}
               <div style={{display:'flex',gap:8,marginTop:4}}>
-                <button onClick={saveOpt} style={{flex:1,background:'#FF8C00',color:'#fff',border:'none',padding:'9px',fontSize:12,fontWeight:700,cursor:'pointer',borderRadius:3,fontFamily:'sans-serif',textTransform:'uppercase',letterSpacing:'.06em'}}>Save →</button>
-                <button onClick={function(){setEditOpt(null)}} style={{background:'transparent',border:'1px solid #e8e6e0',color:'#9a9690',padding:'9px 16px',fontSize:11,cursor:'pointer',borderRadius:3,fontFamily:'sans-serif'}}>Cancel</button>
+                <button onClick={saveOpt} style={{flex:1,background:'#D06830',color:'#fff',border:'none',padding:'9px',fontSize:12,fontWeight:700,cursor:'pointer',borderRadius:3,fontFamily:'Poppins,sans-serif',textTransform:'uppercase',letterSpacing:'.06em'}}>Save →</button>
+                <button onClick={function(){setEditOpt(null)}} style={{background:'transparent',border:'1px solid rgba(255,255,255,.09)',color:'rgba(255,255,255,.35)',padding:'9px 16px',fontSize:11,cursor:'pointer',borderRadius:3,fontFamily:'Poppins,sans-serif'}}>Cancel</button>
               </div>
             </div>
           </div>
@@ -173,38 +173,38 @@ export default function OptionsBuilder() {
       {/* Client preview modal */}
       {showPreview && (
         <div style={{...S.overlay,alignItems:'flex-start',paddingTop:'2rem'}}>
-          <div style={{background:'#fff',borderRadius:4,maxWidth:800,width:'100%',border:'3px solid #FF8C00',overflow:'hidden',marginBottom:'2rem'}}>
-            <div style={{background:'#002147',padding:'1rem 1.5rem',display:'flex',justifyContent:'space-between',alignItems:'center',borderBottom:'2px solid #FF8C00'}}>
+          <div style={{background:'#161616',borderRadius:4,maxWidth:800,width:'100%',border:'3px solid #D06830',overflow:'hidden',marginBottom:'2rem'}}>
+            <div style={{background:'#0a0a0a',padding:'1rem 1.5rem',display:'flex',justifyContent:'space-between',alignItems:'center',borderBottom:'2px solid #D06830'}}>
               <div>
-                <div style={{color:'#FF8C00',fontSize:13,fontWeight:700}}>Client preview — Options & Upgrades</div>
+                <div style={{color:'#D06830',fontSize:13,fontWeight:700}}>Client preview — Options & Upgrades</div>
                 <div style={{color:'rgba(255,255,255,.5)',fontSize:10,marginTop:2}}>This is exactly what your client sees at /client/options</div>
               </div>
               <button onClick={function(){setShowPreview(false)}} style={{background:'transparent',border:'none',color:'rgba(255,255,255,.5)',fontSize:16,cursor:'pointer'}}>✕</button>
             </div>
             <div style={{padding:'1.5rem',maxHeight:'80vh',overflowY:'auto'}}>
-              <div style={{background:'#FFFCEB',border:'1px solid #FF8C00',borderRadius:4,padding:'10px 14px',marginBottom:'1.25rem',fontSize:12,color:'#3d3b37'}}>
-                <strong style={{color:'#002147'}}>SB-2026-001 · Mendel Basement Renovation</strong><br/>
+              <div style={{background:'rgba(208,104,48,.1)',border:'1px solid #D06830',borderRadius:4,padding:'10px 14px',marginBottom:'1.25rem',fontSize:12,color:'rgba(255,255,255,.65)'}}>
+                <strong style={{color:'#0a0a0a'}}>SB-2026-001 · Mendel Basement Renovation</strong><br/>
                 Base estimate: {fmt(BASE_PRICE)} (Good tier) · Select any upgrades below to see the impact on your total.
               </div>
               {groups.map(function(g) {
                 return (
-                  <div key={g.id} style={{marginBottom:'1.25rem',border:'1px solid #e8e6e0',borderRadius:4,overflow:'hidden'}}>
-                    <div style={{background:'#002147',padding:'8px 14px'}}>
+                  <div key={g.id} style={{marginBottom:'1.25rem',border:'1px solid rgba(255,255,255,.09)',borderRadius:4,overflow:'hidden'}}>
+                    <div style={{background:'#0a0a0a',padding:'8px 14px'}}>
                       <div style={{fontSize:12,fontWeight:700,color:'#fff'}}>{g.label}</div>
                       <div style={{fontSize:10,color:'rgba(255,255,255,.5)'}}>{g.room}</div>
                     </div>
-                    <div style={{display:'grid',gridTemplateColumns:'repeat(4,1fr)',gap:0,background:'#e8e6e0'}}>
+                    <div style={{display:'grid',gridTemplateColumns:'repeat(4,1fr)',gap:0,background:'rgba(255,255,255,.08)'}}>
                       {g.options.map(function(opt) {
                         var bs = BADGE_STYLE[opt.badge]
                         var tc = TIER_COLORS[opt.tier]
                         return (
                           <div key={opt.id} style={{background:'#fff',padding:'12px',margin:'1px'}}>
-                            <div style={{height:70,background:'#f5f4f1',borderRadius:3,overflow:'hidden',marginBottom:8}}>
+                            <div style={{height:70,background:'#1a1a1a',borderRadius:3,overflow:'hidden',marginBottom:8}}>
                               <img src={opt.photo} alt={opt.name} style={{width:'100%',height:'100%',objectFit:'cover'}} onError={function(e){e.target.style.display='none'}}/>
                             </div>
                             <div style={{display:'inline-block',background:bs.bg,color:bs.color,fontSize:8,fontWeight:700,padding:'1px 5px',borderRadius:2,marginBottom:4,textTransform:'uppercase'}}>{opt.badge}</div>
-                            <div style={{fontSize:11,fontWeight:600,color:'#002147',marginBottom:2,lineHeight:1.3}}>{opt.name}</div>
-                            <div style={{fontSize:10,color:'#9a9690',marginBottom:4}}>{opt.brand}</div>
+                            <div style={{fontSize:11,fontWeight:600,color:'#0a0a0a',marginBottom:2,lineHeight:1.3}}>{opt.name}</div>
+                            <div style={{fontSize:10,color:'rgba(255,255,255,.35)',marginBottom:4}}>{opt.brand}</div>
                             <div style={{fontSize:12,fontWeight:700,color:opt.delta===0?'#3B6D11':'#e65100'}}>{fmtDelta(opt.delta)}</div>
                           </div>
                         )
@@ -219,14 +219,14 @@ export default function OptionsBuilder() {
       )}
 
       {/* Topbar */}
-      <div style={{background:'#002147',padding:'1rem 2rem',display:'flex',alignItems:'center',justifyContent:'space-between',borderBottom:'3px solid #FF8C00'}}>
+      <div style={{background:'#0a0a0a',padding:'1rem 2rem',display:'flex',alignItems:'center',justifyContent:'space-between',borderBottom:'3px solid #D06830'}}>
         <div style={{display:'flex',alignItems:'center',gap:12}}>
           <img src="/logo.png" alt="SpanglerBuilt" style={{height:34,width:'auto'}}/>
-          <span style={{fontSize:11,color:'#FF8C00',letterSpacing:'.12em',textTransform:'uppercase',fontWeight:500}}>&nbsp;· Options &amp; Upgrades</span>
+          <span style={{fontSize:11,color:'#D06830',letterSpacing:'.12em',textTransform:'uppercase',fontWeight:500}}>&nbsp;· Options &amp; Upgrades</span>
         </div>
         <div style={{display:'flex',gap:12,alignItems:'center'}}>
-          <button onClick={function(){setShowPreview(true)}} style={{background:'transparent',border:'1px solid rgba(255,255,255,.3)',color:'rgba(255,255,255,.7)',padding:'5px 14px',fontSize:11,cursor:'pointer',borderRadius:3,fontFamily:'sans-serif'}}>Preview client view</button>
-          <a href="/contractor/presentation" style={{background:'#FF8C00',color:'#fff',padding:'5px 14px',fontSize:11,fontWeight:700,textDecoration:'none',borderRadius:3}}>Open presentation →</a>
+          <button onClick={function(){setShowPreview(true)}} style={{background:'transparent',border:'1px solid rgba(255,255,255,.3)',color:'rgba(255,255,255,.7)',padding:'5px 14px',fontSize:11,cursor:'pointer',borderRadius:3,fontFamily:'Poppins,sans-serif'}}>Preview client view</button>
+          <a href="/contractor/presentation" style={{background:'#D06830',color:'#fff',padding:'5px 14px',fontSize:11,fontWeight:700,textDecoration:'none',borderRadius:3}}>Open presentation →</a>
           <a href="/dashboard" style={{fontSize:11,color:'rgba(255,255,255,.6)',textDecoration:'none'}}>← Dashboard</a>
         </div>
       </div>
@@ -235,23 +235,23 @@ export default function OptionsBuilder() {
 
         {/* Left: group list */}
         <div>
-          <div style={{fontSize:10,fontWeight:500,color:'#9a9690',textTransform:'uppercase',letterSpacing:'.05em',marginBottom:8}}>Option categories</div>
-          <div style={{background:'#fff',border:'1px solid #e8e6e0',borderRadius:4,overflow:'hidden'}}>
+          <div style={{fontSize:10,fontWeight:500,color:'rgba(255,255,255,.35)',textTransform:'uppercase',letterSpacing:'.05em',marginBottom:8}}>Option categories</div>
+          <div style={{background:'#161616',border:'1px solid rgba(255,255,255,.09)',borderRadius:4,overflow:'hidden'}}>
             {groups.map(function(g) {
               var isActive = g.id === activeGrp
               return (
                 <div key={g.id} onClick={function(){setActiveGrp(g.id)}}
-                  style={{padding:'10px 14px',borderBottom:'1px solid #f5f4f1',cursor:'pointer',background:isActive?'#002147':'#fff',borderLeft:'3px solid '+(isActive?'#FF8C00':'transparent')}}>
-                  <div style={{fontSize:12,fontWeight:500,color:isActive?'#FF8C00':'#002147'}}>{g.label}</div>
+                  style={{padding:'10px 14px',borderBottom:'1px solid #f5f4f1',cursor:'pointer',background:isActive?'#0a0a0a':'#fff',borderLeft:'3px solid '+(isActive?'#D06830':'transparent')}}>
+                  <div style={{fontSize:12,fontWeight:500,color:isActive?'#D06830':'#0a0a0a'}}>{g.label}</div>
                   <div style={{fontSize:10,color:isActive?'rgba(255,255,255,.5)':'#9a9690'}}>{g.options.length} options · {g.room}</div>
                 </div>
               )
             })}
           </div>
-          <div style={{marginTop:12,background:'#002147',borderRadius:4,padding:'12px 14px'}}>
+          <div style={{marginTop:12,background:'#0a0a0a',borderRadius:4,padding:'12px 14px'}}>
             <div style={{fontSize:11,color:'rgba(255,255,255,.7)',marginBottom:8,lineHeight:1.5}}>Share options with client:</div>
             <a href="/client/options" target="_blank" rel="noopener noreferrer"
-              style={{display:'block',background:'#FF8C00',color:'#fff',padding:'8px',fontSize:11,fontWeight:700,textDecoration:'none',borderRadius:3,textAlign:'center',letterSpacing:'.06em',textTransform:'uppercase'}}>
+              style={{display:'block',background:'#D06830',color:'#fff',padding:'8px',fontSize:11,fontWeight:700,textDecoration:'none',borderRadius:3,textAlign:'center',letterSpacing:'.06em',textTransform:'uppercase'}}>
               Client options link →
             </a>
           </div>
@@ -262,8 +262,8 @@ export default function OptionsBuilder() {
           <div>
             <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:'1rem'}}>
               <div>
-                <div style={{fontFamily:'Georgia,serif',fontSize:18,color:'#002147'}}>{grp.label}</div>
-                <div style={{fontSize:11,color:'#9a9690'}}>{grp.room} · Div {grp.div} · {grp.unit}</div>
+                <div style={{fontFamily:'Poppins,sans-serif',fontSize:18,color:'#0a0a0a'}}>{grp.label}</div>
+                <div style={{fontSize:11,color:'rgba(255,255,255,.35)'}}>{grp.room} · Div {grp.div} · {grp.unit}</div>
               </div>
             </div>
 
@@ -272,9 +272,9 @@ export default function OptionsBuilder() {
                 var bs = BADGE_STYLE[opt.badge]
                 var tc = TIER_COLORS[opt.tier]
                 return (
-                  <div key={opt.id} style={{background:'#fff',border:'1px solid #e8e6e0',borderRadius:4,overflow:'hidden',borderTop:'3px solid '+(opt.delta===0?'#3B6D11':'#FF8C00')}}>
+                  <div key={opt.id} style={{background:'#161616',border:'1px solid rgba(255,255,255,.09)',borderRadius:4,overflow:'hidden',borderTop:'3px solid '+(opt.delta===0?'#3B6D11':'#D06830')}}>
                     {/* Photo */}
-                    <div style={{height:160,background:'#f5f4f1',position:'relative',overflow:'hidden'}}>
+                    <div style={{height:160,background:'#1a1a1a',position:'relative',overflow:'hidden'}}>
                       <img src={opt.photo} alt={opt.name} style={{width:'100%',height:'100%',objectFit:'cover'}} onError={function(e){e.target.style.display='none'}}/>
                       <div style={{position:'absolute',top:8,left:8,display:'flex',gap:4}}>
                         <span style={{background:bs.bg,color:bs.color,fontSize:9,fontWeight:700,padding:'2px 7px',borderRadius:3,textTransform:'uppercase'}}>{opt.badge}</span>
@@ -286,16 +286,16 @@ export default function OptionsBuilder() {
                     </div>
                     {/* Info */}
                     <div style={{padding:'12px 14px'}}>
-                      <div style={{fontSize:14,fontWeight:600,color:'#002147',marginBottom:3}}>{opt.name}</div>
-                      <div style={{fontSize:11,color:'#9a9690',marginBottom:2}}>{opt.brand}</div>
-                      <div style={{fontSize:11,color:'#9a9690',marginBottom:10}}>{opt.spec}</div>
+                      <div style={{fontSize:14,fontWeight:600,color:'#0a0a0a',marginBottom:3}}>{opt.name}</div>
+                      <div style={{fontSize:11,color:'rgba(255,255,255,.35)',marginBottom:2}}>{opt.brand}</div>
+                      <div style={{fontSize:11,color:'rgba(255,255,255,.35)',marginBottom:10}}>{opt.spec}</div>
                       <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:10}}>
                         <div>
-                          <div style={{fontSize:10,color:'#9a9690',textTransform:'uppercase',letterSpacing:'.06em',marginBottom:2}}>Rate</div>
-                          <div style={{fontSize:14,fontWeight:600,color:'#002147'}}>${opt.rate}{grp.unit==='LS'?'':'/'+grp.unit}</div>
+                          <div style={{fontSize:10,color:'rgba(255,255,255,.35)',textTransform:'uppercase',letterSpacing:'.06em',marginBottom:2}}>Rate</div>
+                          <div style={{fontSize:14,fontWeight:600,color:'#0a0a0a'}}>${opt.rate}{grp.unit==='LS'?'':'/'+grp.unit}</div>
                         </div>
                         <div style={{textAlign:'right'}}>
-                          <div style={{fontSize:10,color:'#9a9690',textTransform:'uppercase',letterSpacing:'.06em',marginBottom:2}}>Client price impact</div>
+                          <div style={{fontSize:10,color:'rgba(255,255,255,.35)',textTransform:'uppercase',letterSpacing:'.06em',marginBottom:2}}>Client price impact</div>
                           <div style={{fontSize:16,fontWeight:700,color:opt.delta===0?'#3B6D11':'#e65100'}}>
                             {opt.delta===0?'Included':'+'+fmt(opt.delta)}
                           </div>
@@ -306,7 +306,7 @@ export default function OptionsBuilder() {
                           setEditOpt({groupId:grp.id, optIndex:optIdx})
                           setEditForm({ name:opt.name, brand:opt.brand, spec:opt.spec, rate:String(opt.rate), delta:String(opt.delta), photo:opt.photo })
                         }}
-                        style={{width:'100%',background:'transparent',border:'1px solid #e8e6e0',color:'#002147',padding:'7px',fontSize:11,cursor:'pointer',borderRadius:3,fontFamily:'sans-serif',textAlign:'center'}}>
+                        style={{width:'100%',background:'transparent',border:'1px solid rgba(255,255,255,.09)',color:'#0a0a0a',padding:'7px',fontSize:11,cursor:'pointer',borderRadius:3,fontFamily:'Poppins,sans-serif',textAlign:'center'}}>
                         Edit this option
                       </button>
                     </div>

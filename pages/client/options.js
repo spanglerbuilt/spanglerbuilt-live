@@ -3,8 +3,8 @@ import { useSession } from 'next-auth/react'
 import { INIT_OPTION_GROUPS } from '../contractor/options'
 
 var BADGE_STYLE = {
-  'Included': { bg:'#002147', color:'#fff' },
-  'Upgrade':  { bg:'#FF8C00', color:'#fff' },
+  'Included': { bg:'#0a0a0a', color:'#fff' },
+  'Upgrade':  { bg:'#D06830', color:'#fff' },
   'Premium':  { bg:'#854F0B', color:'#fff' },
 }
 
@@ -103,23 +103,23 @@ export default function ClientOptions() {
 
   if (confirmed) {
     return (
-      <div style={{minHeight:'100vh',background:'#fff',fontFamily:'sans-serif',display:'flex',alignItems:'center',justifyContent:'center'}}>
+      <div style={{minHeight:'100vh',background:'#111',fontFamily:'Poppins,sans-serif',display:'flex',alignItems:'center',justifyContent:'center'}}>
         <div style={{maxWidth:520,width:'100%',padding:'2rem',textAlign:'center'}}>
-          <div style={{width:64,height:64,borderRadius:'50%',background:'#002147',display:'flex',alignItems:'center',justifyContent:'center',margin:'0 auto 1.25rem',border:'3px solid #FF8C00'}}>
-            <span style={{fontSize:28,color:'#FF8C00'}}>✓</span>
+          <div style={{width:64,height:64,borderRadius:'50%',background:'#0a0a0a',display:'flex',alignItems:'center',justifyContent:'center',margin:'0 auto 1.25rem',border:'3px solid #D06830'}}>
+            <span style={{fontSize:28,color:'#D06830'}}>✓</span>
           </div>
-          <div style={{fontFamily:'Georgia,serif',fontSize:26,color:'#002147',marginBottom:8}}>Selections confirmed!</div>
+          <div style={{fontFamily:'Poppins,sans-serif',fontSize:26,color:'#0a0a0a',marginBottom:8}}>Selections confirmed!</div>
           <div style={{fontSize:14,color:'#666',marginBottom:6}}>Your upgrades have been saved.</div>
-          <div style={{fontSize:22,fontWeight:700,color:'#002147',marginBottom:'1.5rem'}}>
+          <div style={{fontSize:22,fontWeight:700,color:'#0a0a0a',marginBottom:'1.5rem'}}>
             Revised total: {fmt(totalPrice)}
-            {upgradeDelta > 0 && <span style={{fontSize:13,color:'#FF8C00',marginLeft:8}}>+{fmt(upgradeDelta)} upgrades</span>}
+            {upgradeDelta > 0 && <span style={{fontSize:13,color:'#D06830',marginLeft:8}}>+{fmt(upgradeDelta)} upgrades</span>}
           </div>
           <a href="/client/project-book"
-            style={{display:'inline-block',background:'#002147',color:'#fff',padding:'12px 28px',fontSize:14,fontWeight:700,textDecoration:'none',borderRadius:3,border:'2px solid #FF8C00'}}>
+            style={{display:'inline-block',background:'#0a0a0a',color:'#fff',padding:'12px 28px',fontSize:14,fontWeight:700,textDecoration:'none',borderRadius:3,border:'2px solid #D06830'}}>
             View project book →
           </a>
           <div style={{marginTop:12}}>
-            <a href="/client/dashboard" style={{fontSize:12,color:'#9a9690',textDecoration:'none'}}>← Back to dashboard</a>
+            <a href="/client/dashboard" style={{fontSize:12,color:'rgba(255,255,255,.35)',textDecoration:'none'}}>← Back to dashboard</a>
           </div>
         </div>
       </div>
@@ -127,10 +127,10 @@ export default function ClientOptions() {
   }
 
   return (
-    <div style={{minHeight:'100vh',background:'#fff',fontFamily:'sans-serif'}}>
+    <div style={{minHeight:'100vh',background:'#111',fontFamily:'Poppins,sans-serif'}}>
 
       {/* Topbar */}
-      <div style={{background:'#002147',padding:'0.85rem 2rem',display:'flex',alignItems:'center',justifyContent:'space-between',borderBottom:'3px solid #FF8C00',position:'sticky',top:0,zIndex:50}}>
+      <div style={{background:'#0a0a0a',padding:'0.85rem 2rem',display:'flex',alignItems:'center',justifyContent:'space-between',borderBottom:'3px solid #D06830',position:'sticky',top:0,zIndex:50}}>
         <div style={{display:'flex',alignItems:'center',gap:12}}>
           <img src="/logo.png" alt="SpanglerBuilt" style={{height:30,width:'auto'}}/>
           <span style={{fontSize:11,color:'rgba(255,255,255,.5)',letterSpacing:'.1em',textTransform:'uppercase'}}>Options &amp; Upgrades</span>
@@ -139,7 +139,7 @@ export default function ClientOptions() {
       </div>
 
       {/* Sticky upgrade bar */}
-      <div style={{background:'#002147',borderBottom:'2px solid #FF8C00',padding:'0.6rem 2rem',display:'flex',alignItems:'center',justifyContent:'space-between',position:'sticky',top:57,zIndex:49}}>
+      <div style={{background:'#0a0a0a',borderBottom:'2px solid #D06830',padding:'0.6rem 2rem',display:'flex',alignItems:'center',justifyContent:'space-between',position:'sticky',top:57,zIndex:49}}>
         <div style={{display:'flex',gap:24,alignItems:'center'}}>
           <div>
             <div style={{fontSize:9,color:'rgba(255,255,255,.5)',textTransform:'uppercase',letterSpacing:'.08em'}}>Base estimate ({tierLabel})</div>
@@ -148,13 +148,13 @@ export default function ClientOptions() {
           {upgradeDelta > 0 && (
             <div>
               <div style={{fontSize:9,color:'rgba(255,255,255,.5)',textTransform:'uppercase',letterSpacing:'.08em'}}>Upgrades selected</div>
-              <div style={{fontSize:14,fontWeight:600,color:'#FF8C00'}}>+{fmt(upgradeDelta)}</div>
+              <div style={{fontSize:14,fontWeight:600,color:'#D06830'}}>+{fmt(upgradeDelta)}</div>
             </div>
           )}
         </div>
         <div style={{textAlign:'right'}}>
           <div style={{fontSize:9,color:'rgba(255,255,255,.5)',textTransform:'uppercase',letterSpacing:'.08em'}}>Revised total</div>
-          <div style={{fontSize:18,fontWeight:700,color:'#FF8C00'}}>{fmt(totalPrice)}</div>
+          <div style={{fontSize:18,fontWeight:700,color:'#D06830'}}>{fmt(totalPrice)}</div>
         </div>
       </div>
 
@@ -162,7 +162,7 @@ export default function ClientOptions() {
 
         {/* Intro */}
         <div style={{marginBottom:'2rem'}}>
-          <div style={{fontFamily:'Georgia,serif',fontSize:24,color:'#002147',marginBottom:6}}>Choose your finishes</div>
+          <div style={{fontFamily:'Poppins,sans-serif',fontSize:24,color:'#0a0a0a',marginBottom:6}}>Choose your finishes</div>
           <div style={{fontSize:13,color:'#666',lineHeight:1.6,maxWidth:620}}>
             Your base estimate includes the "Included" option for each category. Select any upgrade to see how it affects your total — all pricing is transparent, no surprises.
           </div>
@@ -175,24 +175,24 @@ export default function ClientOptions() {
           var isAnimating = animGroup === g.id
 
           return (
-            <div key={g.id} style={{marginBottom:'2rem',border:'1px solid #e8e6e0',borderRadius:6,overflow:'hidden',boxShadow:'0 1px 4px rgba(0,0,0,.06)'}}>
+            <div key={g.id} style={{marginBottom:'2rem',border:'1px solid rgba(255,255,255,.09)',borderRadius:6,overflow:'hidden',boxShadow:'0 1px 4px rgba(0,0,0,.06)'}}>
 
               {/* Group header */}
-              <div style={{background:'#002147',padding:'10px 16px',display:'flex',alignItems:'center',justifyContent:'space-between'}}>
+              <div style={{background:'#0a0a0a',padding:'10px 16px',display:'flex',alignItems:'center',justifyContent:'space-between'}}>
                 <div>
                   <div style={{fontSize:14,fontWeight:700,color:'#fff'}}>{g.label}</div>
                   <div style={{fontSize:10,color:'rgba(255,255,255,.5)'}}>{g.room}</div>
                 </div>
                 <div style={{textAlign:'right'}}>
                   <div style={{fontSize:10,color:'rgba(255,255,255,.5)',textTransform:'uppercase',letterSpacing:'.06em'}}>selected</div>
-                  <div style={{fontSize:12,fontWeight:600,color:selectedOpt.delta===0?'#90EE90':'#FF8C00'}}>
+                  <div style={{fontSize:12,fontWeight:600,color:selectedOpt.delta===0?'#90EE90':'#D06830'}}>
                     {selectedOpt.delta===0 ? 'Included' : '+'+fmt(selectedOpt.delta)}
                   </div>
                 </div>
               </div>
 
               {/* 4 option cards */}
-              <div style={{display:'grid',gridTemplateColumns:'repeat(4,1fr)',gap:0,background:'#e8e6e0'}}>
+              <div style={{display:'grid',gridTemplateColumns:'repeat(4,1fr)',gap:0,background:'rgba(255,255,255,.08)'}}>
                 {g.options.map(function(opt) {
                   var isSelected = selectedId === opt.id
                   var bs = BADGE_STYLE[opt.badge]
@@ -204,20 +204,20 @@ export default function ClientOptions() {
                         margin:'1px',
                         cursor:'pointer',
                         transition:'all .15s',
-                        outline: isSelected ? '2px solid #FF8C00' : '2px solid transparent',
+                        outline: isSelected ? '2px solid #D06830' : '2px solid transparent',
                         outlineOffset: '-2px',
                         position:'relative',
                       }}>
 
                       {/* Selected checkmark */}
                       {isSelected && (
-                        <div style={{position:'absolute',top:8,right:8,zIndex:2,width:20,height:20,borderRadius:'50%',background:'#FF8C00',display:'flex',alignItems:'center',justifyContent:'center'}}>
+                        <div style={{position:'absolute',top:8,right:8,zIndex:2,width:20,height:20,borderRadius:'50%',background:'#D06830',display:'flex',alignItems:'center',justifyContent:'center'}}>
                           <span style={{color:'#fff',fontSize:11,fontWeight:700}}>✓</span>
                         </div>
                       )}
 
                       {/* Photo */}
-                      <div style={{height:110,background:'#f5f4f1',overflow:'hidden',position:'relative'}}>
+                      <div style={{height:110,background:'#1a1a1a',overflow:'hidden',position:'relative'}}>
                         <img src={opt.photo} alt={opt.name}
                           style={{width:'100%',height:'100%',objectFit:'cover',opacity: isSelected ? 1 : 0.82}}
                           onError={function(e){e.target.style.display='none'}}/>
@@ -229,17 +229,17 @@ export default function ClientOptions() {
 
                       {/* Info */}
                       <div style={{padding:'10px 10px 12px'}}>
-                        <div style={{fontSize:11,fontWeight:600,color:'#002147',marginBottom:2,lineHeight:1.3}}>{opt.name}</div>
-                        <div style={{fontSize:10,color:'#9a9690',marginBottom:1}}>{opt.brand}</div>
+                        <div style={{fontSize:11,fontWeight:600,color:'#0a0a0a',marginBottom:2,lineHeight:1.3}}>{opt.name}</div>
+                        <div style={{fontSize:10,color:'rgba(255,255,255,.35)',marginBottom:1}}>{opt.brand}</div>
                         <div style={{fontSize:9,color:'#aaa',marginBottom:8,lineHeight:1.4}}>{opt.spec}</div>
                         <div style={{
                           fontSize:13,fontWeight:700,
-                          color: opt.delta===0 ? '#3B6D11' : '#002147',
+                          color: opt.delta===0 ? '#3B6D11' : '#0a0a0a',
                           padding:'5px 8px',
                           background: isSelected ? (opt.delta===0?'#eaf3de':'#fff3e0') : '#f5f4f1',
                           borderRadius:3,
                           textAlign:'center',
-                          border: isSelected ? '1px solid '+(opt.delta===0?'#3B6D11':'#FF8C00') : '1px solid #e8e6e0',
+                          border: isSelected ? '1px solid '+(opt.delta===0?'#3B6D11':'#D06830') : '1px solid #e8e6e0',
                         }}>
                           {opt.delta===0 ? 'Included' : '+'+fmt(opt.delta)}
                         </div>
@@ -253,9 +253,9 @@ export default function ClientOptions() {
         })}
 
         {/* Upgrade summary + confirm */}
-        <div style={{border:'2px solid #002147',borderRadius:6,overflow:'hidden',marginTop:'1rem'}}>
-          <div style={{background:'#002147',padding:'1rem 1.5rem'}}>
-            <div style={{fontFamily:'Georgia,serif',fontSize:18,color:'#fff'}}>Your selections summary</div>
+        <div style={{border:'2px solid #0a0a0a',borderRadius:6,overflow:'hidden',marginTop:'1rem'}}>
+          <div style={{background:'#0a0a0a',padding:'1rem 1.5rem'}}>
+            <div style={{fontFamily:'Poppins,sans-serif',fontSize:18,color:'#fff'}}>Your selections summary</div>
           </div>
           <div style={{background:'#fff',padding:'1.25rem 1.5rem'}}>
             <div style={{display:'grid',gap:6,marginBottom:'1rem'}}>
@@ -266,38 +266,38 @@ export default function ClientOptions() {
                 return (
                   <div key={g.id} style={{display:'flex',justifyContent:'space-between',alignItems:'center',padding:'6px 0',borderBottom:'1px solid #f5f4f1'}}>
                     <div>
-                      <span style={{fontSize:12,color:'#002147',fontWeight:500}}>{g.label}</span>
-                      <span style={{fontSize:11,color:'#9a9690',marginLeft:8}}>{opt.name}</span>
+                      <span style={{fontSize:12,color:'#0a0a0a',fontWeight:500}}>{g.label}</span>
+                      <span style={{fontSize:11,color:'rgba(255,255,255,.35)',marginLeft:8}}>{opt.name}</span>
                     </div>
-                    <div style={{fontSize:12,fontWeight:600,color: opt.delta===0?'#3B6D11':'#FF8C00'}}>
+                    <div style={{fontSize:12,fontWeight:600,color: opt.delta===0?'#3B6D11':'#D06830'}}>
                       {opt.delta===0 ? 'Included' : '+'+fmt(opt.delta)}
                     </div>
                   </div>
                 )
               })}
             </div>
-            <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',padding:'10px 0',borderTop:'2px solid #002147',marginBottom:'1.25rem'}}>
+            <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',padding:'10px 0',borderTop:'2px solid #0a0a0a',marginBottom:'1.25rem'}}>
               <div>
-                <div style={{fontSize:11,color:'#9a9690',marginBottom:2}}>Base ({tierLabel})</div>
-                <div style={{fontSize:22,fontWeight:700,color:'#002147'}}>{fmt(basePrice)}</div>
+                <div style={{fontSize:11,color:'rgba(255,255,255,.35)',marginBottom:2}}>Base ({tierLabel})</div>
+                <div style={{fontSize:22,fontWeight:700,color:'#0a0a0a'}}>{fmt(basePrice)}</div>
               </div>
               {upgradeDelta > 0 && (
                 <div style={{textAlign:'center',padding:'0 1rem'}}>
-                  <div style={{fontSize:11,color:'#9a9690',marginBottom:2}}>Upgrade total</div>
-                  <div style={{fontSize:18,fontWeight:700,color:'#FF8C00'}}>+{fmt(upgradeDelta)}</div>
+                  <div style={{fontSize:11,color:'rgba(255,255,255,.35)',marginBottom:2}}>Upgrade total</div>
+                  <div style={{fontSize:18,fontWeight:700,color:'#D06830'}}>+{fmt(upgradeDelta)}</div>
                 </div>
               )}
               <div style={{textAlign:'right'}}>
-                <div style={{fontSize:11,color:'#9a9690',marginBottom:2}}>Revised project total</div>
-                <div style={{fontSize:26,fontWeight:700,color:'#002147'}}>{fmt(totalPrice)}</div>
+                <div style={{fontSize:11,color:'rgba(255,255,255,.35)',marginBottom:2}}>Revised project total</div>
+                <div style={{fontSize:26,fontWeight:700,color:'#0a0a0a'}}>{fmt(totalPrice)}</div>
               </div>
             </div>
             <button
               onClick={confirmAll}
-              style={{width:'100%',background:'#002147',color:'#fff',border:'2px solid #FF8C00',padding:'14px',fontSize:14,fontWeight:700,cursor:'pointer',borderRadius:4,fontFamily:'sans-serif',letterSpacing:'.04em'}}>
+              style={{width:'100%',background:'#0a0a0a',color:'#fff',border:'2px solid #D06830',padding:'14px',fontSize:14,fontWeight:700,cursor:'pointer',borderRadius:4,fontFamily:'Poppins,sans-serif',letterSpacing:'.04em'}}>
               Confirm all selections →
             </button>
-            <div style={{fontSize:11,color:'#9a9690',textAlign:'center',marginTop:8}}>
+            <div style={{fontSize:11,color:'rgba(255,255,255,.35)',textAlign:'center',marginTop:8}}>
               Your selections are saved automatically and shared with your contractor.
             </div>
           </div>

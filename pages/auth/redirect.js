@@ -1,9 +1,9 @@
 export default function Redirect() {
   return (
-    <div style={{minHeight:'100vh',background:'#002147',display:'flex',alignItems:'center',justifyContent:'center',fontFamily:'sans-serif'}}>
+    <div style={{minHeight:'100vh',background:'#0a0a0a',display:'flex',alignItems:'center',justifyContent:'center',fontFamily:'Poppins,sans-serif'}}>
       <div style={{textAlign:'center'}}>
         <img src="/logo.png" alt="SpanglerBuilt" style={{width:120,height:'auto',marginBottom:'1rem'}}/>
-        <div style={{color:'#FF8C00',fontSize:13}}>Loading your portal...</div>
+        <div style={{color:'#D06830',fontSize:13}}>Loading your portal...</div>
       </div>
     </div>
   )

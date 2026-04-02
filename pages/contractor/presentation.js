@@ -99,7 +99,7 @@ export default function Presentation() {
   var spotlitPhoto = spotlight ? CATEGORY_PHOTOS[spotlight] : null
 
   return (
-    <div style={{minHeight:'100vh',background:'#002147',fontFamily:'sans-serif',display:'flex',flexDirection:'column'}}>
+    <div style={{minHeight:'100vh',background:'#0a0a0a',fontFamily:'Poppins,sans-serif',display:'flex',flexDirection:'column'}}>
 
       {/* Spotlight overlay */}
       {spotlight && spotlitSel && (
@@ -150,7 +150,7 @@ export default function Presentation() {
           <div style={{display:'flex',border:'1px solid rgba(255,255,255,.2)',borderRadius:4,overflow:'hidden'}}>
             {[['checklist','Checklist'],['room','Room view']].map(function(item){return(
               <button key={item[0]} onClick={function(){setMode(item[0])}}
-                style={{padding:'5px 14px',fontSize:11,fontWeight:500,border:'none',cursor:'pointer',fontFamily:'sans-serif',background:mode===item[0]?'#FF8C00':'transparent',color:mode===item[0]?'#fff':'rgba(255,255,255,.5)',transition:'all .15s'}}>
+                style={{padding:'5px 14px',fontSize:11,fontWeight:500,border:'none',cursor:'pointer',fontFamily:'Poppins,sans-serif',background:mode===item[0]?'#D06830':'transparent',color:mode===item[0]?'#fff':'rgba(255,255,255,.5)',transition:'all .15s'}}>
                 {item[1]}
               </button>
             )})}
@@ -176,7 +176,7 @@ export default function Presentation() {
           </div>
           <div>
             <div style={{fontSize:9,color:'rgba(255,255,255,.35)',textTransform:'uppercase',letterSpacing:'.1em'}}>Tier</div>
-            <div style={{fontSize:13,color:TIER_COLORS[tierKey]||'#FF8C00',fontWeight:600}}>{tierLabel} · {fmt(price)}</div>
+            <div style={{fontSize:13,color:TIER_COLORS[tierKey]||'#D06830',fontWeight:600}}>{tierLabel} · {fmt(price)}</div>
           </div>
         </div>
         <div style={{fontSize:11,color:selectedCount===totalCats?'#90EE90':'rgba(255,255,255,.4)'}}>
@@ -202,7 +202,7 @@ export default function Presentation() {
               <div key={rc.id} style={{marginBottom:'1.5rem'}}>
                 {/* Room header */}
                 <div style={{display:'flex',alignItems:'center',gap:10,marginBottom:10,paddingBottom:8,borderBottom:'1px solid rgba(255,255,255,.12)'}}>
-                  <span style={{fontSize:16,color:'#FF8C00'}}>{rc.icon}</span>
+                  <span style={{fontSize:16,color:'#D06830'}}>{rc.icon}</span>
                   <span style={{fontSize:15,fontWeight:700,color:'#fff',letterSpacing:'.02em'}}>{rc.label}</span>
                   <span style={{fontSize:11,color:'rgba(255,255,255,.3)'}}>
                     {roomSels.length}/{rc.cats.length} confirmed
@@ -218,7 +218,7 @@ export default function Presentation() {
                       return (
                         <div key={catId}
                           onClick={function(){ setSpotlight(catId) }}
-                          style={{display:'flex',gap:10,alignItems:'center',background:'rgba(255,255,255,.06)',border:'1px solid rgba(255,255,255,.1)',borderRadius:4,padding:'10px 12px',cursor:'pointer',transition:'background .15s',borderLeft:'3px solid '+(approved?'#3B6D11':'#FF8C00')}}
+                          style={{display:'flex',gap:10,alignItems:'center',background:'rgba(255,255,255,.06)',border:'1px solid rgba(255,255,255,.1)',borderRadius:4,padding:'10px 12px',cursor:'pointer',transition:'background .15s',borderLeft:'3px solid '+(approved?'#3B6D11':'#D06830')}}
                           onMouseEnter={function(e){e.currentTarget.style.background='rgba(255,255,255,.1)'}}
                           onMouseLeave={function(e){e.currentTarget.style.background='rgba(255,255,255,.06)'}}>
                           {/* Thumbnail */}
@@ -235,7 +235,7 @@ export default function Presentation() {
                             <div style={{fontSize:10,color:'rgba(255,255,255,.4)',overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap'}}>{sel.brand}</div>
                           </div>
                           {/* Check */}
-                          <div style={{width:20,height:20,borderRadius:'50%',background:approved?'#3B6D11':'rgba(255,140,0,.3)',border:'2px solid '+(approved?'#3B6D11':'#FF8C00'),display:'flex',alignItems:'center',justifyContent:'center',flexShrink:0}}>
+                          <div style={{width:20,height:20,borderRadius:'50%',background:approved?'#3B6D11':'rgba(255,140,0,.3)',border:'2px solid '+(approved?'#3B6D11':'#D06830'),display:'flex',alignItems:'center',justifyContent:'center',flexShrink:0}}>
                             <span style={{fontSize:10,color:'#fff',fontWeight:700}}>✓</span>
                           </div>
                         </div>
@@ -272,12 +272,12 @@ export default function Presentation() {
               <div style={{display:'flex',gap:8}}>
                 {!approved ? (
                   <button onClick={approveAll}
-                    style={{background:'#FF8C00',color:'#fff',border:'none',padding:'10px 24px',fontSize:12,fontWeight:700,cursor:'pointer',borderRadius:4,fontFamily:'sans-serif',letterSpacing:'.04em',textTransform:'uppercase'}}>
+                    style={{background:'#D06830',color:'#fff',border:'none',padding:'10px 24px',fontSize:12,fontWeight:700,cursor:'pointer',borderRadius:4,fontFamily:'Poppins,sans-serif',letterSpacing:'.04em',textTransform:'uppercase'}}>
                     Approve all selections →
                   </button>
                 ) : (
                   <a href="/client/project-book" target="_blank" rel="noopener noreferrer"
-                    style={{background:'#3B6D11',color:'#fff',border:'none',padding:'10px 24px',fontSize:12,fontWeight:700,cursor:'pointer',borderRadius:4,fontFamily:'sans-serif',letterSpacing:'.04em',textTransform:'uppercase',textDecoration:'none'}}>
+                    style={{background:'#3B6D11',color:'#fff',border:'none',padding:'10px 24px',fontSize:12,fontWeight:700,cursor:'pointer',borderRadius:4,fontFamily:'Poppins,sans-serif',letterSpacing:'.04em',textTransform:'uppercase',textDecoration:'none'}}>
                     Open project book →
                   </a>
                 )}
@@ -297,8 +297,8 @@ export default function Presentation() {
               var done = rc.cats.filter(function(c){ return selections[c] }).length
               return (
                 <div key={rc.id} onClick={function(){ setActiveRoom(rc.id) }}
-                  style={{padding:'12px 16px',cursor:'pointer',borderLeft:'3px solid '+(activeRoom===rc.id?'#FF8C00':'transparent'),background:activeRoom===rc.id?'rgba(255,255,255,.08)':'transparent'}}>
-                  <div style={{fontSize:12,fontWeight:600,color:activeRoom===rc.id?'#FF8C00':'rgba(255,255,255,.6)'}}>{rc.label}</div>
+                  style={{padding:'12px 16px',cursor:'pointer',borderLeft:'3px solid '+(activeRoom===rc.id?'#D06830':'transparent'),background:activeRoom===rc.id?'rgba(255,255,255,.08)':'transparent'}}>
+                  <div style={{fontSize:12,fontWeight:600,color:activeRoom===rc.id?'#D06830':'rgba(255,255,255,.6)'}}>{rc.label}</div>
                   <div style={{fontSize:10,color:'rgba(255,255,255,.3)',marginTop:2}}>{done}/{rc.cats.length}</div>
                 </div>
               )
@@ -320,7 +320,7 @@ export default function Presentation() {
                 )
                 return (
                   <div key={catId} onClick={function(){setSpotlight(catId)}}
-                    style={{background:'rgba(255,255,255,.06)',border:'1px solid rgba(255,255,255,.1)',borderRadius:6,overflow:'hidden',cursor:'pointer',borderTop:'3px solid '+(approved?'#3B6D11':'#FF8C00')}}
+                    style={{background:'rgba(255,255,255,.06)',border:'1px solid rgba(255,255,255,.1)',borderRadius:6,overflow:'hidden',cursor:'pointer',borderTop:'3px solid '+(approved?'#3B6D11':'#D06830')}}
                     onMouseEnter={function(e){e.currentTarget.style.background='rgba(255,255,255,.1)'}}
                     onMouseLeave={function(e){e.currentTarget.style.background='rgba(255,255,255,.06)'}}>
                     <div style={{height:140,overflow:'hidden',position:'relative'}}>

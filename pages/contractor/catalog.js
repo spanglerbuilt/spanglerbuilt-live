@@ -106,19 +106,19 @@ export default function CatalogPage() {
   var queueCount = Object.keys(estimateQueue).length
 
   return (
-    <div style={{minHeight:'100vh', background:'#f5f4f1', fontFamily:'sans-serif'}}>
+    <div style={{minHeight:'100vh', background:'#1a1a1a', fontFamily:'Poppins,sans-serif'}}>
 
       {/* Topbar */}
       <div style={{
         position:'sticky', top:0, zIndex:100,
-        background:'#002147', borderBottom:'3px solid #FF8C00',
+        background:'#0a0a0a', borderBottom:'3px solid #D06830',
         padding:'0 2rem',
         display:'grid', gridTemplateColumns:'auto 1fr auto',
         alignItems:'center', gap:'1.5rem', minHeight:58,
       }}>
         <div style={{display:'flex', alignItems:'center', gap:12, flexShrink:0}}>
           <img src="/logo.png" alt="SpanglerBuilt" style={{height:32, width:'auto'}} onError={function(e){e.target.style.display='none'}}/>
-          <span style={{fontSize:11, color:'#FF8C00', letterSpacing:'.12em', textTransform:'uppercase', fontWeight:600, whiteSpace:'nowrap'}}>
+          <span style={{fontSize:11, color:'#D06830', letterSpacing:'.12em', textTransform:'uppercase', fontWeight:600, whiteSpace:'nowrap'}}>
             Material Catalog
           </span>
         </div>
@@ -131,7 +131,7 @@ export default function CatalogPage() {
               width:'100%', boxSizing:'border-box',
               padding:'8px 12px 8px 34px',
               background:'rgba(255,255,255,.1)', border:'1px solid rgba(255,255,255,.2)',
-              borderRadius:4, color:'#fff', fontSize:13, fontFamily:'sans-serif', outline:'none',
+              borderRadius:4, color:'#fff', fontSize:13, fontFamily:'Poppins,sans-serif', outline:'none',
             }}
           />
           <span style={{position:'absolute', left:10, top:'50%', transform:'translateY(-50%)', color:'rgba(255,255,255,.4)', fontSize:14, pointerEvents:'none'}}>⌕</span>
@@ -143,12 +143,12 @@ export default function CatalogPage() {
 
       {/* Queue banner */}
       {queueCount > 0 && (
-        <div style={{background:'#002147', borderBottom:'2px solid #FF8C00', padding:'10px 2rem', display:'flex', alignItems:'center', justifyContent:'space-between'}}>
+        <div style={{background:'#0a0a0a', borderBottom:'2px solid #D06830', padding:'10px 2rem', display:'flex', alignItems:'center', justifyContent:'space-between'}}>
           <span style={{fontSize:13, color:'#fff', fontWeight:500}}>
-            <span style={{display:'inline-block', background:'#FF8C00', color:'#fff', fontSize:11, fontWeight:700, borderRadius:10, padding:'1px 8px', marginRight:8}}>{queueCount}</span>
+            <span style={{display:'inline-block', background:'#D06830', color:'#fff', fontSize:11, fontWeight:700, borderRadius:10, padding:'1px 8px', marginRight:8}}>{queueCount}</span>
             {queueCount === 1 ? 'item' : 'items'} queued for estimate
           </span>
-          <a href="/contractor/estimate" style={{fontSize:12, fontWeight:700, color:'#FF8C00', textDecoration:'none', border:'1px solid #FF8C00', padding:'4px 12px', borderRadius:3}}>
+          <a href="/contractor/estimate" style={{fontSize:12, fontWeight:700, color:'#D06830', textDecoration:'none', border:'1px solid #D06830', padding:'4px 12px', borderRadius:3}}>
             Open estimate →
           </a>
         </div>
@@ -160,28 +160,28 @@ export default function CatalogPage() {
         <div style={{width:220, flexShrink:0, position:'sticky', top:queueCount > 0 ? 102 : 62}}>
 
           <div style={{marginBottom:12}}>
-            <div style={{fontSize:10, fontWeight:600, color:'#9a9690', textTransform:'uppercase', letterSpacing:'.08em', marginBottom:6}}>Project type</div>
+            <div style={{fontSize:10, fontWeight:600, color:'rgba(255,255,255,.35)', textTransform:'uppercase', letterSpacing:'.08em', marginBottom:6}}>Project type</div>
             <div style={{display:'flex', flexWrap:'wrap', gap:5}}>
               {PROJECT_TYPES.map(function(t) {
                 var isActive = activeType === t
                 return (
                   <button key={t} onClick={function(){ setActiveType(t); setActiveCat('all') }} style={{
-                    padding:'4px 10px', fontSize:11, fontWeight:600, fontFamily:'sans-serif', cursor:'pointer', borderRadius:12,
-                    border:'1px solid', borderColor:isActive?'#002147':'#d8d6d0',
-                    background:isActive?'#002147':'#fff', color:isActive?'#FF8C00':'#5f5e5a',
+                    padding:'4px 10px', fontSize:11, fontWeight:600, fontFamily:'Poppins,sans-serif', cursor:'pointer', borderRadius:12,
+                    border:'1px solid', borderColor:isActive?'#0a0a0a':'#d8d6d0',
+                    background:isActive?'#0a0a0a':'#fff', color:isActive?'#D06830':'#5f5e5a',
                   }}>{TYPE_LABELS[t]}</button>
                 )
               })}
             </div>
           </div>
 
-          <div style={{background:'#fff', border:'1px solid #e8e6e0', borderRadius:4, overflow:'hidden', marginBottom:12}}>
+          <div style={{background:'#fff', border:'1px solid rgba(255,255,255,.09)', borderRadius:4, overflow:'hidden', marginBottom:12}}>
             <div style={{
               padding:'9px 12px', display:'flex', alignItems:'center', justifyContent:'space-between', cursor:'pointer',
-              background:activeCat==='all'?'#002147':'#fff',
-              borderLeft:'3px solid '+(activeCat==='all'?'#FF8C00':'transparent'),
+              background:activeCat==='all'?'#0a0a0a':'#fff',
+              borderLeft:'3px solid '+(activeCat==='all'?'#D06830':'transparent'),
             }} onClick={function(){ setActiveCat('all') }}>
-              <span style={{fontSize:12, fontWeight:600, color:activeCat==='all'?'#FF8C00':'#002147'}}>All categories</span>
+              <span style={{fontSize:12, fontWeight:600, color:activeCat==='all'?'#D06830':'#0a0a0a'}}>All categories</span>
               <span style={{fontSize:10, fontWeight:700, color:activeCat==='all'?'rgba(255,255,255,.6)':'#9a9690', background:activeCat==='all'?'rgba(255,255,255,.12)':'#f5f4f1', padding:'1px 6px', borderRadius:8}}>
                 {countBase.length}
               </span>
@@ -192,10 +192,10 @@ export default function CatalogPage() {
                 <div key={cat} style={{
                   padding:'8px 12px', display:'flex', alignItems:'center', justifyContent:'space-between', cursor:'pointer',
                   borderTop:'1px solid #f5f4f1',
-                  background:isActive?'#002147':'#fff',
-                  borderLeft:'3px solid '+(isActive?'#FF8C00':'transparent'),
+                  background:isActive?'#0a0a0a':'#fff',
+                  borderLeft:'3px solid '+(isActive?'#D06830':'transparent'),
                 }} onClick={function(){ setActiveCat(cat) }}>
-                  <span style={{fontSize:12, fontWeight:500, color:isActive?'#FF8C00':'#002147'}}>{CAT_DISPLAY[cat]||cat}</span>
+                  <span style={{fontSize:12, fontWeight:500, color:isActive?'#D06830':'#0a0a0a'}}>{CAT_DISPLAY[cat]||cat}</span>
                   <span style={{fontSize:10, fontWeight:700, color:isActive?'rgba(255,255,255,.6)':'#9a9690', background:isActive?'rgba(255,255,255,.12)':'#f5f4f1', padding:'1px 6px', borderRadius:8}}>
                     {catCounts[cat]}
                   </span>
@@ -204,15 +204,15 @@ export default function CatalogPage() {
             })}
           </div>
 
-          <div style={{background:'#002147', borderRadius:4, padding:'12px 14px'}}>
+          <div style={{background:'#0a0a0a', borderRadius:4, padding:'12px 14px'}}>
             <div style={{fontSize:10, fontWeight:600, color:'rgba(255,255,255,.5)', textTransform:'uppercase', letterSpacing:'.08em', marginBottom:6}}>Estimate queue</div>
             {queueCount === 0 ? (
               <div style={{fontSize:11, color:'rgba(255,255,255,.4)', lineHeight:1.5}}>No items queued. Click "＋ Estimate" on any card to add.</div>
             ) : (
               <>
-                <div style={{fontSize:22, fontWeight:700, color:'#FF8C00', marginBottom:4}}>{queueCount}</div>
+                <div style={{fontSize:22, fontWeight:700, color:'#D06830', marginBottom:4}}>{queueCount}</div>
                 <div style={{fontSize:11, color:'rgba(255,255,255,.6)', marginBottom:10}}>{queueCount===1?'item':'items'} ready for estimate</div>
-                <a href="/contractor/estimate" style={{display:'block', textAlign:'center', background:'#FF8C00', color:'#fff', padding:'7px', fontSize:11, fontWeight:700, textDecoration:'none', borderRadius:3, letterSpacing:'.05em', textTransform:'uppercase'}}>
+                <a href="/contractor/estimate" style={{display:'block', textAlign:'center', background:'#D06830', color:'#fff', padding:'7px', fontSize:11, fontWeight:700, textDecoration:'none', borderRadius:3, letterSpacing:'.05em', textTransform:'uppercase'}}>
                   Open estimate →
                 </a>
               </>
@@ -224,32 +224,32 @@ export default function CatalogPage() {
         <div style={{flex:1, minWidth:0}}>
 
           <div style={{display:'flex', alignItems:'center', justifyContent:'space-between', marginBottom:12}}>
-            <div style={{fontSize:12, color:'#9a9690'}}>
+            <div style={{fontSize:12, color:'rgba(255,255,255,.35)'}}>
               {loading ? 'Loading catalog…' : (
                 <>
-                  <strong style={{color:'#002147'}}>{filtered.length}</strong> products
-                  {activeCat !== 'all' && <span> in <strong style={{color:'#002147'}}>{CAT_DISPLAY[activeCat]||activeCat}</strong></span>}
-                  {activeType !== 'all' && <span> · <strong style={{color:'#002147'}}>{TYPE_LABELS[activeType]}</strong></span>}
-                  {search && <span> matching "<strong style={{color:'#002147'}}>{search}</strong>"</span>}
+                  <strong style={{color:'#0a0a0a'}}>{filtered.length}</strong> products
+                  {activeCat !== 'all' && <span> in <strong style={{color:'#0a0a0a'}}>{CAT_DISPLAY[activeCat]||activeCat}</strong></span>}
+                  {activeType !== 'all' && <span> · <strong style={{color:'#0a0a0a'}}>{TYPE_LABELS[activeType]}</strong></span>}
+                  {search && <span> matching "<strong style={{color:'#0a0a0a'}}>{search}</strong>"</span>}
                 </>
               )}
             </div>
             {(activeCat !== 'all' || activeType !== 'all' || search) && (
-              <button onClick={function(){ setActiveCat('all'); setActiveType('all'); setSearch('') }} style={{background:'transparent', border:'1px solid #d8d6d0', color:'#5f5e5a', fontSize:11, padding:'3px 10px', borderRadius:3, cursor:'pointer', fontFamily:'sans-serif'}}>
+              <button onClick={function(){ setActiveCat('all'); setActiveType('all'); setSearch('') }} style={{background:'transparent', border:'1px solid #d8d6d0', color:'rgba(255,255,255,.5)', fontSize:11, padding:'3px 10px', borderRadius:3, cursor:'pointer', fontFamily:'Poppins,sans-serif'}}>
                 Clear filters ✕
               </button>
             )}
           </div>
 
           {loading ? (
-            <div style={{background:'#fff', border:'1px solid #e8e6e0', borderRadius:4, padding:'3rem', textAlign:'center'}}>
-              <div style={{fontSize:13, color:'#9a9690'}}>Loading catalog…</div>
+            <div style={{background:'#fff', border:'1px solid rgba(255,255,255,.09)', borderRadius:4, padding:'3rem', textAlign:'center'}}>
+              <div style={{fontSize:13, color:'rgba(255,255,255,.35)'}}>Loading catalog…</div>
             </div>
           ) : filtered.length === 0 ? (
-            <div style={{background:'#fff', border:'1px solid #e8e6e0', borderRadius:4, padding:'3rem', textAlign:'center'}}>
+            <div style={{background:'#fff', border:'1px solid rgba(255,255,255,.09)', borderRadius:4, padding:'3rem', textAlign:'center'}}>
               <div style={{fontSize:32, marginBottom:12, color:'#d8d6d0'}}>◧</div>
-              <div style={{fontSize:14, color:'#002147', fontWeight:600, marginBottom:6}}>No products found</div>
-              <div style={{fontSize:12, color:'#9a9690'}}>Try adjusting your filters or search terms.</div>
+              <div style={{fontSize:14, color:'#0a0a0a', fontWeight:600, marginBottom:6}}>No products found</div>
+              <div style={{fontSize:12, color:'rgba(255,255,255,.35)'}}>Try adjusting your filters or search terms.</div>
             </div>
           ) : (
             <div style={{display:'grid', gridTemplateColumns:'repeat(3, minmax(0, 1fr))', gap:12}}>
@@ -261,11 +261,11 @@ export default function CatalogPage() {
 
                 return (
                   <div key={m.id} style={{
-                    background:'#fff', border:'1px solid #e8e6e0', borderRadius:4, overflow:'hidden',
+                    background:'#fff', border:'1px solid rgba(255,255,255,.09)', borderRadius:4, overflow:'hidden',
                     display:'flex', flexDirection:'column',
-                    borderTop: inQueue ? '3px solid #3B6D11' : '3px solid #002147',
+                    borderTop: inQueue ? '3px solid #3B6D11' : '3px solid #0a0a0a',
                   }}>
-                    <div style={{position:'relative', height:120, background:'#e8e6e0', overflow:'hidden', flexShrink:0}}>
+                    <div style={{position:'relative', height:120, background:'rgba(255,255,255,.08)', overflow:'hidden', flexShrink:0}}>
                       <img src={photo} alt={m.name} style={{width:'100%', height:'100%', objectFit:'cover', display:'block'}} onError={function(e){ e.target.style.display='none' }}/>
                       <span style={{
                         position:'absolute', top:8, left:8,
@@ -280,35 +280,35 @@ export default function CatalogPage() {
                     </div>
 
                     <div style={{padding:'10px 12px', flex:1, display:'flex', flexDirection:'column', gap:3}}>
-                      <div style={{fontSize:10, color:'#9a9690', fontWeight:500}}>{m.brand}</div>
-                      <div style={{fontSize:13, fontWeight:600, color:'#002147', lineHeight:1.35}}>{m.name}</div>
-                      <div style={{fontSize:10, color:'#9a9690', lineHeight:1.4}}>
+                      <div style={{fontSize:10, color:'rgba(255,255,255,.35)', fontWeight:500}}>{m.brand}</div>
+                      <div style={{fontSize:13, fontWeight:600, color:'#0a0a0a', lineHeight:1.35}}>{m.name}</div>
+                      <div style={{fontSize:10, color:'rgba(255,255,255,.35)', lineHeight:1.4}}>
                         {[m.description, m.dimensions].filter(Boolean).join(' · ')}
                       </div>
                       <div style={{display:'flex', alignItems:'baseline', gap:6, marginTop:4}}>
-                        <span style={{fontSize:13, fontWeight:700, color:'#002147'}}>
+                        <span style={{fontSize:13, fontWeight:700, color:'#0a0a0a'}}>
                           ${parseFloat(m.price_low).toFixed(0)}–${parseFloat(m.price_high).toFixed(0)}
                         </span>
-                        <span style={{fontSize:10, color:'#9a9690'}}>/ {m.unit}</span>
+                        <span style={{fontSize:10, color:'rgba(255,255,255,.35)'}}>/ {m.unit}</span>
                       </div>
                       {m.price_note && (
-                        <div style={{fontSize:9, color:'#9a9690', lineHeight:1.4}}>{m.price_note}</div>
+                        <div style={{fontSize:9, color:'rgba(255,255,255,.35)', lineHeight:1.4}}>{m.price_note}</div>
                       )}
                     </div>
 
                     <div style={{display:'grid', gridTemplateColumns:'1fr 1fr', borderTop:'1px solid #f5f4f1'}}>
                       <button onClick={function(){ toggleEstimate(m) }} style={{
-                        padding:'8px 6px', fontSize:11, fontWeight:700, fontFamily:'sans-serif', cursor:'pointer',
+                        padding:'8px 6px', fontSize:11, fontWeight:700, fontFamily:'Poppins,sans-serif', cursor:'pointer',
                         border:'none', borderRight:'1px solid #f5f4f1',
-                        background:inQueue?'#3B6D11':'#002147', color:'#fff', letterSpacing:'.02em',
+                        background:inQueue?'#3B6D11':'#0a0a0a', color:'#fff', letterSpacing:'.02em',
                       }}>
                         {inQueue ? '✓ In estimate' : '＋ Estimate'}
                       </button>
                       <button onClick={function(){ addToSelections(m) }} style={{
-                        padding:'8px 6px', fontSize:11, fontWeight:700, fontFamily:'sans-serif', cursor:'pointer',
+                        padding:'8px 6px', fontSize:11, fontWeight:700, fontFamily:'Poppins,sans-serif', cursor:'pointer',
                         border:'none',
                         background:inSelections?'#3B6D11':'#fff',
-                        color:inSelections?'#fff':'#002147',
+                        color:inSelections?'#fff':'#0a0a0a',
                         outline:inSelections?'none':'1px solid #d8d6d0', outlineOffset:'-1px', letterSpacing:'.02em',
                       }}>
                         {inSelections ? '✓ Selected' : '＋ Selections'}

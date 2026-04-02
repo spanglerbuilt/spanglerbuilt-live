@@ -11,7 +11,7 @@ var TIER_COLORS = {
 var STATUS_STYLE = {
   confirmed: { bg:'#eaf3de', color:'#3B6D11', label:'Confirmed' },
   pending:   { bg:'#fff3e0', color:'#e65100', label:'Pending' },
-  'n/a':     { bg:'#f5f4f1', color:'#9a9690', label:'N/A' },
+  'n/a':     { bg:'#f5f4f1', color:'rgba(255,255,255,.35)', label:'N/A' },
 }
 
 var INIT_PROJECTS = [
@@ -102,12 +102,12 @@ export default function ContractorSelections() {
   var totalPending = projects.reduce(function(sum, p){ return sum + getStats(p).pending }, 0)
 
   return (
-    <div style={{minHeight:'100vh',background:'#fff',fontFamily:'sans-serif'}}>
+    <div style={{minHeight:'100vh',background:'#111',fontFamily:'Poppins,sans-serif'}}>
 
-      <div style={{background:'#002147',padding:'1rem 2rem',display:'flex',alignItems:'center',justifyContent:'space-between',borderBottom:'3px solid #FF8C00'}}>
+      <div style={{background:'#0a0a0a',padding:'1rem 2rem',display:'flex',alignItems:'center',justifyContent:'space-between',borderBottom:'3px solid #D06830'}}>
         <div style={{display:'flex',alignItems:'center',gap:12}}>
           <img src="/logo.png" alt="SpanglerBuilt" style={{height:34,width:'auto'}}/>
-          <span style={{fontSize:11,color:'#FF8C00',letterSpacing:'.12em',textTransform:'uppercase',fontWeight:500}}>&nbsp;· Material Selections</span>
+          <span style={{fontSize:11,color:'#D06830',letterSpacing:'.12em',textTransform:'uppercase',fontWeight:500}}>&nbsp;· Material Selections</span>
         </div>
         <div style={{display:'flex',gap:16,alignItems:'center'}}>
           <a href="/contractor/presentation" style={{fontSize:11,color:'rgba(255,255,255,.7)',textDecoration:'none'}}>Presentation tool →</a>
@@ -119,21 +119,21 @@ export default function ContractorSelections() {
 
         <div style={{display:'grid',gridTemplateColumns:'repeat(4,1fr)',gap:10,marginBottom:'1.5rem'}}>
           {[
-            ['Active projects',  projects.length,                                                        '#002147'],
-            ['Total selections', projects.reduce(function(s,p){ return s+getStats(p).total },0),         '#002147'],
+            ['Active projects',  projects.length,                                                        '#0a0a0a'],
+            ['Total selections', projects.reduce(function(s,p){ return s+getStats(p).total },0),         '#0a0a0a'],
             ['Confirmed',        projects.reduce(function(s,p){ return s+getStats(p).confirmed },0),     '#3B6D11'],
             ['Pending client',   totalPending,                                                            totalPending>0?'#e65100':'#9a9690'],
           ].map(function(item){ return (
-            <div key={item[0]} style={{background:'#fff',border:'1px solid #e8e6e0',borderRadius:4,padding:'.75rem 1rem',borderTop:'3px solid '+(item[0]==='Pending client'&&totalPending>0?'#FF8C00':'#002147')}}>
-              <div style={{fontSize:10,color:'#9a9690',textTransform:'uppercase',letterSpacing:'.05em',marginBottom:4}}>{item[0]}</div>
+            <div key={item[0]} style={{background:'#161616',border:'1px solid rgba(255,255,255,.09)',borderRadius:4,padding:'.75rem 1rem',borderTop:'3px solid '+(item[0]==='Pending client'&&totalPending>0?'#D06830':'#0a0a0a')}}>
+              <div style={{fontSize:10,color:'rgba(255,255,255,.35)',textTransform:'uppercase',letterSpacing:'.05em',marginBottom:4}}>{item[0]}</div>
               <div style={{fontSize:22,fontWeight:500,color:item[2]}}>{item[1]}</div>
             </div>
           )})}
         </div>
 
         {totalPending > 0 && (
-          <div style={{background:'#FFFCEB',border:'1px solid #FF8C00',borderRadius:4,padding:'10px 14px',marginBottom:'1.25rem',fontSize:12,color:'#3d3b37'}}>
-            <strong style={{color:'#002147'}}>Action needed:</strong> {totalPending} selection{totalPending!==1?'s are':' is'} waiting for client confirmation.
+          <div style={{background:'rgba(208,104,48,.1)',border:'1px solid #D06830',borderRadius:4,padding:'10px 14px',marginBottom:'1.25rem',fontSize:12,color:'rgba(255,255,255,.65)'}}>
+            <strong style={{color:'#0a0a0a'}}>Action needed:</strong> {totalPending} selection{totalPending!==1?'s are':' is'} waiting for client confirmation.
             Share the client portal link so clients can make their choices.
           </div>
         )}
@@ -146,7 +146,7 @@ export default function ContractorSelections() {
             var pct   = stats.total > 0 ? Math.round((stats.confirmed / stats.total) * 100) : 0
 
             return (
-              <div key={proj.id} style={{background:'#fff',border:'1px solid #e8e6e0',borderRadius:4,overflow:'hidden',borderLeft:'4px solid #002147'}}>
+              <div key={proj.id} style={{background:'#161616',border:'1px solid rgba(255,255,255,.09)',borderRadius:4,overflow:'hidden',borderLeft:'4px solid #0a0a0a'}}>
 
                 <div style={{padding:'1rem 1.25rem',display:'flex',alignItems:'center',gap:12,cursor:'pointer'}} onClick={function(){ setExpanded(isExp ? null : proj.id) }}>
                   <div style={{flex:1,minWidth:0}}>
@@ -154,17 +154,17 @@ export default function ContractorSelections() {
                       <span style={{fontSize:11,fontWeight:500,color:'#185FA5'}}>{proj.pn}</span>
                       <span style={{background:tc.bg,color:tc.color,fontSize:9,fontWeight:700,padding:'2px 7px',borderRadius:3,textTransform:'uppercase',letterSpacing:'.06em'}}>{proj.tier}</span>
                     </div>
-                    <div style={{fontSize:14,fontWeight:500,color:'#002147',marginBottom:2}}>{proj.client}</div>
-                    <div style={{fontSize:11,color:'#9a9690'}}>{proj.type}</div>
+                    <div style={{fontSize:14,fontWeight:500,color:'#0a0a0a',marginBottom:2}}>{proj.client}</div>
+                    <div style={{fontSize:11,color:'rgba(255,255,255,.35)'}}>{proj.type}</div>
                   </div>
 
                   <div style={{width:180,flexShrink:0}}>
                     <div style={{display:'flex',justifyContent:'space-between',marginBottom:4}}>
-                      <div style={{fontSize:10,color:'#9a9690'}}>Selections complete</div>
-                      <div style={{fontSize:10,fontWeight:500,color:pct===100?'#3B6D11':'#002147'}}>{stats.confirmed}/{stats.total}</div>
+                      <div style={{fontSize:10,color:'rgba(255,255,255,.35)'}}>Selections complete</div>
+                      <div style={{fontSize:10,fontWeight:500,color:pct===100?'#3B6D11':'#0a0a0a'}}>{stats.confirmed}/{stats.total}</div>
                     </div>
-                    <div style={{height:6,background:'#f5f4f1',borderRadius:3,overflow:'hidden'}}>
-                      <div style={{height:6,width:pct+'%',background:pct===100?'#3B6D11':'#FF8C00',borderRadius:3,transition:'width .3s'}}/>
+                    <div style={{height:6,background:'#1a1a1a',borderRadius:3,overflow:'hidden'}}>
+                      <div style={{height:6,width:pct+'%',background:pct===100?'#3B6D11':'#D06830',borderRadius:3,transition:'width .3s'}}/>
                     </div>
                     <div style={{fontSize:9,marginTop:3,color:stats.pending>0?'#e65100':'#3B6D11'}}>
                       {stats.pending > 0 ? stats.pending+' pending client' : 'All confirmed ✓'}
@@ -172,25 +172,25 @@ export default function ContractorSelections() {
                   </div>
 
                   <div style={{display:'flex',gap:6,flexShrink:0}}>
-                    <a href={'mailto:'+proj.email} onClick={function(e){e.stopPropagation()}} style={{background:'#f5f4f1',color:'#002147',padding:'5px 10px',fontSize:10,textDecoration:'none',borderRadius:3,border:'1px solid #e8e6e0'}}>Email</a>
-                    <a href={'tel:'+proj.phone.replace(/\D/g,'')} onClick={function(e){e.stopPropagation()}} style={{background:'#f5f4f1',color:'#002147',padding:'5px 10px',fontSize:10,textDecoration:'none',borderRadius:3,border:'1px solid #e8e6e0'}}>Call</a>
+                    <a href={'mailto:'+proj.email} onClick={function(e){e.stopPropagation()}} style={{background:'#1a1a1a',color:'#0a0a0a',padding:'5px 10px',fontSize:10,textDecoration:'none',borderRadius:3,border:'1px solid rgba(255,255,255,.09)'}}>Email</a>
+                    <a href={'tel:'+proj.phone.replace(/\D/g,'')} onClick={function(e){e.stopPropagation()}} style={{background:'#1a1a1a',color:'#0a0a0a',padding:'5px 10px',fontSize:10,textDecoration:'none',borderRadius:3,border:'1px solid rgba(255,255,255,.09)'}}>Call</a>
                   </div>
-                  <span style={{fontSize:11,color:'#9a9690',flexShrink:0}}>{isExp?'▲':'▼'}</span>
+                  <span style={{fontSize:11,color:'rgba(255,255,255,.35)',flexShrink:0}}>{isExp?'▲':'▼'}</span>
                 </div>
 
                 {isExp && (
                   <div style={{borderTop:'1px solid #f5f4f1',padding:'1rem 1.25rem'}}>
-                    <div style={{background:'#f5f4f1',borderRadius:3,overflow:'hidden',marginBottom:'1rem'}}>
-                      <div style={{display:'grid',gridTemplateColumns:'1fr 110px 1fr 120px',background:'#002147',padding:'6px 12px',gap:1}}>
+                    <div style={{background:'#1a1a1a',borderRadius:3,overflow:'hidden',marginBottom:'1rem'}}>
+                      <div style={{display:'grid',gridTemplateColumns:'1fr 110px 1fr 120px',background:'#0a0a0a',padding:'6px 12px',gap:1}}>
                         {['Category','Status','Selection',''].map(function(h){ return (
-                          <div key={h} style={{fontSize:10,fontWeight:500,color:'#FF8C00',textTransform:'uppercase',letterSpacing:'.04em'}}>{h}</div>
+                          <div key={h} style={{fontSize:10,fontWeight:500,color:'#D06830',textTransform:'uppercase',letterSpacing:'.04em'}}>{h}</div>
                         )})}
                       </div>
                       {proj.selections.map(function(sel, i) {
                         var ss = STATUS_STYLE[sel.status]
                         return (
                           <div key={sel.cat} style={{display:'grid',gridTemplateColumns:'1fr 110px 1fr 120px',padding:'9px 12px',background:i%2===0?'#fff':'#fafaf9',borderTop:'1px solid #f0efed',alignItems:'center',gap:1}}>
-                            <div style={{fontSize:12,fontWeight:500,color:'#002147'}}>{sel.cat}</div>
+                            <div style={{fontSize:12,fontWeight:500,color:'#0a0a0a'}}>{sel.cat}</div>
                             <div>
                               <span style={{background:ss.bg,color:ss.color,fontSize:9,fontWeight:700,padding:'2px 7px',borderRadius:3,textTransform:'uppercase',letterSpacing:'.04em'}}>{ss.label}</span>
                             </div>
@@ -200,7 +200,7 @@ export default function ContractorSelections() {
                             <div>
                               {sel.status !== 'n/a' && (
                                 <button onClick={function(){toggleStatus(proj.id, sel.cat)}}
-                                  style={{background:sel.status==='confirmed'?'transparent':'#FF8C00',border:sel.status==='confirmed'?'1px solid #e8e6e0':'none',color:sel.status==='confirmed'?'#9a9690':'#fff',padding:'4px 10px',fontSize:9,cursor:'pointer',borderRadius:3,fontFamily:'sans-serif',fontWeight:700,textTransform:'uppercase',letterSpacing:'.04em'}}>
+                                  style={{background:sel.status==='confirmed'?'transparent':'#D06830',border:sel.status==='confirmed'?'1px solid #e8e6e0':'none',color:sel.status==='confirmed'?'#9a9690':'#fff',padding:'4px 10px',fontSize:9,cursor:'pointer',borderRadius:3,fontFamily:'Poppins,sans-serif',fontWeight:700,textTransform:'uppercase',letterSpacing:'.04em'}}>
                                   {sel.status==='confirmed'?'Reset':'Mark confirmed'}
                                 </button>
                               )}
@@ -210,8 +210,8 @@ export default function ContractorSelections() {
                       })}
                     </div>
                     <div style={{display:'flex',gap:8}}>
-                      <a href="/contractor/presentation" style={{background:'#002147',color:'#FF8C00',padding:'7px 16px',fontSize:11,fontWeight:700,textDecoration:'none',borderRadius:3,letterSpacing:'.06em',textTransform:'uppercase'}}>Open presentation →</a>
-                      <a href="/contractor/leads" style={{background:'transparent',border:'1px solid #e8e6e0',color:'#9a9690',padding:'7px 14px',fontSize:11,textDecoration:'none',borderRadius:3}}>View in leads</a>
+                      <a href="/contractor/presentation" style={{background:'#0a0a0a',color:'#D06830',padding:'7px 16px',fontSize:11,fontWeight:700,textDecoration:'none',borderRadius:3,letterSpacing:'.06em',textTransform:'uppercase'}}>Open presentation →</a>
+                      <a href="/contractor/leads" style={{background:'transparent',border:'1px solid rgba(255,255,255,.09)',color:'rgba(255,255,255,.35)',padding:'7px 14px',fontSize:11,textDecoration:'none',borderRadius:3}}>View in leads</a>
                     </div>
                   </div>
                 )}
@@ -220,7 +220,7 @@ export default function ContractorSelections() {
           })}
         </div>
 
-        <div style={{marginTop:'1rem',fontSize:10,color:'#9a9690',textAlign:'center'}}>
+        <div style={{marginTop:'1rem',fontSize:10,color:'rgba(255,255,255,.35)',textAlign:'center'}}>
           SpanglerBuilt Inc. · michael@spanglerbuilt.com · (404) 492-7650
         </div>
       </div>

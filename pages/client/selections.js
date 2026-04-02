@@ -21,7 +21,7 @@ var PRODUCTS = {
     fixtures:      { brand:'Moen Align Series',              product:'Single-handle · Lifetime warranty · ADA',       swatches:[{name:'Brushed Nickel',hex:'#C0C0B0'},{name:'Chrome',hex:'#E8E8E8'},{name:'Matte Black',hex:'#2C2C2C'}] },
     vanity:        { brand:'Glacier Bay 30" Single',         product:'With mirror · Soft-close door',                 swatches:[{name:'White',hex:'#FFFFFF'},{name:'Gray',hex:'#9A9A9A'},{name:'Espresso',hex:'#3C2415'}] },
     shower_door:   { brand:'DreamLine Flex Semi-frameless',  product:'3/8" glass · Chrome · Adjustable fit',          swatches:[{name:'Chrome',hex:'#E8E8E8'},{name:'Brushed Nickel',hex:'#C0C0B0'},{name:'Black',hex:'#2C2C2C'}] },
-    cabinets:      { brand:'Hampton Bay (Home Depot)',        product:'Shaker Stock · Plywood box · Soft-close',       swatches:[{name:'White',hex:'#FFFFFF'},{name:'Gray',hex:'#9A9A9A'},{name:'Navy',hex:'#002147'}] },
+    cabinets:      { brand:'Hampton Bay (Home Depot)',        product:'Shaker Stock · Plywood box · Soft-close',       swatches:[{name:'White',hex:'#FFFFFF'},{name:'Gray',hex:'#9A9A9A'},{name:'Navy',hex:'#0a0a0a'}] },
     countertops:   { brand:'Wilsonart HD Laminate',          product:'1.5" post-form edge · Easy clean',              swatches:[{name:'Calcutta Marble',hex:'#F5F0E8'},{name:'Black Fusion',hex:'#2C2C2C'},{name:'Ash Elm',hex:'#B5956A'}] },
     lighting:      { brand:'Halo 6" LED Recessed',           product:'2700K warm white · Dimmable · 20 fixtures',     swatches:[{name:'White Trim',hex:'#F5F5F5'},{name:'Brushed Nickel',hex:'#C0C0B0'},{name:'Black Trim',hex:'#2C2C2C'}] },
     paint:         { brand:'Sherwin-Williams / Behr',         product:'2 coats walls + ceiling · Semi-gloss trim',     swatches:[{name:'SW Agreeable Gray',hex:'#C2BAA6'},{name:'SW Repose Gray',hex:'#B4B0AA'},{name:'SW Accessible Beige',hex:'#D2C5B0'},{name:'SW Sea Salt',hex:'#B5C8BF'},{name:'SW Alabaster',hex:'#F0EDE0'},{name:'SW Pure White',hex:'#F5F5F0'},{name:'SW Naval',hex:'#2A3A52'},{name:'SW Urbane Bronze',hex:'#595248'},{name:'Behr Swiss Coffee',hex:'#F0E8D8'},{name:'Behr Cracked Pepper',hex:'#3C3C38'}] },
@@ -57,7 +57,7 @@ var PRODUCTS = {
     countertops:   { brand:'Cambria Brittanicca Warm',       product:'Quartz 3cm · Waterfall edge option',             swatches:[{name:'Brittanicca Warm',hex:'#F5EDD8'},{name:'Blackpool',hex:'#2A2A2A'},{name:'Berwyn',hex:'#F0F0F0'}] },
     lighting:      { brand:'Visual Comfort / circa lighting',product:'Designer pendants + recessed · 2700K',           swatches:[{name:'Antique Brass',hex:'#C8A84B'},{name:'Matte Black',hex:'#2C2C2C'},{name:'Polished Nickel',hex:'#D4D4C0'}] },
     paint:         { brand:'Benjamin Moore Aura / Farrow & Ball',product:'Premium paint · Rich depth · Designer palette',swatches:[{name:"F&B Elephant's Breath",hex:'#B8B0A4'},{name:'F&B Hague Blue',hex:'#2A4052'},{name:'F&B Shaded White',hex:'#E8E4DC'},{name:'F&B Skimming Stone',hex:'#D8D0C0'},{name:"F&B Mole's Breath",hex:'#7A7068'},{name:'F&B All White',hex:'#F5F5F0'},{name:'BM Simply White',hex:'#F5F2EC'},{name:'BM Gray Owl',hex:'#C8C8C0'},{name:'BM Newburyport Blue',hex:'#3A5068'},{name:'F&B Setting Plaster',hex:'#C8A89A'}] },
-    doors:         { brand:'TruStile / Craftsman MDF',       product:'Flush inset · Paintable · Upgraded profile',     swatches:[{name:'White',hex:'#F5F5F5'},{name:'Off-White',hex:'#F0EDE8'},{name:'Painted Custom',hex:'#002147'}] },
+    doors:         { brand:'TruStile / Craftsman MDF',       product:'Flush inset · Paintable · Upgraded profile',     swatches:[{name:'White',hex:'#F5F5F5'},{name:'Off-White',hex:'#F0EDE8'},{name:'Painted Custom',hex:'#0a0a0a'}] },
   },
   luxury: {
     flooring:      { brand:'Hakwood European Oak 9.5"',      product:'Wide plank · Hand-scraped · Live sawn · Custom', swatches:[{name:'Smoked Pearl',hex:'#D4C8B0'},{name:'Ebony',hex:'#1C1008'},{name:'Ash White',hex:'#E8E0D0'}] },
@@ -72,7 +72,7 @@ var PRODUCTS = {
     cabinets:      { brand:'Plain & Fancy Full Custom',      product:'Any wood · Any finish · Any hardware',           swatches:[{name:'Lacquered White',hex:'#FAFAFA'},{name:'Cerused Oak',hex:'#C8B89A'},{name:'Charcoal',hex:'#3C3C3C'}] },
     countertops:   { brand:'Antolini Calacatta Borghini',    product:'Book-matched natural stone · Waterfall · Custom',swatches:[{name:'Calacatta Borghini',hex:'#F5EDD8'},{name:'Black Marquina',hex:'#1A1A1A'},{name:'Verde Guatemala',hex:'#2D5A3D'}] },
     lighting:      { brand:'Kelly Wearstler / Apparatus',    product:'Statement lighting · Custom spec · 2700K',       swatches:[{name:'Polished Gold',hex:'#D4AF37'},{name:'Matte Black',hex:'#2C2C2C'},{name:'Nickel',hex:'#D4D4C0'}] },
-    paint:         { brand:'Farrow & Ball Dead Flat / Bespoke',product:'Color consultation included · Dead Flat or Lacquer finish',swatches:[{name:'F&B Off-Black',hex:'#2C2C2C'},{name:'F&B Pavilion Gray',hex:'#B4B0A8'},{name:'F&B Dead Salmon',hex:'#D4B0A0'},{name:'F&B Calke Green',hex:'#5A7868'},{name:'F&B Card Room Green',hex:'#6A8070'},{name:'F&B Studio Green',hex:'#3A5040'},{name:'F&B Sulking Room Pink',hex:'#C8A090'},{name:'F&B Inchyra Blue',hex:'#4A6070'},{name:'F&B Pitch Black',hex:'#1C1C1C'},{name:'Bespoke (any color)',hex:'#FF8C00'}] },
+    paint:         { brand:'Farrow & Ball Dead Flat / Bespoke',product:'Color consultation included · Dead Flat or Lacquer finish',swatches:[{name:'F&B Off-Black',hex:'#2C2C2C'},{name:'F&B Pavilion Gray',hex:'#B4B0A8'},{name:'F&B Dead Salmon',hex:'#D4B0A0'},{name:'F&B Calke Green',hex:'#5A7868'},{name:'F&B Card Room Green',hex:'#6A8070'},{name:'F&B Studio Green',hex:'#3A5040'},{name:'F&B Sulking Room Pink',hex:'#C8A090'},{name:'F&B Inchyra Blue',hex:'#4A6070'},{name:'F&B Pitch Black',hex:'#1C1C1C'},{name:'Bespoke (any color)',hex:'#D06830'}] },
     doors:         { brand:'Simpson Door / Full Custom',     product:'Solid wood · Custom profile · Any finish',       swatches:[{name:'Natural Oak',hex:'#C4A882'},{name:'Lacquered White',hex:'#FAFAFA'},{name:'Ebony',hex:'#1C1008'}] },
   },
 }
@@ -221,10 +221,10 @@ export default function ClientSelections() {
   }
 
   return (
-    <div style={{minHeight:'100vh',background:'#fff',fontFamily:'sans-serif'}}>
+    <div style={{minHeight:'100vh',background:'#111',fontFamily:'Poppins,sans-serif'}}>
 
       {/* Topbar */}
-      <div style={{background:'#002147',padding:'0.85rem 2rem',display:'flex',alignItems:'center',justifyContent:'space-between',borderBottom:'3px solid #FF8C00'}}>
+      <div style={{background:'#0a0a0a',padding:'0.85rem 2rem',display:'flex',alignItems:'center',justifyContent:'space-between',borderBottom:'3px solid #D06830'}}>
         <div style={{display:'flex',alignItems:'center',gap:12}}>
           <img src="/logo.png" alt="SpanglerBuilt" style={{height:30,width:'auto'}}/>
           <span style={{fontSize:11,color:'rgba(255,255,255,.5)',letterSpacing:'.1em',textTransform:'uppercase'}}>Material Selections</span>
@@ -240,16 +240,16 @@ export default function ClientSelections() {
 
         {/* Left: room nav */}
         <div>
-          <div style={{fontSize:9,fontWeight:600,color:'#9a9690',textTransform:'uppercase',letterSpacing:'.1em',marginBottom:8}}>Rooms</div>
-          <div style={{border:'1px solid #e8e6e0',borderRadius:4,overflow:'hidden',marginBottom:12}}>
+          <div style={{fontSize:9,fontWeight:600,color:'rgba(255,255,255,.35)',textTransform:'uppercase',letterSpacing:'.1em',marginBottom:8}}>Rooms</div>
+          <div style={{border:'1px solid rgba(255,255,255,.09)',borderRadius:4,overflow:'hidden',marginBottom:12}}>
             {ROOMS.map(function(r) {
               var isActive = r.id === activeRoom
               var roomCats = r.categories.map(function(c){ return c.id })
               var done = roomCats.filter(function(c){ return picks[c] }).length
               return (
                 <div key={r.id} onClick={function(){ setActiveRoom(r.id); setExpanding(null) }}
-                  style={{padding:'10px 14px',borderBottom:'1px solid #f0efec',cursor:'pointer',background:isActive?'#002147':'#fff',borderLeft:'3px solid '+(isActive?'#FF8C00':'transparent')}}>
-                  <div style={{fontSize:13,fontWeight:600,color:isActive?'#FF8C00':'#002147'}}>{r.label}</div>
+                  style={{padding:'10px 14px',borderBottom:'1px solid #f0efec',cursor:'pointer',background:isActive?'#0a0a0a':'#fff',borderLeft:'3px solid '+(isActive?'#D06830':'transparent')}}>
+                  <div style={{fontSize:13,fontWeight:600,color:isActive?'#D06830':'#0a0a0a'}}>{r.label}</div>
                   <div style={{fontSize:10,color:isActive?'rgba(255,255,255,.5)':'#9a9690',marginTop:1}}>
                     {done}/{roomCats.length} selected
                   </div>
@@ -257,15 +257,15 @@ export default function ClientSelections() {
               )
             })}
           </div>
-          <div style={{background:'#002147',borderRadius:4,padding:'10px 14px'}}>
+          <div style={{background:'#0a0a0a',borderRadius:4,padding:'10px 14px'}}>
             <div style={{fontSize:10,fontWeight:600,color:'rgba(255,255,255,.6)',marginBottom:4}}>Progress</div>
-            <div style={{fontSize:16,fontWeight:700,color:'#FF8C00'}}>{confirmedCount}<span style={{fontSize:11,color:'rgba(255,255,255,.4)',fontWeight:400}}>/{allCats.length}</span></div>
+            <div style={{fontSize:16,fontWeight:700,color:'#D06830'}}>{confirmedCount}<span style={{fontSize:11,color:'rgba(255,255,255,.4)',fontWeight:400}}>/{allCats.length}</span></div>
             <div style={{fontSize:10,color:'rgba(255,255,255,.4)',marginBottom:8}}>selections made</div>
             <div style={{height:4,background:'rgba(255,255,255,.1)',borderRadius:2}}>
-              <div style={{height:4,width:Math.round(confirmedCount/allCats.length*100)+'%',background:'#FF8C00',borderRadius:2}}/>
+              <div style={{height:4,width:Math.round(confirmedCount/allCats.length*100)+'%',background:'#D06830',borderRadius:2}}/>
             </div>
             {pendingCount === 0 && (
-              <a href="/client/project-book" style={{display:'block',marginTop:10,background:'#FF8C00',color:'#fff',padding:'7px',fontSize:10,fontWeight:700,textDecoration:'none',borderRadius:3,textAlign:'center',textTransform:'uppercase',letterSpacing:'.06em'}}>
+              <a href="/client/project-book" style={{display:'block',marginTop:10,background:'#D06830',color:'#fff',padding:'7px',fontSize:10,fontWeight:700,textDecoration:'none',borderRadius:3,textAlign:'center',textTransform:'uppercase',letterSpacing:'.06em'}}>
                 View project book →
               </a>
             )}
@@ -276,8 +276,8 @@ export default function ClientSelections() {
         <div>
           <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:'1rem'}}>
             <div>
-              <div style={{fontFamily:'Georgia,serif',fontSize:20,color:'#002147'}}>{room.label}</div>
-              <div style={{fontSize:11,color:'#9a9690',marginTop:2}}>SB-2026-001 · Mendel Basement Renovation</div>
+              <div style={{fontFamily:'Poppins,sans-serif',fontSize:20,color:'#0a0a0a'}}>{room.label}</div>
+              <div style={{fontSize:11,color:'rgba(255,255,255,.35)',marginTop:2}}>SB-2026-001 · Mendel Basement Renovation</div>
             </div>
             {/* Tier legend */}
             <div style={{display:'flex',gap:6}}>
@@ -293,16 +293,16 @@ export default function ClientSelections() {
             var isExpanded = expanding === catId
 
             return (
-              <div key={catId} style={{marginBottom:10,border:'1px solid '+(pick?'#c8dfc0':'#e8e6e0'),borderRadius:6,overflow:'hidden',borderLeft:'4px solid '+(pick?'#3B6D11':'#FF8C00')}}>
+              <div key={catId} style={{marginBottom:10,border:'1px solid '+(pick?'#c8dfc0':'#e8e6e0'),borderRadius:6,overflow:'hidden',borderLeft:'4px solid '+(pick?'#3B6D11':'#D06830')}}>
 
                 {/* Category header */}
                 <div style={{padding:'10px 14px',background:pick?'#f8fff5':'#fafafa',display:'flex',alignItems:'center',justifyContent:'space-between'}}>
                   <div style={{display:'flex',alignItems:'center',gap:10}}>
                     {pick && <div style={{width:18,height:18,borderRadius:'50%',background:pick.hex||'#ccc',border:'2px solid rgba(0,0,0,.1)',flexShrink:0}}/>}
                     <div>
-                      <div style={{fontSize:13,fontWeight:600,color:'#002147'}}>{cat.label}</div>
+                      <div style={{fontSize:13,fontWeight:600,color:'#0a0a0a'}}>{cat.label}</div>
                       {pick
-                        ? <div style={{fontSize:11,color:'#3B6D11',marginTop:1}}>✓ {pick.swatchName} — <span style={{color:'#9a9690'}}>{PRODUCTS[pick.tier][catId] ? PRODUCTS[pick.tier][catId].brand : ''}</span></div>
+                        ? <div style={{fontSize:11,color:'#3B6D11',marginTop:1}}>✓ {pick.swatchName} — <span style={{color:'rgba(255,255,255,.35)'}}>{PRODUCTS[pick.tier][catId] ? PRODUCTS[pick.tier][catId].brand : ''}</span></div>
                         : <div style={{fontSize:11,color:'#e65100',marginTop:1}}>Select a tier and finish below</div>
                       }
                     </div>
@@ -312,7 +312,7 @@ export default function ClientSelections() {
                       {TIERS.find(function(t){return t.key===pick.tier}).label}
                     </span>}
                     <button onClick={function(){ setExpanding(isExpanded?null:catId) }}
-                      style={{background:'transparent',border:'1px solid #e8e6e0',color:'#002147',padding:'4px 12px',fontSize:11,cursor:'pointer',borderRadius:3,fontFamily:'sans-serif'}}>
+                      style={{background:'transparent',border:'1px solid rgba(255,255,255,.09)',color:'#0a0a0a',padding:'4px 12px',fontSize:11,cursor:'pointer',borderRadius:3,fontFamily:'Poppins,sans-serif'}}>
                       {isExpanded ? 'Close ▲' : (pick ? 'Change ▼' : 'Select ▼')}
                     </button>
                   </div>
@@ -323,7 +323,7 @@ export default function ClientSelections() {
                   <div style={{borderTop:'1px solid #e8e6e0',padding:'14px'}}>
 
                     {/* Tier selector row */}
-                    <div style={{fontSize:10,fontWeight:600,color:'#9a9690',textTransform:'uppercase',letterSpacing:'.08em',marginBottom:8}}>Choose your tier</div>
+                    <div style={{fontSize:10,fontWeight:600,color:'rgba(255,255,255,.35)',textTransform:'uppercase',letterSpacing:'.08em',marginBottom:8}}>Choose your tier</div>
                     <div style={{display:'grid',gridTemplateColumns:'repeat(4,1fr)',gap:8,marginBottom:14}}>
                       {TIERS.map(function(tier) {
                         var prod = PRODUCTS[tier.key][catId]
@@ -334,8 +334,8 @@ export default function ClientSelections() {
                             onClick={function(){ selectTier(catId, tier.key) }}
                             style={{border:isSelected?'2px solid '+tier.color:'1px solid #e8e6e0',borderRadius:4,padding:'10px',cursor:'pointer',background:isSelected?tier.bg:'#fff',transition:'all .1s'}}>
                             <div style={{fontSize:10,fontWeight:700,color:tier.color,textTransform:'uppercase',letterSpacing:'.08em',marginBottom:4}}>{tier.label} · {fmt(tier.price)}</div>
-                            <div style={{fontSize:11,fontWeight:600,color:'#002147',marginBottom:2,lineHeight:1.3}}>{prod.brand}</div>
-                            <div style={{fontSize:10,color:'#9a9690',lineHeight:1.4,marginBottom:8}}>{prod.product}</div>
+                            <div style={{fontSize:11,fontWeight:600,color:'#0a0a0a',marginBottom:2,lineHeight:1.3}}>{prod.brand}</div>
+                            <div style={{fontSize:10,color:'rgba(255,255,255,.35)',lineHeight:1.4,marginBottom:8}}>{prod.product}</div>
                             {/* Swatches preview */}
                             <div style={{display:'flex',gap:3}}>
                               {prod.swatches.map(function(sw){return(
@@ -352,17 +352,17 @@ export default function ClientSelections() {
                       var prod = PRODUCTS[pick.tier][catId]
                       var pendingSw = pendingSwatch[catId] || pick.swatchName
                       return (
-                        <div style={{background:'#f8f8f8',border:'1px solid #e8e6e0',borderRadius:4,padding:'12px'}}>
-                          <div style={{fontSize:10,fontWeight:600,color:'#9a9690',textTransform:'uppercase',letterSpacing:'.08em',marginBottom:10}}>Choose your finish / color</div>
+                        <div style={{background:'#f8f8f8',border:'1px solid rgba(255,255,255,.09)',borderRadius:4,padding:'12px'}}>
+                          <div style={{fontSize:10,fontWeight:600,color:'rgba(255,255,255,.35)',textTransform:'uppercase',letterSpacing:'.08em',marginBottom:10}}>Choose your finish / color</div>
                           <div style={{display:'flex',gap:10,flexWrap:'wrap',marginBottom:12}}>
                             {prod.swatches.map(function(sw) {
                               var isSel = pendingSw === sw.name
                               return (
                                 <div key={sw.name}
                                   onClick={function(){ setPendingSwatch(function(prev){ return Object.assign({},prev,{[catId]:sw.name}) }) }}
-                                  style={{display:'flex',flexDirection:'column',alignItems:'center',gap:6,padding:'10px 14px',border:isSel?'2px solid #FF8C00':'1px solid #e8e6e0',borderRadius:4,cursor:'pointer',background:isSel?'#FFFCEB':'#fff',minWidth:90}}>
+                                  style={{display:'flex',flexDirection:'column',alignItems:'center',gap:6,padding:'10px 14px',border:isSel?'2px solid #D06830':'1px solid #e8e6e0',borderRadius:4,cursor:'pointer',background:isSel?'rgba(208,104,48,.1)':'#fff',minWidth:90}}>
                                   <div style={{width:36,height:36,borderRadius:'50%',background:sw.hex,border:'2px solid rgba(0,0,0,.1)'}}/>
-                                  <div style={{fontSize:10,fontWeight:isSel?700:400,color:'#002147',textAlign:'center',lineHeight:1.3}}>{sw.name}</div>
+                                  <div style={{fontSize:10,fontWeight:isSel?700:400,color:'#0a0a0a',textAlign:'center',lineHeight:1.3}}>{sw.name}</div>
                                 </div>
                               )
                             })}
@@ -370,11 +370,11 @@ export default function ClientSelections() {
                           <div style={{display:'flex',gap:8}}>
                             <button onClick={function(){ confirmSwatch(catId) }}
                               disabled={!pendingSw}
-                              style={{background:pendingSw?'#002147':'#e8e6e0',color:pendingSw?'#fff':'#9a9690',border:pendingSw?'2px solid #FF8C00':'none',padding:'9px 24px',fontSize:12,fontWeight:700,letterSpacing:'.06em',textTransform:'uppercase',cursor:pendingSw?'pointer':'default',borderRadius:3,fontFamily:'sans-serif'}}>
+                              style={{background:pendingSw?'#0a0a0a':'#e8e6e0',color:pendingSw?'#fff':'#9a9690',border:pendingSw?'2px solid #D06830':'none',padding:'9px 24px',fontSize:12,fontWeight:700,letterSpacing:'.06em',textTransform:'uppercase',cursor:pendingSw?'pointer':'default',borderRadius:3,fontFamily:'Poppins,sans-serif'}}>
                               Confirm selection →
                             </button>
                             <button onClick={function(){setExpanding(null)}}
-                              style={{background:'transparent',border:'1px solid #e8e6e0',color:'#9a9690',padding:'9px 14px',fontSize:11,cursor:'pointer',borderRadius:3,fontFamily:'sans-serif'}}>
+                              style={{background:'transparent',border:'1px solid rgba(255,255,255,.09)',color:'rgba(255,255,255,.35)',padding:'9px 14px',fontSize:11,cursor:'pointer',borderRadius:3,fontFamily:'Poppins,sans-serif'}}>
                               Cancel
                             </button>
                           </div>
@@ -389,12 +389,12 @@ export default function ClientSelections() {
         </div>
 
         {/* ── Custom / unlisted selection ─────────────────────────────────── */}
-        <div style={{marginTop:'2rem',border:'2px dashed #e8e6e0',borderRadius:6,padding:'1.5rem',background:'#fafaf8'}}>
+        <div style={{marginTop:'2rem',border:'2px dashed #e8e6e0',borderRadius:6,padding:'1.5rem',background:'#1a1a1a'}}>
           <div style={{display:'flex',alignItems:'center',gap:10,marginBottom:6}}>
-            <div style={{width:28,height:28,borderRadius:'50%',background:'#002147',display:'flex',alignItems:'center',justifyContent:'center',fontSize:14,color:'#FF8C00',flexShrink:0}}>+</div>
-            <div style={{fontFamily:'Georgia,serif',fontSize:16,color:'#002147'}}>Do you have another selection not listed?</div>
+            <div style={{width:28,height:28,borderRadius:'50%',background:'#0a0a0a',display:'flex',alignItems:'center',justifyContent:'center',fontSize:14,color:'#D06830',flexShrink:0}}>+</div>
+            <div style={{fontFamily:'Poppins,sans-serif',fontSize:16,color:'#0a0a0a'}}>Do you have another selection not listed?</div>
           </div>
-          <div style={{fontSize:12,color:'#9a9690',marginBottom:'1.25rem',marginLeft:38}}>Add any material, finish, or fixture not shown above — it will appear in your project book.</div>
+          <div style={{fontSize:12,color:'rgba(255,255,255,.35)',marginBottom:'1.25rem',marginLeft:38}}>Add any material, finish, or fixture not shown above — it will appear in your project book.</div>
 
           {/* Existing custom items */}
           {customItems.length > 0 && (
@@ -402,13 +402,13 @@ export default function ClientSelections() {
               {customItems.map(function(c){ return (
                 <div key={c.id} style={{display:'flex',alignItems:'center',justifyContent:'space-between',padding:'8px 12px',background:'#eaf3de',border:'1px solid #c8dfc0',borderRadius:4,marginBottom:6}}>
                   <div>
-                    <span style={{fontSize:12,fontWeight:600,color:'#002147'}}>{c.item}</span>
-                    {c.brand && <span style={{fontSize:11,color:'#5f5e5a',marginLeft:8}}>{c.brand}</span>}
-                    {c.color && <span style={{fontSize:11,color:'#9a9690',marginLeft:8}}>· {c.color}</span>}
-                    {c.notes && <span style={{fontSize:10,color:'#9a9690',marginLeft:8}}>· {c.notes}</span>}
+                    <span style={{fontSize:12,fontWeight:600,color:'#0a0a0a'}}>{c.item}</span>
+                    {c.brand && <span style={{fontSize:11,color:'rgba(255,255,255,.5)',marginLeft:8}}>{c.brand}</span>}
+                    {c.color && <span style={{fontSize:11,color:'rgba(255,255,255,.35)',marginLeft:8}}>· {c.color}</span>}
+                    {c.notes && <span style={{fontSize:10,color:'rgba(255,255,255,.35)',marginLeft:8}}>· {c.notes}</span>}
                   </div>
                   <button onClick={function(){ removeCustomItem(c.id) }}
-                    style={{background:'transparent',border:'none',color:'#9a9690',fontSize:14,cursor:'pointer',padding:'0 4px',lineHeight:1}}>✕</button>
+                    style={{background:'transparent',border:'none',color:'rgba(255,255,255,.35)',fontSize:14,cursor:'pointer',padding:'0 4px',lineHeight:1}}>✕</button>
                 </div>
               )})}
             </div>
@@ -418,41 +418,41 @@ export default function ClientSelections() {
           <div style={{marginLeft:38}}>
             <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:8,marginBottom:8}}>
               <div>
-                <div style={{fontSize:9,color:'#9a9690',textTransform:'uppercase',letterSpacing:'.08em',marginBottom:4}}>Item / description *</div>
+                <div style={{fontSize:9,color:'rgba(255,255,255,.35)',textTransform:'uppercase',letterSpacing:'.08em',marginBottom:4}}>Item / description *</div>
                 <input
                   value={customForm.item}
                   onChange={function(e){ setCustomForm(function(p){ return Object.assign({},p,{item:e.target.value}) }) }}
                   placeholder="e.g. Laundry room tile, stair railing, accent wall"
-                  style={{width:'100%',padding:'8px 10px',border:'1px solid #e8e6e0',borderRadius:3,fontSize:12,fontFamily:'sans-serif',outline:'none',boxSizing:'border-box'}}
+                  style={{width:'100%',padding:'8px 10px',border:'1px solid rgba(255,255,255,.09)',borderRadius:3,fontSize:12,fontFamily:'Poppins,sans-serif',outline:'none',boxSizing:'border-box'}}
                 />
               </div>
               <div>
-                <div style={{fontSize:9,color:'#9a9690',textTransform:'uppercase',letterSpacing:'.08em',marginBottom:4}}>Brand / manufacturer</div>
+                <div style={{fontSize:9,color:'rgba(255,255,255,.35)',textTransform:'uppercase',letterSpacing:'.08em',marginBottom:4}}>Brand / manufacturer</div>
                 <input
                   value={customForm.brand}
                   onChange={function(e){ setCustomForm(function(p){ return Object.assign({},p,{brand:e.target.value}) }) }}
                   placeholder="e.g. Sherwin-Williams, Kohler, Home Depot"
-                  style={{width:'100%',padding:'8px 10px',border:'1px solid #e8e6e0',borderRadius:3,fontSize:12,fontFamily:'sans-serif',outline:'none',boxSizing:'border-box'}}
+                  style={{width:'100%',padding:'8px 10px',border:'1px solid rgba(255,255,255,.09)',borderRadius:3,fontSize:12,fontFamily:'Poppins,sans-serif',outline:'none',boxSizing:'border-box'}}
                 />
               </div>
             </div>
             <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:8,marginBottom:'1rem'}}>
               <div>
-                <div style={{fontSize:9,color:'#9a9690',textTransform:'uppercase',letterSpacing:'.08em',marginBottom:4}}>Color / finish / model #</div>
+                <div style={{fontSize:9,color:'rgba(255,255,255,.35)',textTransform:'uppercase',letterSpacing:'.08em',marginBottom:4}}>Color / finish / model #</div>
                 <input
                   value={customForm.color}
                   onChange={function(e){ setCustomForm(function(p){ return Object.assign({},p,{color:e.target.value}) }) }}
                   placeholder="e.g. SW Agreeable Gray, matte black, #SKU-1234"
-                  style={{width:'100%',padding:'8px 10px',border:'1px solid #e8e6e0',borderRadius:3,fontSize:12,fontFamily:'sans-serif',outline:'none',boxSizing:'border-box'}}
+                  style={{width:'100%',padding:'8px 10px',border:'1px solid rgba(255,255,255,.09)',borderRadius:3,fontSize:12,fontFamily:'Poppins,sans-serif',outline:'none',boxSizing:'border-box'}}
                 />
               </div>
               <div>
-                <div style={{fontSize:9,color:'#9a9690',textTransform:'uppercase',letterSpacing:'.08em',marginBottom:4}}>Notes or link (optional)</div>
+                <div style={{fontSize:9,color:'rgba(255,255,255,.35)',textTransform:'uppercase',letterSpacing:'.08em',marginBottom:4}}>Notes or link (optional)</div>
                 <input
                   value={customForm.notes}
                   onChange={function(e){ setCustomForm(function(p){ return Object.assign({},p,{notes:e.target.value}) }) }}
                   placeholder="Any details for your contractor"
-                  style={{width:'100%',padding:'8px 10px',border:'1px solid #e8e6e0',borderRadius:3,fontSize:12,fontFamily:'sans-serif',outline:'none',boxSizing:'border-box'}}
+                  style={{width:'100%',padding:'8px 10px',border:'1px solid rgba(255,255,255,.09)',borderRadius:3,fontSize:12,fontFamily:'Poppins,sans-serif',outline:'none',boxSizing:'border-box'}}
                 />
               </div>
             </div>
@@ -460,7 +460,7 @@ export default function ClientSelections() {
               <button
                 onClick={addCustomSelection}
                 disabled={!customForm.item.trim()}
-                style={{background:customForm.item.trim()?'#002147':'#e8e6e0',color:customForm.item.trim()?'#fff':'#9a9690',border:customForm.item.trim()?'2px solid #FF8C00':'none',padding:'9px 24px',fontSize:12,fontWeight:700,letterSpacing:'.06em',textTransform:'uppercase',cursor:customForm.item.trim()?'pointer':'default',borderRadius:3,fontFamily:'sans-serif'}}>
+                style={{background:customForm.item.trim()?'#0a0a0a':'#e8e6e0',color:customForm.item.trim()?'#fff':'#9a9690',border:customForm.item.trim()?'2px solid #D06830':'none',padding:'9px 24px',fontSize:12,fontWeight:700,letterSpacing:'.06em',textTransform:'uppercase',cursor:customForm.item.trim()?'pointer':'default',borderRadius:3,fontFamily:'Poppins,sans-serif'}}>
                 Add to my selections →
               </button>
               {customSaved && <span style={{fontSize:12,color:'#3B6D11',fontWeight:600}}>✓ Added to your project book</span>}

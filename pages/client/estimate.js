@@ -117,10 +117,10 @@ export default function ClientEstimate() {
   }
 
   const topbar = (
-    <div style={{background:'#002147',padding:'1rem 2rem',display:'flex',alignItems:'center',justifyContent:'space-between',borderBottom:'3px solid #FF8C00'}}>
+    <div style={{background:'#0a0a0a',padding:'1rem 2rem',display:'flex',alignItems:'center',justifyContent:'space-between',borderBottom:'3px solid #D06830'}}>
       <div>
         <img src='/logo.png' alt='SpanglerBuilt' style={{height:32,width:'auto'}}/>
-        <div style={{fontSize:9,color:'#FF8C00',letterSpacing:'.16em',textTransform:'uppercase',marginTop:2}}>Project Estimate · Mendel Basement Renovation</div>
+        <div style={{fontSize:9,color:'#D06830',letterSpacing:'.16em',textTransform:'uppercase',marginTop:2}}>Project Estimate · Mendel Basement Renovation</div>
       </div>
       <a href="/client/dashboard" style={{fontSize:11,color:'rgba(255,255,255,.6)',textDecoration:'none'}}>← My project</a>
     </div>
@@ -128,24 +128,24 @@ export default function ClientEstimate() {
 
   if (confirmed) {
     return (
-      <div style={{minHeight:'100vh',background:'#fff',fontFamily:'sans-serif'}}>
+      <div style={{minHeight:'100vh',background:'#111',fontFamily:'Poppins,sans-serif'}}>
         {topbar}
         <div style={{maxWidth:700,margin:'3rem auto',padding:'0 1.5rem',textAlign:'center'}}>
-          <div style={{background:'#fff',border:'1px solid #e8e6e0',borderRadius:4,padding:'3rem',borderTop:'4px solid #FF8C00'}}>
+          <div style={{background:'#161616',border:'1px solid rgba(255,255,255,.09)',borderRadius:4,padding:'3rem',borderTop:'4px solid #D06830'}}>
             <div style={{fontSize:40,marginBottom:'1rem'}}>✓</div>
-            <div style={{fontFamily:'Georgia,serif',fontSize:24,color:'#002147',marginBottom:8}}>Selection confirmed</div>
-            <div style={{fontSize:13,color:'#9a9690',marginBottom:'2rem'}}>You selected the <strong style={{color:TIER_INFO[tier].color}}>{TIER_LABELS[tier]}</strong> tier at <strong style={{color:'#002147'}}>{fmt(totals.grand)}</strong></div>
-            <div style={{background:'#FFFCEB',border:'1px solid #FF8C00',borderRadius:4,padding:'1rem 1.5rem',marginBottom:'2rem',textAlign:'left'}}>
-              <div style={{fontSize:11,fontWeight:700,color:'#002147',textTransform:'uppercase',letterSpacing:'.08em',marginBottom:8}}>What happens next</div>
-              <div style={{fontSize:13,color:'#3d3b37',lineHeight:1.8}}>
+            <div style={{fontFamily:'Poppins,sans-serif',fontSize:24,color:'#0a0a0a',marginBottom:8}}>Selection confirmed</div>
+            <div style={{fontSize:13,color:'rgba(255,255,255,.35)',marginBottom:'2rem'}}>You selected the <strong style={{color:TIER_INFO[tier].color}}>{TIER_LABELS[tier]}</strong> tier at <strong style={{color:'#0a0a0a'}}>{fmt(totals.grand)}</strong></div>
+            <div style={{background:'rgba(208,104,48,.1)',border:'1px solid #D06830',borderRadius:4,padding:'1rem 1.5rem',marginBottom:'2rem',textAlign:'left'}}>
+              <div style={{fontSize:11,fontWeight:700,color:'#0a0a0a',textTransform:'uppercase',letterSpacing:'.08em',marginBottom:8}}>What happens next</div>
+              <div style={{fontSize:13,color:'rgba(255,255,255,.65)',lineHeight:1.8}}>
                 1. Michael will review your selection and contact you within 1 business day.<br/>
                 2. You'll receive your formal contract for review and signature.<br/>
                 3. Once signed, we schedule your start date and order materials.
               </div>
             </div>
-            <a href="/client/selections" style={{display:'inline-block',background:'#FF8C00',color:'#fff',padding:'12px 28px',fontSize:12,fontWeight:700,letterSpacing:'.1em',textTransform:'uppercase',textDecoration:'none',borderRadius:3,marginRight:8}}>Choose your materials →</a>
-            <a href="tel:4044927650" style={{display:'inline-block',background:'#002147',color:'#fff',padding:'12px 28px',fontSize:12,fontWeight:700,letterSpacing:'.1em',textTransform:'uppercase',textDecoration:'none',borderRadius:3,marginRight:8}}>Call Michael</a>
-            <button onClick={()=>{setConfirmed(false)}} style={{background:'transparent',border:'1px solid #e8e6e0',color:'#9a9690',padding:'12px 28px',fontSize:12,fontWeight:500,cursor:'pointer',borderRadius:3,fontFamily:'sans-serif'}}>Change selection</button>
+            <a href="/client/selections" style={{display:'inline-block',background:'#D06830',color:'#fff',padding:'12px 28px',fontSize:12,fontWeight:700,letterSpacing:'.1em',textTransform:'uppercase',textDecoration:'none',borderRadius:3,marginRight:8}}>Choose your materials →</a>
+            <a href="tel:4044927650" style={{display:'inline-block',background:'#0a0a0a',color:'#fff',padding:'12px 28px',fontSize:12,fontWeight:700,letterSpacing:'.1em',textTransform:'uppercase',textDecoration:'none',borderRadius:3,marginRight:8}}>Call Michael</a>
+            <button onClick={()=>{setConfirmed(false)}} style={{background:'transparent',border:'1px solid rgba(255,255,255,.09)',color:'rgba(255,255,255,.35)',padding:'12px 28px',fontSize:12,fontWeight:500,cursor:'pointer',borderRadius:3,fontFamily:'Poppins,sans-serif'}}>Change selection</button>
           </div>
         </div>
       </div>
@@ -153,29 +153,29 @@ export default function ClientEstimate() {
   }
 
   return (
-    <div style={{minHeight:'100vh',background:'#fff',fontFamily:'sans-serif'}}>
+    <div style={{minHeight:'100vh',background:'#111',fontFamily:'Poppins,sans-serif'}}>
       {topbar}
 
       <div style={{maxWidth:900,margin:'0 auto',padding:'1.5rem'}}>
 
         {/* Project info */}
-        <div style={{background:'#002147',borderRadius:4,padding:'1.25rem 1.5rem',marginBottom:'1.5rem',display:'flex',justifyContent:'space-between',alignItems:'center',flexWrap:'wrap',gap:8}}>
+        <div style={{background:'#0a0a0a',borderRadius:4,padding:'1.25rem 1.5rem',marginBottom:'1.5rem',display:'flex',justifyContent:'space-between',alignItems:'center',flexWrap:'wrap',gap:8}}>
           <div>
-            <div style={{fontFamily:'Georgia,serif',fontSize:18,color:'#fff',marginBottom:3}}>Ryan &amp; Dori Mendel</div>
+            <div style={{fontFamily:'Poppins,sans-serif',fontSize:18,color:'#fff',marginBottom:3}}>Ryan &amp; Dori Mendel</div>
             <div style={{fontSize:11,color:'rgba(255,255,255,.6)'}}>SB-2026-001 · 4995 Shadow Glen Ct, Dunwoody GA · 665 sf · Basement Renovation</div>
           </div>
           {tier && (
             <div style={{textAlign:'right'}}>
               <div style={{fontSize:10,color:'rgba(255,255,255,.5)',textTransform:'uppercase',letterSpacing:'.08em',marginBottom:2}}>Your selection</div>
-              <div style={{fontSize:20,color:'#FF8C00',fontWeight:500}}>{fmt(totals.grand)}</div>
+              <div style={{fontSize:20,color:'#D06830',fontWeight:500}}>{fmt(totals.grand)}</div>
             </div>
           )}
         </div>
 
         {/* Instructions */}
         {!tier && (
-          <div style={{background:'#FFFCEB',border:'1px solid #FF8C00',borderRadius:4,padding:'1rem 1.25rem',marginBottom:'1.5rem',fontSize:13,color:'#3d3b37',lineHeight:1.7}}>
-            <strong style={{color:'#002147'}}>Select your tier below</strong> — each tier includes the same scope of work but with different materials and finishes. Your total updates instantly as you choose. Questions? Call Michael at (404) 492-7650.
+          <div style={{background:'rgba(208,104,48,.1)',border:'1px solid #D06830',borderRadius:4,padding:'1rem 1.25rem',marginBottom:'1.5rem',fontSize:13,color:'rgba(255,255,255,.65)',lineHeight:1.7}}>
+            <strong style={{color:'#0a0a0a'}}>Select your tier below</strong> — each tier includes the same scope of work but with different materials and finishes. Your total updates instantly as you choose. Questions? Call Michael at (404) 492-7650.
           </div>
         )}
 
@@ -196,9 +196,9 @@ export default function ClientEstimate() {
               onMouseEnter={e => { if(!selected) e.currentTarget.style.borderColor = info.border }}
               onMouseLeave={e => { if(!selected) e.currentTarget.style.borderColor = '#e8e6e0' }}>
                 {/* Tier header */}
-                <div style={{background: selected ? info.border : '#002147',padding:'10px 14px',display:'flex',alignItems:'center',justifyContent:'space-between'}}>
+                <div style={{background: selected ? info.border : '#0a0a0a',padding:'10px 14px',display:'flex',alignItems:'center',justifyContent:'space-between'}}>
                   <div>
-                    <div style={{fontSize:10,fontWeight:700,letterSpacing:'.12em',textTransform:'uppercase',color: selected ? '#fff' : '#FF8C00'}}>{TIER_LABELS[t]}</div>
+                    <div style={{fontSize:10,fontWeight:700,letterSpacing:'.12em',textTransform:'uppercase',color: selected ? '#fff' : '#D06830'}}>{TIER_LABELS[t]}</div>
                     <div style={{fontSize:11,color: selected ? 'rgba(255,255,255,.8)' : 'rgba(255,255,255,.5)',marginTop:1}}>{info.headline}</div>
                   </div>
                   <div style={{textAlign:'right'}}>
@@ -210,7 +210,7 @@ export default function ClientEstimate() {
                 {/* What's included */}
                 <div style={{padding:'12px 14px'}}>
                   {info.bullets.map((b,i) => (
-                    <div key={i} style={{display:'flex',gap:8,alignItems:'flex-start',padding:'4px 0',borderBottom:i<info.bullets.length-1?'1px solid #f5f4f1':'none',fontSize:12,color:'#3d3b37'}}>
+                    <div key={i} style={{display:'flex',gap:8,alignItems:'flex-start',padding:'4px 0',borderBottom:i<info.bullets.length-1?'1px solid #f5f4f1':'none',fontSize:12,color:'rgba(255,255,255,.65)'}}>
                       <span style={{color:info.color,fontSize:12,flexShrink:0,marginTop:1}}>✓</span>
                       <span>{b}</span>
                     </div>
@@ -238,7 +238,7 @@ export default function ClientEstimate() {
         {tier && (
           <div>
             {/* Summary bar */}
-            <div style={{background:'#002147',borderRadius:4,padding:'12px 16px',display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:12,flexWrap:'wrap',gap:8}}>
+            <div style={{background:'#0a0a0a',borderRadius:4,padding:'12px 16px',display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:12,flexWrap:'wrap',gap:8}}>
               <div style={{display:'flex',gap:24,flexWrap:'wrap'}}>
                 {[
                   ['Direct cost',   fmt(totals.direct)],
@@ -254,46 +254,46 @@ export default function ClientEstimate() {
               </div>
               <div style={{textAlign:'right'}}>
                 <div style={{fontSize:10,color:'rgba(255,255,255,.5)',textTransform:'uppercase',letterSpacing:'.08em',marginBottom:2}}>{TIER_LABELS[tier]} tier total</div>
-                <div style={{fontSize:24,color:'#FF8C00',fontWeight:500}}>{fmt(totals.grand)}</div>
+                <div style={{fontSize:24,color:'#D06830',fontWeight:500}}>{fmt(totals.grand)}</div>
               </div>
             </div>
 
             {/* Toggle details */}
-            <button onClick={()=>setShowDetails(!showDetails)} style={{background:'transparent',border:'1px solid #e8e6e0',color:'#9a9690',padding:'6px 16px',fontSize:11,cursor:'pointer',borderRadius:3,marginBottom:12,fontFamily:'sans-serif',fontWeight:500}}>
+            <button onClick={()=>setShowDetails(!showDetails)} style={{background:'transparent',border:'1px solid rgba(255,255,255,.09)',color:'rgba(255,255,255,.35)',padding:'6px 16px',fontSize:11,cursor:'pointer',borderRadius:3,marginBottom:12,fontFamily:'Poppins,sans-serif',fontWeight:500}}>
               {showDetails ? '▲ Hide' : '▼ Show'} division breakdown
             </button>
 
             {/* Division breakdown */}
             {showDetails && (
-              <div style={{background:'#fff',border:'1px solid #e8e6e0',borderRadius:4,overflow:'hidden',marginBottom:12}}>
-                <div style={{display:'grid',gridTemplateColumns:'60px 1fr 110px 110px',gap:8,padding:'6px 12px',background:'#002147',fontSize:10,fontWeight:500,color:'#FF8C00',textTransform:'uppercase',letterSpacing:'.04em'}}>
+              <div style={{background:'#161616',border:'1px solid rgba(255,255,255,.09)',borderRadius:4,overflow:'hidden',marginBottom:12}}>
+                <div style={{display:'grid',gridTemplateColumns:'60px 1fr 110px 110px',gap:8,padding:'6px 12px',background:'#0a0a0a',fontSize:10,fontWeight:500,color:'#D06830',textTransform:'uppercase',letterSpacing:'.04em'}}>
                   <span>Div</span><span>Description</span><span style={{textAlign:'right'}}>Base cost</span><span style={{textAlign:'right'}}>{TIER_LABELS[tier]} cost</span>
                 </div>
                 {DIVISIONS.map((d,i)=>(
                   <div key={d.num} style={{display:'grid',gridTemplateColumns:'60px 1fr 110px 110px',gap:8,padding:'7px 12px',borderTop:i===0?'none':'1px solid #f5f4f1',fontSize:12,background:i%2===0?'#fff':'#fafaf8'}}
-                    onMouseEnter={e=>e.currentTarget.style.background='#FFFCEB'}
+                    onMouseEnter={e=>e.currentTarget.style.background='rgba(208,104,48,.1)'}
                     onMouseLeave={e=>e.currentTarget.style.background=i%2===0?'#fff':'#fafaf8'}>
-                    <span style={{color:'#9a9690',fontSize:10,fontWeight:700}}>DIV {d.num}</span>
-                    <span style={{color:'#3d3b37'}}>{d.name}</span>
-                    <span style={{textAlign:'right',color:'#9a9690'}}>{fmt(d.base)}</span>
-                    <span style={{textAlign:'right',fontWeight:500,color:'#002147'}}>{fmt(d.base*TIER_MULT[tier])}</span>
+                    <span style={{color:'rgba(255,255,255,.35)',fontSize:10,fontWeight:700}}>DIV {d.num}</span>
+                    <span style={{color:'rgba(255,255,255,.65)'}}>{d.name}</span>
+                    <span style={{textAlign:'right',color:'rgba(255,255,255,.35)'}}>{fmt(d.base)}</span>
+                    <span style={{textAlign:'right',fontWeight:500,color:'#0a0a0a'}}>{fmt(d.base*TIER_MULT[tier])}</span>
                   </div>
                 ))}
               </div>
             )}
 
             {/* Payment schedule */}
-            <div style={{background:'#fff',border:'1px solid #e8e6e0',borderRadius:4,overflow:'hidden',marginBottom:'1.5rem'}}>
-              <div style={{padding:'8px 12px',background:'#002147',fontSize:10,fontWeight:500,color:'#FF8C00',textTransform:'uppercase',letterSpacing:'.08em'}}>
+            <div style={{background:'#161616',border:'1px solid rgba(255,255,255,.09)',borderRadius:4,overflow:'hidden',marginBottom:'1.5rem'}}>
+              <div style={{padding:'8px 12px',background:'#0a0a0a',fontSize:10,fontWeight:500,color:'#D06830',textTransform:'uppercase',letterSpacing:'.08em'}}>
                 Payment schedule — {TIER_LABELS[tier]} tier ({fmt(totals.grand)})
               </div>
               {PAYMENTS.map((p,i)=>(
                 <div key={p.label} style={{display:'flex',justifyContent:'space-between',alignItems:'center',padding:'8px 12px',borderTop:i===0?'none':'1px solid #f5f4f1',fontSize:12}}>
                   <div style={{display:'flex',gap:8,alignItems:'center'}}>
-                    <span style={{fontSize:10,color:'#FF8C00',fontWeight:700,minWidth:28}}>{p.pct}%</span>
-                    <span style={{color:'#3d3b37'}}>{p.label}</span>
+                    <span style={{fontSize:10,color:'#D06830',fontWeight:700,minWidth:28}}>{p.pct}%</span>
+                    <span style={{color:'rgba(255,255,255,.65)'}}>{p.label}</span>
                   </div>
-                  <span style={{fontWeight:500,color:'#002147'}}>{fmt(totals.grand*p.pct/100)}</span>
+                  <span style={{fontWeight:500,color:'#0a0a0a'}}>{fmt(totals.grand*p.pct/100)}</span>
                 </div>
               ))}
             </div>
@@ -301,19 +301,19 @@ export default function ClientEstimate() {
             {/* Confirm button */}
             <div style={{textAlign:'center'}}>
               <button onClick={confirmSelection} style={{
-                background:'#FF8C00',color:'#fff',border:'none',
+                background:'#D06830',color:'#fff',border:'none',
                 padding:'14px 48px',fontSize:13,fontWeight:700,
                 letterSpacing:'.1em',textTransform:'uppercase',
-                cursor:'pointer',borderRadius:3,fontFamily:'sans-serif',
+                cursor:'pointer',borderRadius:3,fontFamily:'Poppins,sans-serif',
               }}>
                 Confirm {TIER_LABELS[tier]} tier selection →
               </button>
-              <div style={{fontSize:11,color:'#9a9690',marginTop:8}}>Michael will follow up within 1 business day to finalize your contract.</div>
+              <div style={{fontSize:11,color:'rgba(255,255,255,.35)',marginTop:8}}>Michael will follow up within 1 business day to finalize your contract.</div>
             </div>
           </div>
         )}
 
-        <div style={{marginTop:'1.5rem',fontSize:10,color:'#9a9690',textAlign:'center'}}>
+        <div style={{marginTop:'1.5rem',fontSize:10,color:'rgba(255,255,255,.35)',textAlign:'center'}}>
           SpanglerBuilt Inc. · Michael Spangler, GC · (404) 492-7650 · michael@spanglerbuilt.com · Estimate valid 30 days
         </div>
       </div>
