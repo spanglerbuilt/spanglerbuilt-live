@@ -1374,7 +1374,7 @@ VALUES
  'Quartz composite apron-front bar/prep sink; retains temperature; stylish design statement',
  '25" × 18.5" × 9"D','each',749,999,NULL,
  '{"Putty","Greige","Espresso","Caviar (black)"}',
- 'A farmhouse-style composite bar sink elevates a basement bar significantly.');
+ 'A farmhouse-style composite bar sink elevates a basement bar significantly.'),
 
 ('bar_sinks','stainless_undermount','{"basement","kitchen"}','luxury',
  'Julien Studio Collection Seamless Undermount Bar Sink','Julien',
