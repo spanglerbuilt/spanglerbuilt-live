@@ -1,3 +1,4 @@
+import ClientNav from './_nav'
 import { useEffect, useState } from 'react'
 
 var PHASES = ['Pre-construction','Demo & framing','Drywall & rough-ins','Paint & flooring','Closeout']
@@ -39,16 +40,7 @@ export default function ClientDashboard() {
   return (
     <div style={{minHeight:'100vh', background:'#111', fontFamily:'Poppins,sans-serif'}}>
 
-      {/* Header */}
-      <div style={{background:'#0a0a0a', padding:'1rem 2rem', display:'flex', alignItems:'center', justifyContent:'space-between', borderBottom:'3px solid #D06830', position:'sticky', top:0, zIndex:100}}>
-        <img src="/logo.png" alt="SpanglerBuilt" style={{height:32, width:'auto'}}/>
-        <div style={{display:'flex', gap:12, alignItems:'center'}}>
-          <span style={{fontSize:11, color:'rgba(255,255,255,.5)'}}>{clientEmail}</span>
-          <button onClick={handleSignOut} style={{fontSize:11, color:'#D06830', background:'transparent', border:'1px solid rgba(208,104,48,.4)', padding:'4px 12px', borderRadius:3, cursor:'pointer', fontFamily:'Poppins,sans-serif'}}>
-            Sign out
-          </button>
-        </div>
-      </div>
+      <ClientNav />
 
       <div style={{maxWidth:900, margin:'0 auto', padding:'1.5rem'}}>
 

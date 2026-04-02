@@ -1,3 +1,4 @@
+import ClientNav from './_nav'
 import { useState, useEffect } from 'react'
 import { useSession } from 'next-auth/react'
 
@@ -223,18 +224,8 @@ export default function ClientSelections() {
   return (
     <div style={{minHeight:'100vh',background:'#111',fontFamily:'Poppins,sans-serif'}}>
 
-      {/* Topbar */}
-      <div style={{background:'#0a0a0a',padding:'0.85rem 2rem',display:'flex',alignItems:'center',justifyContent:'space-between',borderBottom:'3px solid #D06830'}}>
-        <div style={{display:'flex',alignItems:'center',gap:12}}>
-          <img src="/logo.png" alt="SpanglerBuilt" style={{height:30,width:'auto'}}/>
-          <span style={{fontSize:11,color:'rgba(255,255,255,.5)',letterSpacing:'.1em',textTransform:'uppercase'}}>Material Selections</span>
-        </div>
-        <div style={{display:'flex',gap:12,alignItems:'center'}}>
-          {savedMsg && <span style={{background:'#eaf3de',color:'#3B6D11',fontSize:11,padding:'3px 10px',borderRadius:3,fontWeight:600}}>✓ {savedMsg}</span>}
-          <span style={{fontSize:11,color:'rgba(255,255,255,.5)'}}>{clientName}</span>
-          <a href="/client/dashboard" style={{fontSize:11,color:'rgba(255,255,255,.6)',textDecoration:'none'}}>← Dashboard</a>
-        </div>
-      </div>
+      <ClientNav />
+      {savedMsg && <div style={{background:'rgba(59,109,17,.15)',borderBottom:'1px solid rgba(59,109,17,.3)',padding:'6px 1.5rem',fontSize:12,color:'#7BC67A',fontWeight:600}}>✓ {savedMsg}</div>}
 
       <div style={{maxWidth:1100,margin:'0 auto',padding:'1.5rem',display:'grid',gridTemplateColumns:'180px 1fr',gap:20}}>
 

@@ -1,3 +1,4 @@
+import ClientNav from './_nav'
 import { useState, useEffect } from 'react'
 import { useSession } from 'next-auth/react'
 import { INIT_OPTION_GROUPS } from '../contractor/options'
@@ -129,17 +130,10 @@ export default function ClientOptions() {
   return (
     <div style={{minHeight:'100vh',background:'#111',fontFamily:'Poppins,sans-serif'}}>
 
-      {/* Topbar */}
-      <div style={{background:'#0a0a0a',padding:'0.85rem 2rem',display:'flex',alignItems:'center',justifyContent:'space-between',borderBottom:'3px solid #D06830',position:'sticky',top:0,zIndex:50}}>
-        <div style={{display:'flex',alignItems:'center',gap:12}}>
-          <img src="/logo.png" alt="SpanglerBuilt" style={{height:30,width:'auto'}}/>
-          <span style={{fontSize:11,color:'rgba(255,255,255,.5)',letterSpacing:'.1em',textTransform:'uppercase'}}>Options &amp; Upgrades</span>
-        </div>
-        <a href="/client/dashboard" style={{fontSize:11,color:'rgba(255,255,255,.6)',textDecoration:'none'}}>← Dashboard</a>
-      </div>
+      <ClientNav />
 
       {/* Sticky upgrade bar */}
-      <div style={{background:'#0a0a0a',borderBottom:'2px solid #D06830',padding:'0.6rem 2rem',display:'flex',alignItems:'center',justifyContent:'space-between',position:'sticky',top:57,zIndex:49}}>
+      <div style={{background:'#0a0a0a',borderBottom:'1px solid rgba(255,255,255,.08)',padding:'0.6rem 2rem',display:'flex',alignItems:'center',justifyContent:'space-between',position:'sticky',top:72,zIndex:49}}>
         <div style={{display:'flex',gap:24,alignItems:'center'}}>
           <div>
             <div style={{fontSize:9,color:'rgba(255,255,255,.5)',textTransform:'uppercase',letterSpacing:'.08em'}}>Base estimate ({tierLabel})</div>

@@ -1,3 +1,4 @@
+import ClientNav from './_nav'
 import { useState } from 'react'
 
 export default function WarrantyPage() {
@@ -14,9 +15,7 @@ export default function WarrantyPage() {
   if (submitted) {
     return (
       <div style={{minHeight:'100vh',background:'#111',fontFamily:'Poppins,sans-serif'}}>
-        <div style={{background:'#0a0a0a',padding:'1rem 2rem',borderBottom:'3px solid #D06830'}}>
-          <div style={{fontFamily:'Poppins,sans-serif',fontSize:16,color:'#fff',fontWeight:700,letterSpacing:'.08em'}}>SPANGLERBUILT <span style={{fontSize:11,color:'#D06830',fontWeight:400}}> · WARRANTY</span></div>
-        </div>
+        <ClientNav />
         <div style={{maxWidth:600,margin:'3rem auto',padding:'0 1.5rem',textAlign:'center'}}>
           <div style={{background:'#161616',border:'1px solid rgba(255,255,255,.09)',borderRadius:4,padding:'3rem',borderTop:'4px solid #D06830'}}>
             <div style={{fontSize:36,marginBottom:'1rem',color:'#3B6D11'}}>✓</div>
@@ -35,10 +34,7 @@ export default function WarrantyPage() {
 
   return (
     <div style={{minHeight:'100vh',background:'#111',fontFamily:'Poppins,sans-serif'}}>
-      <div style={{background:'#0a0a0a',padding:'1rem 2rem',display:'flex',alignItems:'center',justifyContent:'space-between',borderBottom:'3px solid #D06830'}}>
-        <div style={{fontFamily:'Poppins,sans-serif',fontSize:16,color:'#fff',fontWeight:700,letterSpacing:'.08em'}}>SPANGLERBUILT <span style={{fontSize:11,color:'#D06830',fontWeight:400}}> · WARRANTY REQUEST</span></div>
-        <a href="/client/dashboard" style={{fontSize:11,color:'rgba(255,255,255,.6)',textDecoration:'none'}}>← My project</a>
-      </div>
+      <ClientNav />
 
       <div style={{maxWidth:680,margin:'0 auto',padding:'1.5rem'}}>
 

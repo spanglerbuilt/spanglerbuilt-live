@@ -1,3 +1,5 @@
+import ClientNav from './_nav'
+
 export default function ScopePage() {
   const phases = [
     { num:1, name:'Pre-construction', status:'complete', items:[
@@ -50,10 +52,7 @@ export default function ScopePage() {
   }
   return (
     <div style={{minHeight:'100vh',background:'#111',fontFamily:'Poppins,sans-serif'}}>
-      <div style={{background:'#0a0a0a',padding:'1rem 2rem',display:'flex',alignItems:'center',justifyContent:'space-between',borderBottom:'3px solid #D06830'}}>
-        <div style={{fontFamily:'Poppins,sans-serif',fontSize:16,color:'#fff',fontWeight:700,letterSpacing:'.08em'}}>SPANGLERBUILT <span style={{fontSize:11,color:'#D06830',fontWeight:400}}> · SCOPE OF WORK</span></div>
-        <a href="/client/dashboard" style={{fontSize:11,color:'rgba(255,255,255,.6)',textDecoration:'none'}}>← My project</a>
-      </div>
+      <ClientNav />
       <div style={{maxWidth:800,margin:'0 auto',padding:'1.5rem'}}>
         <div style={{background:'#0a0a0a',borderRadius:4,padding:'1rem 1.5rem',marginBottom:'1.25rem',display:'flex',justifyContent:'space-between',alignItems:'center',flexWrap:'wrap',gap:8}}>
           <div>

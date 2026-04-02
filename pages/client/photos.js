@@ -1,3 +1,4 @@
+import ClientNav from './_nav'
 import { useState, useEffect } from 'react'
 
 var DEMO_PHOTOS = [
@@ -21,13 +22,7 @@ export default function PhotosPage() {
   return (
     <div style={{minHeight:'100vh', background:'#111', fontFamily:'Poppins,sans-serif'}}>
 
-      {/* Header */}
-      <div style={{background:'#0a0a0a', padding:'1rem 2rem', display:'flex', alignItems:'center', justifyContent:'space-between', borderBottom:'3px solid #D06830', position:'sticky', top:0, zIndex:100}}>
-        <div style={{fontSize:15, color:'#fff', fontWeight:700, letterSpacing:'.06em'}}>
-          SPANGLERBUILT <span style={{fontSize:11, color:'#D06830', fontWeight:400}}> · PROGRESS PHOTOS</span>
-        </div>
-        <a href="/client/dashboard" style={{fontSize:11, color:'rgba(255,255,255,.55)', textDecoration:'none'}}>← My Project</a>
-      </div>
+      <ClientNav />
 
       <div style={{maxWidth:900, margin:'0 auto', padding:'1.5rem'}}>
 

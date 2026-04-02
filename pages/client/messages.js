@@ -1,3 +1,4 @@
+import ClientNav from './_nav'
 import { useState } from 'react'
 
 const INIT_MESSAGES = [
@@ -23,10 +24,7 @@ export default function MessagesPage() {
 
   return (
     <div style={{minHeight:'100vh',background:'#111',fontFamily:'Poppins,sans-serif',display:'flex',flexDirection:'column'}}>
-      <div style={{background:'#0a0a0a',padding:'1rem 2rem',display:'flex',alignItems:'center',justifyContent:'space-between',borderBottom:'3px solid #D06830',flexShrink:0}}>
-        <div style={{fontFamily:'Poppins,sans-serif',fontSize:16,color:'#fff',fontWeight:700,letterSpacing:'.08em'}}>SPANGLERBUILT <span style={{fontSize:11,color:'#D06830',fontWeight:400}}> · MESSAGES</span></div>
-        <a href="/client/dashboard" style={{fontSize:11,color:'rgba(255,255,255,.6)',textDecoration:'none'}}>← My project</a>
-      </div>
+      <ClientNav />
 
       <div style={{maxWidth:700,width:'100%',margin:'0 auto',padding:'1.5rem',flex:1,display:'flex',flexDirection:'column',gap:16}}>
 

@@ -1,3 +1,4 @@
+import ClientNav from './_nav'
 import { useState } from 'react'
 
 var TIER_MULT   = { good:1.0, better:1.18, best:1.38, luxury:1.65 }
@@ -111,15 +112,7 @@ export default function ClientEstimate() {
     setTimeout(function(){ window.scrollTo({ top:0, behavior:'smooth' }) }, 100)
   }
 
-  var topbar = (
-    <div style={{background:'#0a0a0a', padding:'1rem 2rem', display:'flex', alignItems:'center', justifyContent:'space-between', borderBottom:'3px solid #D06830', position:'sticky', top:0, zIndex:100}}>
-      <div>
-        <img src="/logo.png" alt="SpanglerBuilt" style={{height:32, width:'auto'}}/>
-        <div style={{fontSize:9, color:'#D06830', letterSpacing:'.16em', textTransform:'uppercase', marginTop:2}}>Project Estimate · Basement Renovation</div>
-      </div>
-      <a href="/client/dashboard" style={{fontSize:11, color:'rgba(255,255,255,.55)', textDecoration:'none'}}>← My project</a>
-    </div>
-  )
+  var topbar = <ClientNav />
 
   if (confirmed) {
     return (
