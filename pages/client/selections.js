@@ -24,7 +24,7 @@ var PRODUCTS = {
     cabinets:      { brand:'Hampton Bay (Home Depot)',        product:'Shaker Stock · Plywood box · Soft-close',       swatches:[{name:'White',hex:'#FFFFFF'},{name:'Gray',hex:'#9A9A9A'},{name:'Navy',hex:'#002147'}] },
     countertops:   { brand:'Wilsonart HD Laminate',          product:'1.5" post-form edge · Easy clean',              swatches:[{name:'Calcutta Marble',hex:'#F5F0E8'},{name:'Black Fusion',hex:'#2C2C2C'},{name:'Ash Elm',hex:'#B5956A'}] },
     lighting:      { brand:'Halo 6" LED Recessed',           product:'2700K warm white · Dimmable · 20 fixtures',     swatches:[{name:'White Trim',hex:'#F5F5F5'},{name:'Brushed Nickel',hex:'#C0C0B0'},{name:'Black Trim',hex:'#2C2C2C'}] },
-    paint:         { brand:'Sherwin-Williams',                product:'2 coats walls + ceiling · Semi-gloss trim',     swatches:[{name:'Agreeable Gray',hex:'#C2BAA6'},{name:'Accessible Beige',hex:'#D2C5B0'},{name:'Repose Gray',hex:'#B4B0AA'}] },
+    paint:         { brand:'Sherwin-Williams / Behr',         product:'2 coats walls + ceiling · Semi-gloss trim',     swatches:[{name:'SW Agreeable Gray',hex:'#C2BAA6'},{name:'SW Repose Gray',hex:'#B4B0AA'},{name:'SW Accessible Beige',hex:'#D2C5B0'},{name:'SW Sea Salt',hex:'#B5C8BF'},{name:'SW Alabaster',hex:'#F0EDE0'},{name:'SW Pure White',hex:'#F5F5F0'},{name:'SW Naval',hex:'#2A3A52'},{name:'SW Urbane Bronze',hex:'#595248'},{name:'Behr Swiss Coffee',hex:'#F0E8D8'},{name:'Behr Cracked Pepper',hex:'#3C3C38'}] },
     doors:         { brand:'Masonite Interior',               product:'Primed hollow-core · Ready to paint',           swatches:[{name:'White',hex:'#F5F5F5'},{name:'Off-White',hex:'#F0EDE8'},{name:'Barn Stain',hex:'#8B6914'}] },
   },
   better: {
@@ -40,7 +40,7 @@ var PRODUCTS = {
     cabinets:      { brand:'KraftMaid Dovetail Shaker',      product:'Semi-custom · Soft-close · Plywood box',         swatches:[{name:'Dove White',hex:'#F0EDE8'},{name:'Flagstone',hex:'#8B8070'},{name:'Espresso',hex:'#3C2415'}] },
     countertops:   { brand:'Silestone Eternal Calacatta',    product:'Quartz 3cm · Eased edge · NSF certified',        swatches:[{name:'Calacatta Gold',hex:'#F5F0E0'},{name:'Charcoal',hex:'#4A4A4A'},{name:'White Storm',hex:'#F0F0F0'}] },
     lighting:      { brand:'Halo 6" LED + Pendants',         product:'2700K dimmable recessed + 2 pendant lights',     swatches:[{name:'Matte Black',hex:'#2C2C2C'},{name:'Brushed Nickel',hex:'#C0C0B0'},{name:'Brass',hex:'#C8A84B'}] },
-    paint:         { brand:'Sherwin-Williams Emerald',        product:'Premium 2 coats · Low VOC · Excellent hide',     swatches:[{name:'Agreeable Gray',hex:'#C2BAA6'},{name:'Sea Salt',hex:'#B5C8BF'},{name:'Naval',hex:'#2A3A52'}] },
+    paint:         { brand:'Sherwin-Williams Emerald / Benjamin Moore',product:'Premium 2 coats · Low VOC · Excellent hide',swatches:[{name:'BM White Dove',hex:'#F5F0E8'},{name:'BM Chantilly Lace',hex:'#F8F6F0'},{name:'BM Revere Pewter',hex:'#C0B8A8'},{name:'BM Pale Oak',hex:'#D8CFC0'},{name:'BM Hale Navy',hex:'#2A3C50'},{name:'BM Kendall Charcoal',hex:'#5A5A58'},{name:'SW Evergreen Fog',hex:'#8A9E80'},{name:'SW Caviar',hex:'#2C2C2A'},{name:'SW Creamy',hex:'#F0E8CC'},{name:'BM Classic Gray',hex:'#E0DDD8'}] },
     doors:         { brand:'Masonite Solid Core',             product:'Solid-core primed · Upgraded feel',              swatches:[{name:'White',hex:'#F5F5F5'},{name:'Off-White',hex:'#F0EDE8'},{name:'Barn Stain',hex:'#8B6914'}] },
   },
   best: {
@@ -56,7 +56,7 @@ var PRODUCTS = {
     cabinets:      { brand:'Dura Supreme Inset Shaker',      product:'Semi-custom inset · Dovetail · Soft-close',      swatches:[{name:'Alabaster',hex:'#F0EDE0'},{name:'Graphite',hex:'#4A4A4A'},{name:'Sage',hex:'#7A8C6A'}] },
     countertops:   { brand:'Cambria Brittanicca Warm',       product:'Quartz 3cm · Waterfall edge option',             swatches:[{name:'Brittanicca Warm',hex:'#F5EDD8'},{name:'Blackpool',hex:'#2A2A2A'},{name:'Berwyn',hex:'#F0F0F0'}] },
     lighting:      { brand:'Visual Comfort / circa lighting',product:'Designer pendants + recessed · 2700K',           swatches:[{name:'Antique Brass',hex:'#C8A84B'},{name:'Matte Black',hex:'#2C2C2C'},{name:'Polished Nickel',hex:'#D4D4C0'}] },
-    paint:         { brand:'Farrow & Ball / Benjamin Moore', product:'Premium paint · Rich depth · Designer palette',  swatches:[{name:"Elephant's Breath",hex:'#B8B0A4'},{name:'Hague Blue',hex:'#2A4052'},{name:'Shaded White',hex:'#E8E4DC'}] },
+    paint:         { brand:'Benjamin Moore Aura / Farrow & Ball',product:'Premium paint · Rich depth · Designer palette',swatches:[{name:"F&B Elephant's Breath",hex:'#B8B0A4'},{name:'F&B Hague Blue',hex:'#2A4052'},{name:'F&B Shaded White',hex:'#E8E4DC'},{name:'F&B Skimming Stone',hex:'#D8D0C0'},{name:"F&B Mole's Breath",hex:'#7A7068'},{name:'F&B All White',hex:'#F5F5F0'},{name:'BM Simply White',hex:'#F5F2EC'},{name:'BM Gray Owl',hex:'#C8C8C0'},{name:'BM Newburyport Blue',hex:'#3A5068'},{name:'F&B Setting Plaster',hex:'#C8A89A'}] },
     doors:         { brand:'TruStile / Craftsman MDF',       product:'Flush inset · Paintable · Upgraded profile',     swatches:[{name:'White',hex:'#F5F5F5'},{name:'Off-White',hex:'#F0EDE8'},{name:'Painted Custom',hex:'#002147'}] },
   },
   luxury: {
@@ -72,7 +72,7 @@ var PRODUCTS = {
     cabinets:      { brand:'Plain & Fancy Full Custom',      product:'Any wood · Any finish · Any hardware',           swatches:[{name:'Lacquered White',hex:'#FAFAFA'},{name:'Cerused Oak',hex:'#C8B89A'},{name:'Charcoal',hex:'#3C3C3C'}] },
     countertops:   { brand:'Antolini Calacatta Borghini',    product:'Book-matched natural stone · Waterfall · Custom',swatches:[{name:'Calacatta Borghini',hex:'#F5EDD8'},{name:'Black Marquina',hex:'#1A1A1A'},{name:'Verde Guatemala',hex:'#2D5A3D'}] },
     lighting:      { brand:'Kelly Wearstler / Apparatus',    product:'Statement lighting · Custom spec · 2700K',       swatches:[{name:'Polished Gold',hex:'#D4AF37'},{name:'Matte Black',hex:'#2C2C2C'},{name:'Nickel',hex:'#D4D4C0'}] },
-    paint:         { brand:'Farrow & Ball Dead Flat + Lacquer',product:'Bespoke color consultation · Lacquer option', swatches:[{name:'Off-Black',hex:'#2C2C2C'},{name:'Pavilion Gray',hex:'#B4B0A8'},{name:'All White',hex:'#F5F5F0'}] },
+    paint:         { brand:'Farrow & Ball Dead Flat / Bespoke',product:'Color consultation included · Dead Flat or Lacquer finish',swatches:[{name:'F&B Off-Black',hex:'#2C2C2C'},{name:'F&B Pavilion Gray',hex:'#B4B0A8'},{name:'F&B Dead Salmon',hex:'#D4B0A0'},{name:'F&B Calke Green',hex:'#5A7868'},{name:'F&B Card Room Green',hex:'#6A8070'},{name:'F&B Studio Green',hex:'#3A5040'},{name:'F&B Sulking Room Pink',hex:'#C8A090'},{name:'F&B Inchyra Blue',hex:'#4A6070'},{name:'F&B Pitch Black',hex:'#1C1C1C'},{name:'Bespoke (any color)',hex:'#FF8C00'}] },
     doors:         { brand:'Simpson Door / Full Custom',     product:'Solid wood · Custom profile · Any finish',       swatches:[{name:'Natural Oak',hex:'#C4A882'},{name:'Lacquered White',hex:'#FAFAFA'},{name:'Ebony',hex:'#1C1008'}] },
   },
 }
@@ -119,6 +119,9 @@ export default function ClientSelections() {
   var [expanding,   setExpanding]   = useState(null) // catId with open swatch picker
   var [pendingSwatch, setPendingSwatch] = useState({}) // catId → swatchName (before confirm)
   var [savedMsg,    setSavedMsg]    = useState('')
+  var [customItems, setCustomItems] = useState([])
+  var [customForm,  setCustomForm]  = useState({ item:'', brand:'', color:'', notes:'' })
+  var [customSaved, setCustomSaved] = useState(false)
 
   // Load saved picks from localStorage
   useEffect(function() {
@@ -131,7 +134,41 @@ export default function ClientSelections() {
       })
       if (Object.keys(loaded).length > 0) setPicks(loaded)
     } catch(e) {}
+    try {
+      var customs = JSON.parse(localStorage.getItem('sb_custom_selections') || '[]')
+      if (customs.length > 0) setCustomItems(customs)
+    } catch(e) {}
   }, [])
+
+  function addCustomSelection() {
+    if (!customForm.item.trim()) return
+    var newItem = {
+      id:     'custom-' + Date.now(),
+      item:   customForm.item.trim(),
+      brand:  customForm.brand.trim(),
+      color:  customForm.color.trim(),
+      notes:  customForm.notes.trim(),
+      addedAt: new Date().toISOString(),
+    }
+    var updated = customItems.concat([newItem])
+    setCustomItems(updated)
+    localStorage.setItem('sb_custom_selections', JSON.stringify(updated))
+    // Also merge into sb_selections so project book picks it up
+    try {
+      var existing = JSON.parse(localStorage.getItem('sb_selections') || '{}')
+      existing[newItem.id] = { value: newItem.item, brand: newItem.brand, hex: '#9a9690', tier: 'custom', notes: newItem.notes + (newItem.color ? ' · ' + newItem.color : '') }
+      localStorage.setItem('sb_selections', JSON.stringify(existing))
+    } catch(e) {}
+    setCustomForm({ item:'', brand:'', color:'', notes:'' })
+    setCustomSaved(true)
+    setTimeout(function(){ setCustomSaved(false) }, 2500)
+  }
+
+  function removeCustomItem(id) {
+    var updated = customItems.filter(function(c){ return c.id !== id })
+    setCustomItems(updated)
+    localStorage.setItem('sb_custom_selections', JSON.stringify(updated))
+  }
 
   var clientName = session ? session.user.name : 'Ryan and Dori Mendel'
   var room = ROOMS.find(function(r){ return r.id === activeRoom })
@@ -350,6 +387,87 @@ export default function ClientSelections() {
             )
           })}
         </div>
+
+        {/* ── Custom / unlisted selection ─────────────────────────────────── */}
+        <div style={{marginTop:'2rem',border:'2px dashed #e8e6e0',borderRadius:6,padding:'1.5rem',background:'#fafaf8'}}>
+          <div style={{display:'flex',alignItems:'center',gap:10,marginBottom:6}}>
+            <div style={{width:28,height:28,borderRadius:'50%',background:'#002147',display:'flex',alignItems:'center',justifyContent:'center',fontSize:14,color:'#FF8C00',flexShrink:0}}>+</div>
+            <div style={{fontFamily:'Georgia,serif',fontSize:16,color:'#002147'}}>Do you have another selection not listed?</div>
+          </div>
+          <div style={{fontSize:12,color:'#9a9690',marginBottom:'1.25rem',marginLeft:38}}>Add any material, finish, or fixture not shown above — it will appear in your project book.</div>
+
+          {/* Existing custom items */}
+          {customItems.length > 0 && (
+            <div style={{marginBottom:'1rem',marginLeft:38}}>
+              {customItems.map(function(c){ return (
+                <div key={c.id} style={{display:'flex',alignItems:'center',justifyContent:'space-between',padding:'8px 12px',background:'#eaf3de',border:'1px solid #c8dfc0',borderRadius:4,marginBottom:6}}>
+                  <div>
+                    <span style={{fontSize:12,fontWeight:600,color:'#002147'}}>{c.item}</span>
+                    {c.brand && <span style={{fontSize:11,color:'#5f5e5a',marginLeft:8}}>{c.brand}</span>}
+                    {c.color && <span style={{fontSize:11,color:'#9a9690',marginLeft:8}}>· {c.color}</span>}
+                    {c.notes && <span style={{fontSize:10,color:'#9a9690',marginLeft:8}}>· {c.notes}</span>}
+                  </div>
+                  <button onClick={function(){ removeCustomItem(c.id) }}
+                    style={{background:'transparent',border:'none',color:'#9a9690',fontSize:14,cursor:'pointer',padding:'0 4px',lineHeight:1}}>✕</button>
+                </div>
+              )})}
+            </div>
+          )}
+
+          {/* Form */}
+          <div style={{marginLeft:38}}>
+            <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:8,marginBottom:8}}>
+              <div>
+                <div style={{fontSize:9,color:'#9a9690',textTransform:'uppercase',letterSpacing:'.08em',marginBottom:4}}>Item / description *</div>
+                <input
+                  value={customForm.item}
+                  onChange={function(e){ setCustomForm(function(p){ return Object.assign({},p,{item:e.target.value}) }) }}
+                  placeholder="e.g. Laundry room tile, stair railing, accent wall"
+                  style={{width:'100%',padding:'8px 10px',border:'1px solid #e8e6e0',borderRadius:3,fontSize:12,fontFamily:'sans-serif',outline:'none',boxSizing:'border-box'}}
+                />
+              </div>
+              <div>
+                <div style={{fontSize:9,color:'#9a9690',textTransform:'uppercase',letterSpacing:'.08em',marginBottom:4}}>Brand / manufacturer</div>
+                <input
+                  value={customForm.brand}
+                  onChange={function(e){ setCustomForm(function(p){ return Object.assign({},p,{brand:e.target.value}) }) }}
+                  placeholder="e.g. Sherwin-Williams, Kohler, Home Depot"
+                  style={{width:'100%',padding:'8px 10px',border:'1px solid #e8e6e0',borderRadius:3,fontSize:12,fontFamily:'sans-serif',outline:'none',boxSizing:'border-box'}}
+                />
+              </div>
+            </div>
+            <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:8,marginBottom:'1rem'}}>
+              <div>
+                <div style={{fontSize:9,color:'#9a9690',textTransform:'uppercase',letterSpacing:'.08em',marginBottom:4}}>Color / finish / model #</div>
+                <input
+                  value={customForm.color}
+                  onChange={function(e){ setCustomForm(function(p){ return Object.assign({},p,{color:e.target.value}) }) }}
+                  placeholder="e.g. SW Agreeable Gray, matte black, #SKU-1234"
+                  style={{width:'100%',padding:'8px 10px',border:'1px solid #e8e6e0',borderRadius:3,fontSize:12,fontFamily:'sans-serif',outline:'none',boxSizing:'border-box'}}
+                />
+              </div>
+              <div>
+                <div style={{fontSize:9,color:'#9a9690',textTransform:'uppercase',letterSpacing:'.08em',marginBottom:4}}>Notes or link (optional)</div>
+                <input
+                  value={customForm.notes}
+                  onChange={function(e){ setCustomForm(function(p){ return Object.assign({},p,{notes:e.target.value}) }) }}
+                  placeholder="Any details for your contractor"
+                  style={{width:'100%',padding:'8px 10px',border:'1px solid #e8e6e0',borderRadius:3,fontSize:12,fontFamily:'sans-serif',outline:'none',boxSizing:'border-box'}}
+                />
+              </div>
+            </div>
+            <div style={{display:'flex',alignItems:'center',gap:10}}>
+              <button
+                onClick={addCustomSelection}
+                disabled={!customForm.item.trim()}
+                style={{background:customForm.item.trim()?'#002147':'#e8e6e0',color:customForm.item.trim()?'#fff':'#9a9690',border:customForm.item.trim()?'2px solid #FF8C00':'none',padding:'9px 24px',fontSize:12,fontWeight:700,letterSpacing:'.06em',textTransform:'uppercase',cursor:customForm.item.trim()?'pointer':'default',borderRadius:3,fontFamily:'sans-serif'}}>
+                Add to my selections →
+              </button>
+              {customSaved && <span style={{fontSize:12,color:'#3B6D11',fontWeight:600}}>✓ Added to your project book</span>}
+            </div>
+          </div>
+        </div>
+
       </div>
     </div>
   )
