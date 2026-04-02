@@ -409,7 +409,10 @@ export default function EstimatePage() {
         <div style={{fontFamily:'Georgia,serif',fontSize:16,color:'#fff',fontWeight:700,letterSpacing:'.08em'}}>
           SPANGLERBUILT <span style={{fontSize:11,color:'#c9a96e',fontWeight:400}}> · ESTIMATING</span>
         </div>
-        <a href="/dashboard" style={{fontSize:11,color:'#9a9690',textDecoration:'none'}}>← Dashboard</a>
+        <div style={{display:'flex',gap:12,alignItems:'center'}}>
+          <a href="/contractor/catalog" style={{fontSize:11,color:'#9a9690',textDecoration:'none'}}>Catalog ↗</a>
+          <a href="/dashboard" style={{fontSize:11,color:'#9a9690',textDecoration:'none'}}>← Dashboard</a>
+        </div>
       </div>
 
       {/* Two-column layout */}

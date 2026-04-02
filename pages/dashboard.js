@@ -59,6 +59,7 @@ export default function Dashboard() {
 
   var modules = [
     {label:'Estimating tool',    href:'/contractor/estimate',  desc:'16 CSI divisions, G/B/B/L', icon:'$'},
+    {label:'Material catalog',   href:'/contractor/catalog',   desc:'Browse and queue materials', icon:'◧'},
     {label:'Lead pipeline',      href:'/contractor/leads',     desc:'All projects and contacts',  icon:'◉'},
     {label:'Project templates',  href:'/contractor/templates', desc:'Searchable and cloneable',   icon:'◈'},
     {label:'AI tools',           href:'/ai',                   desc:'Claude-powered generation',  icon:'✦'},
@@ -76,6 +77,7 @@ export default function Dashboard() {
           {[
             {href:'/contractor/leads',        label:'Leads'},
             {href:'/contractor/estimate',     label:'Estimate'},
+            {href:'/contractor/catalog',      label:'Catalog'},
             {href:'/contractor/options',      label:'Options'},
             {href:'/contractor/presentation', label:'Presentation'},
             {href:'/contractor/selections',   label:'Selections'},
