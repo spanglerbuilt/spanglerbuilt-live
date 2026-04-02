@@ -396,7 +396,7 @@ export default function EstimatePage() {
       <button key={t} onClick={function(){ setTier(t) }} style={{
         padding:'5px 14px', fontSize:11, fontFamily:'inherit', fontWeight:500, cursor:'pointer', borderRadius:3,
         border:'1px solid',
-        ...(tier === t ? TIER_STYLES[t] : { borderColor:'#e8e6e0', background:'#fff', color:'rgba(255,255,255,.35)' }),
+        ...(tier === t ? TIER_STYLES[t] : { borderColor:'rgba(255,255,255,.1)', background:'#1a1a1a', color:'rgba(255,255,255,.35)' }),
       }}>{TIER_LABELS[t]}</button>
     )
   }
@@ -451,9 +451,9 @@ export default function EstimatePage() {
             {Object.entries(catalogGroups).map(function([cat, items]) {
               var isExp = catExpand[cat] !== false // default open
               return (
-                <div key={cat} style={{borderBottom:'1px solid #f5f4f1'}}>
-                  <div onClick={function(){toggleCat(cat)}} style={{padding:'7px 12px',background:'#1a1a1a',display:'flex',alignItems:'center',justifyContent:'space-between',cursor:'pointer',borderBottom:'1px solid #e8e6e0'}}>
-                    <span style={{fontSize:10,fontWeight:700,color:'#0a0a0a',textTransform:'uppercase',letterSpacing:'.06em'}}>{cat}</span>
+                <div key={cat} style={{borderBottom:'1px solid rgba(255,255,255,.07)'}}>
+                  <div onClick={function(){toggleCat(cat)}} style={{padding:'7px 12px',background:'#1a1a1a',display:'flex',alignItems:'center',justifyContent:'space-between',cursor:'pointer',borderBottom:'1px solid rgba(255,255,255,.07)'}}>
+                    <span style={{fontSize:10,fontWeight:700,color:'rgba(255,255,255,.75)',textTransform:'uppercase',letterSpacing:'.06em'}}>{cat}</span>
                     <span style={{fontSize:10,color:'rgba(255,255,255,.35)'}}>{isExp?'▲':'▼'} {items.length}</span>
                   </div>
                   {isExp && items.map(function(item) {
@@ -462,7 +462,7 @@ export default function EstimatePage() {
                       <div key={item.id} style={{padding:'9px 12px',borderBottom:'1px solid #f9f8f6',background:isAdded?'rgba(208,104,48,.1)':'#fff'}}>
                         <div style={{display:'flex',alignItems:'flex-start',justifyContent:'space-between',gap:6,marginBottom:4}}>
                           <div style={{flex:1,minWidth:0}}>
-                            <div style={{fontSize:11,fontWeight:500,color:'#0a0a0a',lineHeight:1.3,marginBottom:1}}>{item.desc}</div>
+                            <div style={{fontSize:11,fontWeight:500,color:'rgba(255,255,255,.75)',lineHeight:1.3,marginBottom:1}}>{item.desc}</div>
                             <div style={{fontSize:10,color:'rgba(255,255,255,.35)'}}>{item.brand}</div>
                             <div style={{fontSize:10,color:'rgba(255,255,255,.35)'}}>{item.spec}</div>
                           </div>
@@ -473,7 +473,7 @@ export default function EstimatePage() {
                         </div>
                         <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',marginTop:5}}>
                           <div>
-                            <span style={{fontSize:12,fontWeight:600,color:'#0a0a0a'}}>{fmtD(item.rate)}</span>
+                            <span style={{fontSize:12,fontWeight:600,color:'rgba(255,255,255,.75)'}}>{fmtD(item.rate)}</span>
                             <span style={{fontSize:9,color:'rgba(255,255,255,.35)',marginLeft:3}}>/{item.unit} · DIV {item.div}</span>
                             {item.allowance && <span style={{marginLeft:5,background:'#fff3e0',color:'#e65100',fontSize:8,fontWeight:700,padding:'1px 4px',borderRadius:2}}>allowance</span>}
                           </div>
@@ -534,7 +534,7 @@ export default function EstimatePage() {
             var open = !!openDivs[div.num]
             return (
               <div key={div.num} style={{background:'#161616',border:'1px solid '+(isExcluded?'#e0ddd8':'#e8e6e0'),borderRadius:4,overflow:'hidden',marginBottom:8,opacity:isExcluded?0.6:1}}>
-                <div style={{padding:'8px 12px',background:isExcluded?'#f5f4f1':'rgba(208,104,48,.1)',display:'flex',alignItems:'center',borderBottom:'1px solid #e8e6e0'}}>
+                <div style={{padding:'8px 12px',background:isExcluded?'#f5f4f1':'rgba(208,104,48,.1)',display:'flex',alignItems:'center',borderBottom:'1px solid rgba(255,255,255,.07)'}}>
                   {/* On/off toggle — stops it from contributing to total */}
                   <div onClick={function(e){e.stopPropagation();toggleExcludeDiv(div.num)}}
                     title={isExcluded?'Click to include this division':'Click to exclude this division'}
@@ -551,13 +551,13 @@ export default function EstimatePage() {
                   <table style={{width:'100%',borderCollapse:'collapse',fontSize:11}}>
                     <thead>
                       <tr>
-                        <th style={{padding:'5px 10px',background:'#1a1a1a',fontSize:10,fontWeight:500,color:'rgba(255,255,255,.35)',textTransform:'uppercase',letterSpacing:'.04em',textAlign:'left',borderBottom:'1px solid #e8e6e0',width:'42%'}}>Description</th>
-                        <th style={{padding:'5px 10px',background:'#1a1a1a',fontSize:10,fontWeight:500,color:'rgba(255,255,255,.35)',textTransform:'uppercase',letterSpacing:'.04em',textAlign:'left',borderBottom:'1px solid #e8e6e0'}}>Qty</th>
-                        <th style={{padding:'5px 10px',background:'#1a1a1a',fontSize:10,fontWeight:500,color:'rgba(255,255,255,.35)',textTransform:'uppercase',letterSpacing:'.04em',textAlign:'left',borderBottom:'1px solid #e8e6e0'}}>Unit</th>
-                        <th style={{padding:'5px 10px',background:'#1a1a1a',fontSize:10,fontWeight:500,color:'rgba(255,255,255,.35)',textTransform:'uppercase',letterSpacing:'.04em',textAlign:'left',borderBottom:'1px solid #e8e6e0'}}>Rate</th>
-                        <th style={{padding:'5px 10px',background:'#1a1a1a',fontSize:10,fontWeight:500,color:'rgba(255,255,255,.35)',textTransform:'uppercase',letterSpacing:'.04em',textAlign:'right',borderBottom:'1px solid #e8e6e0'}}>Base</th>
-                        <th style={{padding:'5px 10px',background:'#1a1a1a',fontSize:10,fontWeight:500,color:'rgba(255,255,255,.35)',textTransform:'uppercase',letterSpacing:'.04em',textAlign:'right',borderBottom:'1px solid #e8e6e0'}}>{TIER_LABELS[tier]}</th>
-                        <th style={{padding:'5px 10px',background:'#1a1a1a',fontSize:10,fontWeight:500,color:'rgba(255,255,255,.35)',textTransform:'uppercase',letterSpacing:'.04em',textAlign:'right',borderBottom:'1px solid #e8e6e0',width:28}}></th>
+                        <th style={{padding:'5px 10px',background:'#1a1a1a',fontSize:10,fontWeight:500,color:'rgba(255,255,255,.35)',textTransform:'uppercase',letterSpacing:'.04em',textAlign:'left',borderBottom:'1px solid rgba(255,255,255,.07)',width:'42%'}}>Description</th>
+                        <th style={{padding:'5px 10px',background:'#1a1a1a',fontSize:10,fontWeight:500,color:'rgba(255,255,255,.35)',textTransform:'uppercase',letterSpacing:'.04em',textAlign:'left',borderBottom:'1px solid rgba(255,255,255,.07)'}}>Qty</th>
+                        <th style={{padding:'5px 10px',background:'#1a1a1a',fontSize:10,fontWeight:500,color:'rgba(255,255,255,.35)',textTransform:'uppercase',letterSpacing:'.04em',textAlign:'left',borderBottom:'1px solid rgba(255,255,255,.07)'}}>Unit</th>
+                        <th style={{padding:'5px 10px',background:'#1a1a1a',fontSize:10,fontWeight:500,color:'rgba(255,255,255,.35)',textTransform:'uppercase',letterSpacing:'.04em',textAlign:'left',borderBottom:'1px solid rgba(255,255,255,.07)'}}>Rate</th>
+                        <th style={{padding:'5px 10px',background:'#1a1a1a',fontSize:10,fontWeight:500,color:'rgba(255,255,255,.35)',textTransform:'uppercase',letterSpacing:'.04em',textAlign:'right',borderBottom:'1px solid rgba(255,255,255,.07)'}}>Base</th>
+                        <th style={{padding:'5px 10px',background:'#1a1a1a',fontSize:10,fontWeight:500,color:'rgba(255,255,255,.35)',textTransform:'uppercase',letterSpacing:'.04em',textAlign:'right',borderBottom:'1px solid rgba(255,255,255,.07)'}}>{TIER_LABELS[tier]}</th>
+                        <th style={{padding:'5px 10px',background:'#1a1a1a',fontSize:10,fontWeight:500,color:'rgba(255,255,255,.35)',textTransform:'uppercase',letterSpacing:'.04em',textAlign:'right',borderBottom:'1px solid rgba(255,255,255,.07)',width:28}}></th>
                       </tr>
                     </thead>
                     <tbody>
@@ -567,7 +567,7 @@ export default function EstimatePage() {
                         var adj2 = base * mult
                         return (
                           <tr key={item.id} style={{background:itemExcluded?'#fafafa':item.fromCatalog?'rgba(208,104,48,.1)':'inherit',opacity:itemExcluded?0.45:1}}>
-                            <td style={{padding:'6px 10px',borderBottom:'1px solid #f5f4f1',color:'rgba(255,255,255,.65)'}}>
+                            <td style={{padding:'6px 10px',borderBottom:'1px solid rgba(255,255,255,.07)',color:'rgba(255,255,255,.65)'}}>
                               <div style={{display:'flex',alignItems:'center',gap:6}}>
                                 {/* per-item toggle */}
                                 <div onClick={function(){toggleExcludeItem(item.id)}}
@@ -582,12 +582,12 @@ export default function EstimatePage() {
                                 </span>
                               </div>
                             </td>
-                            <td style={{padding:'6px 10px',borderBottom:'1px solid #f5f4f1',color:'rgba(255,255,255,.35)'}}>{item.qty}</td>
-                            <td style={{padding:'6px 10px',borderBottom:'1px solid #f5f4f1',color:'rgba(255,255,255,.35)'}}>{item.unit}</td>
-                            <td style={{padding:'6px 10px',borderBottom:'1px solid #f5f4f1',color:'rgba(255,255,255,.35)'}}>{fmtD(item.rate)}</td>
-                            <td style={{padding:'6px 10px',borderBottom:'1px solid #f5f4f1',textAlign:'right',textDecoration:itemExcluded?'line-through':'none',color:itemExcluded?'#bbb':'inherit'}}>{fmt(base)}</td>
-                            <td style={{padding:'6px 10px',borderBottom:'1px solid #f5f4f1',textAlign:'right',fontWeight:500,color:itemExcluded?'#bbb':'#0a0a0a',textDecoration:itemExcluded?'line-through':'none'}}>{fmt(adj2)}</td>
-                            <td style={{padding:'6px 10px',borderBottom:'1px solid #f5f4f1',textAlign:'right'}}>
+                            <td style={{padding:'6px 10px',borderBottom:'1px solid rgba(255,255,255,.07)',color:'rgba(255,255,255,.35)'}}>{item.qty}</td>
+                            <td style={{padding:'6px 10px',borderBottom:'1px solid rgba(255,255,255,.07)',color:'rgba(255,255,255,.35)'}}>{item.unit}</td>
+                            <td style={{padding:'6px 10px',borderBottom:'1px solid rgba(255,255,255,.07)',color:'rgba(255,255,255,.35)'}}>{fmtD(item.rate)}</td>
+                            <td style={{padding:'6px 10px',borderBottom:'1px solid rgba(255,255,255,.07)',textAlign:'right',textDecoration:itemExcluded?'line-through':'none',color:itemExcluded?'#bbb':'inherit'}}>{fmt(base)}</td>
+                            <td style={{padding:'6px 10px',borderBottom:'1px solid rgba(255,255,255,.07)',textAlign:'right',fontWeight:500,color:itemExcluded?'#bbb':'#0a0a0a',textDecoration:itemExcluded?'line-through':'none'}}>{fmt(adj2)}</td>
+                            <td style={{padding:'6px 10px',borderBottom:'1px solid rgba(255,255,255,.07)',textAlign:'right'}}>
                               {item.fromCatalog && (
                                 <button onClick={function(){removeItem(div.num, item.id)}}
                                   style={{background:'transparent',border:'none',color:'#c0392b',fontSize:11,cursor:'pointer',padding:'0 2px',fontFamily:'Poppins,sans-serif'}}>✕</button>
@@ -597,9 +597,9 @@ export default function EstimatePage() {
                         )
                       })}
                       <tr style={{background:'#1a1a1a'}}>
-                        <td colSpan={4} style={{padding:'6px 10px',borderBottom:'1px solid #f5f4f1',fontWeight:500}}>Division {div.num} subtotal</td>
-                        <td style={{padding:'6px 10px',borderBottom:'1px solid #f5f4f1',textAlign:'right',fontWeight:500}}>{fmt(sub)}</td>
-                        <td style={{padding:'6px 10px',borderBottom:'1px solid #f5f4f1',textAlign:'right',fontWeight:500,color:'#0a0a0a'}}>{fmt(adj)}</td>
+                        <td colSpan={4} style={{padding:'6px 10px',borderBottom:'1px solid rgba(255,255,255,.07)',fontWeight:500}}>Division {div.num} subtotal</td>
+                        <td style={{padding:'6px 10px',borderBottom:'1px solid rgba(255,255,255,.07)',textAlign:'right',fontWeight:500}}>{fmt(sub)}</td>
+                        <td style={{padding:'6px 10px',borderBottom:'1px solid rgba(255,255,255,.07)',textAlign:'right',fontWeight:500,color:'rgba(255,255,255,.75)'}}>{fmt(adj)}</td>
                         <td/>
                       </tr>
                     </tbody>
@@ -619,7 +619,7 @@ export default function EstimatePage() {
               ['Overhead & profit (10%)',                  fmt(totals.op)],
               ['Georgia sales tax (8%)',                   fmt(totals.tax)],
             ].map(function(row){ return (
-              <div key={row[0]} style={{display:'flex',justifyContent:'space-between',alignItems:'center',padding:'7px 12px',borderBottom:'1px solid #f5f4f1',fontSize:12}}>
+              <div key={row[0]} style={{display:'flex',justifyContent:'space-between',alignItems:'center',padding:'7px 12px',borderBottom:'1px solid rgba(255,255,255,.07)',fontSize:12}}>
                 <span style={{color:'rgba(255,255,255,.35)'}}>{row[0]}</span><span style={{fontWeight:500}}>{row[1]}</span>
               </div>
             )})}
@@ -634,7 +634,7 @@ export default function EstimatePage() {
           <div style={{fontSize:10,fontWeight:500,color:'rgba(255,255,255,.35)',textTransform:'uppercase',letterSpacing:'.05em',margin:'.75rem 0 .5rem'}}>Payment schedule</div>
           <div style={{background:'#161616',border:'1px solid rgba(255,255,255,.09)',borderRadius:4,overflow:'hidden',marginBottom:8}}>
             {PAYMENTS.map(function(p){ return (
-              <div key={p.label} style={{display:'flex',justifyContent:'space-between',alignItems:'center',padding:'7px 12px',borderBottom:'1px solid #f5f4f1',fontSize:12}}>
+              <div key={p.label} style={{display:'flex',justifyContent:'space-between',alignItems:'center',padding:'7px 12px',borderBottom:'1px solid rgba(255,255,255,.07)',fontSize:12}}>
                 <span style={{color:'rgba(255,255,255,.35)',marginRight:8,fontSize:10}}>{p.pct}%</span>
                 <span style={{flex:1}}>{p.label}</span>
                 <span style={{fontWeight:500}}>{fmt(totals.grand * p.pct / 100)}</span>

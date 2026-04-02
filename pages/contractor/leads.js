@@ -7,7 +7,7 @@ const STATUS_COLORS = {
   'Estimate':  { bg:'#eeedfe', color:'#534AB7' },
   'Approved':  { bg:'#eaf3de', color:'#3B6D11' },
   'Started':   { bg:'#e8f5e9', color:'#1b5e20' },
-  'Completed': { bg:'#f5f4f1', color:'rgba(255,255,255,.5)' },
+  'Completed': { bg:'rgba(255,255,255,.07)', color:'rgba(255,255,255,.5)' },
   'Lost':      { bg:'#fcebeb', color:'#c0392b' },
 }
 
@@ -25,13 +25,13 @@ const S = {
   page:   { minHeight:'100vh', background:'#1a1a1a', fontFamily:'Poppins,sans-serif' },
   topbar: { background:'#0a0a0a', padding:'1rem 2rem', display:'flex', alignItems:'center', justifyContent:'space-between', borderBottom:'3px solid #D06830' },
   wrap:   { padding:'1.5rem', maxWidth:1100, margin:'0 auto' },
-  card:   { background:'#fff', border:'1px solid rgba(255,255,255,.09)', borderRadius:4, overflow:'hidden' },
+  card:   { background:'#161616', border:'1px solid rgba(255,255,255,.09)', borderRadius:4, overflow:'hidden' },
   th:     { padding:'7px 12px', background:'#0a0a0a', fontSize:10, fontWeight:500, color:'#D06830', textTransform:'uppercase', letterSpacing:'.06em', textAlign:'left' },
-  td:     { padding:'10px 12px', borderBottom:'1px solid #f5f4f1', fontSize:12, color:'rgba(255,255,255,.65)' },
+  td:     { padding:'10px 12px', borderBottom:'1px solid rgba(255,255,255,.07)', fontSize:12, color:'rgba(255,255,255,.65)' },
   label:  { fontSize:10, color:'rgba(255,255,255,.35)', textTransform:'uppercase', letterSpacing:'.08em', marginBottom:5, display:'block' },
   input:  { width:'100%', padding:'8px 10px', border:'1px solid rgba(255,255,255,.09)', borderRadius:3, fontSize:13, fontFamily:'Poppins,sans-serif', outline:'none', background:'rgba(208,104,48,.1)', boxSizing:'border-box' },
-  overlay:{ position:'fixed', top:0, left:0, right:0, bottom:0, background:'rgba(0,33,71,.85)', zIndex:100, display:'flex', alignItems:'center', justifyContent:'center', padding:'1rem' },
-  modal:  { background:'#fff', borderRadius:4, width:'100%', overflow:'hidden', border:'3px solid #D06830' },
+  overlay:{ position:'fixed', top:0, left:0, right:0, bottom:0, background:'rgba(0,0,0,.85)', zIndex:100, display:'flex', alignItems:'center', justifyContent:'center', padding:'1rem' },
+  modal:  { background:'#161616', borderRadius:4, width:'100%', overflow:'hidden', border:'3px solid #D06830' },
   mhead:  { background:'#0a0a0a', padding:'1rem 1.5rem', display:'flex', justifyContent:'space-between', alignItems:'center', borderBottom:'2px solid #D06830' },
 }
 
@@ -140,7 +140,7 @@ export default function LeadsPage() {
                 </div>
                 <div>
                   <label style={S.label}>Project type</label>
-                  <select value={form.type} onChange={e=>setForm({...form,type:e.target.value})} style={{...S.input,background:'#fff'}}>
+                  <select value={form.type} onChange={e=>setForm({...form,type:e.target.value})} style={{...S.input}}>
                     {['Basement','Kitchen','Bathroom','Addition','Custom home','Other'].map(t=><option key={t}>{t}</option>)}
                   </select>
                 </div>
@@ -166,7 +166,7 @@ export default function LeadsPage() {
                 </div>
                 <div>
                   <label style={S.label}>Initial status</label>
-                  <select value={form.status} onChange={e=>setForm({...form,status:e.target.value})} style={{...S.input,background:'#fff'}}>
+                  <select value={form.status} onChange={e=>setForm({...form,status:e.target.value})} style={{...S.input}}>
                     {STATUSES.map(s=><option key={s}>{s}</option>)}
                   </select>
                 </div>
@@ -212,12 +212,12 @@ export default function LeadsPage() {
                 ].map(([l,v])=>(
                   <div key={l}>
                     <div style={{fontSize:9,color:'rgba(255,255,255,.35)',textTransform:'uppercase',letterSpacing:'.08em',marginBottom:2}}>{l}</div>
-                    <div style={{fontSize:12,color:'#0a0a0a',fontWeight:l==='Value'?600:400}}>{v}</div>
+                    <div style={{fontSize:12,color:'rgba(255,255,255,.75)',fontWeight:l==='Value'?600:400}}>{v}</div>
                   </div>
                 ))}
                 <div>
                   <div style={{fontSize:9,color:'rgba(255,255,255,.35)',textTransform:'uppercase',letterSpacing:'.08em',marginBottom:5}}>Status</div>
-                  <select value={viewing.status} onChange={e=>updateStatus(viewing.id,e.target.value)} style={{width:'100%',padding:'6px 8px',border:'1px solid rgba(255,255,255,.09)',borderRadius:3,fontSize:12,fontFamily:'Poppins,sans-serif',background:'#fff'}}>
+                  <select value={viewing.status} onChange={e=>updateStatus(viewing.id,e.target.value)} style={{width:'100%',padding:'6px 8px',border:'1px solid rgba(255,255,255,.09)',borderRadius:3,fontSize:12,fontFamily:'Poppins,sans-serif',background:'#1a1a1a',color:'rgba(255,255,255,.75)'}}>
                     {STATUSES.map(s=><option key={s}>{s}</option>)}
                   </select>
                 </div>
@@ -235,15 +235,15 @@ export default function LeadsPage() {
                     Estimate →
                   </a>
                   <a href={'/contractor/presentation?id=' + viewing.id}
-                    style={{background:'#fff',color:'#0a0a0a',padding:'7px 14px',fontSize:11,fontWeight:600,textDecoration:'none',borderRadius:3,fontFamily:'Poppins,sans-serif',border:'1px solid rgba(255,255,255,.09)'}}>
+                    style={{background:'rgba(255,255,255,.07)',color:'rgba(255,255,255,.75)',padding:'7px 14px',fontSize:11,fontWeight:600,textDecoration:'none',borderRadius:3,fontFamily:'Poppins,sans-serif',border:'1px solid rgba(255,255,255,.12)'}}>
                     Presentation →
                   </a>
                   <a href={'/client/project-book?id=' + viewing.id}
-                    style={{background:'#fff',color:'#0a0a0a',padding:'7px 14px',fontSize:11,fontWeight:600,textDecoration:'none',borderRadius:3,fontFamily:'Poppins,sans-serif',border:'1px solid rgba(255,255,255,.09)'}}>
+                    style={{background:'rgba(255,255,255,.07)',color:'rgba(255,255,255,.75)',padding:'7px 14px',fontSize:11,fontWeight:600,textDecoration:'none',borderRadius:3,fontFamily:'Poppins,sans-serif',border:'1px solid rgba(255,255,255,.12)'}}>
                     Project Book →
                   </a>
                   <a href={'/client/selections?id=' + viewing.id}
-                    style={{background:'#fff',color:'#0a0a0a',padding:'7px 14px',fontSize:11,fontWeight:600,textDecoration:'none',borderRadius:3,fontFamily:'Poppins,sans-serif',border:'1px solid rgba(255,255,255,.09)'}}>
+                    style={{background:'rgba(255,255,255,.07)',color:'rgba(255,255,255,.75)',padding:'7px 14px',fontSize:11,fontWeight:600,textDecoration:'none',borderRadius:3,fontFamily:'Poppins,sans-serif',border:'1px solid rgba(255,255,255,.12)'}}>
                     Selections →
                   </a>
                 </div>
@@ -252,10 +252,10 @@ export default function LeadsPage() {
                 <button onClick={()=>{saveNote(viewing.id);setViewing(null)}} style={{flex:1,background:'#0a0a0a',color:'#D06830',border:'none',padding:'9px',fontSize:11,fontWeight:700,letterSpacing:'.08em',textTransform:'uppercase',cursor:'pointer',borderRadius:3,fontFamily:'Poppins,sans-serif'}}>
                   Save changes
                 </button>
-                <a href={viewing.email?'mailto:'+viewing.email:'#'} style={{background:'transparent',border:'1px solid rgba(255,255,255,.09)',color:'#0a0a0a',padding:'9px 14px',fontSize:11,textDecoration:'none',borderRadius:3,fontFamily:'Poppins,sans-serif',display:'flex',alignItems:'center'}}>
+                <a href={viewing.email?'mailto:'+viewing.email:'#'} style={{background:'transparent',border:'1px solid rgba(255,255,255,.09)',color:'rgba(255,255,255,.75)',padding:'9px 14px',fontSize:11,textDecoration:'none',borderRadius:3,fontFamily:'Poppins,sans-serif',display:'flex',alignItems:'center'}}>
                   Email
                 </a>
-                <a href={viewing.phone?'tel:'+viewing.phone.replace(/\D/g,''):'#'} style={{background:'transparent',border:'1px solid rgba(255,255,255,.09)',color:'#0a0a0a',padding:'9px 14px',fontSize:11,textDecoration:'none',borderRadius:3,fontFamily:'Poppins,sans-serif',display:'flex',alignItems:'center'}}>
+                <a href={viewing.phone?'tel:'+viewing.phone.replace(/\D/g,''):'#'} style={{background:'transparent',border:'1px solid rgba(255,255,255,.09)',color:'rgba(255,255,255,.75)',padding:'9px 14px',fontSize:11,textDecoration:'none',borderRadius:3,fontFamily:'Poppins,sans-serif',display:'flex',alignItems:'center'}}>
                   Call
                 </a>
                 <button onClick={()=>setViewing(null)} style={{background:'transparent',border:'1px solid rgba(255,255,255,.09)',color:'rgba(255,255,255,.35)',padding:'9px 14px',fontSize:11,cursor:'pointer',borderRadius:3,fontFamily:'Poppins,sans-serif'}}>
@@ -278,12 +278,12 @@ export default function LeadsPage() {
       <div style={S.wrap}>
         <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:'1rem',flexWrap:'wrap',gap:8}}>
           <div>
-            <div style={{fontFamily:'Poppins,sans-serif',fontSize:18,fontWeight:500,color:'#0a0a0a'}}>Lead pipeline</div>
+            <div style={{fontFamily:'Poppins,sans-serif',fontSize:18,fontWeight:500,color:'rgba(255,255,255,.75)'}}>Lead pipeline</div>
             {webCount > 0 && <div style={{fontSize:11,color:'#3B6D11',marginTop:2}}>✓ {webCount} lead{webCount!==1?'s':''} from website contact form</div>}
           </div>
           <div style={{display:'flex',gap:8,alignItems:'center'}}>
             <div style={{fontSize:10,color:'rgba(255,255,255,.35)',background:'#1a1a1a',border:'1px solid rgba(255,255,255,.09)',padding:'5px 10px',borderRadius:3}}>
-              Contact form: <span style={{color:'#0a0a0a',fontWeight:600}}>spanglerbuilt.com/contact</span>
+              Contact form: <span style={{color:'rgba(255,255,255,.75)',fontWeight:600}}>spanglerbuilt.com/contact</span>
             </div>
             <button onClick={()=>setShowNew(true)} style={{background:'#D06830',color:'#fff',border:'none',padding:'7px 18px',fontSize:11,fontWeight:700,letterSpacing:'.08em',textTransform:'uppercase',cursor:'pointer',borderRadius:3,fontFamily:'Poppins,sans-serif'}}>+ New lead</button>
           </div>

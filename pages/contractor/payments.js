@@ -37,9 +37,9 @@ var PROJECTS = [
 ]
 
 var STATUS_STYLE = {
-  paid:    {bg:'#eaf3de',color:'#3B6D11',label:'Paid'},
-  due:     {bg:'#fff3e0',color:'#e65100',label:'Due now'},
-  upcoming:{bg:'#f5f4f1',color:'rgba(255,255,255,.35)',label:'Upcoming'},
+  paid:    {bg:'rgba(80,160,60,.2)',color:'#7ec86a',label:'Paid'},
+  due:     {bg:'rgba(208,104,48,.2)',color:'#D06830',label:'Due now'},
+  upcoming:{bg:'rgba(255,255,255,.07)',color:'rgba(255,255,255,.35)',label:'Upcoming'},
 }
 
 function fmt(n) { return '$' + Math.round(n).toLocaleString('en-US') }
@@ -115,7 +115,7 @@ export default function PaymentsPage() {
 
       {/* Invoice modal */}
       {invoiceFor && (
-        <div style={{position:'fixed',top:0,left:0,right:0,bottom:0,background:'rgba(0,33,71,.85)',zIndex:100,display:'flex',alignItems:'center',justifyContent:'center',padding:'1rem'}}>
+        <div style={{position:'fixed',top:0,left:0,right:0,bottom:0,background:'rgba(0,0,0,.85)',zIndex:100,display:'flex',alignItems:'center',justifyContent:'center',padding:'1rem'}}>
           <div style={{background:'#161616',borderRadius:4,maxWidth:500,width:'100%',border:'3px solid #D06830',overflow:'hidden'}}>
             <div style={{background:'#0a0a0a',padding:'1rem 1.5rem',display:'flex',justifyContent:'space-between',alignItems:'center',borderBottom:'2px solid #D06830'}}>
               <span style={{color:'#D06830',fontSize:13,fontWeight:700}}>Invoice — {invoiceFor.project.pn}</span>
@@ -215,7 +215,7 @@ export default function PaymentsPage() {
                     var amount = project.contract * m.pct / 100
                     var sc     = STATUS_STYLE[m.status]
                     return (
-                      <div key={i} style={{display:'flex',alignItems:'center',justifyContent:'space-between',padding:'10px 1.25rem',borderBottom:i<project.milestones.length-1?'1px solid #f5f4f1':'none',background:m.status==='due'?'rgba(208,104,48,.1)':'#fff'}}>
+                      <div key={i} style={{display:'flex',alignItems:'center',justifyContent:'space-between',padding:'10px 1.25rem',borderBottom:i<project.milestones.length-1?'1px solid rgba(255,255,255,.07)':'none',background:m.status==='due'?'rgba(208,104,48,.1)':'#fff'}}>
                         <div style={{display:'flex',gap:10,alignItems:'center',flex:1}}>
                           <div style={{width:28,height:28,borderRadius:'50%',background:m.status==='paid'?'#eaf3de':m.status==='due'?'#fff3e0':'#f5f4f1',display:'flex',alignItems:'center',justifyContent:'center',fontSize:10,color:sc.color,fontWeight:700,flexShrink:0}}>
                             {m.status==='paid'?'✓':m.pct+'%'}

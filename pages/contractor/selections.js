@@ -11,7 +11,7 @@ var TIER_COLORS = {
 var STATUS_STYLE = {
   confirmed: { bg:'#eaf3de', color:'#3B6D11', label:'Confirmed' },
   pending:   { bg:'#fff3e0', color:'#e65100', label:'Pending' },
-  'n/a':     { bg:'#f5f4f1', color:'rgba(255,255,255,.35)', label:'N/A' },
+  'n/a':     { bg:'rgba(255,255,255,.07)', color:'rgba(255,255,255,.35)', label:'N/A' },
 }
 
 var INIT_PROJECTS = [
@@ -179,7 +179,7 @@ export default function ContractorSelections() {
                 </div>
 
                 {isExp && (
-                  <div style={{borderTop:'1px solid #f5f4f1',padding:'1rem 1.25rem'}}>
+                  <div style={{borderTop:'1px solid rgba(255,255,255,.07)',padding:'1rem 1.25rem'}}>
                     <div style={{background:'#1a1a1a',borderRadius:3,overflow:'hidden',marginBottom:'1rem'}}>
                       <div style={{display:'grid',gridTemplateColumns:'1fr 110px 1fr 120px',background:'#0a0a0a',padding:'6px 12px',gap:1}}>
                         {['Category','Status','Selection',''].map(function(h){ return (
