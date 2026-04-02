@@ -165,6 +165,17 @@ export default function ClientSelections() {
       var existing = JSON.parse(localStorage.getItem('sb_selections') || '{}')
       existing[catId] = { value: swatch, tier: pick.tier, brand: prod ? prod.brand : '', hex: sw ? sw.hex : '#ccc' }
       localStorage.setItem('sb_selections', JSON.stringify(existing))
+      // Also persist to Supabase if a project_id was passed in the URL
+      try {
+        var projectId = new URLSearchParams(window.location.search).get('id')
+        if (projectId) {
+          fetch('/api/projects/' + projectId + '/selections', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ selections: existing }),
+          }).catch(function(){})
+        }
+      } catch(e2) {}
     } catch(e) {}
 
     setExpanding(null)

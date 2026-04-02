@@ -226,6 +226,28 @@ export default function LeadsPage() {
                 <div style={{fontSize:9,color:'#9a9690',textTransform:'uppercase',letterSpacing:'.08em',marginBottom:5}}>Notes</div>
                 <textarea value={editNote} onChange={e=>setEditNote(e.target.value)} rows={3} style={{...S.input,resize:'vertical'}}/>
               </div>
+              {/* Project action links — pass the Supabase project UUID via ?id= */}
+              <div style={{background:'#f5f4f1',borderRadius:4,padding:'10px 14px',marginBottom:'1rem'}}>
+                <div style={{fontSize:9,color:'#9a9690',textTransform:'uppercase',letterSpacing:'.08em',marginBottom:8}}>Open in portal</div>
+                <div style={{display:'flex',gap:8,flexWrap:'wrap'}}>
+                  <a href={'/contractor/estimate?id=' + viewing.id}
+                    style={{background:'#002147',color:'#FF8C00',padding:'7px 14px',fontSize:11,fontWeight:700,textDecoration:'none',borderRadius:3,fontFamily:'sans-serif',border:'1px solid #FF8C00'}}>
+                    Estimate →
+                  </a>
+                  <a href={'/contractor/presentation?id=' + viewing.id}
+                    style={{background:'#fff',color:'#002147',padding:'7px 14px',fontSize:11,fontWeight:600,textDecoration:'none',borderRadius:3,fontFamily:'sans-serif',border:'1px solid #e8e6e0'}}>
+                    Presentation →
+                  </a>
+                  <a href={'/client/project-book?id=' + viewing.id}
+                    style={{background:'#fff',color:'#002147',padding:'7px 14px',fontSize:11,fontWeight:600,textDecoration:'none',borderRadius:3,fontFamily:'sans-serif',border:'1px solid #e8e6e0'}}>
+                    Project Book →
+                  </a>
+                  <a href={'/client/selections?id=' + viewing.id}
+                    style={{background:'#fff',color:'#002147',padding:'7px 14px',fontSize:11,fontWeight:600,textDecoration:'none',borderRadius:3,fontFamily:'sans-serif',border:'1px solid #e8e6e0'}}>
+                    Selections →
+                  </a>
+                </div>
+              </div>
               <div style={{display:'flex',gap:8}}>
                 <button onClick={()=>{saveNote(viewing.id);setViewing(null)}} style={{flex:1,background:'#002147',color:'#FF8C00',border:'none',padding:'9px',fontSize:11,fontWeight:700,letterSpacing:'.08em',textTransform:'uppercase',cursor:'pointer',borderRadius:3,fontFamily:'sans-serif'}}>
                   Save changes

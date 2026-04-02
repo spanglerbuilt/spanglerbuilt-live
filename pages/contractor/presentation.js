@@ -78,6 +78,17 @@ export default function Presentation() {
 
   function approveAll() {
     localStorage.setItem('sb_approved', '1')
+    // Also persist approval to Supabase
+    try {
+      var projectId = new URLSearchParams(window.location.search).get('id')
+      if (projectId) {
+        fetch('/api/projects/' + projectId + '/approval', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ approved: true }),
+        }).catch(function(){})
+      }
+    } catch(e) {}
     setApproved(true)
   }
 
@@ -157,7 +168,7 @@ export default function Presentation() {
         <div style={{display:'flex',gap:24,alignItems:'center'}}>
           <div>
             <div style={{fontSize:9,color:'rgba(255,255,255,.35)',textTransform:'uppercase',letterSpacing:'.1em'}}>Client</div>
-            <div style={{fontSize:13,color:'#fff',fontWeight:600'}}>Ryan &amp; Dori Mendel</div>
+            <div style={{fontSize:13,color:'#fff',fontWeight:600}}>Ryan &amp; Dori Mendel</div>
           </div>
           <div>
             <div style={{fontSize:9,color:'rgba(255,255,255,.35)',textTransform:'uppercase',letterSpacing:'.1em'}}>Project</div>

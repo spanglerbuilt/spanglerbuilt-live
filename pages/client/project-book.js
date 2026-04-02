@@ -1,4 +1,6 @@
 import { useState, useEffect } from 'react'
+import { useRouter } from 'next/router'
+import { INIT_OPTION_GROUPS } from '../contractor/options'
 
 var DEFAULT_PROJECT = {
   number:'SB-2026-001', client:'Ryan & Dori Mendel',
@@ -24,6 +26,34 @@ var PHASES = [
   {num:4,name:'Insulation, drywall & finishes',dates:'May 28–June 10',items:['Spray foam — rim joists','Drywall hang and finish level 4','Tile — bathroom floor and shower walls','LVP flooring installation','Paint 2 coats']},
   {num:5,name:'Fixtures, trim & closeout',  dates:'June 10–20',     items:['Plumbing fixtures installed','Bar cabinets and countertop','Interior doors and hardware','Electrical fixtures and lighting','Final walkthrough']},
 ]
+
+// Map CSI division numbers to project phases for dynamic SOW
+var DIV_PHASE_MAP = {
+  '01':'Pre-construction', '02':'Demo & site work', '03':'Demo & site work',
+  '04':'Demo & site work', '05':'Structure & framing', '06':'Structure & framing',
+  '07':'Insulation & moisture', '08':'Openings', '09':'Finishes',
+  '10':'Specialties', '11':'Equipment', '12':'Furnishings',
+  '14':'Conveying', '15':'Mechanical', '16':'Electrical',
+}
+
+function buildDynamicSOW(activeDivisions) {
+  if (!activeDivisions || activeDivisions.length === 0) return null
+  // Group divisions into phases
+  var phaseMap = {}
+  activeDivisions.forEach(function(div) {
+    var phaseName = DIV_PHASE_MAP[div.num] || ('Division ' + div.num)
+    if (!phaseMap[phaseName]) phaseMap[phaseName] = { name: phaseName, divs: [] }
+    phaseMap[phaseName].divs.push(div)
+  })
+  return Object.values(phaseMap).map(function(phase, idx) {
+    var items = phase.divs.flatMap(function(div) {
+      return div.items.map(function(item) {
+        return 'Div ' + div.num + ' — ' + item.desc + ' (' + item.qty + ' ' + item.unit + ')'
+      })
+    })
+    return { num: idx + 1, name: phase.name, dates: '', items }
+  })
+}
 
 var TENANTS = [
   {icon:'◉',name:'Owner on-site daily',desc:'Michael Spangler is personally present on every project, every day. No middlemen.'},
@@ -111,9 +141,13 @@ function H2(props) {
 }
 
 export default function ProjectBook() {
-  var [estimate,   setEstimate]   = useState(null)
-  var [selections, setSelections] = useState({})
-  var [approved,   setApproved]   = useState(false)
+  var router = useRouter()
+  var [estimate,     setEstimate]     = useState(null)
+  var [selections,   setSelections]   = useState({})
+  var [approved,     setApproved]     = useState(false)
+  var [optionPicks,  setOptionPicks]  = useState({})
+  var [loading,      setLoading]      = useState(false)
+  var [projectMeta,  setProjectMeta]  = useState(null)
 
   useEffect(function() {
     if (typeof window === 'undefined') return
@@ -128,15 +162,54 @@ export default function ProjectBook() {
     try {
       if (localStorage.getItem('sb_approved') === '1') setApproved(true)
     } catch(e) {}
+    try {
+      var ops = localStorage.getItem('sb_option_picks')
+      if (ops) setOptionPicks(JSON.parse(ops))
+    } catch(e) {}
   }, [])
+
+  useEffect(function() {
+    if (!router.isReady || !router.query.id) return
+    setLoading(true)
+    fetch('/api/projects/' + router.query.id + '/book')
+      .then(function(r){ return r.json() })
+      .then(function(data) {
+        if (data.estimate)    setEstimate(data.estimate)
+        if (data.selections)  setSelections(data.selections)
+        if (data.optionPicks) setOptionPicks(data.optionPicks)
+        if (data.approved)    setApproved(data.approved)
+        if (data.project)     setProjectMeta(data.project)
+        setLoading(false)
+      })
+      .catch(function(){ setLoading(false) })
+  }, [router.isReady, router.query.id])
 
   var tierKey    = estimate ? estimate.tier : 'better'
   var tierLabel  = estimate ? estimate.label : DEFAULT_PROJECT.tier
   var price      = estimate ? estimate.grand : DEFAULT_PROJECT.price
   var tc         = TIER_COLORS[tierKey] || TIER_COLORS.better
 
+  // Calculate upgrade delta from option picks
+  var upgradeDelta = INIT_OPTION_GROUPS.reduce(function(sum, g) {
+    var selId = optionPicks[g.id]
+    if (!selId) return sum
+    var opt = g.options.find(function(o){ return o.id === selId })
+    return sum + (opt && opt.delta ? opt.delta : 0)
+  }, 0)
+  var finalPrice = price + upgradeDelta
+  var hasUpgrades = upgradeDelta > 0
+
+  // Selected upgrades (non-included options)
+  var selectedUpgrades = INIT_OPTION_GROUPS.reduce(function(acc, g) {
+    var selId = optionPicks[g.id]
+    if (!selId) return acc
+    var opt = g.options.find(function(o){ return o.id === selId })
+    if (opt && opt.delta > 0) acc.push({ group: g, opt: opt })
+    return acc
+  }, [])
+
   var milestones = DEFAULT_MILESTONES.map(function(m){
-    return Object.assign({}, m, { amount: Math.round(price * m.pct / 100) })
+    return Object.assign({}, m, { amount: Math.round(finalPrice * m.pct / 100) })
   })
 
   var hasSelections = Object.keys(selections).length > 0
@@ -147,6 +220,9 @@ export default function ProjectBook() {
 
       <div className="no-print" style={{background:'#002147',padding:'1rem 2rem',display:'flex',justifyContent:'space-between',alignItems:'center'}}>
         <img src="/logo.png" alt="SpanglerBuilt" style={{height:32,width:'auto'}}/>
+        {loading && (
+          <div style={{fontSize:11,color:'rgba(255,255,255,.6)',fontFamily:'sans-serif',letterSpacing:'.05em'}}>Loading project data…</div>
+        )}
         <div style={{display:'flex',gap:8}}>
           <button onClick={function(){window.print()}} style={{background:'#FF8C00',color:'#fff',border:'none',padding:'8px 20px',fontSize:12,fontWeight:700,cursor:'pointer',borderRadius:3,fontFamily:'sans-serif',letterSpacing:'.06em',textTransform:'uppercase'}}>Print / Save PDF</button>
           <a href="/client/dashboard" style={{background:'transparent',border:'1px solid rgba(255,255,255,.3)',color:'rgba(255,255,255,.7)',padding:'8px 16px',fontSize:12,textDecoration:'none',borderRadius:3,fontFamily:'sans-serif'}}>Back</a>
@@ -159,9 +235,12 @@ export default function ProjectBook() {
           <img src="/logo.png" alt="SpanglerBuilt" style={{height:48,width:'auto',marginBottom:'2rem'}}/>
           <div style={{width:48,height:4,background:'#FF8C00',borderRadius:2,marginBottom:'1rem'}}/>
           <div style={{fontSize:11,color:'rgba(255,255,255,.5)',letterSpacing:'.2em',textTransform:'uppercase',fontFamily:'sans-serif',marginBottom:'1rem'}}>Project proposal and agreement</div>
-          <div style={{fontSize:44,color:'#fff',fontWeight:400,lineHeight:1.15,marginBottom:'.75rem'}}>{DEFAULT_PROJECT.client}</div>
-          <div style={{fontSize:16,color:'rgba(255,255,255,.65)',marginBottom:'.5rem',fontFamily:'sans-serif'}}>{DEFAULT_PROJECT.address}</div>
-          <div style={{fontSize:14,color:'#FF8C00',fontFamily:'sans-serif',marginBottom: approved ? '1rem' : '2.5rem'}}>{DEFAULT_PROJECT.type} · {tierLabel} Tier · {fmt(price)}</div>
+          <div style={{fontSize:44,color:'#fff',fontWeight:400,lineHeight:1.15,marginBottom:'.75rem'}}>{projectMeta ? projectMeta.client_name : DEFAULT_PROJECT.client}</div>
+          <div style={{fontSize:16,color:'rgba(255,255,255,.65)',marginBottom:'.5rem',fontFamily:'sans-serif'}}>{projectMeta ? projectMeta.address : DEFAULT_PROJECT.address}</div>
+          <div style={{fontSize:14,color:'#FF8C00',fontFamily:'sans-serif',marginBottom: approved ? '1rem' : '2.5rem'}}>
+            {projectMeta ? projectMeta.project_type : DEFAULT_PROJECT.type} · {tierLabel} Tier · {fmt(finalPrice)}
+            {hasUpgrades && <span style={{fontSize:11,opacity:.7,marginLeft:6}}>(base {fmt(price)} + upgrades {fmt(upgradeDelta)})</span>}
+          </div>
           {approved && (
             <div style={{display:'inline-flex',alignItems:'center',gap:8,background:'rgba(59,109,17,.3)',border:'1px solid rgba(59,109,17,.6)',borderRadius:4,padding:'8px 16px',marginBottom:'1.5rem'}}>
               <span style={{color:'#90EE90',fontSize:14}}>✓</span>
@@ -170,7 +249,7 @@ export default function ProjectBook() {
           )}
           <div style={{background:'rgba(255,255,255,.08)',border:'1px solid rgba(255,255,255,.12)',borderRadius:4,padding:'1.5rem 2rem',display:'inline-block'}}>
             <div style={{display:'grid',gridTemplateColumns:'repeat(2,1fr)',gap:'1rem 3rem'}}>
-              {[['Project',DEFAULT_PROJECT.number],['Tier',tierLabel+' — '+fmt(price)],['Timeline',DEFAULT_PROJECT.start+' to '+DEFAULT_PROJECT.end],['Prepared',DEFAULT_PROJECT.prepared]].map(function(item){return(
+              {[['Project',projectMeta ? projectMeta.project_number : DEFAULT_PROJECT.number],['Tier',tierLabel+' — '+fmt(finalPrice)],['Timeline',DEFAULT_PROJECT.start+' to '+DEFAULT_PROJECT.end],['Prepared',DEFAULT_PROJECT.prepared]].map(function(item){return(
                 <div key={item[0]}>
                   <div style={{fontSize:9,color:'rgba(255,255,255,.4)',textTransform:'uppercase',letterSpacing:'.1em',fontFamily:'sans-serif',marginBottom:4}}>{item[0]}</div>
                   <div style={{fontSize:12,color:'#fff',fontFamily:'sans-serif'}}>{item[1]}</div>
@@ -238,7 +317,7 @@ export default function ProjectBook() {
       <div className="pb"><SectionBar label="Your Estimate"/></div>
       <Section>
         <Eyebrow>Your selected tier</Eyebrow>
-        <H2>{tierLabel} Tier — {fmt(price)}</H2>
+        <H2>{tierLabel} Tier — {fmt(finalPrice)}</H2>
         <div style={{display:'grid',gridTemplateColumns:'repeat(4,1fr)',gap:10,marginBottom:'1.5rem'}}>
           {['good','better','best','luxury'].map(function(t){
             var sel = t === tierKey
@@ -251,22 +330,38 @@ export default function ProjectBook() {
             )
           })}
         </div>
-        <div style={{background:'#002147',padding:'1.5rem 2rem',borderRadius:4,display:'flex',justifyContent:'space-between',alignItems:'center',borderLeft:'6px solid #FF8C00'}}>
-          <div>
-            <div style={{fontSize:10,color:'rgba(255,255,255,.5)',textTransform:'uppercase',letterSpacing:'.1em',fontFamily:'sans-serif',marginBottom:4}}>Contract total — {tierLabel} tier</div>
-            <div style={{fontSize:13,color:'rgba(255,255,255,.6)',fontFamily:'sans-serif'}}>{DEFAULT_PROJECT.type} · {DEFAULT_PROJECT.address}</div>
-            {estimate && (
-              <div style={{display:'flex',gap:20,marginTop:8}}>
-                {[['Direct cost',estimate.direct],['Contingency',estimate.cont],['O&P',estimate.op],['GA sales tax',estimate.tax]].map(function(item){return(
-                  <div key={item[0]}>
-                    <div style={{fontSize:9,color:'rgba(255,255,255,.4)',textTransform:'uppercase',letterSpacing:'.06em',marginBottom:2}}>{item[0]}</div>
-                    <div style={{fontSize:12,color:'rgba(255,255,255,.7)',fontFamily:'sans-serif'}}>{item[1]?fmt(item[1]):'—'}</div>
-                  </div>
-                )})}
-              </div>
-            )}
+        <div style={{background:'#002147',padding:'1.5rem 2rem',borderRadius:4,borderLeft:'6px solid #FF8C00'}}>
+          <div style={{display:'flex',justifyContent:'space-between',alignItems:'flex-start',marginBottom: hasUpgrades ? '1rem' : 0}}>
+            <div>
+              <div style={{fontSize:10,color:'rgba(255,255,255,.5)',textTransform:'uppercase',letterSpacing:'.1em',fontFamily:'sans-serif',marginBottom:4}}>Contract total — {tierLabel} tier</div>
+              <div style={{fontSize:13,color:'rgba(255,255,255,.6)',fontFamily:'sans-serif'}}>{DEFAULT_PROJECT.type} · {DEFAULT_PROJECT.address}</div>
+              {estimate && (
+                <div style={{display:'flex',gap:20,marginTop:8}}>
+                  {[['Direct cost',estimate.direct],['Contingency',estimate.cont],['O&P',estimate.op],['GA sales tax',estimate.tax]].map(function(item){return(
+                    <div key={item[0]}>
+                      <div style={{fontSize:9,color:'rgba(255,255,255,.4)',textTransform:'uppercase',letterSpacing:'.06em',marginBottom:2}}>{item[0]}</div>
+                      <div style={{fontSize:12,color:'rgba(255,255,255,.7)',fontFamily:'sans-serif'}}>{item[1]?fmt(item[1]):'—'}</div>
+                    </div>
+                  )})}
+                </div>
+              )}
+            </div>
+            <div style={{textAlign:'right'}}>
+              {hasUpgrades && <div style={{fontSize:13,color:'rgba(255,255,255,.5)',fontFamily:'sans-serif',marginBottom:4}}>{fmt(price)} base</div>}
+              <div style={{fontSize:36,fontWeight:700,color:'#FF8C00',fontFamily:'sans-serif'}}>{fmt(finalPrice)}</div>
+              {hasUpgrades && <div style={{fontSize:12,color:'#FF8C00',opacity:.8,fontFamily:'sans-serif'}}>includes +{fmt(upgradeDelta)} upgrades</div>}
+            </div>
           </div>
-          <div style={{fontSize:36,fontWeight:700,color:'#FF8C00',fontFamily:'sans-serif'}}>{fmt(price)}</div>
+          {hasUpgrades && (
+            <div style={{borderTop:'1px solid rgba(255,255,255,.15)',paddingTop:'1rem',display:'flex',gap:16,flexWrap:'wrap'}}>
+              {selectedUpgrades.map(function(u){return(
+                <div key={u.group.id} style={{background:'rgba(255,140,0,.15)',border:'1px solid rgba(255,140,0,.3)',borderRadius:3,padding:'5px 10px'}}>
+                  <div style={{fontSize:9,color:'rgba(255,255,255,.5)',textTransform:'uppercase',letterSpacing:'.06em'}}>{u.group.label}</div>
+                  <div style={{fontSize:11,color:'#fff',fontFamily:'sans-serif'}}>{u.opt.name} <span style={{color:'#FF8C00',fontWeight:700}}>+{fmt(u.opt.delta)}</span></div>
+                </div>
+              )})}
+            </div>
+          )}
         </div>
       </Section>
 
@@ -315,27 +410,87 @@ export default function ProjectBook() {
         )}
       </Section>
 
+      {/* UPGRADES */}
+      {hasUpgrades && (
+        <>
+          <div className="pb"><SectionBar label="Options &amp; Upgrades"/></div>
+          <Section>
+            <Eyebrow>Upgrades above standard inclusions</Eyebrow>
+            <H2>Selected upgrades — +{fmt(upgradeDelta)}</H2>
+            <div style={{display:'grid',gap:'1rem',marginBottom:'1.5rem'}}>
+              {selectedUpgrades.map(function(u){
+                var opt = u.opt
+                return (
+                  <div key={u.group.id} style={{display:'grid',gridTemplateColumns:'80px 1fr auto',gap:'1rem',alignItems:'center',border:'1px solid #e8e6e0',borderRadius:4,overflow:'hidden'}}>
+                    <img src={opt.photo} alt={opt.name} style={{width:'100%',height:80,objectFit:'cover',display:'block'}} onError={function(e){e.target.style.display='none'}}/>
+                    <div style={{padding:'10px 0'}}>
+                      <div style={{fontSize:9,color:'#9a9690',textTransform:'uppercase',letterSpacing:'.08em',fontFamily:'sans-serif',marginBottom:2}}>{u.group.label} · {u.group.room}</div>
+                      <div style={{fontSize:13,fontWeight:700,color:'#002147',fontFamily:'sans-serif',marginBottom:2}}>{opt.name}</div>
+                      <div style={{fontSize:11,color:'#9a9690',fontFamily:'sans-serif'}}>{opt.brand} · {opt.spec}</div>
+                    </div>
+                    <div style={{padding:'0 1.25rem',textAlign:'right'}}>
+                      <div style={{fontSize:9,color:'#9a9690',textTransform:'uppercase',letterSpacing:'.06em',fontFamily:'sans-serif',marginBottom:2}}>Upgrade</div>
+                      <div style={{fontSize:18,fontWeight:700,color:'#FF8C00',fontFamily:'sans-serif'}}>+{fmt(opt.delta)}</div>
+                    </div>
+                  </div>
+                )
+              })}
+            </div>
+            <div style={{background:'#002147',borderRadius:4,padding:'1.25rem 1.5rem',display:'flex',justifyContent:'space-between',alignItems:'center',borderLeft:'6px solid #FF8C00'}}>
+              <div style={{display:'flex',gap:32}}>
+                <div>
+                  <div style={{fontSize:9,color:'rgba(255,255,255,.5)',textTransform:'uppercase',letterSpacing:'.08em',fontFamily:'sans-serif',marginBottom:3}}>Base estimate ({tierLabel})</div>
+                  <div style={{fontSize:16,fontWeight:600,color:'rgba(255,255,255,.8)',fontFamily:'sans-serif'}}>{fmt(price)}</div>
+                </div>
+                <div>
+                  <div style={{fontSize:9,color:'rgba(255,255,255,.5)',textTransform:'uppercase',letterSpacing:'.08em',fontFamily:'sans-serif',marginBottom:3}}>Upgrade total</div>
+                  <div style={{fontSize:16,fontWeight:600,color:'#FF8C00',fontFamily:'sans-serif'}}>+{fmt(upgradeDelta)}</div>
+                </div>
+              </div>
+              <div style={{textAlign:'right'}}>
+                <div style={{fontSize:9,color:'rgba(255,255,255,.5)',textTransform:'uppercase',letterSpacing:'.08em',fontFamily:'sans-serif',marginBottom:3}}>Revised contract total</div>
+                <div style={{fontSize:28,fontWeight:700,color:'#FF8C00',fontFamily:'sans-serif'}}>{fmt(finalPrice)}</div>
+              </div>
+            </div>
+          </Section>
+        </>
+      )}
+
       {/* SCOPE */}
       <div className="pb"><SectionBar label="Scope of Work"/></div>
       <Section>
         <Eyebrow>What we are building</Eyebrow>
         <H2>Scope of work</H2>
-        {PHASES.map(function(ph,pi){return(
-          <div key={ph.num} style={{display:'grid',gridTemplateColumns:'200px 1fr',gap:'1.5rem',marginBottom:'1.25rem',paddingBottom:'1.25rem',borderBottom:pi<PHASES.length-1?'1px solid #f5f4f1':'none'}}>
-            <div style={{background:pi%2===0?'#002147':'#FF8C00',borderRadius:4,padding:'1rem'}}>
-              <div style={{fontSize:22,fontWeight:700,color:'rgba(255,255,255,.3)',fontFamily:'sans-serif',marginBottom:4}}>0{ph.num}</div>
-              <div style={{fontSize:13,fontWeight:700,color:'#fff',fontFamily:'sans-serif',marginBottom:4}}>{ph.name}</div>
-              <div style={{fontSize:11,color:'rgba(255,255,255,.65)',fontFamily:'sans-serif'}}>{ph.dates}</div>
-            </div>
-            <div style={{display:'flex',flexDirection:'column',justifyContent:'center',gap:6}}>
-              {ph.items.map(function(item){return(
-                <div key={item} style={{display:'flex',gap:8,alignItems:'flex-start',fontSize:12,color:'#3d3b37',fontFamily:'sans-serif'}}>
-                  <span style={{color:'#FF8C00',flexShrink:0,fontWeight:700}}>✓</span><span>{item}</span>
+        {(function(){
+          var dynamicPhases = estimate && estimate.activeDivisions ? buildDynamicSOW(estimate.activeDivisions) : null
+          var phases = dynamicPhases || PHASES
+          var isDynamic = !!dynamicPhases
+          return (
+            <>
+              {isDynamic && (
+                <div style={{background:'#eaf3de',border:'1px solid #c8dfc0',borderRadius:3,padding:'8px 12px',marginBottom:'1.25rem',fontSize:11,color:'#3B6D11',fontFamily:'sans-serif'}}>
+                  ✓ Scope generated from your estimate — only active line items shown
+                </div>
+              )}
+              {phases.map(function(ph,pi){return(
+                <div key={ph.num} style={{display:'grid',gridTemplateColumns:'200px 1fr',gap:'1.5rem',marginBottom:'1.25rem',paddingBottom:'1.25rem',borderBottom:pi<phases.length-1?'1px solid #f5f4f1':'none'}}>
+                  <div style={{background:pi%2===0?'#002147':'#FF8C00',borderRadius:4,padding:'1rem'}}>
+                    <div style={{fontSize:22,fontWeight:700,color:'rgba(255,255,255,.3)',fontFamily:'sans-serif',marginBottom:4}}>{String(ph.num).padStart(2,'0')}</div>
+                    <div style={{fontSize:13,fontWeight:700,color:'#fff',fontFamily:'sans-serif',marginBottom:4}}>{ph.name}</div>
+                    {ph.dates && <div style={{fontSize:11,color:'rgba(255,255,255,.65)',fontFamily:'sans-serif'}}>{ph.dates}</div>}
+                  </div>
+                  <div style={{display:'flex',flexDirection:'column',justifyContent:'center',gap:6}}>
+                    {ph.items.map(function(item){return(
+                      <div key={item} style={{display:'flex',gap:8,alignItems:'flex-start',fontSize:12,color:'#3d3b37',fontFamily:'sans-serif'}}>
+                        <span style={{color:'#FF8C00',flexShrink:0,fontWeight:700}}>✓</span><span>{item}</span>
+                      </div>
+                    )})}
+                  </div>
                 </div>
               )})}
-            </div>
-          </div>
-        )})}
+            </>
+          )
+        })()}
       </Section>
 
       {/* PAYMENT */}
@@ -357,9 +512,12 @@ export default function ProjectBook() {
             </div>
           )})}
           <div style={{display:'grid',gridTemplateColumns:'36px 1fr 60px 100px 110px',gap:16,padding:'14px 20px',background:'#002147',alignItems:'center'}}>
-            <div/><div style={{fontSize:12,fontWeight:700,color:'rgba(255,255,255,.7)',fontFamily:'sans-serif'}}>Total contract value</div>
+            <div/><div>
+              <div style={{fontSize:12,fontWeight:700,color:'rgba(255,255,255,.7)',fontFamily:'sans-serif'}}>Total contract value</div>
+              {hasUpgrades && <div style={{fontSize:10,color:'rgba(255,255,255,.4)',fontFamily:'sans-serif'}}>Includes +{fmt(upgradeDelta)} upgrades</div>}
+            </div>
             <div style={{fontSize:12,color:'rgba(255,255,255,.4)',fontFamily:'sans-serif'}}>100%</div><div/>
-            <div style={{fontSize:20,fontWeight:700,color:'#FF8C00',fontFamily:'sans-serif',textAlign:'right'}}>{fmt(price)}</div>
+            <div style={{fontSize:20,fontWeight:700,color:'#FF8C00',fontFamily:'sans-serif',textAlign:'right'}}>{fmt(finalPrice)}</div>
           </div>
         </div>
       </Section>
@@ -400,7 +558,7 @@ export default function ProjectBook() {
           <div style={{fontSize:9,color:'#9a9690',fontFamily:'sans-serif',textAlign:'right',lineHeight:1.7}}>
             SpanglerBuilt Inc. · 44 Milton Ave, Suite 243 · Woodstock, GA 30188<br/>
             (404) 492-7650 · michael@spanglerbuilt.com · spanglerbuilt.com<br/>
-            Licensed General Contractor · State of Georgia · {DEFAULT_PROJECT.number}
+            Licensed General Contractor · State of Georgia · {projectMeta ? projectMeta.project_number : DEFAULT_PROJECT.number}
           </div>
         </div>
       </div>

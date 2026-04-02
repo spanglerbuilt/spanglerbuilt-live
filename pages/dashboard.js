@@ -4,6 +4,22 @@ import { useSession, signOut } from 'next-auth/react'
 export default function Dashboard() {
   var { data: session } = useSession()
   var [authChecked, setAuthChecked] = useState(false)
+  var [pipeline,    setPipeline]    = useState([
+    {id:'',pn:'SB-2026-001',name:'Ryan and Dori Mendel', type:'Basement',value:'$55,394', status:'Estimate',sc:{bg:'#eeedfe',color:'#534AB7'}},
+    {id:'',pn:'SB-2026-002',name:'John and Susan Park',  type:'Kitchen', value:'$78,200', status:'Approved',sc:{bg:'#eaf3de',color:'#3B6D11'}},
+    {id:'',pn:'SB-2026-003',name:'Tom and Wendy Harris', type:'Addition',value:'$148,000',status:'Started', sc:{bg:'#e8f5e9',color:'#1b5e20'}},
+    {id:'',pn:'SB-2026-004',name:'Amy Chen',             type:'Bath',    value:'$24,500', status:'New lead',sc:{bg:'#fff3e0',color:'#e65100'}},
+  ])
+
+  var STATUS_SC = {
+    'New lead':  {bg:'#fff3e0',color:'#e65100'},
+    'Contacted': {bg:'#e3f2fd',color:'#0d47a1'},
+    'Estimate':  {bg:'#eeedfe',color:'#534AB7'},
+    'Approved':  {bg:'#eaf3de',color:'#3B6D11'},
+    'Started':   {bg:'#e8f5e9',color:'#1b5e20'},
+    'Completed': {bg:'#f5f4f1',color:'#5f5e5a'},
+    'Lost':      {bg:'#fcebeb',color:'#c0392b'},
+  }
 
   useEffect(function() {
     try {
@@ -17,6 +33,26 @@ export default function Dashboard() {
       return
     }
     setAuthChecked(true)
+
+    // Load live pipeline from Supabase via leads API
+    fetch('/api/leads/list')
+      .then(function(r){ return r.json() })
+      .then(function(json) {
+        if (!json.leads || json.leads.length === 0) return
+        var live = json.leads.slice(0, 6).map(function(l) {
+          return {
+            id:     l.id,
+            pn:     l.pn,
+            name:   l.name,
+            type:   l.type,
+            value:  '$' + (l.value || 0).toLocaleString(),
+            status: l.status,
+            sc:     STATUS_SC[l.status] || STATUS_SC['New lead'],
+          }
+        })
+        setPipeline(live)
+      })
+      .catch(function(){})
   }, [])
 
   if (!authChecked) return null
@@ -30,13 +66,6 @@ export default function Dashboard() {
     {label:'Client selections',  href:'/contractor/selections',   desc:'Material choices by tier',   icon:'✓'},
     {label:'Presentation',       href:'/contractor/presentation', desc:'Client-facing slide deck',    icon:'▶'},
     {label:'Contact form',       href:'/contact',                 desc:'Lead intake and AI ballpark', icon:'↗'},
-  ]
-
-  var pipeline = [
-    {pn:'SB-2026-001',name:'Ryan and Dori Mendel', type:'Basement',value:'$55,394', status:'Estimate',sc:{bg:'#eeedfe',color:'#534AB7'}},
-    {pn:'SB-2026-002',name:'John and Susan Park',  type:'Kitchen', value:'$78,200', status:'Approved',sc:{bg:'#eaf3de',color:'#3B6D11'}},
-    {pn:'SB-2026-003',name:'Tom and Wendy Harris', type:'Addition',value:'$148,000',status:'Started', sc:{bg:'#e8f5e9',color:'#1b5e20'}},
-    {pn:'SB-2026-004',name:'Amy Chen',             type:'Bath',    value:'$24,500', status:'New lead',sc:{bg:'#fff3e0',color:'#e65100'}},
   ]
 
   return (
@@ -100,20 +129,26 @@ export default function Dashboard() {
           )})}
         </div>
 
-        <div style={{fontSize:10,fontWeight:500,color:'#9a9690',textTransform:'uppercase',letterSpacing:'.05em',marginBottom:'.5rem'}}>Active pipeline</div>
+        <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:'.5rem'}}>
+          <div style={{fontSize:10,fontWeight:500,color:'#9a9690',textTransform:'uppercase',letterSpacing:'.05em'}}>Active pipeline</div>
+          <a href="/contractor/leads" style={{fontSize:11,color:'#FF8C00',textDecoration:'none',fontWeight:600}}>View all leads →</a>
+        </div>
         <div style={{background:'#fff',border:'1px solid #e8e6e0',borderRadius:4,overflow:'hidden'}}>
-          <div style={{display:'grid',gridTemplateColumns:'140px 1fr 100px 110px 100px 60px',gap:10,padding:'7px 1rem',background:'#002147',fontSize:10,fontWeight:500,color:'#FF8C00',textTransform:'uppercase',letterSpacing:'.04em'}}>
-            <span>Project ID</span><span>Client</span><span>Type</span><span>Value</span><span>Status</span><span></span>
+          <div style={{display:'grid',gridTemplateColumns:'140px 1fr 100px 110px 100px 1fr',gap:10,padding:'7px 1rem',background:'#002147',fontSize:10,fontWeight:500,color:'#FF8C00',textTransform:'uppercase',letterSpacing:'.04em'}}>
+            <span>Project ID</span><span>Client</span><span>Type</span><span>Value</span><span>Status</span><span>Open in</span>
           </div>
           {pipeline.map(function(p,i){return (
-            <a key={p.pn} href="/contractor/leads" style={{display:'grid',gridTemplateColumns:'140px 1fr 100px 110px 100px 60px',gap:10,padding:'9px 1rem',alignItems:'center',fontSize:12,borderTop:i===0?'none':'1px solid #f5f4f1',background:'#fff',textDecoration:'none',color:'inherit'}}>
+            <div key={p.pn} style={{display:'grid',gridTemplateColumns:'140px 1fr 100px 110px 100px 1fr',gap:10,padding:'9px 1rem',alignItems:'center',fontSize:12,borderTop:i===0?'none':'1px solid #f5f4f1',background:'#fff'}}>
               <span style={{fontWeight:500,color:'#002147',fontSize:11}}>{p.pn}</span>
               <span>{p.name}</span>
               <span style={{color:'#9a9690'}}>{p.type}</span>
               <span style={{fontWeight:500,color:'#002147'}}>{p.value}</span>
               <span><span style={{background:p.sc.bg,color:p.sc.color,fontSize:10,fontWeight:700,padding:'2px 7px',borderRadius:3}}>{p.status}</span></span>
-              <span style={{color:'#FF8C00',fontWeight:500}}>View</span>
-            </a>
+              <span style={{display:'flex',gap:6}}>
+                <a href={'/contractor/estimate?id=' + p.id} style={{fontSize:10,color:'#002147',textDecoration:'none',border:'1px solid #e8e6e0',padding:'2px 8px',borderRadius:3,fontWeight:600,whiteSpace:'nowrap'}}>Estimate</a>
+                <a href={'/client/project-book?id=' + p.id} style={{fontSize:10,color:'#FF8C00',textDecoration:'none',border:'1px solid #FF8C00',padding:'2px 8px',borderRadius:3,fontWeight:600,whiteSpace:'nowrap'}}>Book</a>
+              </span>
+            </div>
           )})}
         </div>
 

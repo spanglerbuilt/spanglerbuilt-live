@@ -82,6 +82,22 @@ export default function ClientOptions() {
       }
     })
     localStorage.setItem('sb_selections', JSON.stringify(existing))
+    // Also persist option picks to Supabase
+    try {
+      var projectId = new URLSearchParams(window.location.search).get('id')
+      if (projectId) {
+        var upgTotal = INIT_OPTION_GROUPS.reduce(function(s, g) {
+          var selId = picks[g.id]
+          var opt = g.options.find(function(o){ return o.id === selId })
+          return s + (opt ? opt.delta : 0)
+        }, 0)
+        fetch('/api/projects/' + projectId + '/option-picks', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ picks: picks, upgradeDelta: upgTotal }),
+        }).catch(function(){})
+      }
+    } catch(e) {}
     setConfirmed(true)
   }
 

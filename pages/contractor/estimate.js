@@ -276,9 +276,21 @@ export default function EstimatePage() {
   var [catSearch,  setCatSearch]  = useState('')
   var [catType,    setCatType]    = useState('all')
   var [catExpand,  setCatExpand]  = useState({})   // category name → expanded
-  var [added,      setAdded]      = useState({})   // catalogId → true (visual indicator)
+  var [added,        setAdded]        = useState({})   // catalogId → true (visual indicator)
+  var [excludedDivs, setExcludedDivs] = useState({})   // divNum → true (division turned off)
+  var [excludedItems,setExcludedItems]= useState({})   // itemId → true (item turned off)
+  var [savedMsg,     setSavedMsg]     = useState('')
 
-  var totals = calcTotals(divisions, tier)
+  // Only count active divisions/items in totals
+  var activeDivisions = divisions
+    .filter(function(d){ return !excludedDivs[d.num] })
+    .map(function(d){
+      return Object.assign({}, d, {
+        items: d.items.filter(function(i){ return !excludedItems[i.id] && i.qty * i.rate > 0 })
+      })
+    })
+
+  var totals = calcTotals(activeDivisions, tier)
   var mult   = TIER_MULT[tier]
 
   function toggleDiv(num) {
@@ -316,6 +328,52 @@ export default function EstimatePage() {
         return Object.assign({}, d, { items: d.items.filter(function(i){ return i.id !== itemId }) })
       })
     })
+  }
+
+  function toggleExcludeDiv(num) {
+    setExcludedDivs(function(prev){ return Object.assign({}, prev, { [num]: !prev[num] }) })
+  }
+
+  function toggleExcludeItem(itemId) {
+    setExcludedItems(function(prev){ return Object.assign({}, prev, { [itemId]: !prev[itemId] }) })
+  }
+
+  function saveToProjectBook() {
+    var exportDivs = activeDivisions
+      .filter(function(d){ return d.items.length > 0 })
+      .map(function(d){
+        return {
+          num: d.num,
+          name: d.name,
+          items: d.items.map(function(i){
+            return { desc: i.desc, qty: i.qty, unit: i.unit, rate: i.rate, total: Math.round(i.qty * i.rate) }
+          })
+        }
+      })
+    var payload = {
+      tier, label: TIER_LABELS[tier],
+      grand: Math.round(totals.grand),
+      direct: Math.round(totals.direct),
+      cont: Math.round(totals.cont),
+      op: Math.round(totals.op),
+      tax: Math.round(totals.tax),
+      confirmedAt: new Date().toISOString(),
+      activeDivisions: exportDivs,
+    }
+    localStorage.setItem('sb_estimate', JSON.stringify(payload))
+    // Also persist to Supabase if a project_id was passed in the URL
+    try {
+      var projectId = new URLSearchParams(window.location.search).get('id')
+      if (projectId) {
+        fetch('/api/projects/' + projectId + '/estimate', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
+        }).catch(function(){})
+      }
+    } catch(e) {}
+    setSavedMsg('Saved to project book!')
+    setTimeout(function(){ setSavedMsg('') }, 3000)
   }
 
   // Filter catalog
@@ -438,8 +496,12 @@ export default function EstimatePage() {
               <div style={{fontSize:18,fontWeight:500,fontFamily:'Georgia,serif'}}>Mendel Basement Renovation</div>
               <div style={{fontSize:11,color:'#9a9690'}}>SB-2026-001 · 4995 Shadow Glen Ct, Dunwoody GA · 665 sf</div>
             </div>
-            <div style={{display:'flex',gap:6,flexWrap:'wrap'}}>
+            <div style={{display:'flex',gap:6,flexWrap:'wrap',alignItems:'center'}}>
               {['good','better','best','luxury'].map(tierBtn)}
+              <button onClick={saveToProjectBook}
+                style={{background:'#002147',color:'#FF8C00',border:'2px solid #FF8C00',padding:'5px 14px',fontSize:11,fontWeight:700,cursor:'pointer',borderRadius:3,fontFamily:'sans-serif',letterSpacing:'.06em',textTransform:'uppercase'}}>
+                {savedMsg || 'Save to project book →'}
+              </button>
             </div>
           </div>
 
@@ -461,16 +523,26 @@ export default function EstimatePage() {
           <div style={{fontSize:10,fontWeight:500,color:'#9a9690',textTransform:'uppercase',letterSpacing:'.05em',marginBottom:'.5rem'}}>Division line items — click to expand</div>
 
           {divisions.map(function(div) {
-            var sub  = divSubtotal(div)
+            var isExcluded = !!excludedDivs[div.num]
+            // Use active items only for subtotal display
+            var activeItems = div.items.filter(function(i){ return !excludedItems[i.id] && i.qty * i.rate > 0 })
+            var sub  = activeItems.reduce(function(s,i){ return s + i.qty * i.rate }, 0)
             var adj  = sub * mult
             var open = !!openDivs[div.num]
             return (
-              <div key={div.num} style={{background:'#fff',border:'1px solid #e8e6e0',borderRadius:4,overflow:'hidden',marginBottom:8}}>
-                <div style={{padding:'8px 12px',background:'#FFFCEB',display:'flex',alignItems:'center',cursor:'pointer',borderBottom:'1px solid #e8e6e0'}} onClick={function(){toggleDiv(div.num)}}>
-                  <span style={{fontSize:9,fontWeight:700,letterSpacing:'.1em',color:'#9a9690',marginRight:10,textTransform:'uppercase'}}>DIV {div.num}</span>
-                  <span style={{flex:1,fontSize:12,fontWeight:500}}>{div.name}</span>
-                  <span style={{fontSize:12,fontWeight:500,color:'#002147',marginRight:8}}>{fmt(adj)}</span>
-                  <span style={{fontSize:10,color:'#9a9690'}}>{open?'▲':'▼'}</span>
+              <div key={div.num} style={{background:'#fff',border:'1px solid '+(isExcluded?'#e0ddd8':'#e8e6e0'),borderRadius:4,overflow:'hidden',marginBottom:8,opacity:isExcluded?0.6:1}}>
+                <div style={{padding:'8px 12px',background:isExcluded?'#f5f4f1':'#FFFCEB',display:'flex',alignItems:'center',borderBottom:'1px solid #e8e6e0'}}>
+                  {/* On/off toggle — stops it from contributing to total */}
+                  <div onClick={function(e){e.stopPropagation();toggleExcludeDiv(div.num)}}
+                    title={isExcluded?'Click to include this division':'Click to exclude this division'}
+                    style={{flexShrink:0,marginRight:10,width:32,height:17,borderRadius:9,background:isExcluded?'#e8e6e0':'#3B6D11',position:'relative',cursor:'pointer',transition:'background .2s'}}>
+                    <div style={{position:'absolute',top:2,left:isExcluded?2:15,width:13,height:13,borderRadius:'50%',background:'#fff',transition:'left .2s',boxShadow:'0 1px 3px rgba(0,0,0,.2)'}}/>
+                  </div>
+                  <span onClick={function(){toggleDiv(div.num)}} style={{fontSize:9,fontWeight:700,letterSpacing:'.1em',color:isExcluded?'#bbb':'#9a9690',marginRight:10,textTransform:'uppercase',cursor:'pointer'}}>DIV {div.num}</span>
+                  <span onClick={function(){toggleDiv(div.num)}} style={{flex:1,fontSize:12,fontWeight:500,color:isExcluded?'#bbb':'inherit',textDecoration:isExcluded?'line-through':'none',cursor:'pointer'}}>{div.name}</span>
+                  {isExcluded && <span style={{fontSize:10,color:'#bbb',marginRight:8,fontStyle:'italic'}}>excluded</span>}
+                  <span style={{fontSize:12,fontWeight:500,color:isExcluded?'#bbb':'#002147',marginRight:8}}>{isExcluded?'—':fmt(adj)}</span>
+                  <span onClick={function(){toggleDiv(div.num)}} style={{fontSize:10,color:'#9a9690',cursor:'pointer'}}>{open?'▲':'▼'}</span>
                 </div>
                 {open && (
                   <table style={{width:'100%',borderCollapse:'collapse',fontSize:11}}>
@@ -487,20 +559,31 @@ export default function EstimatePage() {
                     </thead>
                     <tbody>
                       {div.items.map(function(item, i) {
+                        var itemExcluded = !!excludedItems[item.id] || isExcluded
                         var base = item.qty * item.rate
                         var adj2 = base * mult
                         return (
-                          <tr key={item.id} style={{background:item.fromCatalog?'#FFFCEB':'inherit'}}>
+                          <tr key={item.id} style={{background:itemExcluded?'#fafafa':item.fromCatalog?'#FFFCEB':'inherit',opacity:itemExcluded?0.45:1}}>
                             <td style={{padding:'6px 10px',borderBottom:'1px solid #f5f4f1',color:'#3d3b37'}}>
-                              {item.fromCatalog && <span style={{marginRight:5,background:'#FF8C00',color:'#fff',fontSize:8,fontWeight:700,padding:'1px 4px',borderRadius:2}}>catalog</span>}
-                              {item.desc}
-                              {item.allowance && <span style={{marginLeft:6,background:'#fff3e0',color:'#e65100',fontSize:9,fontWeight:700,padding:'1px 5px',borderRadius:3}}>allowance</span>}
+                              <div style={{display:'flex',alignItems:'center',gap:6}}>
+                                {/* per-item toggle */}
+                                <div onClick={function(){toggleExcludeItem(item.id)}}
+                                  title={excludedItems[item.id]?'Include this item':'Exclude this item'}
+                                  style={{flexShrink:0,width:24,height:14,borderRadius:7,background:excludedItems[item.id]?'#e8e6e0':'#3B6D11',position:'relative',cursor:'pointer',transition:'background .15s'}}>
+                                  <div style={{position:'absolute',top:1.5,left:excludedItems[item.id]?1.5:11,width:11,height:11,borderRadius:'50%',background:'#fff',transition:'left .15s',boxShadow:'0 1px 2px rgba(0,0,0,.2)'}}/>
+                                </div>
+                                <span style={{textDecoration:itemExcluded?'line-through':'none'}}>
+                                  {item.fromCatalog && <span style={{marginRight:5,background:'#FF8C00',color:'#fff',fontSize:8,fontWeight:700,padding:'1px 4px',borderRadius:2}}>catalog</span>}
+                                  {item.desc}
+                                  {item.allowance && <span style={{marginLeft:6,background:'#fff3e0',color:'#e65100',fontSize:9,fontWeight:700,padding:'1px 5px',borderRadius:3}}>allowance</span>}
+                                </span>
+                              </div>
                             </td>
                             <td style={{padding:'6px 10px',borderBottom:'1px solid #f5f4f1',color:'#9a9690'}}>{item.qty}</td>
                             <td style={{padding:'6px 10px',borderBottom:'1px solid #f5f4f1',color:'#9a9690'}}>{item.unit}</td>
                             <td style={{padding:'6px 10px',borderBottom:'1px solid #f5f4f1',color:'#9a9690'}}>{fmtD(item.rate)}</td>
-                            <td style={{padding:'6px 10px',borderBottom:'1px solid #f5f4f1',textAlign:'right'}}>{fmt(base)}</td>
-                            <td style={{padding:'6px 10px',borderBottom:'1px solid #f5f4f1',textAlign:'right',fontWeight:500,color:'#002147'}}>{fmt(adj2)}</td>
+                            <td style={{padding:'6px 10px',borderBottom:'1px solid #f5f4f1',textAlign:'right',textDecoration:itemExcluded?'line-through':'none',color:itemExcluded?'#bbb':'inherit'}}>{fmt(base)}</td>
+                            <td style={{padding:'6px 10px',borderBottom:'1px solid #f5f4f1',textAlign:'right',fontWeight:500,color:itemExcluded?'#bbb':'#002147',textDecoration:itemExcluded?'line-through':'none'}}>{fmt(adj2)}</td>
                             <td style={{padding:'6px 10px',borderBottom:'1px solid #f5f4f1',textAlign:'right'}}>
                               {item.fromCatalog && (
                                 <button onClick={function(){removeItem(div.num, item.id)}}
