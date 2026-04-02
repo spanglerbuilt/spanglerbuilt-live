@@ -231,7 +231,7 @@ VALUES
  '30"–42"×84"','each',750,1500,
  'Includes finger-jointed pine jamb; add 15% for wider/taller openings',
  '{"Unfinished pine (stainable or paintable)"}',
- 'For clients wanting real wood grain through paint or stain.'),
+ 'For clients wanting real wood grain through paint or stain.');
 
 
 -- ============================================================
@@ -308,7 +308,7 @@ VALUES
  'Custom sizes to 36"×60"','each',950,1450,
  'Lead time 3–5 weeks for custom sizes',
  '{"White","Black","Bronze","Ebony"}',
- 'Best-in-class window for high-end basement finishes. Strong warranty.'),
+ 'Best-in-class window for high-end basement finishes. Strong warranty.');
 
 
 -- ============================================================
@@ -422,7 +422,7 @@ VALUES
  '3"×18" (herringbone plank)','sq_ft',18.00,32.00,
  'Pattern layout; price does not include the significant additional labor for pattern install',
  '{"Unfinished or pre-finished in custom stains"}',
- 'Reserve for luxury kitchen or addition projects with design-forward clients.'),
+ 'Reserve for luxury kitchen or addition projects with design-forward clients.');
 
 
 -- ============================================================
@@ -508,7 +508,7 @@ VALUES
  '12"×24" to 24"×48"','sq_ft',22.00,45.00,
  'Available Artistic Tile Atlanta; varies significantly by slab lot',
  '{"Super White","Taj Mahal","Sea Pearl"}',
- 'Hardest natural stone used in bathrooms. Requires professional sealing.'),
+ 'Hardest natural stone used in bathrooms. Requires professional sealing.');
 
 
 -- ============================================================
@@ -587,7 +587,7 @@ VALUES
  '12"×24"','sq_ft',14.99,24.99,
  'Sealing required; may etch from soap; coach client on maintenance',
  '{"Calacatta Gold White"}',
- 'Reserve for high-budget primary showers only. Ongoing maintenance required.'),
+ 'Reserve for high-budget primary showers only. Ongoing maintenance required.');
 
 
 -- ============================================================
@@ -658,7 +658,7 @@ VALUES
  '1" penny on 12"×12" sheet','sq_ft',14.99,22.99,
  'Requires sealing; polished finish is slippery — use honed version for shower floors',
  '{"Pure White Thassos"}',
- 'Specify HONED (not polished) for shower floor application.'),
+ 'Specify HONED (not polished) for shower floor application.');
 
 
 -- ============================================================
@@ -738,7 +738,7 @@ VALUES
  'Custom size up to 78"×96"','each',1800,4000,
  'Requires custom template measurement; 3–4 week lead time after template',
  '{"Frameless clear glass","Low-iron ultra-clear glass"}',
- 'For walk-in showers without a door. Most luxurious open shower look.'),
+ 'For walk-in showers without a door. Most luxurious open shower look.');
 
 
 -- ============================================================
@@ -823,7 +823,7 @@ VALUES
  'One-piece smart toilet with integrated bidet; heated seat; auto flush; UV light sanitizer',
  '12" rough-in','each',2999,3999,NULL,
  '{"White"}',
- 'Kohler''s flagship smart toilet. Slightly lower price than TOTO Neorest.'),
+ 'Kohler''s flagship smart toilet. Slightly lower price than TOTO Neorest.');
 
 
 -- ============================================================
@@ -910,7 +910,7 @@ VALUES
  '32"–60" W','each',4500,9500,
  'Available through specialty plumbing showrooms in Atlanta',
  '{"Matte White","Custom painted"}',
- 'Reserve for high-budget primary bath projects with design-forward clients.'),
+ 'Reserve for high-budget primary bath projects with design-forward clients.');
 
 
 -- ============================================================
@@ -992,7 +992,7 @@ VALUES
  'Iconic minimalist Kohler design; solid brass; ultra-smooth ceramic disc valves',
  '8" spread','each',699,999,NULL,
  '{"Polished Chrome","Vibrant Brushed Nickel","Matte Black","Vibrant Brushed Moderne Brass"}',
- 'Kohler Purist is a timeless design that clients recognize from hotel stays.'),
+ 'Kohler Purist is a timeless design that clients recognize from hotel stays.');
 
 
 -- ============================================================
@@ -1070,7 +1070,7 @@ VALUES
  'Fully custom; imported','lin_ft',800,1800,
  'Lead time 12–20 weeks including shipping; available through Atlanta design showrooms',
  '{"Custom lacquers, wood veneers, high-gloss options"}',
- 'Reserve for luxury kitchen remodels with full design team involvement.'),
+ 'Reserve for luxury kitchen remodels with full design team involvement.');
 
 
 -- ============================================================
@@ -1165,7 +1165,7 @@ VALUES
  '1.5" or 2.25" thick × custom L/W','sq_ft',35,65,
  'Material only; fabrication from slab; requires periodic oiling if end-grain',
  '{"Hard Maple (natural)","Walnut (edge-grain, premium)"}',
- 'Very popular for kitchen islands and bar areas. Pairs well with quartz perimeter tops.'),
+ 'Very popular for kitchen islands and bar areas. Pairs well with quartz perimeter tops.');
 
 
 -- ============================================================
@@ -1235,7 +1235,7 @@ VALUES
  '24" main bar','set',900,1400,
  'Available Waterworks Atlanta showroom',
  '{"Nickel","Unlacquered Brass","Matte Nickel","Burnished Nickel"}',
- 'Waterworks is the top luxury bath accessory brand. Matches their plumbing fixtures.'),
+ 'Waterworks is the top luxury bath accessory brand. Matches their plumbing fixtures.');
 
 
 -- ============================================================
@@ -1306,7 +1306,7 @@ VALUES
  '24"W × 30"H × 6"D','each',2899,3999,
  'Top-of-line Robern; requires electrical; 10-week lead time',
  '{"Flat mirror door"}',
- 'The AiO Reserve is the most full-featured medicine cabinet on the market.'),
+ 'The AiO Reserve is the most full-featured medicine cabinet on the market.');
 
 
 -- ============================================================
@@ -1374,7 +1374,7 @@ VALUES
  'Quartz composite apron-front bar/prep sink; retains temperature; stylish design statement',
  '25" × 18.5" × 9"D','each',749,999,NULL,
  '{"Putty","Greige","Espresso","Caviar (black)"}',
- 'A farmhouse-style composite bar sink elevates a basement bar significantly.'),
+ 'A farmhouse-style composite bar sink elevates a basement bar significantly.');
 
 ('bar_sinks','stainless_undermount','{"basement","kitchen"}','luxury',
  'Julien Studio Collection Seamless Undermount Bar Sink','Julien',
