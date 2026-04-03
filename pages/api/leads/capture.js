@@ -126,71 +126,78 @@ export default async function handler(req, res) {
     return res.status(400).json({ error: 'Name and email are required' })
   }
 
-  if (!process.env.SUPABASE_URL || !process.env.SUPABASE_SERVICE_KEY) {
-    var fallbackPn = 'SB-' + new Date().getFullYear() + '-' + String(Math.floor(Math.random()*900)+100)
-    return res.status(200).json({ ok:true, projectNumber: fallbackPn, ballpark: null, message: 'Received — Supabase not configured' })
+  // Generate project number — use Supabase sequence if available, else random
+  var pn = 'SB-' + new Date().getFullYear() + '-' + String(Math.floor(Math.random()*900)+100)
+  var projectId = null
+  var ballpark  = null
+
+  // ── Supabase (optional) ──────────────────────────────────────────────────
+  if (process.env.SUPABASE_URL && process.env.SUPABASE_SERVICE_KEY) {
+    try {
+      var supabaseLib = await import('@supabase/supabase-js')
+      var supabase = supabaseLib.createClient(process.env.SUPABASE_URL, process.env.SUPABASE_SERVICE_KEY)
+
+      var year = new Date().getFullYear()
+      var countResult = await supabase
+        .from('projects')
+        .select('*', { count:'exact', head:true })
+        .like('project_number', 'SB-' + year + '-%')
+      var nextSeq = ((countResult.count || 0) + 1)
+      pn = 'SB-' + year + '-' + String(nextSeq).padStart(3,'0')
+
+      var insertResult = await supabase.from('projects').insert({
+        project_number: pn,
+        client_name:    firstName + ' ' + lastName,
+        client_email:   email,
+        project_type:   projectType,
+        address:        address,
+        budget_range:   budget,
+        timeline:       timeline,
+        description:    description,
+        status:         'new_lead',
+      }).select().single()
+
+      var project = insertResult.data
+      projectId   = project ? project.id : null
+
+      if (projectId) {
+        await supabase.from('messages').insert({
+          project_id:   projectId,
+          sender_email: email,
+          sender_role:  'client',
+          body: 'New lead from website.\n\nDescription: ' + description,
+          read: false,
+        }).catch(function(){})
+      }
+    } catch(e) {
+      console.error('Supabase error:', e)
+    }
   }
 
+  // ── AI ballpark (optional) ───────────────────────────────────────────────
   try {
-    var supabaseLib = await import('@supabase/supabase-js')
-    var supabase = supabaseLib.createClient(process.env.SUPABASE_URL, process.env.SUPABASE_SERVICE_KEY)
-
-    var year = new Date().getFullYear()
-    var countResult = await supabase
-      .from('projects')
-      .select('*', { count:'exact', head:true })
-      .like('project_number', 'SB-' + year + '-%')
-    var nextSeq = ((countResult.count || 0) + 1)
-    var pn = 'SB-' + year + '-' + String(nextSeq).padStart(3,'0')
-
-    var insertResult = await supabase.from('projects').insert({
-      project_number: pn,
-      client_name:    firstName + ' ' + lastName,
-      client_email:   email,
-      project_type:   projectType,
-      address:        address,
-      budget_range:   budget,
-      timeline:       timeline,
-      description:    description,
-      status:         'new_lead',
-    }).select().single()
-
-    var project   = insertResult.data
-    var projectId = project ? project.id : null
-
-    var ballpark = null
-    try {
-      var aiRes = await fetch((process.env.NEXTAUTH_URL || BRAND.portal) + '/api/claude', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          action: 'estimate',
-          data: {
-            prompt: projectType + ' for ' + firstName + ' ' + lastName +
-              ' at ' + address + '. Description: ' + description +
-              '. Budget: ' + budget + '. Metro Atlanta pricing. ' +
-              'Give a brief ballpark in all 4 tiers (Good/Better/Best/Luxury). ' +
-              'Keep it to 4 lines total — one per tier with price range only.'
-          }
-        })
+    var aiRes = await fetch(BRAND.portal + '/api/claude', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        action: 'estimate',
+        data: {
+          prompt: projectType + ' for ' + firstName + ' ' + lastName +
+            ' at ' + address + '. Description: ' + description +
+            '. Budget: ' + budget + '. Metro Atlanta pricing. ' +
+            'Give a brief ballpark in all 4 tiers (Good/Better/Best/Luxury). ' +
+            'Keep it to 4 lines total — one per tier with price range only.'
+        }
       })
-      var aiJson = await aiRes.json()
-      ballpark = aiJson.result || null
-    } catch(e) {
-      ballpark = null
-    }
+    })
+    var aiJson = await aiRes.json()
+    ballpark = aiJson.result || null
+  } catch(e) {
+    ballpark = null
+  }
 
-    if (projectId) {
-      await supabase.from('messages').insert({
-        project_id:   projectId,
-        sender_email: email,
-        sender_role:  'client',
-        body: 'New lead from website.\n\nDescription: ' + description,
-        read: false,
-      }).catch(function(){})
-    }
-
-    if (process.env.RESEND_API_KEY) {
+  // ── Emails (always attempt if key is set) ───────────────────────────────
+  if (process.env.RESEND_API_KEY) {
       try {
         var resend = new Resend(process.env.RESEND_API_KEY)
         await resend.emails.send({
@@ -208,12 +215,7 @@ export default async function handler(req, res) {
       } catch(emailErr) {
         console.error('Email send error:', emailErr)
       }
-    }
-
-    return res.status(200).json({ ok:true, projectNumber:pn, projectId, ballpark, message:'Lead created' })
-
-  } catch(err) {
-    console.error('Lead capture error:', err)
-    return res.status(500).json({ error: err.message })
   }
+
+  return res.status(200).json({ ok:true, projectNumber:pn, projectId, ballpark, message:'Lead created' })
 }
