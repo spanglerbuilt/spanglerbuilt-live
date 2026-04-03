@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react'
 var LINKS = [
   { href: '/marketing/dashboard',   label: 'Dashboard'   },
   { href: '/marketing/leads',       label: 'Leads'       },
+  { href: '/marketing/pipeline',    label: 'Pipeline'    },
   { href: '/marketing/campaigns',   label: 'Campaigns'   },
   { href: '/marketing/materials',   label: 'Materials'   },
   { href: '/marketing/channels',    label: 'Channels'    },
