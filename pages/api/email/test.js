@@ -70,7 +70,7 @@ export default async function handler(req, res) {
       subject: 'SpanglerBuilt — Branded email test',
       html,
     })
-    return res.status(200).json({ ok: true, id: result.data?.id, to })
+    return res.status(200).json({ ok: true, id: result.data?.id, error: result.error || null, to })
   } catch(err) {
     return res.status(500).json({ error: err.message })
   }
