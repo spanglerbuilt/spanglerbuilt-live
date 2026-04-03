@@ -33,13 +33,6 @@ function clientEmailHtml(firstName, pn, projectType, ballpark) {
       </p>
     </div>
 
-    ${ballpark ? `
-    <div style="padding:16px 20px;background:#f4f4f4;border:1px solid #e0e0e0;border-radius:4px;margin-bottom:28px;">
-      <p style="margin:0 0 8px;font-size:11px;font-weight:700;color:#888888;letter-spacing:.1em;text-transform:uppercase;">Ballpark estimate (Atlanta market)</p>
-      <p style="margin:0;font-size:13px;color:#444444;line-height:1.8;white-space:pre-line;">${ballpark}</p>
-      <p style="margin:8px 0 0;font-size:11px;color:#999999;">These are rough ranges — Michael will prepare a formal estimate after your consultation.</p>
-    </div>
-    ` : ''}
 
     <!-- VIEW OUR WORK CTA (centered) -->
     <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:32px;">
@@ -86,11 +79,6 @@ function michaelEmailHtml(firstName, lastName, email, phone, projectType, addres
       <p style="margin:0;font-size:13px;color:rgba(255,255,255,.65);line-height:1.7;">${description}</p>
     </div>` : ''}
 
-    ${ballpark ? `
-    <div style="background:rgba(208,104,48,.08);border:1px solid rgba(208,104,48,.25);padding:12px 16px;border-radius:4px;margin-bottom:20px;">
-      <p style="margin:0 0 6px;font-size:10px;font-weight:700;color:${BRAND.orange};letter-spacing:.1em;text-transform:uppercase;">AI ballpark estimate</p>
-      <p style="margin:0;font-size:12px;color:rgba(255,255,255,.6);line-height:1.8;white-space:pre-line;">${ballpark}</p>
-    </div>` : ''}
 
     <a href="${BRAND.portal}/contractor/leads" style="display:inline-block;background:${BRAND.orange};color:#fff;font-size:13px;font-weight:700;padding:12px 24px;border-radius:4px;text-decoration:none;letter-spacing:.04em;">
       View in portal →
@@ -174,27 +162,7 @@ export default async function handler(req, res) {
     }
   }
 
-  // ── AI ballpark (optional) ───────────────────────────────────────────────
-  try {
-    var aiRes = await fetch(BRAND.portal + '/api/claude', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        action: 'estimate',
-        data: {
-          prompt: projectType + ' for ' + firstName + ' ' + lastName +
-            ' at ' + address + '. Description: ' + description +
-            '. Budget: ' + budget + '. Metro Atlanta pricing. ' +
-            'Give a brief ballpark in all 4 tiers (Good/Better/Best/Luxury). ' +
-            'Keep it to 4 lines total — one per tier with price range only.'
-        }
-      })
-    })
-    var aiJson = await aiRes.json()
-    ballpark = aiJson.result || null
-  } catch(e) {
-    ballpark = null
-  }
+  // AI ballpark removed — kept emails clean and fast
 
   // ── Emails (always attempt if key is set) ───────────────────────────────
   if (process.env.RESEND_API_KEY) {
@@ -209,7 +177,7 @@ export default async function handler(req, res) {
         await resend.emails.send({
           from:    FROM_ADDRESS,
           to:      MICHAEL_EMAIL,
-          subject: 'New lead: ' + firstName + ' ' + lastName + ' — ' + projectType + ' (' + pn + ')',
+          subject: '🔔 New lead: ' + projectType + ' — ' + firstName + ' ' + lastName,
           html:    michaelEmailHtml(firstName, lastName, email, phone, projectType, address, budget, description, pn, ballpark),
         })
       } catch(emailErr) {
