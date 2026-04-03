@@ -175,14 +175,14 @@ export default function CatalogPage() {
             </div>
           </div>
 
-          <div style={{background:'#fff', border:'1px solid rgba(255,255,255,.09)', borderRadius:4, overflow:'hidden', marginBottom:12}}>
+          <div style={{background:'#161616', border:'1px solid rgba(255,255,255,.09)', borderRadius:4, overflow:'hidden', marginBottom:12}}>
             <div style={{
               padding:'9px 12px', display:'flex', alignItems:'center', justifyContent:'space-between', cursor:'pointer',
               background:activeCat==='all'?'#0a0a0a':'#fff',
               borderLeft:'3px solid '+(activeCat==='all'?'#D06830':'transparent'),
             }} onClick={function(){ setActiveCat('all') }}>
               <span style={{fontSize:12, fontWeight:600, color:activeCat==='all'?'#D06830':'#0a0a0a'}}>All categories</span>
-              <span style={{fontSize:10, fontWeight:700, color:activeCat==='all'?'rgba(255,255,255,.6)':'#9a9690', background:activeCat==='all'?'rgba(255,255,255,.12)':'#f5f4f1', padding:'1px 6px', borderRadius:8}}>
+              <span style={{fontSize:10, fontWeight:700, color:activeCat==='all'?'rgba(255,255,255,.6)':'#9a9690', background:activeCat==='all'?'rgba(255,255,255,.12)':'rgba(255,255,255,.07)', padding:'1px 6px', borderRadius:8}}>
                 {countBase.length}
               </span>
             </div>
@@ -191,12 +191,12 @@ export default function CatalogPage() {
               return (
                 <div key={cat} style={{
                   padding:'8px 12px', display:'flex', alignItems:'center', justifyContent:'space-between', cursor:'pointer',
-                  borderTop:'1px solid #f5f4f1',
+                  borderTop:'1px solid rgba(255,255,255,.07)',
                   background:isActive?'#0a0a0a':'#fff',
                   borderLeft:'3px solid '+(isActive?'#D06830':'transparent'),
                 }} onClick={function(){ setActiveCat(cat) }}>
                   <span style={{fontSize:12, fontWeight:500, color:isActive?'#D06830':'#0a0a0a'}}>{CAT_DISPLAY[cat]||cat}</span>
-                  <span style={{fontSize:10, fontWeight:700, color:isActive?'rgba(255,255,255,.6)':'#9a9690', background:isActive?'rgba(255,255,255,.12)':'#f5f4f1', padding:'1px 6px', borderRadius:8}}>
+                  <span style={{fontSize:10, fontWeight:700, color:isActive?'rgba(255,255,255,.6)':'#9a9690', background:isActive?'rgba(255,255,255,.12)':'rgba(255,255,255,.07)', padding:'1px 6px', borderRadius:8}}>
                     {catCounts[cat]}
                   </span>
                 </div>
@@ -227,10 +227,10 @@ export default function CatalogPage() {
             <div style={{fontSize:12, color:'rgba(255,255,255,.35)'}}>
               {loading ? 'Loading catalog…' : (
                 <>
-                  <strong style={{color:'#0a0a0a'}}>{filtered.length}</strong> products
-                  {activeCat !== 'all' && <span> in <strong style={{color:'#0a0a0a'}}>{CAT_DISPLAY[activeCat]||activeCat}</strong></span>}
-                  {activeType !== 'all' && <span> · <strong style={{color:'#0a0a0a'}}>{TYPE_LABELS[activeType]}</strong></span>}
-                  {search && <span> matching "<strong style={{color:'#0a0a0a'}}>{search}</strong>"</span>}
+                  <strong style={{color:'rgba(255,255,255,.75)'}}>{filtered.length}</strong> products
+                  {activeCat !== 'all' && <span> in <strong style={{color:'rgba(255,255,255,.75)'}}>{CAT_DISPLAY[activeCat]||activeCat}</strong></span>}
+                  {activeType !== 'all' && <span> · <strong style={{color:'rgba(255,255,255,.75)'}}>{TYPE_LABELS[activeType]}</strong></span>}
+                  {search && <span> matching "<strong style={{color:'rgba(255,255,255,.75)'}}>{search}</strong>"</span>}
                 </>
               )}
             </div>
@@ -242,13 +242,13 @@ export default function CatalogPage() {
           </div>
 
           {loading ? (
-            <div style={{background:'#fff', border:'1px solid rgba(255,255,255,.09)', borderRadius:4, padding:'3rem', textAlign:'center'}}>
+            <div style={{background:'#161616', border:'1px solid rgba(255,255,255,.09)', borderRadius:4, padding:'3rem', textAlign:'center'}}>
               <div style={{fontSize:13, color:'rgba(255,255,255,.35)'}}>Loading catalog…</div>
             </div>
           ) : filtered.length === 0 ? (
-            <div style={{background:'#fff', border:'1px solid rgba(255,255,255,.09)', borderRadius:4, padding:'3rem', textAlign:'center'}}>
+            <div style={{background:'#161616', border:'1px solid rgba(255,255,255,.09)', borderRadius:4, padding:'3rem', textAlign:'center'}}>
               <div style={{fontSize:32, marginBottom:12, color:'#d8d6d0'}}>◧</div>
-              <div style={{fontSize:14, color:'#0a0a0a', fontWeight:600, marginBottom:6}}>No products found</div>
+              <div style={{fontSize:14, color:'rgba(255,255,255,.75)', fontWeight:600, marginBottom:6}}>No products found</div>
               <div style={{fontSize:12, color:'rgba(255,255,255,.35)'}}>Try adjusting your filters or search terms.</div>
             </div>
           ) : (
@@ -261,7 +261,7 @@ export default function CatalogPage() {
 
                 return (
                   <div key={m.id} style={{
-                    background:'#fff', border:'1px solid rgba(255,255,255,.09)', borderRadius:4, overflow:'hidden',
+                    background:'#161616', border:'1px solid rgba(255,255,255,.09)', borderRadius:4, overflow:'hidden',
                     display:'flex', flexDirection:'column',
                     borderTop: inQueue ? '3px solid #3B6D11' : '3px solid #0a0a0a',
                   }}>
@@ -274,19 +274,19 @@ export default function CatalogPage() {
                       }}>{tier.label}</span>
                       <span style={{
                         position:'absolute', top:8, right:8,
-                        background:'rgba(0,33,71,.85)', color:'#fff',
+                        background:'rgba(0,0,0,.85)', color:'#fff',
                         fontSize:9, fontWeight:700, padding:'2px 7px', borderRadius:10, letterSpacing:'.04em',
                       }}>{CAT_DISPLAY[m.category]||m.category}</span>
                     </div>
 
                     <div style={{padding:'10px 12px', flex:1, display:'flex', flexDirection:'column', gap:3}}>
                       <div style={{fontSize:10, color:'rgba(255,255,255,.35)', fontWeight:500}}>{m.brand}</div>
-                      <div style={{fontSize:13, fontWeight:600, color:'#0a0a0a', lineHeight:1.35}}>{m.name}</div>
+                      <div style={{fontSize:13, fontWeight:600, color:'rgba(255,255,255,.75)', lineHeight:1.35}}>{m.name}</div>
                       <div style={{fontSize:10, color:'rgba(255,255,255,.35)', lineHeight:1.4}}>
                         {[m.description, m.dimensions].filter(Boolean).join(' · ')}
                       </div>
                       <div style={{display:'flex', alignItems:'baseline', gap:6, marginTop:4}}>
-                        <span style={{fontSize:13, fontWeight:700, color:'#0a0a0a'}}>
+                        <span style={{fontSize:13, fontWeight:700, color:'rgba(255,255,255,.75)'}}>
                           ${parseFloat(m.price_low).toFixed(0)}–${parseFloat(m.price_high).toFixed(0)}
                         </span>
                         <span style={{fontSize:10, color:'rgba(255,255,255,.35)'}}>/ {m.unit}</span>
@@ -296,10 +296,10 @@ export default function CatalogPage() {
                       )}
                     </div>
 
-                    <div style={{display:'grid', gridTemplateColumns:'1fr 1fr', borderTop:'1px solid #f5f4f1'}}>
+                    <div style={{display:'grid', gridTemplateColumns:'1fr 1fr', borderTop:'1px solid rgba(255,255,255,.07)'}}>
                       <button onClick={function(){ toggleEstimate(m) }} style={{
                         padding:'8px 6px', fontSize:11, fontWeight:700, fontFamily:'Poppins,sans-serif', cursor:'pointer',
-                        border:'none', borderRight:'1px solid #f5f4f1',
+                        border:'none', borderRight:'1px solid rgba(255,255,255,.07)',
                         background:inQueue?'#3B6D11':'#0a0a0a', color:'#fff', letterSpacing:'.02em',
                       }}>
                         {inQueue ? '✓ In estimate' : '＋ Estimate'}

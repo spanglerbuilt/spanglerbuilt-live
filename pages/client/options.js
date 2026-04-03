@@ -109,9 +109,9 @@ export default function ClientOptions() {
           <div style={{width:64,height:64,borderRadius:'50%',background:'#0a0a0a',display:'flex',alignItems:'center',justifyContent:'center',margin:'0 auto 1.25rem',border:'3px solid #D06830'}}>
             <span style={{fontSize:28,color:'#D06830'}}>✓</span>
           </div>
-          <div style={{fontFamily:'Poppins,sans-serif',fontSize:26,color:'#0a0a0a',marginBottom:8}}>Selections confirmed!</div>
+          <div style={{fontFamily:'Poppins,sans-serif',fontSize:26,color:'rgba(255,255,255,.75)',marginBottom:8}}>Selections confirmed!</div>
           <div style={{fontSize:14,color:'#666',marginBottom:6}}>Your upgrades have been saved.</div>
-          <div style={{fontSize:22,fontWeight:700,color:'#0a0a0a',marginBottom:'1.5rem'}}>
+          <div style={{fontSize:22,fontWeight:700,color:'rgba(255,255,255,.75)',marginBottom:'1.5rem'}}>
             Revised total: {fmt(totalPrice)}
             {upgradeDelta > 0 && <span style={{fontSize:13,color:'#D06830',marginLeft:8}}>+{fmt(upgradeDelta)} upgrades</span>}
           </div>
@@ -156,7 +156,7 @@ export default function ClientOptions() {
 
         {/* Intro */}
         <div style={{marginBottom:'2rem'}}>
-          <div style={{fontFamily:'Poppins,sans-serif',fontSize:24,color:'#0a0a0a',marginBottom:6}}>Choose your finishes</div>
+          <div style={{fontFamily:'Poppins,sans-serif',fontSize:24,color:'rgba(255,255,255,.75)',marginBottom:6}}>Choose your finishes</div>
           <div style={{fontSize:13,color:'#666',lineHeight:1.6,maxWidth:620}}>
             Your base estimate includes the "Included" option for each category. Select any upgrade to see how it affects your total — all pricing is transparent, no surprises.
           </div>
@@ -194,7 +194,7 @@ export default function ClientOptions() {
                     <div key={opt.id}
                       onClick={function(){ pick(g.id, opt.id) }}
                       style={{
-                        background:'#fff',
+                        background:'#161616',
                         margin:'1px',
                         cursor:'pointer',
                         transition:'all .15s',
@@ -223,14 +223,14 @@ export default function ClientOptions() {
 
                       {/* Info */}
                       <div style={{padding:'10px 10px 12px'}}>
-                        <div style={{fontSize:11,fontWeight:600,color:'#0a0a0a',marginBottom:2,lineHeight:1.3}}>{opt.name}</div>
+                        <div style={{fontSize:11,fontWeight:600,color:'rgba(255,255,255,.75)',marginBottom:2,lineHeight:1.3}}>{opt.name}</div>
                         <div style={{fontSize:10,color:'rgba(255,255,255,.35)',marginBottom:1}}>{opt.brand}</div>
                         <div style={{fontSize:9,color:'#aaa',marginBottom:8,lineHeight:1.4}}>{opt.spec}</div>
                         <div style={{
                           fontSize:13,fontWeight:700,
                           color: opt.delta===0 ? '#3B6D11' : '#0a0a0a',
                           padding:'5px 8px',
-                          background: isSelected ? (opt.delta===0?'#eaf3de':'#fff3e0') : '#f5f4f1',
+                          background: isSelected ? (opt.delta===0?'#eaf3de':'#fff3e0') : 'rgba(255,255,255,.07)',
                           borderRadius:3,
                           textAlign:'center',
                           border: isSelected ? '1px solid '+(opt.delta===0?'#3B6D11':'#D06830') : '1px solid #e8e6e0',
@@ -251,16 +251,16 @@ export default function ClientOptions() {
           <div style={{background:'#0a0a0a',padding:'1rem 1.5rem'}}>
             <div style={{fontFamily:'Poppins,sans-serif',fontSize:18,color:'#fff'}}>Your selections summary</div>
           </div>
-          <div style={{background:'#fff',padding:'1.25rem 1.5rem'}}>
+          <div style={{background:'#161616',padding:'1.25rem 1.5rem'}}>
             <div style={{display:'grid',gap:6,marginBottom:'1rem'}}>
               {INIT_OPTION_GROUPS.map(function(g) {
                 var selId = picks[g.id]
                 var opt = g.options.find(function(o){ return o.id === selId })
                 if (!opt) return null
                 return (
-                  <div key={g.id} style={{display:'flex',justifyContent:'space-between',alignItems:'center',padding:'6px 0',borderBottom:'1px solid #f5f4f1'}}>
+                  <div key={g.id} style={{display:'flex',justifyContent:'space-between',alignItems:'center',padding:'6px 0',borderBottom:'1px solid rgba(255,255,255,.07)'}}>
                     <div>
-                      <span style={{fontSize:12,color:'#0a0a0a',fontWeight:500}}>{g.label}</span>
+                      <span style={{fontSize:12,color:'rgba(255,255,255,.75)',fontWeight:500}}>{g.label}</span>
                       <span style={{fontSize:11,color:'rgba(255,255,255,.35)',marginLeft:8}}>{opt.name}</span>
                     </div>
                     <div style={{fontSize:12,fontWeight:600,color: opt.delta===0?'#3B6D11':'#D06830'}}>
@@ -273,7 +273,7 @@ export default function ClientOptions() {
             <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',padding:'10px 0',borderTop:'2px solid #0a0a0a',marginBottom:'1.25rem'}}>
               <div>
                 <div style={{fontSize:11,color:'rgba(255,255,255,.35)',marginBottom:2}}>Base ({tierLabel})</div>
-                <div style={{fontSize:22,fontWeight:700,color:'#0a0a0a'}}>{fmt(basePrice)}</div>
+                <div style={{fontSize:22,fontWeight:700,color:'rgba(255,255,255,.75)'}}>{fmt(basePrice)}</div>
               </div>
               {upgradeDelta > 0 && (
                 <div style={{textAlign:'center',padding:'0 1rem'}}>
@@ -283,7 +283,7 @@ export default function ClientOptions() {
               )}
               <div style={{textAlign:'right'}}>
                 <div style={{fontSize:11,color:'rgba(255,255,255,.35)',marginBottom:2}}>Revised project total</div>
-                <div style={{fontSize:26,fontWeight:700,color:'#0a0a0a'}}>{fmt(totalPrice)}</div>
+                <div style={{fontSize:26,fontWeight:700,color:'rgba(255,255,255,.75)'}}>{fmt(totalPrice)}</div>
               </div>
             </div>
             <button

@@ -17,7 +17,7 @@ export default function Dashboard() {
     'Estimate':  {bg:'#eeedfe',color:'#534AB7'},
     'Approved':  {bg:'#eaf3de',color:'#3B6D11'},
     'Started':   {bg:'#e8f5e9',color:'#1b5e20'},
-    'Completed': {bg:'#f5f4f1',color:'rgba(255,255,255,.5)'},
+    'Completed': {bg:'rgba(255,255,255,.07)',color:'rgba(255,255,255,.5)'},
     'Lost':      {bg:'#fcebeb',color:'#c0392b'},
   }
 
@@ -104,7 +104,7 @@ export default function Dashboard() {
 
         {session && (
           <div style={{background:'rgba(208,104,48,.1)',border:'1px solid #D06830',borderRadius:4,padding:'10px 14px',marginBottom:'1rem',fontSize:12,color:'rgba(255,255,255,.65)',display:'flex',justifyContent:'space-between',alignItems:'center'}}>
-            <span>Welcome back, <strong style={{color:'#0a0a0a'}}>{session.user.name || session.user.email}</strong></span>
+            <span>Welcome back, <strong style={{color:'rgba(255,255,255,.75)'}}>{session.user.name || session.user.email}</strong></span>
             <span style={{fontSize:10,color:'rgba(255,255,255,.35)'}}>Signed in as {session.user.email}</span>
           </div>
         )}
@@ -113,7 +113,7 @@ export default function Dashboard() {
           {[['Active projects','3'],['Open leads','7'],['Pipeline','$284K'],['YTD revenue','$127K']].map(function(item){return (
             <div key={item[0]} style={{background:'#161616',border:'1px solid rgba(255,255,255,.09)',borderRadius:4,padding:'.75rem 1rem',borderTop:'3px solid #0a0a0a'}}>
               <div style={{fontSize:10,color:'rgba(255,255,255,.35)',textTransform:'uppercase',letterSpacing:'.05em',marginBottom:4}}>{item[0]}</div>
-              <div style={{fontSize:22,fontWeight:500,color:'#0a0a0a'}}>{item[1]}</div>
+              <div style={{fontSize:22,fontWeight:500,color:'rgba(255,255,255,.75)'}}>{item[1]}</div>
             </div>
           )})}
         </div>
@@ -124,7 +124,7 @@ export default function Dashboard() {
             <a key={m.href} href={m.href} style={{display:'flex',gap:12,alignItems:'center',padding:'1rem',background:'#161616',border:'1px solid rgba(255,255,255,.09)',borderRadius:4,textDecoration:'none',borderLeft:'4px solid #0a0a0a'}}>
               <div style={{width:36,height:36,background:'#0a0a0a',borderRadius:'50%',display:'flex',alignItems:'center',justifyContent:'center',fontSize:16,color:'#D06830',flexShrink:0}}>{m.icon}</div>
               <div>
-                <div style={{fontSize:13,fontWeight:500,color:'#0a0a0a',marginBottom:2}}>{m.label}</div>
+                <div style={{fontSize:13,fontWeight:500,color:'rgba(255,255,255,.75)',marginBottom:2}}>{m.label}</div>
                 <div style={{fontSize:11,color:'rgba(255,255,255,.35)'}}>{m.desc}</div>
               </div>
             </a>
@@ -140,14 +140,14 @@ export default function Dashboard() {
             <span>Project ID</span><span>Client</span><span>Type</span><span>Value</span><span>Status</span><span>Open in</span>
           </div>
           {pipeline.map(function(p,i){return (
-            <div key={p.pn} style={{display:'grid',gridTemplateColumns:'140px 1fr 100px 110px 100px 1fr',gap:10,padding:'9px 1rem',alignItems:'center',fontSize:12,borderTop:i===0?'none':'1px solid #f5f4f1',background:'#fff'}}>
-              <span style={{fontWeight:500,color:'#0a0a0a',fontSize:11}}>{p.pn}</span>
+            <div key={p.pn} style={{display:'grid',gridTemplateColumns:'140px 1fr 100px 110px 100px 1fr',gap:10,padding:'9px 1rem',alignItems:'center',fontSize:12,borderTop:i===0?'none':'1px solid rgba(255,255,255,.07)',background:'#161616'}}>
+              <span style={{fontWeight:500,color:'rgba(255,255,255,.75)',fontSize:11}}>{p.pn}</span>
               <span>{p.name}</span>
               <span style={{color:'rgba(255,255,255,.35)'}}>{p.type}</span>
-              <span style={{fontWeight:500,color:'#0a0a0a'}}>{p.value}</span>
+              <span style={{fontWeight:500,color:'rgba(255,255,255,.75)'}}>{p.value}</span>
               <span><span style={{background:p.sc.bg,color:p.sc.color,fontSize:10,fontWeight:700,padding:'2px 7px',borderRadius:3}}>{p.status}</span></span>
               <span style={{display:'flex',gap:6}}>
-                <a href={'/contractor/estimate?id=' + p.id} style={{fontSize:10,color:'#0a0a0a',textDecoration:'none',border:'1px solid rgba(255,255,255,.09)',padding:'2px 8px',borderRadius:3,fontWeight:600,whiteSpace:'nowrap'}}>Estimate</a>
+                <a href={'/contractor/estimate?id=' + p.id} style={{fontSize:10,color:'rgba(255,255,255,.75)',textDecoration:'none',border:'1px solid rgba(255,255,255,.09)',padding:'2px 8px',borderRadius:3,fontWeight:600,whiteSpace:'nowrap'}}>Estimate</a>
                 <a href={'/client/project-book?id=' + p.id} style={{fontSize:10,color:'#D06830',textDecoration:'none',border:'1px solid #D06830',padding:'2px 8px',borderRadius:3,fontWeight:600,whiteSpace:'nowrap'}}>Book</a>
               </span>
             </div>

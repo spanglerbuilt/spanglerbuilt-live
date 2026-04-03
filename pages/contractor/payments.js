@@ -126,7 +126,7 @@ export default function PaymentsPage() {
                 {getInvoiceText(invoiceFor.project, invoiceFor.milestone)}
               </div>
               <div style={{background:'rgba(208,104,48,.1)',border:'1px solid #D06830',borderRadius:3,padding:'8px 12px',marginBottom:'1rem',fontSize:12,color:'rgba(255,255,255,.65)'}}>
-                <strong style={{color:'#0a0a0a'}}>{fmt(invoiceFor.project.contract * invoiceFor.milestone.pct / 100)}</strong> due by {invoiceFor.milestone.date} · {invoiceFor.milestone.pct}% milestone
+                <strong style={{color:'rgba(255,255,255,.75)'}}>{fmt(invoiceFor.project.contract * invoiceFor.milestone.pct / 100)}</strong> due by {invoiceFor.milestone.date} · {invoiceFor.milestone.pct}% milestone
               </div>
               <div style={{display:'flex',gap:8}}>
                 <button onClick={copyInvoice} style={{flex:1,background:copied?'#3B6D11':'#D06830',color:'#fff',border:'none',padding:'10px',fontSize:12,fontWeight:700,cursor:'pointer',borderRadius:3,fontFamily:'Poppins,sans-serif',letterSpacing:'.06em',textTransform:'uppercase',transition:'background .2s'}}>
@@ -170,7 +170,7 @@ export default function PaymentsPage() {
 
         {totalDue > 0 && (
           <div style={{background:'rgba(208,104,48,.1)',border:'1px solid #D06830',borderRadius:4,padding:'10px 14px',marginBottom:'1.25rem',fontSize:12,color:'rgba(255,255,255,.65)',display:'flex',justifyContent:'space-between',alignItems:'center'}}>
-            <span><strong style={{color:'#0a0a0a'}}>Action needed:</strong> {fmt(totalDue)} is due right now across {projects.filter(function(p){return p.milestones.some(function(m){return m.status==='due'})}).length} projects</span>
+            <span><strong style={{color:'rgba(255,255,255,.75)'}}>Action needed:</strong> {fmt(totalDue)} is due right now across {projects.filter(function(p){return p.milestones.some(function(m){return m.status==='due'})}).length} projects</span>
             <span style={{fontSize:11,color:'#D06830',fontWeight:500}}>Send invoices ↓</span>
           </div>
         )}
@@ -185,7 +185,7 @@ export default function PaymentsPage() {
             <div key={project.id} style={{background:'#161616',border:'1px solid rgba(255,255,255,.09)',borderRadius:4,overflow:'hidden',marginBottom:10}}>
               <div style={{padding:'1rem 1.25rem',display:'flex',alignItems:'center',justifyContent:'space-between',cursor:'pointer',borderBottom:isOpen?'1px solid #e8e6e0':'none'}} onClick={function(){setSelected(isOpen?null:project.id)}}>
                 <div>
-                  <div style={{fontSize:13,fontWeight:500,color:'#0a0a0a',marginBottom:2}}>{project.client}</div>
+                  <div style={{fontSize:13,fontWeight:500,color:'rgba(255,255,255,.75)',marginBottom:2}}>{project.client}</div>
                   <div style={{fontSize:11,color:'rgba(255,255,255,.35)'}}>{project.pn} · {project.type} · {fmt(project.contract)}</div>
                 </div>
                 <div style={{display:'flex',gap:16,alignItems:'center'}}>
@@ -217,16 +217,16 @@ export default function PaymentsPage() {
                     return (
                       <div key={i} style={{display:'flex',alignItems:'center',justifyContent:'space-between',padding:'10px 1.25rem',borderBottom:i<project.milestones.length-1?'1px solid rgba(255,255,255,.07)':'none',background:m.status==='due'?'rgba(208,104,48,.1)':'#fff'}}>
                         <div style={{display:'flex',gap:10,alignItems:'center',flex:1}}>
-                          <div style={{width:28,height:28,borderRadius:'50%',background:m.status==='paid'?'#eaf3de':m.status==='due'?'#fff3e0':'#f5f4f1',display:'flex',alignItems:'center',justifyContent:'center',fontSize:10,color:sc.color,fontWeight:700,flexShrink:0}}>
+                          <div style={{width:28,height:28,borderRadius:'50%',background:m.status==='paid'?'#eaf3de':m.status==='due'?'#fff3e0':'rgba(255,255,255,.07)',display:'flex',alignItems:'center',justifyContent:'center',fontSize:10,color:sc.color,fontWeight:700,flexShrink:0}}>
                             {m.status==='paid'?'✓':m.pct+'%'}
                           </div>
                           <div>
-                            <div style={{fontSize:12,fontWeight:500,color:'#0a0a0a'}}>{m.label}</div>
+                            <div style={{fontSize:12,fontWeight:500,color:'rgba(255,255,255,.75)'}}>{m.label}</div>
                             <div style={{fontSize:10,color:'rgba(255,255,255,.35)'}}>{m.pct}% · {m.date}</div>
                           </div>
                         </div>
                         <div style={{display:'flex',gap:12,alignItems:'center'}}>
-                          <span style={{fontSize:13,fontWeight:500,color:'#0a0a0a'}}>{fmt(amount)}</span>
+                          <span style={{fontSize:13,fontWeight:500,color:'rgba(255,255,255,.75)'}}>{fmt(amount)}</span>
                           <span style={{background:sc.bg,color:sc.color,fontSize:9,fontWeight:700,padding:'2px 8px',borderRadius:3}}>{sc.label}</span>
                           {m.status==='due' && (
                             <button onClick={function(){openInvoice(project,m,i)}} style={{background:'#D06830',color:'#fff',border:'none',padding:'5px 12px',fontSize:10,fontWeight:700,cursor:'pointer',borderRadius:3,fontFamily:'Poppins,sans-serif',letterSpacing:'.06em'}}>

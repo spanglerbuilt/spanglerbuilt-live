@@ -4,7 +4,7 @@ export default function SignIn() {
       <div style={{background:'#161616',border:'3px solid #D06830',maxWidth:420,width:'100%',padding:'2.5rem',borderRadius:4}}>
         <div style={{textAlign:'center',marginBottom:'1.5rem'}}>
           <img src="/logo.png" alt="SpanglerBuilt" style={{width:190,height:'auto',marginBottom:'.75rem'}}/>
-          <div style={{fontSize:11,color:'#0a0a0a',letterSpacing:'.14em',textTransform:'uppercase',fontWeight:500}}>Client and Project Portal</div>
+          <div style={{fontSize:11,color:'rgba(255,255,255,.75)',letterSpacing:'.14em',textTransform:'uppercase',fontWeight:500}}>Client and Project Portal</div>
         </div>
         <div style={{height:1,background:'rgba(255,255,255,.08)',marginBottom:'1.5rem'}}/>
         <p style={{fontSize:13,color:'rgba(255,255,255,.5)',textAlign:'center',marginBottom:'1.5rem',lineHeight:1.7}}>
@@ -26,7 +26,7 @@ export default function SignIn() {
         </div>
         <div style={{display:'flex',gap:8,marginBottom:'1.5rem'}}>
           <a href="/dashboard" style={{flex:1,display:'flex',alignItems:'center',justifyContent:'center',background:'#0a0a0a',color:'#D06830',padding:'10px',fontSize:11,fontWeight:700,textDecoration:'none',borderRadius:3,textTransform:'uppercase'}}>Contractor</a>
-          <a href="/client/dashboard" style={{flex:1,display:'flex',alignItems:'center',justifyContent:'center',background:'#1a1a1a',color:'#0a0a0a',padding:'10px',fontSize:11,fontWeight:700,textDecoration:'none',borderRadius:3,textTransform:'uppercase',border:'1px solid rgba(255,255,255,.09)'}}>Client</a>
+          <a href="/client/dashboard" style={{flex:1,display:'flex',alignItems:'center',justifyContent:'center',background:'#1a1a1a',color:'rgba(255,255,255,.75)',padding:'10px',fontSize:11,fontWeight:700,textDecoration:'none',borderRadius:3,textTransform:'uppercase',border:'1px solid rgba(255,255,255,.09)'}}>Client</a>
         </div>
         <p style={{fontSize:10,color:'rgba(255,255,255,.35)',textAlign:'center',lineHeight:1.8,margin:0}}>
           Contractors: michael@spanglerbuilt.com<br/>

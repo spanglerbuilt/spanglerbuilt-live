@@ -50,7 +50,7 @@ export default function PunchListPage() {
 
         {showForm && (
           <div style={{background:'rgba(208,104,48,.1)',border:'1px solid #D06830',borderRadius:4,padding:'1rem',marginBottom:'1rem'}}>
-            <div style={{fontSize:11,fontWeight:700,color:'#0a0a0a',textTransform:'uppercase',letterSpacing:'.08em',marginBottom:12}}>New punch list item</div>
+            <div style={{fontSize:11,fontWeight:700,color:'rgba(255,255,255,.75)',textTransform:'uppercase',letterSpacing:'.08em',marginBottom:12}}>New punch list item</div>
             <div style={{marginBottom:10}}>
               <div style={{fontSize:10,color:'rgba(255,255,255,.35)',marginBottom:4,textTransform:'uppercase',letterSpacing:'.08em'}}>Description *</div>
               <input value={form.desc} onChange={e=>setForm(f=>({...f,desc:e.target.value}))}
@@ -67,7 +67,7 @@ export default function PunchListPage() {
               <div>
                 <div style={{fontSize:10,color:'rgba(255,255,255,.35)',marginBottom:4,textTransform:'uppercase',letterSpacing:'.08em'}}>Priority</div>
                 <select value={form.priority} onChange={e=>setForm(f=>({...f,priority:e.target.value}))}
-                  style={{width:'100%',padding:'8px 10px',border:'1px solid rgba(255,255,255,.09)',borderRadius:3,fontSize:13,fontFamily:'Poppins,sans-serif',outline:'none',background:'#fff'}}>
+                  style={{width:'100%',padding:'8px 10px',border:'1px solid rgba(255,255,255,.09)',borderRadius:3,fontSize:13,fontFamily:'Poppins,sans-serif',outline:'none',background:'#161616'}}>
                   <option value="high">High</option>
                   <option value="medium">Medium</option>
                   <option value="low">Low</option>
@@ -89,7 +89,7 @@ export default function PunchListPage() {
 
         <div style={{background:'#161616',border:'1px solid rgba(255,255,255,.09)',borderRadius:4,overflow:'hidden'}}>
           {items.map((item,i)=>(
-            <div key={item.id} style={{padding:'1rem',borderTop:i===0?'none':'1px solid #f5f4f1',background:item.status==='complete'?'#fafaf8':'#fff'}}>
+            <div key={item.id} style={{padding:'1rem',borderTop:i===0?'none':'1px solid rgba(255,255,255,.07)',background:item.status==='complete'?'#fafaf8':'#fff'}}>
               <div style={{display:'flex',alignItems:'flex-start',justifyContent:'space-between',gap:8,marginBottom:4}}>
                 <div style={{flex:1}}>
                   <div style={{fontSize:13,fontWeight:500,color:item.status==='complete'?'#9a9690':'#0a0a0a',textDecoration:item.status==='complete'?'line-through':'none',marginBottom:3}}>{item.desc}</div>

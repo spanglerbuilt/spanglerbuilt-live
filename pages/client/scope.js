@@ -48,7 +48,7 @@ export default function ScopePage() {
   const STATUS = {
     complete:    {bg:'#eaf3de',color:'#3B6D11',dot:'#3B6D11',label:'Complete'},
     'in progress':{bg:'#fff3e0',color:'#D06830',dot:'#D06830',label:'In progress'},
-    upcoming:    {bg:'#f5f4f1',color:'rgba(255,255,255,.35)',dot:'#e8e6e0',label:'Upcoming'},
+    upcoming:    {bg:'rgba(255,255,255,.07)',color:'rgba(255,255,255,.35)',dot:'#e8e6e0',label:'Upcoming'},
   }
   return (
     <div style={{minHeight:'100vh',background:'#111',fontFamily:'Poppins,sans-serif'}}>
@@ -75,13 +75,13 @@ export default function ScopePage() {
               <div style={{background:sc.bg,padding:'10px 14px',display:'flex',alignItems:'center',justifyContent:'space-between',borderBottom:'1px solid #e8e6e0'}}>
                 <div style={{display:'flex',alignItems:'center',gap:10}}>
                   <div style={{width:24,height:24,background:'#0a0a0a',borderRadius:'50%',display:'flex',alignItems:'center',justifyContent:'center',fontSize:11,fontWeight:700,color:'#D06830',flexShrink:0}}>{phase.num}</div>
-                  <span style={{fontSize:13,fontWeight:500,color:'#0a0a0a'}}>{phase.name}</span>
+                  <span style={{fontSize:13,fontWeight:500,color:'rgba(255,255,255,.75)'}}>{phase.name}</span>
                 </div>
                 <span style={{background:sc.color+'22',color:sc.color,fontSize:9,fontWeight:700,padding:'2px 8px',borderRadius:3,textTransform:'uppercase'}}>{sc.label}</span>
               </div>
               <div style={{padding:'10px 14px'}}>
                 {phase.items.map((item,i)=>(
-                  <div key={i} style={{display:'flex',gap:8,alignItems:'flex-start',padding:'5px 0',borderBottom:i<phase.items.length-1?'1px solid #f5f4f1':'none',fontSize:12,color:phase.status==='upcoming'?'#9a9690':'#3d3b37'}}>
+                  <div key={i} style={{display:'flex',gap:8,alignItems:'flex-start',padding:'5px 0',borderBottom:i<phase.items.length-1?'1px solid rgba(255,255,255,.07)':'none',fontSize:12,color:phase.status==='upcoming'?'#9a9690':'#3d3b37'}}>
                     <span style={{color:phase.status==='complete'?'#3B6D11':phase.status==='in progress'?'#D06830':'#e8e6e0',fontSize:12,flexShrink:0,marginTop:1}}>
                       {phase.status==='complete'?'✓':phase.status==='in progress'?'●':'○'}
                     </span>

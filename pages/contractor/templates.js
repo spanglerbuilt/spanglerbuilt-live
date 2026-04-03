@@ -199,7 +199,7 @@ export default function TemplatesPage() {
   const S = {
     label: { fontSize:10, color:'rgba(255,255,255,.35)', textTransform:'uppercase', letterSpacing:'.08em', marginBottom:5, display:'block' },
     input: { width:'100%', padding:'8px 10px', border:'1px solid rgba(255,255,255,.09)', borderRadius:3, fontSize:13, fontFamily:'Poppins,sans-serif', outline:'none', background:'rgba(208,104,48,.1)', boxSizing:'border-box' },
-    overlay: { position:'fixed', top:0, left:0, right:0, bottom:0, background:'rgba(0,33,71,.85)', zIndex:100, display:'flex', alignItems:'center', justifyContent:'center', padding:'1rem', overflowY:'auto' },
+    overlay: { position:'fixed', top:0, left:0, right:0, bottom:0, background:'rgba(0,0,0,.85)', zIndex:100, display:'flex', alignItems:'center', justifyContent:'center', padding:'1rem', overflowY:'auto' },
   }
 
   return (
@@ -215,7 +215,7 @@ export default function TemplatesPage() {
             </div>
             <div style={{padding:'1.5rem'}}>
               <div style={{background:'rgba(208,104,48,.1)',border:'1px solid #D06830',borderRadius:3,padding:'10px 12px',marginBottom:'1.25rem',fontSize:12,color:'rgba(255,255,255,.65)'}}>
-                <strong style={{color:'#0a0a0a'}}>Template:</strong> {cloning.name}
+                <strong style={{color:'rgba(255,255,255,.75)'}}>Template:</strong> {cloning.name}
               </div>
               <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:12,marginBottom:12}}>
                 <div>
@@ -238,7 +238,7 @@ export default function TemplatesPage() {
                 </div>
                 <div>
                   <label style={S.label}>Starting tier</label>
-                  <select value={cloneForm.tier} onChange={e=>setCloneForm({...cloneForm,tier:e.target.value})} style={{...S.input,background:'#fff'}}>
+                  <select value={cloneForm.tier} onChange={e=>setCloneForm({...cloneForm,tier:e.target.value})} style={{...S.input,background:'#161616'}}>
                     {Object.entries(cloning.tiers).map(([t,v])=>(
                       <option key={t} value={t}>{t.charAt(0).toUpperCase()+t.slice(1)} — {fmt(v)}</option>
                     ))}
@@ -279,7 +279,7 @@ export default function TemplatesPage() {
               <div style={{display:'grid',gridTemplateColumns:'80px 1fr',gap:12,marginBottom:12}}>
                 <div>
                   <label style={S.label}>Type</label>
-                  <select value={newForm.code} onChange={e=>setNewForm({...newForm,code:e.target.value})} style={{...S.input,background:'#fff'}}>
+                  <select value={newForm.code} onChange={e=>setNewForm({...newForm,code:e.target.value})} style={{...S.input,background:'#161616'}}>
                     {['BSM','KIT','BTH','ADD','CHB'].map(c=><option key={c}>{c}</option>)}
                   </select>
                 </div>
@@ -368,7 +368,7 @@ export default function TemplatesPage() {
                     <span style={{background:tc.bg,color:tc.color,fontSize:10,fontWeight:700,padding:'3px 8px',borderRadius:3,display:'block',textAlign:'center',letterSpacing:'.06em'}}>{tmpl.code}</span>
                   </div>
                   <div style={{flex:1,minWidth:0}}>
-                    <div style={{fontSize:14,fontWeight:500,color:'#0a0a0a',marginBottom:3}}>{tmpl.name}</div>
+                    <div style={{fontSize:14,fontWeight:500,color:'rgba(255,255,255,.75)',marginBottom:3}}>{tmpl.name}</div>
                     <div style={{fontSize:12,color:'rgba(255,255,255,.35)',marginBottom:6}}>{tmpl.desc}</div>
                     <div style={{display:'flex',gap:6,flexWrap:'wrap'}}>
                       {tmpl.tags.map(tag=>(
@@ -379,25 +379,25 @@ export default function TemplatesPage() {
                   <div style={{display:'flex',gap:16,flexShrink:0,alignItems:'flex-start'}}>
                     <div style={{textAlign:'right'}}>
                       <div style={{fontSize:10,color:'rgba(255,255,255,.35)',marginBottom:2,textTransform:'uppercase',letterSpacing:'.06em'}}>Good tier est.</div>
-                      <div style={{fontSize:15,fontWeight:500,color:'#0a0a0a'}}>{fmt(tmpl.tiers.good)}</div>
+                      <div style={{fontSize:15,fontWeight:500,color:'rgba(255,255,255,.75)'}}>{fmt(tmpl.tiers.good)}</div>
                     </div>
                     <div style={{textAlign:'right'}}>
                       <div style={{fontSize:10,color:'rgba(255,255,255,.35)',marginBottom:2,textTransform:'uppercase',letterSpacing:'.06em'}}>Used</div>
-                      <div style={{fontSize:15,fontWeight:500,color:'#0a0a0a'}}>{tmpl.uses}×</div>
+                      <div style={{fontSize:15,fontWeight:500,color:'rgba(255,255,255,.75)'}}>{tmpl.uses}×</div>
                     </div>
                     <div style={{fontSize:12,color:'rgba(255,255,255,.35)',marginTop:2}}>{exp?'▲':'▼'}</div>
                   </div>
                 </div>
 
                 {exp && (
-                  <div style={{borderTop:'1px solid #f5f4f1'}}>
+                  <div style={{borderTop:'1px solid rgba(255,255,255,.07)'}}>
                     <div style={{display:'grid',gridTemplateColumns:'repeat(4,1fr)',gap:1,background:'rgba(255,255,255,.08)'}}>
                       {Object.entries(tmpl.tiers).map(([tier,val])=>{
                         const tc2 = {good:{c:'#3B6D11',bg:'#eaf3de'},better:{c:'#185FA5',bg:'#e6f1fb'},best:{c:'#534AB7',bg:'#eeedfe'},luxury:{c:'#854F0B',bg:'#faeeda'}}[tier]
                         return (
-                          <div key={tier} style={{background:'#fff',padding:'10px 14px',textAlign:'center'}}>
+                          <div key={tier} style={{background:'#161616',padding:'10px 14px',textAlign:'center'}}>
                             <div style={{fontSize:9,fontWeight:700,color:tc2.c,textTransform:'uppercase',letterSpacing:'.1em',marginBottom:4}}>{tier}</div>
-                            <div style={{fontSize:16,fontWeight:500,color:'#0a0a0a'}}>{fmt(val)}</div>
+                            <div style={{fontSize:16,fontWeight:500,color:'rgba(255,255,255,.75)'}}>{fmt(val)}</div>
                           </div>
                         )
                       })}
@@ -407,7 +407,7 @@ export default function TemplatesPage() {
                       {[['Sq footage',tmpl.sqft+' sf'],['Duration',tmpl.duration],['Phases',tmpl.phases],['Divisions',tmpl.divisions]].map(([l,v])=>(
                         <div key={l} style={{flex:1,padding:'8px 14px',borderRight:'1px solid #e8e6e0'}}>
                           <div style={{fontSize:9,color:'rgba(255,255,255,.35)',textTransform:'uppercase',letterSpacing:'.06em',marginBottom:2}}>{l}</div>
-                          <div style={{fontSize:12,fontWeight:500,color:'#0a0a0a'}}>{v}</div>
+                          <div style={{fontSize:12,fontWeight:500,color:'rgba(255,255,255,.75)'}}>{v}</div>
                         </div>
                       ))}
                       <div style={{flex:2,padding:'8px 14px'}}>
@@ -429,7 +429,7 @@ export default function TemplatesPage() {
                       <button onClick={function(){setCloning(tmpl)}} style={{background:'#D06830',color:'#fff',border:'none',padding:'9px 20px',fontSize:11,fontWeight:700,letterSpacing:'.08em',textTransform:'uppercase',cursor:'pointer',borderRadius:3,fontFamily:'Poppins,sans-serif'}}>
                         Use template →
                       </button>
-                      <button onClick={function(){openEdit(tmpl)}} style={{background:'transparent',border:'1px solid #0a0a0a',color:'#0a0a0a',padding:'9px 16px',fontSize:11,cursor:'pointer',borderRadius:3,fontFamily:'Poppins,sans-serif'}}>
+                      <button onClick={function(){openEdit(tmpl)}} style={{background:'transparent',border:'1px solid rgba(255,255,255,.2)',color:'rgba(255,255,255,.75)',padding:'9px 16px',fontSize:11,cursor:'pointer',borderRadius:3,fontFamily:'Poppins,sans-serif'}}>
                         Edit
                       </button>
                       <button onClick={function(){duplicate(tmpl)}} style={{background:'transparent',border:'1px solid rgba(255,255,255,.09)',color:'rgba(255,255,255,.35)',padding:'9px 16px',fontSize:11,cursor:'pointer',borderRadius:3,fontFamily:'Poppins,sans-serif'}}>

@@ -80,15 +80,15 @@ export default function ContactPage() {
         <div style={{maxWidth:600,margin:'3rem auto',padding:'0 1.5rem',textAlign:'center'}}>
           <div style={{background:'#161616',border:'1px solid rgba(255,255,255,.09)',borderRadius:4,padding:'3rem',borderTop:'4px solid #D06830'}}>
             <div style={{width:56,height:56,background:'#eaf3de',borderRadius:'50%',display:'flex',alignItems:'center',justifyContent:'center',margin:'0 auto 1.25rem',fontSize:24,color:'#3B6D11'}}>✓</div>
-            <div style={{fontFamily:'Poppins,sans-serif',fontSize:22,color:'#0a0a0a',marginBottom:8}}>We received your project!</div>
+            <div style={{fontFamily:'Poppins,sans-serif',fontSize:22,color:'rgba(255,255,255,.75)',marginBottom:8}}>We received your project!</div>
             <div style={{fontSize:13,color:'rgba(255,255,255,.35)',marginBottom:'1.5rem',lineHeight:1.7}}>
               Your project number is<br/>
-              <strong style={{fontSize:20,color:'#0a0a0a',fontFamily:'Poppins,sans-serif'}}>{result.projectNumber}</strong><br/>
+              <strong style={{fontSize:20,color:'rgba(255,255,255,.75)',fontFamily:'Poppins,sans-serif'}}>{result.projectNumber}</strong><br/>
               Michael will contact you within 1 business day.
             </div>
             {result.ballpark && (
               <div style={{background:'rgba(208,104,48,.1)',border:'1px solid #D06830',borderRadius:4,padding:'1rem 1.25rem',marginBottom:'1.5rem',textAlign:'left'}}>
-                <div style={{fontSize:10,fontWeight:700,color:'#0a0a0a',textTransform:'uppercase',letterSpacing:'.08em',marginBottom:8}}>AI ballpark estimate — your project</div>
+                <div style={{fontSize:10,fontWeight:700,color:'rgba(255,255,255,.75)',textTransform:'uppercase',letterSpacing:'.08em',marginBottom:8}}>AI ballpark estimate — your project</div>
                 <div style={{fontSize:12,color:'rgba(255,255,255,.65)',lineHeight:1.9,whiteSpace:'pre-wrap'}}>{result.ballpark}</div>
                 <div style={{fontSize:10,color:'rgba(255,255,255,.35)',marginTop:8}}>This is a preliminary estimate only. Your formal 4-tier written estimate will be delivered within 48 hours of your site visit.</div>
               </div>
@@ -116,7 +116,7 @@ export default function ContactPage() {
         {/* Step 1 — Contact info */}
         {step === 1 && (
           <div style={{background:'#161616',border:'1px solid rgba(255,255,255,.09)',borderRadius:4,padding:'1.5rem'}}>
-            <div style={{fontFamily:'Poppins,sans-serif',fontSize:18,color:'#0a0a0a',marginBottom:4}}>Tell us about yourself</div>
+            <div style={{fontFamily:'Poppins,sans-serif',fontSize:18,color:'rgba(255,255,255,.75)',marginBottom:4}}>Tell us about yourself</div>
             <div style={{fontSize:12,color:'rgba(255,255,255,.35)',marginBottom:'1.25rem'}}>We'll use this to create your project file and send your confirmation.</div>
             <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:12,marginBottom:12}}>
               <div>
@@ -151,7 +151,7 @@ export default function ContactPage() {
         {/* Step 2 — Project type */}
         {step === 2 && (
           <div style={{background:'#161616',border:'1px solid rgba(255,255,255,.09)',borderRadius:4,padding:'1.5rem'}}>
-            <div style={{fontFamily:'Poppins,sans-serif',fontSize:18,color:'#0a0a0a',marginBottom:4}}>Tell us about your project</div>
+            <div style={{fontFamily:'Poppins,sans-serif',fontSize:18,color:'rgba(255,255,255,.75)',marginBottom:4}}>Tell us about your project</div>
             <div style={{fontSize:12,color:'rgba(255,255,255,.35)',marginBottom:'1.25rem'}}>The more detail you give, the more accurate your ballpark estimate will be.</div>
             <div style={{marginBottom:12}}>
               <div style={{fontSize:10,fontWeight:500,color:'rgba(255,255,255,.35)',textTransform:'uppercase',letterSpacing:'.08em',marginBottom:8}}>Project type *</div>
@@ -181,7 +181,7 @@ export default function ContactPage() {
         {/* Step 3 — Budget, timeline, referral */}
         {step === 3 && (
           <div style={{background:'#161616',border:'1px solid rgba(255,255,255,.09)',borderRadius:4,padding:'1.5rem'}}>
-            <div style={{fontFamily:'Poppins,sans-serif',fontSize:18,color:'#0a0a0a',marginBottom:4}}>Almost done</div>
+            <div style={{fontFamily:'Poppins,sans-serif',fontSize:18,color:'rgba(255,255,255,.75)',marginBottom:4}}>Almost done</div>
             <div style={{fontSize:12,color:'rgba(255,255,255,.35)',marginBottom:'1.25rem'}}>A few last details to complete your project inquiry.</div>
             <div style={{marginBottom:12}}>
               <div style={{fontSize:10,fontWeight:500,color:'rgba(255,255,255,.35)',textTransform:'uppercase',letterSpacing:'.08em',marginBottom:8}}>Budget range</div>

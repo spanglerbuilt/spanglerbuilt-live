@@ -140,7 +140,7 @@ export default function OptionsBuilder() {
   var S = {
     label: { fontSize:10, color:'rgba(255,255,255,.35)', textTransform:'uppercase', letterSpacing:'.08em', marginBottom:5, display:'block' },
     input: { width:'100%', padding:'7px 10px', border:'1px solid rgba(255,255,255,.09)', borderRadius:3, fontSize:12, fontFamily:'Poppins,sans-serif', outline:'none', background:'rgba(208,104,48,.1)', boxSizing:'border-box' },
-    overlay: { position:'fixed', top:0, left:0, right:0, bottom:0, background:'rgba(0,33,71,.9)', zIndex:200, display:'flex', alignItems:'center', justifyContent:'center', padding:'1rem', overflowY:'auto' },
+    overlay: { position:'fixed', top:0, left:0, right:0, bottom:0, background:'rgba(0,0,0,.85)', zIndex:200, display:'flex', alignItems:'center', justifyContent:'center', padding:'1rem', overflowY:'auto' },
   }
 
   return (
@@ -183,7 +183,7 @@ export default function OptionsBuilder() {
             </div>
             <div style={{padding:'1.5rem',maxHeight:'80vh',overflowY:'auto'}}>
               <div style={{background:'rgba(208,104,48,.1)',border:'1px solid #D06830',borderRadius:4,padding:'10px 14px',marginBottom:'1.25rem',fontSize:12,color:'rgba(255,255,255,.65)'}}>
-                <strong style={{color:'#0a0a0a'}}>SB-2026-001 · Mendel Basement Renovation</strong><br/>
+                <strong style={{color:'rgba(255,255,255,.75)'}}>SB-2026-001 · Mendel Basement Renovation</strong><br/>
                 Base estimate: {fmt(BASE_PRICE)} (Good tier) · Select any upgrades below to see the impact on your total.
               </div>
               {groups.map(function(g) {
@@ -198,12 +198,12 @@ export default function OptionsBuilder() {
                         var bs = BADGE_STYLE[opt.badge]
                         var tc = TIER_COLORS[opt.tier]
                         return (
-                          <div key={opt.id} style={{background:'#fff',padding:'12px',margin:'1px'}}>
+                          <div key={opt.id} style={{background:'#161616',padding:'12px',margin:'1px'}}>
                             <div style={{height:70,background:'#1a1a1a',borderRadius:3,overflow:'hidden',marginBottom:8}}>
                               <img src={opt.photo} alt={opt.name} style={{width:'100%',height:'100%',objectFit:'cover'}} onError={function(e){e.target.style.display='none'}}/>
                             </div>
                             <div style={{display:'inline-block',background:bs.bg,color:bs.color,fontSize:8,fontWeight:700,padding:'1px 5px',borderRadius:2,marginBottom:4,textTransform:'uppercase'}}>{opt.badge}</div>
-                            <div style={{fontSize:11,fontWeight:600,color:'#0a0a0a',marginBottom:2,lineHeight:1.3}}>{opt.name}</div>
+                            <div style={{fontSize:11,fontWeight:600,color:'rgba(255,255,255,.75)',marginBottom:2,lineHeight:1.3}}>{opt.name}</div>
                             <div style={{fontSize:10,color:'rgba(255,255,255,.35)',marginBottom:4}}>{opt.brand}</div>
                             <div style={{fontSize:12,fontWeight:700,color:opt.delta===0?'#3B6D11':'#e65100'}}>{fmtDelta(opt.delta)}</div>
                           </div>
@@ -241,7 +241,7 @@ export default function OptionsBuilder() {
               var isActive = g.id === activeGrp
               return (
                 <div key={g.id} onClick={function(){setActiveGrp(g.id)}}
-                  style={{padding:'10px 14px',borderBottom:'1px solid #f5f4f1',cursor:'pointer',background:isActive?'#0a0a0a':'#fff',borderLeft:'3px solid '+(isActive?'#D06830':'transparent')}}>
+                  style={{padding:'10px 14px',borderBottom:'1px solid rgba(255,255,255,.07)',cursor:'pointer',background:isActive?'#0a0a0a':'#fff',borderLeft:'3px solid '+(isActive?'#D06830':'transparent')}}>
                   <div style={{fontSize:12,fontWeight:500,color:isActive?'#D06830':'#0a0a0a'}}>{g.label}</div>
                   <div style={{fontSize:10,color:isActive?'rgba(255,255,255,.5)':'#9a9690'}}>{g.options.length} options · {g.room}</div>
                 </div>
@@ -262,7 +262,7 @@ export default function OptionsBuilder() {
           <div>
             <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:'1rem'}}>
               <div>
-                <div style={{fontFamily:'Poppins,sans-serif',fontSize:18,color:'#0a0a0a'}}>{grp.label}</div>
+                <div style={{fontFamily:'Poppins,sans-serif',fontSize:18,color:'rgba(255,255,255,.75)'}}>{grp.label}</div>
                 <div style={{fontSize:11,color:'rgba(255,255,255,.35)'}}>{grp.room} · Div {grp.div} · {grp.unit}</div>
               </div>
             </div>
@@ -286,13 +286,13 @@ export default function OptionsBuilder() {
                     </div>
                     {/* Info */}
                     <div style={{padding:'12px 14px'}}>
-                      <div style={{fontSize:14,fontWeight:600,color:'#0a0a0a',marginBottom:3}}>{opt.name}</div>
+                      <div style={{fontSize:14,fontWeight:600,color:'rgba(255,255,255,.75)',marginBottom:3}}>{opt.name}</div>
                       <div style={{fontSize:11,color:'rgba(255,255,255,.35)',marginBottom:2}}>{opt.brand}</div>
                       <div style={{fontSize:11,color:'rgba(255,255,255,.35)',marginBottom:10}}>{opt.spec}</div>
                       <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:10}}>
                         <div>
                           <div style={{fontSize:10,color:'rgba(255,255,255,.35)',textTransform:'uppercase',letterSpacing:'.06em',marginBottom:2}}>Rate</div>
-                          <div style={{fontSize:14,fontWeight:600,color:'#0a0a0a'}}>${opt.rate}{grp.unit==='LS'?'':'/'+grp.unit}</div>
+                          <div style={{fontSize:14,fontWeight:600,color:'rgba(255,255,255,.75)'}}>${opt.rate}{grp.unit==='LS'?'':'/'+grp.unit}</div>
                         </div>
                         <div style={{textAlign:'right'}}>
                           <div style={{fontSize:10,color:'rgba(255,255,255,.35)',textTransform:'uppercase',letterSpacing:'.06em',marginBottom:2}}>Client price impact</div>
@@ -306,7 +306,7 @@ export default function OptionsBuilder() {
                           setEditOpt({groupId:grp.id, optIndex:optIdx})
                           setEditForm({ name:opt.name, brand:opt.brand, spec:opt.spec, rate:String(opt.rate), delta:String(opt.delta), photo:opt.photo })
                         }}
-                        style={{width:'100%',background:'transparent',border:'1px solid rgba(255,255,255,.09)',color:'#0a0a0a',padding:'7px',fontSize:11,cursor:'pointer',borderRadius:3,fontFamily:'Poppins,sans-serif',textAlign:'center'}}>
+                        style={{width:'100%',background:'transparent',border:'1px solid rgba(255,255,255,.09)',color:'rgba(255,255,255,.75)',padding:'7px',fontSize:11,cursor:'pointer',borderRadius:3,fontFamily:'Poppins,sans-serif',textAlign:'center'}}>
                         Edit this option
                       </button>
                     </div>

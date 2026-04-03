@@ -53,7 +53,7 @@ export default function DocumentsPage() {
 
       {/* Document viewer modal */}
       {viewing && (
-        <div style={{position:'fixed',top:0,left:0,right:0,bottom:0,background:'rgba(0,33,71,.85)',zIndex:100,display:'flex',alignItems:'center',justifyContent:'center',padding:'1rem'}}>
+        <div style={{position:'fixed',top:0,left:0,right:0,bottom:0,background:'rgba(0,0,0,.85)',zIndex:100,display:'flex',alignItems:'center',justifyContent:'center',padding:'1rem'}}>
           <div style={{background:'#161616',borderRadius:4,maxWidth:580,width:'100%',border:'3px solid #D06830',overflow:'hidden',display:'flex',flexDirection:'column',maxHeight:'90vh'}}>
             <div style={{background:'#0a0a0a',padding:'1rem 1.5rem',display:'flex',justifyContent:'space-between',alignItems:'center',borderBottom:'2px solid #D06830',flexShrink:0}}>
               <div>
@@ -104,7 +104,7 @@ export default function DocumentsPage() {
                 </div>
               )}
               {(viewing.action === 'View' || viewing.status === 'signed' || viewing.status === 'approved') && viewing.action !== 'Sign now' && viewing.action !== 'Review' && (
-                <button onClick={()=>setViewing(null)} style={{width:'100%',background:'#1a1a1a',color:'#0a0a0a',border:'1px solid rgba(255,255,255,.09)',padding:'10px',fontSize:11,cursor:'pointer',borderRadius:3,fontFamily:'Poppins,sans-serif'}}>
+                <button onClick={()=>setViewing(null)} style={{width:'100%',background:'#1a1a1a',color:'rgba(255,255,255,.75)',border:'1px solid rgba(255,255,255,.09)',padding:'10px',fontSize:11,cursor:'pointer',borderRadius:3,fontFamily:'Poppins,sans-serif'}}>
                   Close
                 </button>
               )}
@@ -118,7 +118,7 @@ export default function DocumentsPage() {
       <div style={{maxWidth:800,margin:'0 auto',padding:'1.5rem'}}>
         {pendingCount > 0 && (
           <div style={{background:'rgba(208,104,48,.1)',border:'1px solid #D06830',borderRadius:4,padding:'10px 14px',marginBottom:'1.25rem',fontSize:12,color:'rgba(255,255,255,.65)'}}>
-            <strong style={{color:'#0a0a0a'}}>{pendingCount} document{pendingCount>1?'s':''} need your attention</strong> — review and sign to keep your project moving.
+            <strong style={{color:'rgba(255,255,255,.75)'}}>{pendingCount} document{pendingCount>1?'s':''} need your attention</strong> — review and sign to keep your project moving.
           </div>
         )}
         <div style={{background:'#161616',border:'1px solid rgba(255,255,255,.09)',borderRadius:4,overflow:'hidden'}}>
@@ -129,12 +129,12 @@ export default function DocumentsPage() {
             const sc = STATUS[doc.status] || STATUS.ready
             const action = doc.status === 'signed' ? 'View' : doc.status === 'approved' ? 'View' : doc.action
             return (
-              <div key={doc.id} style={{display:'grid',gridTemplateColumns:'80px 1fr 100px 80px 90px',gap:10,padding:'12px 1rem',borderTop:i===0?'none':'1px solid #f5f4f1',alignItems:'center',fontSize:12,cursor:'pointer'}}
+              <div key={doc.id} style={{display:'grid',gridTemplateColumns:'80px 1fr 100px 80px 90px',gap:10,padding:'12px 1rem',borderTop:i===0?'none':'1px solid rgba(255,255,255,.07)',alignItems:'center',fontSize:12,cursor:'pointer'}}
                 onMouseEnter={e=>e.currentTarget.style.background='rgba(208,104,48,.1)'}
                 onMouseLeave={e=>e.currentTarget.style.background='#fff'}>
-                <span style={{fontSize:9,fontWeight:700,color:'#0a0a0a',textTransform:'uppercase',letterSpacing:'.06em',background:'#e6f1fb',padding:'2px 6px',borderRadius:3,textAlign:'center'}}>{doc.type}</span>
+                <span style={{fontSize:9,fontWeight:700,color:'rgba(255,255,255,.75)',textTransform:'uppercase',letterSpacing:'.06em',background:'#e6f1fb',padding:'2px 6px',borderRadius:3,textAlign:'center'}}>{doc.type}</span>
                 <div onClick={()=>openDoc(doc)}>
-                  <div style={{fontWeight:500,color:'#0a0a0a',marginBottom:2}}>{doc.title}</div>
+                  <div style={{fontWeight:500,color:'rgba(255,255,255,.75)',marginBottom:2}}>{doc.title}</div>
                   <div style={{fontSize:10,color:'rgba(255,255,255,.35)'}}>{doc.size}</div>
                 </div>
                 <span><span style={{background:sc.bg,color:sc.color,fontSize:9,fontWeight:700,padding:'2px 7px',borderRadius:3}}>{sc.label}</span></span>

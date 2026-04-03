@@ -133,7 +133,7 @@ export default function ContractorSelections() {
 
         {totalPending > 0 && (
           <div style={{background:'rgba(208,104,48,.1)',border:'1px solid #D06830',borderRadius:4,padding:'10px 14px',marginBottom:'1.25rem',fontSize:12,color:'rgba(255,255,255,.65)'}}>
-            <strong style={{color:'#0a0a0a'}}>Action needed:</strong> {totalPending} selection{totalPending!==1?'s are':' is'} waiting for client confirmation.
+            <strong style={{color:'rgba(255,255,255,.75)'}}>Action needed:</strong> {totalPending} selection{totalPending!==1?'s are':' is'} waiting for client confirmation.
             Share the client portal link so clients can make their choices.
           </div>
         )}
@@ -154,7 +154,7 @@ export default function ContractorSelections() {
                       <span style={{fontSize:11,fontWeight:500,color:'#185FA5'}}>{proj.pn}</span>
                       <span style={{background:tc.bg,color:tc.color,fontSize:9,fontWeight:700,padding:'2px 7px',borderRadius:3,textTransform:'uppercase',letterSpacing:'.06em'}}>{proj.tier}</span>
                     </div>
-                    <div style={{fontSize:14,fontWeight:500,color:'#0a0a0a',marginBottom:2}}>{proj.client}</div>
+                    <div style={{fontSize:14,fontWeight:500,color:'rgba(255,255,255,.75)',marginBottom:2}}>{proj.client}</div>
                     <div style={{fontSize:11,color:'rgba(255,255,255,.35)'}}>{proj.type}</div>
                   </div>
 
@@ -172,8 +172,8 @@ export default function ContractorSelections() {
                   </div>
 
                   <div style={{display:'flex',gap:6,flexShrink:0}}>
-                    <a href={'mailto:'+proj.email} onClick={function(e){e.stopPropagation()}} style={{background:'#1a1a1a',color:'#0a0a0a',padding:'5px 10px',fontSize:10,textDecoration:'none',borderRadius:3,border:'1px solid rgba(255,255,255,.09)'}}>Email</a>
-                    <a href={'tel:'+proj.phone.replace(/\D/g,'')} onClick={function(e){e.stopPropagation()}} style={{background:'#1a1a1a',color:'#0a0a0a',padding:'5px 10px',fontSize:10,textDecoration:'none',borderRadius:3,border:'1px solid rgba(255,255,255,.09)'}}>Call</a>
+                    <a href={'mailto:'+proj.email} onClick={function(e){e.stopPropagation()}} style={{background:'#1a1a1a',color:'rgba(255,255,255,.75)',padding:'5px 10px',fontSize:10,textDecoration:'none',borderRadius:3,border:'1px solid rgba(255,255,255,.09)'}}>Email</a>
+                    <a href={'tel:'+proj.phone.replace(/\D/g,'')} onClick={function(e){e.stopPropagation()}} style={{background:'#1a1a1a',color:'rgba(255,255,255,.75)',padding:'5px 10px',fontSize:10,textDecoration:'none',borderRadius:3,border:'1px solid rgba(255,255,255,.09)'}}>Call</a>
                   </div>
                   <span style={{fontSize:11,color:'rgba(255,255,255,.35)',flexShrink:0}}>{isExp?'▲':'▼'}</span>
                 </div>
@@ -190,7 +190,7 @@ export default function ContractorSelections() {
                         var ss = STATUS_STYLE[sel.status]
                         return (
                           <div key={sel.cat} style={{display:'grid',gridTemplateColumns:'1fr 110px 1fr 120px',padding:'9px 12px',background:i%2===0?'#fff':'#fafaf9',borderTop:'1px solid #f0efed',alignItems:'center',gap:1}}>
-                            <div style={{fontSize:12,fontWeight:500,color:'#0a0a0a'}}>{sel.cat}</div>
+                            <div style={{fontSize:12,fontWeight:500,color:'rgba(255,255,255,.75)'}}>{sel.cat}</div>
                             <div>
                               <span style={{background:ss.bg,color:ss.color,fontSize:9,fontWeight:700,padding:'2px 7px',borderRadius:3,textTransform:'uppercase',letterSpacing:'.04em'}}>{ss.label}</span>
                             </div>
