@@ -11,56 +11,47 @@ var FROM_ADDRESS  = 'SpanglerBuilt <noreply@spanglerbuilt.com>'
 function clientEmailHtml(firstName, pn, projectType, ballpark) {
   var date = new Date().toLocaleDateString('en-US', { month:'numeric', day:'numeric', year:'numeric' })
   var body = `
-    <p style="margin:0 0 20px;font-size:15px;color:rgba(255,255,255,.75);line-height:1.8;">
-      Hi ${firstName},<br><br>
+    <p style="margin:0 0 20px;font-size:16px;color:#333333;line-height:1.8;">
+      Hi ${firstName},
+    </p>
+    <p style="margin:0 0 16px;font-size:15px;color:#333333;line-height:1.8;">
       Thank you for reaching out to SpanglerBuilt Inc. We have received your inquiry regarding a
-      <strong style="color:#fff;">${projectType}</strong> project.<br><br>
+      <strong style="color:#111111;">${projectType}</strong> project.
+    </p>
+    <p style="margin:0 0 28px;font-size:15px;color:#333333;line-height:1.8;">
       We have already started a dedicated project file for you. Our team is reviewing your details
       and we will be in touch shortly.
     </p>
 
     <!-- Inquiry details -->
-    <table width="100%" cellpadding="0" cellspacing="0" style="background:rgba(208,104,48,.08);border:1px solid rgba(208,104,48,.25);border-radius:4px;margin-bottom:24px;">
-      <tr><td style="padding:6px 20px 0;font-size:10px;font-weight:700;color:${BRAND.orange};letter-spacing:.12em;text-transform:uppercase;">Inquiry Details</td></tr>
-      <tr><td style="padding:0 20px 16px;">
-        <table cellpadding="0" cellspacing="0" style="margin-top:10px;">
-          <tr>
-            <td style="font-size:12px;color:rgba(255,255,255,.4);padding-right:16px;padding-bottom:6px;">Project</td>
-            <td style="font-size:13px;color:#fff;font-weight:600;padding-bottom:6px;">${projectType}</td>
-          </tr>
-          <tr>
-            <td style="font-size:12px;color:rgba(255,255,255,.4);padding-right:16px;padding-bottom:6px;">File #</td>
-            <td style="font-size:13px;color:#fff;font-weight:600;padding-bottom:6px;">${pn}</td>
-          </tr>
-          <tr>
-            <td style="font-size:12px;color:rgba(255,255,255,.4);padding-right:16px;">Date</td>
-            <td style="font-size:13px;color:#fff;font-weight:600;">${date}</td>
-          </tr>
-        </table>
-      </td></tr>
-    </table>
+    <div style="padding:20px;background:#f9f9f9;border-left:5px solid #000000;margin-bottom:28px;">
+      <p style="margin:0 0 10px;font-size:13px;font-weight:700;color:#111111;">Inquiry Details:</p>
+      <p style="margin:0;font-size:14px;color:#444444;line-height:1.9;">
+        Project: <strong>${projectType}</strong><br>
+        File #: <strong>${pn}</strong><br>
+        Date: <strong>${date}</strong>
+      </p>
+    </div>
 
     ${ballpark ? `
-    <table width="100%" cellpadding="0" cellspacing="0" style="background:#1a1a1a;border:1px solid rgba(255,255,255,.09);border-radius:4px;margin-bottom:24px;">
-      <tr><td style="padding:16px 20px;">
-        <p style="margin:0 0 10px;font-size:10px;font-weight:700;color:rgba(255,255,255,.5);letter-spacing:.12em;text-transform:uppercase;">Ballpark estimate (Atlanta market)</p>
-        <p style="margin:0;font-size:13px;color:rgba(255,255,255,.65);line-height:1.8;white-space:pre-line;">${ballpark}</p>
-        <p style="margin:10px 0 0;font-size:11px;color:rgba(255,255,255,.35);">These are rough ranges — Michael will prepare a formal estimate after your consultation.</p>
-      </td></tr>
-    </table>
+    <div style="padding:16px 20px;background:#f4f4f4;border:1px solid #e0e0e0;border-radius:4px;margin-bottom:28px;">
+      <p style="margin:0 0 8px;font-size:11px;font-weight:700;color:#888888;letter-spacing:.1em;text-transform:uppercase;">Ballpark estimate (Atlanta market)</p>
+      <p style="margin:0;font-size:13px;color:#444444;line-height:1.8;white-space:pre-line;">${ballpark}</p>
+      <p style="margin:8px 0 0;font-size:11px;color:#999999;">These are rough ranges — Michael will prepare a formal estimate after your consultation.</p>
+    </div>
     ` : ''}
 
     <!-- VIEW OUR WORK CTA (centered) -->
     <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:32px;">
       <tr><td align="center">
-        <a href="${BRAND.website}/our-work" style="display:inline-block;background:${BRAND.orange};color:#fff;font-size:13px;font-weight:700;padding:15px 36px;border-radius:4px;text-decoration:none;letter-spacing:.1em;text-transform:uppercase;">VIEW OUR WORK</a>
+        <a href="${BRAND.website}" style="display:inline-block;background:#000000;color:#ffffff;font-size:13px;font-weight:700;padding:15px 36px;border-radius:4px;text-decoration:none;letter-spacing:.1em;text-transform:uppercase;">VIEW OUR WORK</a>
       </td></tr>
     </table>
 
     <!-- Signature -->
-    <p style="margin:0;font-size:14px;color:rgba(255,255,255,.6);line-height:1.9;">
+    <p style="margin:30px 0 0;font-size:15px;color:#333333;line-height:1.9;">
       Best regards,<br><br>
-      <strong style="color:#fff;">Michael Spangler</strong><br>
+      <strong style="color:#111111;">Michael Spangler</strong><br>
       SpanglerBuilt Inc.<br>
       <a href="tel:${BRAND.tel}" style="color:${BRAND.orange};text-decoration:none;">${BRAND.phone}</a>
     </p>
