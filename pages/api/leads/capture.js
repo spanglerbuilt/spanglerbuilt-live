@@ -80,9 +80,16 @@ function michaelEmailHtml(firstName, lastName, email, phone, projectType, addres
     </div>` : ''}
 
 
-    <a href="${BRAND.portal}/contractor/leads" style="display:inline-block;background:${BRAND.orange};color:#fff;font-size:13px;font-weight:700;padding:12px 24px;border-radius:4px;text-decoration:none;letter-spacing:.04em;">
-      View in portal →
-    </a>
+    <table cellpadding="0" cellspacing="0">
+      <tr>
+        <td style="padding-right:10px;">
+          <a href="${BRAND.portal}/contractor/leads" style="display:inline-block;background:${BRAND.orange};color:#fff;font-size:13px;font-weight:700;padding:12px 24px;border-radius:4px;text-decoration:none;letter-spacing:.04em;">Open in Portal →</a>
+        </td>
+        <td>
+          <a href="${BRAND.website}" style="display:inline-block;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.15);color:rgba(255,255,255,.7);font-size:13px;padding:12px 20px;border-radius:4px;text-decoration:none;">View Our Work</a>
+        </td>
+      </tr>
+    </table>
   `
   return brandEmail({
     preheader: 'New lead: ' + firstName + ' ' + lastName + ' — ' + projectType,
