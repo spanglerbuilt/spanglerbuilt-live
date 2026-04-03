@@ -48,10 +48,10 @@ export default function MarketingDashboard() {
   ]
 
   var quickLinks = [
-    { label: 'Manage campaigns',  href: '/marketing/campaigns',  desc: 'Email blasts & drip sequences' },
-    { label: 'Lead pipeline',     href: '/marketing/leads',      desc: 'All contacts & HubSpot sync' },
-    { label: 'Marketing materials', href: '/marketing/materials', desc: 'Brochures, photos, assets' },
-    { label: 'Social channels',   href: '/marketing/channels',   desc: 'Facebook, Instagram & more' },
+    { label: 'Lead pipeline',       href: '/marketing/pipeline',   desc: 'Kanban board — drag to update stage' },
+    { label: 'Ad platforms',        href: '/marketing/ads',        desc: 'Google, Meta, LSA, Nextdoor, Yelp' },
+    { label: 'Email campaigns',     href: '/marketing/campaigns',  desc: 'Blasts & drip sequences' },
+    { label: 'Marketing materials', href: '/marketing/materials',  desc: 'Brochures, photos, assets' },
   ]
 
   return (
