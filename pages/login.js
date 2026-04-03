@@ -25,8 +25,27 @@ export default function Login() {
       if (typeof window !== 'undefined') localStorage.setItem('sb_auth', JSON.stringify({ role:'contractor', email:clean, ts:Date.now() }))
       window.location.href = '/dashboard'
     } else if (clean.includes('@') && clean.includes('.')) {
-      if (typeof window !== 'undefined') localStorage.setItem('sb_auth', JSON.stringify({ role:'client', email:clean, ts:Date.now() }))
-      window.location.href = '/client/dashboard'
+      fetch('/api/auth/client', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: clean }),
+      })
+        .then(function(r) { return r.json().then(function(d) { return { ok: r.ok, data: d } }) })
+        .then(function(res) {
+          if (!res.ok) {
+            setError('No project found for this email. Contact michael@spanglerbuilt.com or call (404) 492-7650.')
+            setLoading(false)
+            return
+          }
+          if (typeof window !== 'undefined') {
+            localStorage.setItem('sb_auth', JSON.stringify({ role:'client', email:clean, project:res.data.project, ts:Date.now() }))
+          }
+          window.location.href = '/client/dashboard'
+        })
+        .catch(function() {
+          setError('Unable to connect. Please try again.')
+          setLoading(false)
+        })
     } else {
       setError('Please enter a valid email address.'); setLoading(false)
     }

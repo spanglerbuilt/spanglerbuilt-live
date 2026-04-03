@@ -16,6 +16,7 @@ var NAV = [
 
 export default function ClientDashboard() {
   var [clientEmail, setClientEmail] = useState('')
+  var [project,     setProject]     = useState(null)
 
   useEffect(function() {
     if (typeof window !== 'undefined') {
@@ -23,6 +24,7 @@ export default function ClientDashboard() {
         var auth = JSON.parse(localStorage.getItem('sb_auth') || '{}')
         if (!auth.role) { window.location.href = '/login'; return }
         setClientEmail(auth.email || '')
+        setProject(auth.project || null)
       } catch(e) { window.location.href = '/login' }
     }
   }, [])
@@ -48,13 +50,27 @@ export default function ClientDashboard() {
         <div style={{background:'#161616', border:'1px solid rgba(255,255,255,.09)', borderLeft:'4px solid #D06830', borderRadius:4, padding:'1.25rem 1.5rem', marginBottom:'1.25rem'}}>
           <div style={{display:'flex', justifyContent:'space-between', alignItems:'flex-start', flexWrap:'wrap', gap:8}}>
             <div>
-              <div style={{fontSize:20, fontWeight:700, color:'#fff', marginBottom:4}}>Welcome back</div>
-              <div style={{fontSize:11, color:'rgba(255,255,255,.5)', marginBottom:2}}>SB-2026-001 · Basement Renovation</div>
-              <div style={{fontSize:11, color:'rgba(255,255,255,.4)'}}>4995 Shadow Glen Ct, Dunwoody GA 30338</div>
+              <div style={{fontSize:20, fontWeight:700, color:'#fff', marginBottom:4}}>
+                Welcome{project ? ', ' + project.client_name.split(' ')[0] : ' back'}
+              </div>
+              {project ? (
+                <>
+                  <div style={{fontSize:11, color:'rgba(255,255,255,.5)', marginBottom:2}}>
+                    {project.project_number} · {project.project_type}
+                  </div>
+                  {project.address && (
+                    <div style={{fontSize:11, color:'rgba(255,255,255,.4)'}}>{project.address}</div>
+                  )}
+                </>
+              ) : (
+                <div style={{fontSize:11, color:'rgba(255,255,255,.4)'}}>Loading project…</div>
+              )}
             </div>
             <div style={{textAlign:'right'}}>
-              <div style={{fontSize:9, color:'rgba(255,255,255,.35)', textTransform:'uppercase', letterSpacing:'.08em', marginBottom:2}}>Est. completion</div>
-              <div style={{fontSize:13, color:'#D06830', fontWeight:600}}>Apr 22, 2026</div>
+              <div style={{fontSize:9, color:'rgba(255,255,255,.35)', textTransform:'uppercase', letterSpacing:'.08em', marginBottom:2}}>Status</div>
+              <div style={{fontSize:13, color:'#D06830', fontWeight:600}}>
+                {project ? (project.status === 'new_lead' ? 'New inquiry' : project.status.replace(/_/g,' ')) : '—'}
+              </div>
             </div>
           </div>
           <div style={{marginTop:'1rem'}}>
