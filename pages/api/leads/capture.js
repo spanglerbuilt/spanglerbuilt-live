@@ -86,7 +86,7 @@ function michaelEmailHtml(firstName, lastName, email, phone, projectType, addres
           <a href="${BRAND.portal}/contractor/leads" style="display:inline-block;background:${BRAND.orange};color:#fff;font-size:13px;font-weight:700;padding:12px 24px;border-radius:4px;text-decoration:none;letter-spacing:.04em;">Open in Portal →</a>
         </td>
         <td>
-          <a href="${BRAND.website}" style="display:inline-block;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.15);color:rgba(255,255,255,.7);font-size:13px;padding:12px 20px;border-radius:4px;text-decoration:none;">View Our Work</a>
+          <a href="${BRAND.website}" style="display:inline-block;background:#f4f4f4;border:1px solid #dddddd;color:#333333;font-size:13px;padding:12px 20px;border-radius:4px;text-decoration:none;">View Our Work</a>
         </td>
       </tr>
     </table>
