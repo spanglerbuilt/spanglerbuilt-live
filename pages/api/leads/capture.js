@@ -4,6 +4,7 @@
 
 import { Resend } from 'resend'
 import { brandEmail, BRAND } from '../../../lib/brandEmail'
+import { upsertContact, createDeal } from '../../../lib/hubspot'
 
 var MICHAEL_EMAIL = 'michael@spanglerbuilt.com'
 var FROM_ADDRESS  = 'SpanglerBuilt <noreply@spanglerbuilt.com>'
@@ -170,6 +171,16 @@ export default async function handler(req, res) {
   }
 
   // AI ballpark removed — kept emails clean and fast
+
+  // ── HubSpot (optional) ──────────────────────────────────────────────────
+  if (process.env.HUBSPOT_API_KEY) {
+    try {
+      var contactId = await upsertContact({ email, firstName, lastName, phone })
+      await createDeal({ projectNumber: pn, projectType, clientName: firstName + ' ' + lastName, budget, contactId })
+    } catch(hubErr) {
+      console.error('HubSpot error:', hubErr)
+    }
+  }
 
   // ── Emails (always attempt if key is set) ───────────────────────────────
   if (process.env.RESEND_API_KEY) {
