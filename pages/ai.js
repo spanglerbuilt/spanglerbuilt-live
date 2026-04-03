@@ -59,7 +59,7 @@ export default function AIPage() {
               <span style={{color:'#D06830',fontSize:12,fontWeight:500}}>Claude AI Output</span>
               <button onClick={function(){navigator.clipboard.writeText(result)}} style={{background:'transparent',border:'1px solid #333',color:'rgba(255,255,255,.35)',fontSize:10,padding:'2px 8px',cursor:'pointer',borderRadius:3,fontFamily:'inherit'}}>Copy</button>
             </div>
-            <div style={{padding:'1.25rem',fontSize:13,lineHeight:1.8,whiteSpace:'pre-wrap',color:'rgba(255,255,255,.65)',maxHeight:500,overflowY:'auto'}}>{result}</div>
+            <div style={{padding:'1.25rem',fontSize:13,lineHeight:1.8,whiteSpace:'pre-wrap',color:'rgba(255,255,255,.65)',overflowY:'auto'}}>{result}</div>
           </div>
         )}
       </div>
