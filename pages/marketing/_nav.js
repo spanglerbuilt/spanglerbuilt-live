@@ -5,6 +5,7 @@ var LINKS = [
   { href: '/marketing/leads',       label: 'Leads'       },
   { href: '/marketing/pipeline',    label: 'Pipeline'    },
   { href: '/marketing/campaigns',   label: 'Campaigns'   },
+  { href: '/marketing/creative',    label: 'AI Creative' },
   { href: '/marketing/ads',         label: 'Ads'         },
   { href: '/marketing/materials',   label: 'Materials'   },
   { href: '/marketing/channels',    label: 'Channels'    },

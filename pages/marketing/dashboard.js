@@ -49,6 +49,7 @@ export default function MarketingDashboard() {
 
   var quickLinks = [
     { label: 'Lead pipeline',       href: '/marketing/pipeline',   desc: 'Kanban board — drag to update stage' },
+    { label: 'AI Creative Studio',   href: '/marketing/creative',   desc: 'Generate images & ad copy with AI' },
     { label: 'Ad platforms',        href: '/marketing/ads',        desc: 'Google, Meta, LSA, Nextdoor, Yelp' },
     { label: 'Email campaigns',     href: '/marketing/campaigns',  desc: 'Blasts & drip sequences' },
     { label: 'Marketing materials', href: '/marketing/materials',  desc: 'Brochures, photos, assets' },
