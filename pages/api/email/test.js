@@ -41,24 +41,24 @@ export default async function handler(req, res) {
       </td></tr>
     </table>
 
-    <table cellpadding="0" cellspacing="0" style="margin-bottom:28px;">
-      <tr>
-        <td style="padding-right:10px;">
-          <a href="${BRAND.website}/our-work" style="display:inline-block;background:${BRAND.orange};color:#fff;font-size:13px;font-weight:700;padding:13px 28px;border-radius:4px;text-decoration:none;letter-spacing:.06em;text-transform:uppercase;">View Our Work →</a>
-        </td>
-        <td>
-          <a href="tel:${BRAND.tel}" style="display:inline-block;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);color:rgba(255,255,255,.7);font-size:13px;padding:13px 20px;border-radius:4px;text-decoration:none;">${BRAND.phone}</a>
-        </td>
-      </tr>
+    <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:32px;">
+      <tr><td align="center">
+        <a href="${BRAND.website}/our-work" style="display:inline-block;background:${BRAND.orange};color:#fff;font-size:13px;font-weight:700;padding:15px 36px;border-radius:4px;text-decoration:none;letter-spacing:.1em;text-transform:uppercase;">VIEW OUR WORK</a>
+      </td></tr>
     </table>
 
-    <p style="margin:0;font-size:11px;color:rgba(255,255,255,.3);font-style:italic;">This is a branded test email from SpanglerBuilt portal.</p>
+    <p style="margin:0;font-size:14px;color:rgba(255,255,255,.6);line-height:1.9;">
+      Best regards,<br><br>
+      <strong style="color:#fff;">Michael Spangler</strong><br>
+      SpanglerBuilt Inc.<br>
+      <a href="tel:${BRAND.tel}" style="color:${BRAND.orange};text-decoration:none;">${BRAND.phone}</a>
+    </p>
   `
 
   var html = brandEmail({
-    preheader: 'Branded email test — SpanglerBuilt Inc.',
-    title: 'Thank you for reaching out.',
-    subtitle: 'Your inquiry has been received and your project file is open.',
+    preheader: 'Thank you for contacting SpanglerBuilt Inc. — we have received your Kitchen Remodel inquiry.',
+    title: 'Thank you for contacting SpanglerBuilt Inc.',
+    subtitle: 'Your project file has been started.',
     body,
   })
 
@@ -67,7 +67,7 @@ export default async function handler(req, res) {
     var result = await resend.emails.send({
       from:    'SpanglerBuilt <noreply@spanglerbuilt.com>',
       to:      to,
-      subject: 'SpanglerBuilt — Branded email test',
+      subject: 'Thank you for contacting SpanglerBuilt Inc.',
       html,
     })
     return res.status(200).json({ ok: true, id: result.data?.id, error: result.error || null, to })

@@ -50,22 +50,25 @@ function clientEmailHtml(firstName, pn, projectType, ballpark) {
     </table>
     ` : ''}
 
-    <!-- View Our Work CTA -->
-    <table cellpadding="0" cellspacing="0" style="margin-bottom:28px;">
-      <tr>
-        <td style="padding-right:10px;">
-          <a href="${BRAND.website}/our-work" style="display:inline-block;background:${BRAND.orange};color:#fff;font-size:13px;font-weight:700;padding:13px 28px;border-radius:4px;text-decoration:none;letter-spacing:.06em;text-transform:uppercase;">View Our Work →</a>
-        </td>
-        <td>
-          <a href="tel:${BRAND.tel}" style="display:inline-block;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);color:rgba(255,255,255,.7);font-size:13px;padding:13px 20px;border-radius:4px;text-decoration:none;">${BRAND.phone}</a>
-        </td>
-      </tr>
+    <!-- VIEW OUR WORK CTA (centered) -->
+    <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:32px;">
+      <tr><td align="center">
+        <a href="${BRAND.website}/our-work" style="display:inline-block;background:${BRAND.orange};color:#fff;font-size:13px;font-weight:700;padding:15px 36px;border-radius:4px;text-decoration:none;letter-spacing:.1em;text-transform:uppercase;">VIEW OUR WORK</a>
+      </td></tr>
     </table>
+
+    <!-- Signature -->
+    <p style="margin:0;font-size:14px;color:rgba(255,255,255,.6);line-height:1.9;">
+      Best regards,<br><br>
+      <strong style="color:#fff;">Michael Spangler</strong><br>
+      SpanglerBuilt Inc.<br>
+      <a href="tel:${BRAND.tel}" style="color:${BRAND.orange};text-decoration:none;">${BRAND.phone}</a>
+    </p>
   `
   return brandEmail({
-    preheader: 'We received your ' + projectType + ' inquiry — project file ' + pn + ' has been started.',
-    title: 'Thank you for reaching out.',
-    subtitle: 'Your inquiry has been received and your project file is open.',
+    preheader: 'Thank you for contacting SpanglerBuilt Inc. — we have received your ' + projectType + ' inquiry.',
+    title: 'Thank you for contacting SpanglerBuilt Inc.',
+    subtitle: 'Your project file has been started.',
     body,
   })
 }
@@ -202,7 +205,7 @@ export default async function handler(req, res) {
         await resend.emails.send({
           from:    FROM_ADDRESS,
           to:      email,
-          subject: 'We received your request — SpanglerBuilt (' + pn + ')',
+          subject: 'Thank you for contacting SpanglerBuilt Inc.',
           html:    clientEmailHtml(firstName, pn, projectType, ballpark),
         })
         await resend.emails.send({
