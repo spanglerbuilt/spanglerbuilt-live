@@ -137,7 +137,7 @@ export default function Login() {
         <div style={{textAlign:'center', marginBottom:'2rem'}}>
           <img src="/logo.png" alt="SpanglerBuilt" style={{width:180, height:'auto', marginBottom:'1rem'}}/>
           <div style={{fontSize:11, color:'rgba(255,255,255,.4)', letterSpacing:'.14em', textTransform:'uppercase'}}>Client &amp; Project Portal</div>
-          <p style={{fontSize:13, color:'rgba(255,255,255,.7)', fontWeight:500, marginTop:10, lineHeight:1.5}}>We don't just build projects — we build lifestyles.</p>
+          <p style={{fontSize:13, color:'rgba(255,255,255,.7)', fontWeight:500, marginTop:10, lineHeight:1.5}}>We build more than projects — we build lifestyles.</p>
           <p style={{fontSize:11, color:'rgba(255,255,255,.35)', fontStyle:'italic', marginTop:4}}>Delivering precision, quality, and lasting value.</p>
         </div>
 

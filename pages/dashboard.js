@@ -1,8 +1,7 @@
+import Layout from '../components/Layout'
 import { useState, useEffect } from 'react'
-import { useSession, signOut } from 'next-auth/react'
 
 export default function Dashboard() {
-  var { data: session } = useSession()
   var [authChecked, setAuthChecked] = useState(false)
   var [pipeline,    setPipeline]    = useState([
     {id:'',pn:'SB-2026-001',name:'Ryan and Dori Mendel', type:'Basement',value:'$55,394', status:'Estimate',sc:{bg:'#eeedfe',color:'#534AB7'}},
@@ -62,52 +61,18 @@ export default function Dashboard() {
     {label:'Material catalog',   href:'/contractor/catalog',   desc:'Browse and queue materials', icon:'◧'},
     {label:'Lead pipeline',      href:'/contractor/leads',     desc:'All projects and contacts',  icon:'◉'},
     {label:'Project templates',  href:'/contractor/templates', desc:'Searchable and cloneable',   icon:'◈'},
-    {label:'AI tools',           href:'/ai',                   desc:'Claude-powered generation',  icon:'✦'},
-    {label:'Options & Upgrades',  href:'/contractor/options',      desc:'Build upgrade packages',      icon:'◈'},
+    {label:'AI tools',           href:'/ai',                      desc:'Claude-powered generation',  icon:'✦'},
+    {label:'Options & Upgrades', href:'/contractor/options',      desc:'Build upgrade packages',      icon:'◈'},
     {label:'Client selections',  href:'/contractor/selections',   desc:'Material choices by tier',   icon:'✓'},
     {label:'Presentation',       href:'/contractor/presentation', desc:'Client-facing slide deck',    icon:'▶'},
+    {label:'Schedule',           href:'/contractor/schedule',     desc:'Project Gantt chart',         icon:'◉'},
+    {label:'Payments',           href:'/contractor/payments',     desc:'Draw schedule & invoicing',   icon:'$'},
     {label:'Contact form',       href:'/contact',                 desc:'Lead intake and AI ballpark', icon:'↗'},
   ]
 
   return (
-    <div style={{minHeight:'100vh',background:'#111',fontFamily:'Poppins,sans-serif'}}>
-      <div style={{background:'#0a0a0a',padding:'1rem 2rem',display:'flex',alignItems:'center',justifyContent:'space-between',borderBottom:'3px solid #D06830'}}>
-        <img src="/logo.png" alt="SpanglerBuilt" style={{height:38,width:'auto',flexShrink:0}}/>
-        <div style={{display:'flex',gap:8,alignItems:'center',justifyContent:'center',flex:1,margin:'0 2rem'}}>
-          {[
-            {href:'/contractor/leads',        label:'Leads'},
-            {href:'/contractor/estimate',     label:'Estimate'},
-            {href:'/contractor/catalog',      label:'Catalog'},
-            {href:'/contractor/options',      label:'Options'},
-            {href:'/contractor/presentation', label:'Presentation'},
-            {href:'/contractor/selections',   label:'Selections'},
-            {href:'/contractor/templates',    label:'Templates'},
-            {href:'/contact',                 label:'Contact'},
-            {href:'/ai',                      label:'AI'},
-          ].map(function(item){ return (
-            <a key={item.href} href={item.href} style={{fontSize:13,color:'#fff',textDecoration:'none',padding:'6px 14px',border:'1px solid rgba(255,255,255,.25)',borderRadius:4,fontWeight:500,letterSpacing:'.02em',whiteSpace:'nowrap',transition:'background .15s'}}
-              onMouseEnter={function(e){e.currentTarget.style.background='rgba(255,140,0,.15)';e.currentTarget.style.borderColor='#D06830'}}
-              onMouseLeave={function(e){e.currentTarget.style.background='transparent';e.currentTarget.style.borderColor='rgba(255,255,255,.25)'}}>
-              {item.label}
-            </a>
-          )})}
-        </div>
-        <div style={{flexShrink:0}}>
-          {session
-            ? <button onClick={function(){signOut({callbackUrl:'/login'})}} style={{fontSize:12,color:'#D06830',background:'transparent',border:'1px solid #D06830',padding:'6px 14px',borderRadius:4,cursor:'pointer',fontFamily:'Poppins,sans-serif',fontWeight:500}}>Sign out</button>
-            : <a href="/login" style={{fontSize:12,color:'#D06830',textDecoration:'none',border:'1px solid #D06830',padding:'6px 14px',borderRadius:4,fontWeight:500}}>Sign in</a>
-          }
-        </div>
-      </div>
-
+    <Layout>
       <div style={{padding:'1.5rem',maxWidth:1100,margin:'0 auto'}}>
-
-        {session && (
-          <div style={{background:'rgba(208,104,48,.1)',border:'1px solid #D06830',borderRadius:4,padding:'10px 14px',marginBottom:'1rem',fontSize:12,color:'rgba(255,255,255,.65)',display:'flex',justifyContent:'space-between',alignItems:'center'}}>
-            <span>Welcome back, <strong style={{color:'rgba(255,255,255,.75)'}}>{session.user.name || session.user.email}</strong></span>
-            <span style={{fontSize:10,color:'rgba(255,255,255,.35)'}}>Signed in as {session.user.email}</span>
-          </div>
-        )}
 
         <div style={{display:'grid',gridTemplateColumns:'repeat(4,1fr)',gap:10,marginBottom:'1.5rem'}}>
           {[['Active projects','3'],['Open leads','7'],['Pipeline','$284K'],['YTD revenue','$127K']].map(function(item){return (
@@ -158,7 +123,7 @@ export default function Dashboard() {
           SpanglerBuilt Inc. · michael@spanglerbuilt.com · (404) 492-7650 · app.spanglerbuilt.com
         </div>
       </div>
-    </div>
+    </Layout>
   )
 }
 
