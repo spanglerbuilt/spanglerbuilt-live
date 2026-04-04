@@ -5,7 +5,15 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "scrape": "node scripts/catalog-sync.js",
+    "scrape:hd": "node scripts/suppliers/homedepot.js",
+    "scrape:wayfair": "node scripts/suppliers/wayfair.js",
+    "scrape:tileshop": "node scripts/suppliers/tileshop.js",
+    "scrape:ferguson": "node scripts/suppliers/ferguson.js",
+    "scrape:pl": "node scripts/suppliers/progressivelighting.js",
+    "import": "node scripts/import-catalog.js",
+    "import:excel": "node scripts/import-catalog-excel.js"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "0.24.0",
@@ -17,12 +25,14 @@
     "next-auth": "4.24.5",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "resend": "^6.10.0"
+    "resend": "^6.10.0",
+    "xlsx": "^0.18.5"
   },
   "engines": {
     "node": ">=18.0.0"
   },
   "devDependencies": {
-    "xlsx": "^0.18.5"
+    "axios": "^1.14.0",
+    "cheerio": "^1.2.0"
   }
 }

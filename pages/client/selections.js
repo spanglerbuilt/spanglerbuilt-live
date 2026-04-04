@@ -1,6 +1,5 @@
 import Layout from '../../components/Layout'
 import { useState, useEffect } from 'react'
-import { useSession } from 'next-auth/react'
 
 // ─── Tier info ────────────────────────────────────────────────────────────────
 var TIERS = [

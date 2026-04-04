@@ -105,7 +105,7 @@ export default function ClientDashboard() {
 
         {/* Nav grid */}
         <div style={{fontSize:10, fontWeight:600, color:'rgba(255,255,255,.3)', textTransform:'uppercase', letterSpacing:'.08em', marginBottom:10}}>Your project portal</div>
-        <div style={{display:'grid', gridTemplateColumns:'repeat(2, minmax(0,1fr))', gap:10, marginBottom:'1.5rem'}}>
+        <div className="sb-grid-2" style={{marginBottom:'1.5rem'}}>
           {NAV.map(function(item) {
             return (
               <a key={item.href} href={item.href} style={{

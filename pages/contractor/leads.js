@@ -297,8 +297,8 @@ export default function LeadsPage() {
           })}
         </div>
 
-        <div style={S.card}>
-          <table style={{width:'100%',borderCollapse:'collapse'}}>
+        <div style={S.card} className="sb-table-wrap">
+          <table style={{width:'100%',borderCollapse:'collapse',minWidth:600}}>
             <thead>
               <tr>{['Project ID','Client','Type','Value','Status','Date',''].map(h=><th key={h} style={S.th}>{h}</th>)}</tr>
             </thead>

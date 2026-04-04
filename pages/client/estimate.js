@@ -174,7 +174,7 @@ export default function ClientEstimate() {
         )}
 
         {/* Tier selector cards */}
-        <div style={{display:'grid', gridTemplateColumns:'repeat(2,minmax(0,1fr))', gap:12, marginBottom:'1.5rem'}}>
+        <div className="sb-grid-2" style={{marginBottom:'1.5rem'}}>
           {['good','better','best','luxury'].map(function(t) {
             var info     = TIER_INFO[t]
             var tot      = calcTotals(t)
@@ -256,13 +256,13 @@ export default function ClientEstimate() {
 
             {/* Division breakdown */}
             {showDetails && (
-              <div style={{background:'#161616', border:'1px solid rgba(255,255,255,.09)', borderRadius:4, overflow:'hidden', marginBottom:12}}>
-                <div style={{display:'grid', gridTemplateColumns:'60px 1fr 110px 110px', gap:8, padding:'6px 12px', background:'#0a0a0a', fontSize:10, fontWeight:600, color:'#D06830', textTransform:'uppercase', letterSpacing:'.04em'}}>
+              <div className="sb-table-wrap" style={{background:'#161616', border:'1px solid rgba(255,255,255,.09)', borderRadius:4, overflow:'hidden', marginBottom:12}}>
+                <div style={{display:'grid', gridTemplateColumns:'60px 1fr 110px 110px', gap:8, padding:'6px 12px', background:'#0a0a0a', fontSize:10, fontWeight:600, color:'#D06830', textTransform:'uppercase', letterSpacing:'.04em', minWidth:380}}>
                   <span>Div</span><span>Description</span><span style={{textAlign:'right'}}>Base</span><span style={{textAlign:'right'}}>{TIER_LABELS[tier]}</span>
                 </div>
                 {DIVISIONS.map(function(d, i) {
                   return (
-                    <div key={d.num} style={{display:'grid', gridTemplateColumns:'60px 1fr 110px 110px', gap:8, padding:'7px 12px', borderTop:'1px solid rgba(255,255,255,.05)', fontSize:12,
+                    <div key={d.num} style={{display:'grid', gridTemplateColumns:'60px 1fr 110px 110px', gap:8, padding:'7px 12px', borderTop:'1px solid rgba(255,255,255,.05)', fontSize:12, minWidth:380,
                       background: i%2===0 ? '#161616' : '#181818'}}
                       onMouseEnter={function(e){ e.currentTarget.style.background = 'rgba(208,104,48,.08)' }}
                       onMouseLeave={function(e){ e.currentTarget.style.background = i%2===0 ? '#161616' : '#181818' }}>

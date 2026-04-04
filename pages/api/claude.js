@@ -24,7 +24,7 @@ export default async function handler(req, res) {
       system: SYSTEM,
       messages: [{ role: 'user', content: PROMPTS[action](data) }],
     })
-    return res.status(200).json({ result: message.content[0].text })
+    return res.status(200).json({ result: message.content?.[0]?.text || '' })
   } catch (err) {
     return res.status(500).json({ error: err.message })
   }

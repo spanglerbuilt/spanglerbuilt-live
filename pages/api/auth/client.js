@@ -22,7 +22,7 @@ export default async function handler(req, res) {
       .ilike('client_email', email)
       .order('created_at', { ascending: false })
       .limit(1)
-      .single()
+      .maybeSingle()
 
     if (error || !data) {
       return res.status(404).json({ error: 'No project found for this email.' })

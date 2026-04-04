@@ -12,6 +12,7 @@ var NAV = {
     { href: '/contractor/selections',  label: 'Selections',     icon: '✓' },
     { href: '/contractor/templates',   label: 'Templates',      icon: '◻' },
     { href: '/contractor/catalog',     label: 'Catalog',        icon: '◈' },
+    { href: '/contractor/catalog-admin', label: 'Catalog Admin', icon: '⚙' },
     { href: '/ai',                     label: 'AI Tools',       icon: '✦' },
   ],
   marketing: [
@@ -54,9 +55,9 @@ var MODULE_COLOR = {
 }
 
 export default function Layout({ children }) {
-  var router   = useRouter()
-  var [auth,   setAuth]   = useState(null)
-  var [open,   setOpen]   = useState(false)  // mobile sidebar
+  var router = useRouter()
+  var [auth, setAuth] = useState(null)
+  var [open, setOpen] = useState(false)
 
   useEffect(function() {
     if (typeof window === 'undefined') return
@@ -66,6 +67,9 @@ export default function Layout({ children }) {
       setAuth(a)
     } catch(e) { window.location.href = '/login' }
   }, [])
+
+  // Close sidebar on route change (mobile)
+  useEffect(function() { setOpen(false) }, [router.pathname])
 
   function signOut() {
     localStorage.removeItem('sb_auth')
@@ -82,14 +86,115 @@ export default function Layout({ children }) {
   return (
     <div style={{display:'flex', minHeight:'100vh', background:'#111', fontFamily:'Poppins,sans-serif'}}>
 
+      <style>{`
+        .sb-sidebar {
+          width: 220px;
+          flex-shrink: 0;
+          background: #0a0a0a;
+          border-right: 1px solid rgba(255,255,255,.07);
+          display: flex;
+          flex-direction: column;
+          position: fixed;
+          top: 0; left: 0; bottom: 0;
+          z-index: 50;
+          transition: transform .2s ease;
+        }
+        .sb-main {
+          margin-left: 220px;
+          flex: 1;
+          min-width: 0;
+        }
+        .sb-hamburger {
+          display: none;
+          flex-direction: column;
+          justify-content: center;
+          gap: 5px;
+          width: 36px;
+          height: 36px;
+          cursor: pointer;
+          background: transparent;
+          border: none;
+          padding: 4px;
+          margin-right: 12px;
+          flex-shrink: 0;
+        }
+        .sb-hamburger span {
+          display: block;
+          width: 22px;
+          height: 2px;
+          background: rgba(255,255,255,.6);
+          border-radius: 2px;
+          transition: all .2s;
+        }
+        /* Responsive grids used across pages */
+        .sb-grid-4 {
+          display: grid;
+          grid-template-columns: repeat(4, 1fr);
+          gap: 10px;
+        }
+        .sb-grid-modules {
+          display: grid;
+          grid-template-columns: repeat(4, minmax(0, 1fr));
+          gap: 10px;
+        }
+        .sb-grid-2 {
+          display: grid;
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+          gap: 12px;
+        }
+        .sb-grid-3 {
+          display: grid;
+          grid-template-columns: repeat(3, minmax(0, 1fr));
+          gap: 12px;
+        }
+        .sb-table-wrap {
+          overflow-x: auto;
+          -webkit-overflow-scrolling: touch;
+        }
+        @media (max-width: 768px) {
+          .sb-sidebar {
+            transform: translateX(-220px);
+          }
+          .sb-sidebar.sb-open {
+            transform: translateX(0);
+          }
+          .sb-main {
+            margin-left: 0 !important;
+          }
+          .sb-hamburger {
+            display: flex !important;
+          }
+          .sb-grid-4 {
+            grid-template-columns: repeat(2, 1fr) !important;
+          }
+          .sb-grid-modules {
+            grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+          }
+          .sb-grid-2 {
+            grid-template-columns: 1fr !important;
+          }
+          .sb-grid-3 {
+            grid-template-columns: 1fr !important;
+          }
+          .sb-hide-mobile {
+            display: none !important;
+          }
+          .sb-page-pad {
+            padding: 1rem !important;
+          }
+        }
+        @media (max-width: 480px) {
+          .sb-grid-4 {
+            grid-template-columns: 1fr !important;
+          }
+          .sb-grid-modules {
+            grid-template-columns: 1fr !important;
+          }
+        }
+      `}</style>
+
       {/* Sidebar */}
-      <aside style={{
-        width:220, flexShrink:0, background:'#0a0a0a',
-        borderRight:'1px solid rgba(255,255,255,.07)',
-        display:'flex', flexDirection:'column',
-        position:'fixed', top:0, left:0, bottom:0, zIndex:50,
-        transform: open ? 'translateX(0)' : undefined,
-      }}>
+      <aside className={'sb-sidebar' + (open ? ' sb-open' : '')}>
         {/* Logo */}
         <div style={{padding:'20px 16px 16px', borderBottom:'1px solid rgba(255,255,255,.07)'}}>
           <img src="/logo.png" alt="SpanglerBuilt" style={{width:130, height:'auto', display:'block', marginBottom:10}}/>
@@ -137,23 +242,34 @@ export default function Layout({ children }) {
       </aside>
 
       {/* Main content */}
-      <main style={{marginLeft:220, flex:1, minWidth:0}}>
+      <main className="sb-main">
         {/* Top bar */}
-        <div style={{height:48, background:'#0a0a0a', borderBottom:'1px solid rgba(255,255,255,.07)', display:'flex', alignItems:'center', padding:'0 1.5rem', position:'sticky', top:0, zIndex:40}}>
+        <div style={{height:48, background:'#0a0a0a', borderBottom:'1px solid rgba(255,255,255,.07)', display:'flex', alignItems:'center', padding:'0 1rem', position:'sticky', top:0, zIndex:40}}>
+          {/* Hamburger — mobile only */}
+          <button className="sb-hamburger" onClick={function(){ setOpen(function(o){ return !o }) }} aria-label="Menu">
+            <span style={{transform: open ? 'rotate(45deg) translate(5px,5px)' : 'none'}}/>
+            <span style={{opacity: open ? 0 : 1}}/>
+            <span style={{transform: open ? 'rotate(-45deg) translate(5px,-5px)' : 'none'}}/>
+          </button>
           <div style={{flex:1}}/>
           <div style={{fontSize:11, color:'rgba(255,255,255,.25)', letterSpacing:'.06em'}}>
-            SpanglerBuilt Inc. &nbsp;·&nbsp; <span style={{color:color}}>{MODULE_LABEL[role]}</span>
+            SpanglerBuilt &nbsp;·&nbsp; <span style={{color:color}}>{MODULE_LABEL[role]}</span>
           </div>
         </div>
 
         {/* Page */}
-        <div style={{padding:'1.5rem'}}>
+        <div style={{padding:'1.5rem'}} className="sb-page-pad">
           {children}
         </div>
       </main>
 
       {/* Mobile overlay */}
-      {open && <div onClick={function(){setOpen(false)}} style={{position:'fixed',inset:0,background:'rgba(0,0,0,.6)',zIndex:49}}/>}
+      {open && (
+        <div
+          onClick={function(){ setOpen(false) }}
+          style={{position:'fixed', inset:0, background:'rgba(0,0,0,.6)', zIndex:49}}
+        />
+      )}
     </div>
   )
 }

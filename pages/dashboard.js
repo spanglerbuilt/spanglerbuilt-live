@@ -74,7 +74,7 @@ export default function Dashboard() {
     <Layout>
       <div style={{padding:'1.5rem',maxWidth:1100,margin:'0 auto'}}>
 
-        <div style={{display:'grid',gridTemplateColumns:'repeat(4,1fr)',gap:10,marginBottom:'1.5rem'}}>
+        <div className="sb-grid-4" style={{marginBottom:'1.5rem'}}>
           {[['Active projects','3'],['Open leads','7'],['Pipeline','$284K'],['YTD revenue','$127K']].map(function(item){return (
             <div key={item[0]} style={{background:'#161616',border:'1px solid rgba(255,255,255,.09)',borderRadius:4,padding:'.75rem 1rem',borderTop:'3px solid #0a0a0a'}}>
               <div style={{fontSize:10,color:'rgba(255,255,255,.35)',textTransform:'uppercase',letterSpacing:'.05em',marginBottom:4}}>{item[0]}</div>
@@ -84,7 +84,7 @@ export default function Dashboard() {
         </div>
 
         <div style={{fontSize:10,fontWeight:500,color:'rgba(255,255,255,.35)',textTransform:'uppercase',letterSpacing:'.05em',marginBottom:'.75rem'}}>Quick actions</div>
-        <div style={{display:'grid',gridTemplateColumns:'repeat(4,minmax(0,1fr))',gap:10,marginBottom:'1.5rem'}}>
+        <div className="sb-grid-modules" style={{marginBottom:'1.5rem'}}>
           {modules.map(function(m){return (
             <a key={m.href} href={m.href} style={{display:'flex',gap:12,alignItems:'center',padding:'1rem',background:'#161616',border:'1px solid rgba(255,255,255,.09)',borderRadius:4,textDecoration:'none',borderLeft:'4px solid #0a0a0a'}}>
               <div style={{width:36,height:36,background:'#0a0a0a',borderRadius:'50%',display:'flex',alignItems:'center',justifyContent:'center',fontSize:16,color:'#D06830',flexShrink:0}}>{m.icon}</div>
@@ -100,12 +100,12 @@ export default function Dashboard() {
           <div style={{fontSize:10,fontWeight:500,color:'rgba(255,255,255,.35)',textTransform:'uppercase',letterSpacing:'.05em'}}>Active pipeline</div>
           <a href="/contractor/leads" style={{fontSize:11,color:'#D06830',textDecoration:'none',fontWeight:600}}>View all leads →</a>
         </div>
-        <div style={{background:'#161616',border:'1px solid rgba(255,255,255,.09)',borderRadius:4,overflow:'hidden'}}>
-          <div style={{display:'grid',gridTemplateColumns:'140px 1fr 100px 110px 100px 1fr',gap:10,padding:'7px 1rem',background:'#0a0a0a',fontSize:10,fontWeight:500,color:'#D06830',textTransform:'uppercase',letterSpacing:'.04em'}}>
+        <div className="sb-table-wrap" style={{background:'#161616',border:'1px solid rgba(255,255,255,.09)',borderRadius:4,overflow:'hidden'}}>
+          <div style={{display:'grid',gridTemplateColumns:'140px 1fr 100px 110px 100px 1fr',gap:10,padding:'7px 1rem',background:'#0a0a0a',fontSize:10,fontWeight:500,color:'#D06830',textTransform:'uppercase',letterSpacing:'.04em',minWidth:640}}>
             <span>Project ID</span><span>Client</span><span>Type</span><span>Value</span><span>Status</span><span>Open in</span>
           </div>
           {pipeline.map(function(p,i){return (
-            <div key={p.pn} style={{display:'grid',gridTemplateColumns:'140px 1fr 100px 110px 100px 1fr',gap:10,padding:'9px 1rem',alignItems:'center',fontSize:12,borderTop:i===0?'none':'1px solid rgba(255,255,255,.07)',background:'#161616'}}>
+            <div key={p.pn} style={{display:'grid',gridTemplateColumns:'140px 1fr 100px 110px 100px 1fr',gap:10,padding:'9px 1rem',alignItems:'center',fontSize:12,borderTop:i===0?'none':'1px solid rgba(255,255,255,.07)',background:'#161616',minWidth:640}}>
               <span style={{fontWeight:500,color:'rgba(255,255,255,.75)',fontSize:11}}>{p.pn}</span>
               <span>{p.name}</span>
               <span style={{color:'rgba(255,255,255,.35)'}}>{p.type}</span>

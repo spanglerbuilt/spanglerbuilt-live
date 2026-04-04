@@ -134,7 +134,7 @@ function ImageTool() {
                   textAlign:'left',padding:'10px 14px',background:'#1a1a1a',
                   border:'1px solid rgba(255,255,255,.08)',borderLeft:'3px solid #D06830',
                   borderRadius:3,color:'rgba(255,255,255,.65)',fontSize:12,cursor:'pointer',
-                  fontFamily:'inherit',lineHeight:1.5,opacity:loading?.5:1,
+                  fontFamily:'inherit',lineHeight:1.5,opacity:loading?0.5:1,
                   transition:'background .15s',
                 }}
                 onMouseEnter={function(e){e.currentTarget.style.background='#222'}}
@@ -210,7 +210,7 @@ function ImageTool() {
                       <button
                         onClick={function(){ generate(img.prompt) }}
                         disabled={loading}
-                        style={{background:'transparent',border:'1px solid rgba(255,255,255,.12)',color:'rgba(255,255,255,.4)',padding:'7px 14px',fontSize:11,borderRadius:3,cursor:'pointer',fontFamily:'inherit',opacity:loading?.5:1}}
+                        style={{background:'transparent',border:'1px solid rgba(255,255,255,.12)',color:'rgba(255,255,255,.4)',padding:'7px 14px',fontSize:11,borderRadius:3,cursor:'pointer',fontFamily:'inherit',opacity:loading?0.5:1}}
                       >
                         Regenerate
                       </button>
