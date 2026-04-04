@@ -13,7 +13,12 @@
     "scrape:ferguson": "node scripts/suppliers/ferguson.js",
     "scrape:pl": "node scripts/suppliers/progressivelighting.js",
     "import": "node scripts/import-catalog.js",
-    "import:excel": "node scripts/import-catalog-excel.js"
+    "import:excel": "node scripts/import-catalog-excel.js",
+    "scrape:msi": "node scripts/suppliers/msisurfaces.js",
+    "scrape:cambria": "node scripts/suppliers/cambria.js",
+    "scrape:caesarstone": "node scripts/suppliers/caesarstone.js",
+    "scrape:cabinets": "node scripts/suppliers/cabinets.js",
+    "scrape:ss": "node scripts/suppliers/solidsurface.js"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "0.24.0",
@@ -33,6 +38,7 @@
   },
   "devDependencies": {
     "axios": "^1.14.0",
-    "cheerio": "^1.2.0"
+    "cheerio": "^1.2.0",
+    "dotenv": "^17.4.0"
   }
 }

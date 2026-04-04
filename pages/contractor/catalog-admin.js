@@ -16,12 +16,16 @@ var SUPPLIER_LINKS = {
     { name:'Home Depot',    url:'https://www.homedepot.com/b/Flooring-Tile/N-5yc1vZar3z' },
   ],
   'Countertops':    [
-    { name:'Home Depot', url:'https://www.homedepot.com/b/Kitchen-Countertops/N-5yc1vZar58' },
-    { name:'Wayfair',    url:'https://www.wayfair.com/keyword.php?keyword=countertops' },
+    { name:'MSI Surfaces',   url:'https://www.msisurfaces.com/quartz-countertops/quartz-collections/' },
+    { name:'Cambria',        url:'https://www.cambria.com/designs/' },
+    { name:'Caesarstone',    url:'https://www.caesarstoneus.com/quartz-countertops/' },
+    { name:'Solid Surface',  url:'https://www.solidsurface.com/solid-surface/' },
+    { name:'Home Depot',     url:'https://www.homedepot.com/b/Kitchen-Countertops/N-5yc1vZar58' },
   ],
   'Cabinets':       [
-    { name:'Home Depot', url:'https://www.homedepot.com/b/Kitchen-Cabinets-Cabinet-Packages/N-5yc1vZar4e' },
-    { name:'Wayfair',    url:'https://www.wayfair.com/storage-organization/cat/kitchen-cabinets-c1862977.html' },
+    { name:'Cabinets.com',   url:'https://www.cabinets.com/kitchen-cabinets/' },
+    { name:'Home Depot',     url:'https://www.homedepot.com/b/Kitchen-Cabinets-Cabinet-Packages/N-5yc1vZar4e' },
+    { name:'Wayfair',        url:'https://www.wayfair.com/storage-organization/cat/kitchen-cabinets-c1862977.html' },
   ],
   'Fixtures':       [
     { name:'Ferguson', url:'https://www.fergusonhome.com/bath/faucets' },
