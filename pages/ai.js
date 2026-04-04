@@ -1,15 +1,15 @@
 import { useState, useEffect } from 'react'
 
 var ACTIONS = [
-  {id:'estimate',    label:'Generate estimate'},
-  {id:'proposal',    label:'Write proposal'},
-  {id:'email',       label:'Draft email'},
-  {id:'selections',  label:'Recommend materials'},
-  {id:'contract',    label:'Generate contract'},
-  {id:'changeOrder', label:'Change order'},
+  {id:'proposal',    label:'Write Proposal'},
+  {id:'email',       label:'Draft Email'},
+  {id:'estimate',    label:'Generate Estimate'},
+  {id:'selections',  label:'Recommend Materials'},
+  {id:'contract',    label:'Generate Contract'},
+  {id:'changeOrder', label:'Change Order'},
   {id:'clientChat',  label:'Client Q&A'},
-  {id:'review',      label:'Review reply'},
-  {id:'taskPlan',    label:'Task plan'},
+  {id:'review',      label:'Review Reply'},
+  {id:'taskPlan',    label:'Task Plan'},
 ]
 
 var PRESETS = [
@@ -22,112 +22,190 @@ var PRESETS = [
 
 // ── Claude text tool ──────────────────────────────────────────────────────────
 function ClaudeTool() {
-  var [action,   setAction]   = useState('estimate')
+  var [action,   setAction]   = useState('proposal')
   var [prompt,   setPrompt]   = useState('')
   var [result,   setResult]   = useState('')
   var [loading,  setLoading]  = useState(false)
+  var [copied,   setCopied]   = useState(false)
   var [projects, setProjects] = useState([])
-  var [selProj,  setSelProj]  = useState('')
+  var [selId,    setSelId]    = useState('')
 
   useEffect(function() {
-    fetch('/api/leads/list')
+    fetch('/api/projects/list')
       .then(function(r){ return r.json() })
-      .then(function(j){
-        var active = (j.leads || []).filter(function(l){
-          return l.status !== 'Lost' && l.status !== 'Completed'
-        })
-        setProjects(active)
-      })
+      .then(function(j){ setProjects(j.projects || []) })
       .catch(function(){})
   }, [])
 
+  function statusLabel(s) {
+    var map = { new_lead:'New Lead', contacted:'Contacted', estimate:'Estimate', approved:'Approved', started:'Started' }
+    return map[s] || s || ''
+  }
+
   function onProjectSelect(e) {
-    var pn = e.target.value
-    setSelProj(pn)
-    if (!pn) return
-    var proj = projects.find(function(p){ return p.pn === pn })
-    if (!proj) return
-    var details = [
-      'Project: ' + proj.pn,
-      'Client: ' + proj.name,
-      'Type: ' + proj.type,
-      proj.address ? 'Address: ' + proj.address : '',
-      proj.value  ? 'Budget: $' + Number(proj.value).toLocaleString() : '',
-      proj.note   ? 'Notes: ' + proj.note : '',
-    ].filter(Boolean).join('\n')
-    setPrompt(details)
+    var id = e.target.value
+    setSelId(id)
+    if (!id) { setPrompt(''); return }
+    var p = projects.find(function(x){ return x.id === id })
+    if (!p) return
+    var contractVal = p.estimate_total
+      ? '$' + Number(p.estimate_total).toLocaleString()
+      : (p.budget_range || 'TBD')
+    var lines = [
+      'Project: '        + (p.project_number || 'N/A'),
+      'Client: '         + (p.client_name    || 'N/A'),
+      'Type: '           + (p.project_type   || 'N/A'),
+      'Address: '        + (p.address        || 'N/A'),
+      'Tier: '           + (p.selected_tier  || 'N/A'),
+      'Contract Value: ' + contractVal,
+      'Status: '         + statusLabel(p.status),
+    ]
+    if (p.description) lines.push('Notes: ' + p.description)
+    setPrompt(lines.join('\n'))
   }
 
   function run() {
-    if (!prompt.trim()) return
-    setLoading(true); setResult('')
+    if (!prompt.trim() || loading) return
+    setLoading(true); setResult(''); setCopied(false)
     fetch('/api/claude', {
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({action, data:{prompt}}),
-    }).then(function(r){return r.json()}).then(function(j){
-      setResult(j.result || j.error || 'No response')
-      setLoading(false)
-    }).catch(function(e){ setResult('Error: '+e.message); setLoading(false) })
+      method:  'POST',
+      headers: {'Content-Type':'application/json'},
+      body:    JSON.stringify({ action, data: { prompt } }),
+    })
+      .then(function(r){ return r.json() })
+      .then(function(j){
+        setResult(j.result || j.error || 'No response')
+        setLoading(false)
+      })
+      .catch(function(e){ setResult('Error: ' + e.message); setLoading(false) })
   }
 
-  function onKey(e){ if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();run()} }
+  function copyResult() {
+    navigator.clipboard.writeText(result).then(function(){
+      setCopied(true)
+      setTimeout(function(){ setCopied(false) }, 2000)
+    })
+  }
 
   return (
     <div>
       {/* Project selector */}
-      {projects.length > 0 && (
-        <div style={{background:'#1a1a1a',border:'1px solid rgba(255,255,255,.09)',borderRadius:4,padding:'12px 16px',marginBottom:'1.25rem',display:'flex',alignItems:'center',gap:12,flexWrap:'wrap'}}>
-          <span style={{fontSize:10,fontWeight:600,color:'rgba(255,255,255,.35)',textTransform:'uppercase',letterSpacing:'.1em',whiteSpace:'nowrap'}}>Load project</span>
-          <select value={selProj} onChange={onProjectSelect} style={{
-            flex:1,minWidth:200,padding:'7px 10px',background:'#111',border:'1px solid rgba(255,255,255,.12)',
-            borderRadius:3,color:'rgba(255,255,255,.75)',fontSize:12,fontFamily:'inherit',outline:'none',cursor:'pointer',
-          }}>
-            <option value=''>— Select a project to auto-fill —</option>
-            {projects.map(function(p){
-              return <option key={p.pn} value={p.pn}>{p.pn} · {p.name} · {p.type}</option>
-            })}
-          </select>
-          {selProj && (
-            <button onClick={function(){ setSelProj(''); setPrompt('') }}
-              style={{background:'transparent',border:'1px solid rgba(255,255,255,.12)',color:'rgba(255,255,255,.35)',fontSize:11,padding:'5px 10px',borderRadius:3,cursor:'pointer',fontFamily:'inherit',whiteSpace:'nowrap'}}>
-              Clear ✕
-            </button>
-          )}
-        </div>
-      )}
+      <div style={{background:'#161616',border:'1px solid rgba(255,255,255,.09)',borderRadius:4,padding:'14px 16px',marginBottom:'1.25rem',display:'flex',alignItems:'center',gap:12,flexWrap:'wrap'}}>
+        <span style={{fontSize:10,fontWeight:600,color:'rgba(255,255,255,.35)',textTransform:'uppercase',letterSpacing:'.1em',whiteSpace:'nowrap'}}>Load Project</span>
+        <select value={selId} onChange={onProjectSelect} style={{
+          flex:1,minWidth:220,padding:'8px 10px',background:'#0d0d0d',border:'1px solid rgba(255,255,255,.12)',
+          borderRadius:3,color:'rgba(255,255,255,.8)',fontSize:12,fontFamily:'inherit',outline:'none',cursor:'pointer',
+        }}>
+          <option value=''>— Select a project to auto-fill context —</option>
+          {projects.map(function(p){
+            var tier  = p.selected_tier ? ' — ' + p.selected_tier : ''
+            var label = (p.project_number || p.id.slice(0,8)) + ' — ' + (p.client_name || 'Unknown') + tier
+            return <option key={p.id} value={p.id}>{label}</option>
+          })}
+        </select>
+        {selId && (
+          <button onClick={function(){ setSelId(''); setPrompt('') }}
+            style={{background:'transparent',border:'1px solid rgba(255,255,255,.12)',color:'rgba(255,255,255,.3)',fontSize:11,padding:'6px 10px',borderRadius:3,cursor:'pointer',fontFamily:'inherit',whiteSpace:'nowrap'}}>
+            Clear ✕
+          </button>
+        )}
+      </div>
 
+      {/* Action buttons */}
       <div style={{display:'flex',gap:6,flexWrap:'wrap',marginBottom:'1.25rem'}}>
         {ACTIONS.map(function(a){
+          var active = action === a.id
           return (
-            <button key={a.id} onClick={function(){setAction(a.id)}} style={{
-              padding:'6px 14px',fontSize:11,border:'1px solid',fontFamily:'inherit',fontWeight:500,
-              cursor:'pointer',borderRadius:3,
-              borderColor:action===a.id?'#D06830':'rgba(255,255,255,.12)',
-              background:action===a.id?'rgba(208,104,48,.15)':'#1a1a1a',
-              color:action===a.id?'#D06830':'rgba(255,255,255,.5)',
+            <button key={a.id} onClick={function(){ setAction(a.id) }} style={{
+              padding:'7px 15px',fontSize:11,fontFamily:'inherit',fontWeight:600,
+              cursor:'pointer',borderRadius:3,border:'1px solid',letterSpacing:'.04em',
+              borderColor: active ? '#D06830' : 'rgba(255,255,255,.1)',
+              background:  active ? 'rgba(208,104,48,.18)' : '#161616',
+              color:       active ? '#D06830' : 'rgba(255,255,255,.45)',
+              transition:  'all .12s',
             }}>{a.label}</button>
           )
         })}
       </div>
 
-      <div style={{background:'#161616',border:'1px solid rgba(255,255,255,.09)',borderRadius:4,padding:'1.5rem',marginBottom:'1rem'}}>
-        <div style={{fontSize:10,fontWeight:600,color:'rgba(255,255,255,.35)',textTransform:'uppercase',letterSpacing:'.1em',marginBottom:8}}>Describe your project</div>
-        <textarea value={prompt} onChange={function(e){setPrompt(e.target.value)}} onKeyDown={onKey}
-          placeholder="e.g. Basement renovation for SB-2026-001, 665 sf, full bathroom, custom bar, LVP flooring, Dunwoody GA, budget $50K–$100K."
-          style={{width:'100%',fontFamily:'inherit',fontSize:13,border:'1px solid rgba(255,255,255,.09)',borderRadius:3,padding:'10px',minHeight:100,outline:'none',resize:'vertical',marginBottom:12,background:'#0d0d0d',color:'rgba(255,255,255,.75)',boxSizing:'border-box'}}/>
-        <button onClick={run} disabled={loading||!prompt.trim()} style={{background:'#D06830',color:'#fff',border:'none',padding:'10px 24px',fontSize:11,fontWeight:700,letterSpacing:'.1em',textTransform:'uppercase',cursor:'pointer',borderRadius:3,fontFamily:'inherit',opacity:loading||!prompt.trim()?0.5:1}}>
-          {loading ? 'Claude is writing…' : 'Generate with Claude'}
+      {/* Prompt textarea + generate */}
+      <div style={{background:'#161616',border:'1px solid rgba(255,255,255,.09)',borderRadius:4,padding:'1.5rem',marginBottom:'1.25rem'}}>
+        <div style={{fontSize:10,fontWeight:600,color:'rgba(255,255,255,.35)',textTransform:'uppercase',letterSpacing:'.1em',marginBottom:8}}>
+          Project Context &amp; Instructions
+        </div>
+        <textarea
+          value={prompt}
+          onChange={function(e){ setPrompt(e.target.value) }}
+          placeholder={'Project: SB-2026-001\nClient: John Smith\nType: Basement Renovation\nAddress: 123 Main St, Woodstock GA 30188\nTier: Best\nContract Value: $85,000\nStatus: Approved\nNotes: Full basement finish with wet bar and full bathroom, LVP flooring throughout, ~665 sf.'}
+          style={{
+            width:'100%',fontFamily:'inherit',fontSize:13,lineHeight:1.7,
+            border:'1px solid rgba(255,255,255,.09)',borderRadius:3,padding:'10px 12px',
+            minHeight:130,outline:'none',resize:'vertical',marginBottom:14,
+            background:'#0d0d0d',color:'rgba(255,255,255,.8)',boxSizing:'border-box',
+          }}
+        />
+        <button
+          onClick={run}
+          disabled={loading || !prompt.trim()}
+          style={{
+            background: loading || !prompt.trim() ? 'rgba(208,104,48,.4)' : '#D06830',
+            color:'#fff',border:'none',padding:'10px 28px',fontSize:11,fontWeight:700,
+            letterSpacing:'.1em',textTransform:'uppercase',cursor: loading||!prompt.trim() ? 'not-allowed' : 'pointer',
+            borderRadius:3,fontFamily:'inherit',display:'inline-flex',alignItems:'center',gap:8,
+          }}>
+          {loading ? (
+            <>
+              <span style={{
+                display:'inline-block',width:12,height:12,border:'2px solid rgba(255,255,255,.3)',
+                borderTopColor:'#fff',borderRadius:'50%',animation:'spin .7s linear infinite',
+              }}/>
+              Claude is writing…
+            </>
+          ) : 'Generate with Claude →'}
         </button>
+        <style>{`@keyframes spin{to{transform:rotate(360deg)}}`}</style>
       </div>
 
-      {result && (
-        <div style={{background:'#161616',border:'1px solid rgba(255,255,255,.09)',borderRadius:4,overflow:'hidden'}}>
-          <div style={{background:'#0a0a0a',padding:'8px 1rem',display:'flex',alignItems:'center',justifyContent:'space-between'}}>
-            <span style={{color:'#D06830',fontSize:12,fontWeight:500}}>Claude AI Output</span>
-            <button onClick={function(){navigator.clipboard.writeText(result)}} style={{background:'transparent',border:'1px solid #333',color:'rgba(255,255,255,.35)',fontSize:10,padding:'2px 8px',cursor:'pointer',borderRadius:3,fontFamily:'inherit'}}>Copy</button>
+      {/* Output panel */}
+      {(loading || result) && (
+        <div style={{background:'#1a1f2e',border:'1px solid rgba(255,255,255,.1)',borderRadius:4,overflow:'hidden'}}>
+          <div style={{background:'#141926',padding:'9px 14px',display:'flex',alignItems:'center',justifyContent:'space-between',borderBottom:'1px solid rgba(255,255,255,.07)'}}>
+            <span style={{color:'#D06830',fontSize:11,fontWeight:700,letterSpacing:'.08em',textTransform:'uppercase'}}>
+              Claude Output — {ACTIONS.find(function(a){ return a.id===action })?.label || action}
+            </span>
+            <div style={{display:'flex',gap:8}}>
+              <button
+                onClick={copyResult}
+                disabled={!result}
+                style={{
+                  background: copied ? 'rgba(208,104,48,.25)' : '#D06830',
+                  color:'#fff',border:'none',padding:'5px 14px',fontSize:10,fontWeight:700,
+                  letterSpacing:'.07em',textTransform:'uppercase',borderRadius:3,cursor: result ? 'pointer' : 'not-allowed',
+                  fontFamily:'inherit',opacity: result ? 1 : 0.4,
+                }}>
+                {copied ? 'Copied ✓' : 'Copy'}
+              </button>
+              <button
+                onClick={function(){ setResult(''); setCopied(false) }}
+                style={{background:'transparent',border:'1px solid rgba(255,255,255,.15)',color:'rgba(255,255,255,.4)',fontSize:10,padding:'5px 12px',borderRadius:3,cursor:'pointer',fontFamily:'inherit',letterSpacing:'.05em',textTransform:'uppercase'}}>
+                Clear
+              </button>
+            </div>
           </div>
-          <div style={{padding:'1.25rem',fontSize:13,lineHeight:1.8,whiteSpace:'pre-wrap',color:'rgba(255,255,255,.65)',overflowY:'auto'}}>{result}</div>
+          {loading && !result && (
+            <div style={{padding:'2.5rem',textAlign:'center'}}>
+              <div style={{
+                display:'inline-block',width:24,height:24,border:'3px solid rgba(208,104,48,.25)',
+                borderTopColor:'#D06830',borderRadius:'50%',animation:'spin .7s linear infinite',marginBottom:12,
+              }}/>
+              <div style={{fontSize:12,color:'rgba(255,255,255,.35)'}}>Generating response…</div>
+            </div>
+          )}
+          {result && (
+            <div style={{padding:'1.5rem',fontSize:14,lineHeight:1.85,whiteSpace:'pre-wrap',color:'rgba(255,255,255,.85)',overflowY:'auto',maxHeight:600}}>
+              {result}
+            </div>
+          )}
         </div>
       )}
     </div>
