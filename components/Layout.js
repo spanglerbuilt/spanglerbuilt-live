@@ -33,6 +33,7 @@ var NAV = {
     { href: '/client/estimate',        label: 'Estimate',       icon: '$' },
     { href: '/client/scope',           label: 'Scope of work',  icon: '◻' },
     { href: '/client/schedule',        label: 'Schedule',       icon: '◉' },
+    { href: '/client/payments',        label: 'Payments',       icon: '✦' },
     { href: '/client/selections',      label: 'Selections',     icon: '✓' },
     { href: '/client/options',         label: 'Options',        icon: '◈' },
     { href: '/client/documents',       label: 'Documents',      icon: '✦' },

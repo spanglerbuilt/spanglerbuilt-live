@@ -238,8 +238,8 @@ const CAT_ORDER = ['Flooring','Tile','Drywall','Paint','Cabinets','Countertops',
 const PROJECT_TYPES = ['all','basement','kitchen','bath','addition']
 const TYPE_LABELS   = { all:'All types', basement:'Basement', kitchen:'Kitchen', bath:'Bathroom', addition:'Addition' }
 
-function fmt(n)  { return '$' + Math.round(n).toLocaleString('en-US') }
-function fmtD(n) { return '$' + parseFloat(n).toFixed(2) }
+function fmt(n)  { return '$' + Math.round(parseFloat(n) || 0).toLocaleString('en-US') }
+function fmtD(n) { return '$' + (parseFloat(n) || 0).toFixed(2) }
 
 function divSubtotal(div) {
   return div.items.reduce(function(s,i){ return s + i.qty * i.rate }, 0)

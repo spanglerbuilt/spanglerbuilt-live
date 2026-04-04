@@ -143,6 +143,29 @@ export default function ContractorSchedule() {
     }).catch(function(){ setSaving(false) })
   }
 
+  // ── Calendar ICS export ──────────────────────────────────────────────────────
+  function syncCalendar() {
+    if (!estStart || phases.length === 0) return
+    fetch('/api/calendar/sync', {
+      method:  'POST',
+      headers: {'Content-Type':'application/json'},
+      body:    JSON.stringify({
+        projectId,
+        projectName: selProject ? (selProject.project_number + ' — ' + selProject.client_name) : 'SpanglerBuilt Project',
+        startDate,
+        phases,
+      }),
+    })
+    .then(function(r){ return r.blob() })
+    .then(function(blob) {
+      var a = document.createElement('a')
+      a.href = URL.createObjectURL(blob)
+      a.download = 'SpanglerBuilt_Schedule.ics'
+      a.click()
+    })
+    .catch(function(){})
+  }
+
   // ── CSV export ───────────────────────────────────────────────────────────────
   function exportCSV() {
     var rows = [['Phase','Start Week','End Week','Duration (weeks)','Est. Start Date','Est. End Date']]
@@ -202,6 +225,12 @@ export default function ContractorSchedule() {
               <button onClick={addPhase}
                 style={{background:'#161616',border:'1px solid rgba(255,255,255,.12)',color:'rgba(255,255,255,.6)',padding:'7px 14px',fontSize:11,borderRadius:3,cursor:'pointer',fontFamily:'inherit'}}>
                 + Add Phase
+              </button>
+            )}
+            {phases.length > 0 && estStart && (
+              <button onClick={syncCalendar}
+                style={{background:'#161616',border:'1px solid rgba(255,255,255,.1)',color:'rgba(255,255,255,.5)',padding:'7px 14px',fontSize:11,borderRadius:3,cursor:'pointer',fontFamily:'inherit'}}>
+                📅 Sync Calendar
               </button>
             )}
             {phases.length > 0 && (
