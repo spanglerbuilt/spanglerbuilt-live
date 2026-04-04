@@ -4,8 +4,8 @@
 
 import { getAdminClient } from '../../../lib/supabase-server'
 
-const API_KEY = process.env.GOOGLE_SEARCH_API_KEY
-const CX      = process.env.GOOGLE_SEARCH_ENGINE_ID
+const API_KEY = process.env.GOOGLE_SEARCH_API_KEY || process.env.GOOGLE_API_KEY
+const CX      = process.env.GOOGLE_SEARCH_ENGINE_ID || 'e1225e3fc865347c6'
 
 // Search Google Images for a product photo, return best image URL
 async function searchImage(brand, product_name, category) {
@@ -48,11 +48,11 @@ async function searchImage(brand, product_name, category) {
     if (ctx.includes(nameLower.split(' ')[0]))    score += 1
     // Avoid stock/icon/thumb images
     if (/icon|avatar|logo|sprite|placeholder/i.test(link)) score -= 3
-    return { url: item.link, score }
+    return { url: item.link, contextLink: item.image?.contextLink || null, score }
   })
 
   scored.sort((a, b) => b.score - a.score)
-  return scored[0].url
+  return scored[0]
 }
 
 export default async function handler(req, res) {
@@ -69,8 +69,8 @@ export default async function handler(req, res) {
     // Single-item mode
     if (!product_name) return res.status(400).json({ error: 'product_name required' })
     try {
-      const url = await searchImage(brand || '', product_name, category || '')
-      return res.json({ ok: true, url })
+      const result = await searchImage(brand || '', product_name, category || '')
+      return res.json({ ok: true, url: result?.url || null, product_url: result?.contextLink || null })
     } catch (e) {
       return res.status(500).json({ ok: false, error: e.message })
     }
@@ -90,7 +90,7 @@ export default async function handler(req, res) {
   // Fetch the rows
   const { data: rows, error: fetchErr } = await supabase
     .from('catalog_materials')
-    .select('id, brand, product_name, category, photo_url')
+    .select('id, brand, product_name, category, photo_url, manufacturer_url')
     .in('id', ids)
 
   if (fetchErr) return res.status(500).json({ error: fetchErr.message })
@@ -103,21 +103,23 @@ export default async function handler(req, res) {
       continue
     }
     try {
-      const url = await searchImage(row.brand || '', row.product_name, row.category || '')
-      if (url) {
+      const result = await searchImage(row.brand || '', row.product_name, row.category || '')
+      if (result?.url) {
+        const update = { photo_url: result.url }
+        if (result.contextLink && !row.manufacturer_url) update.manufacturer_url = result.contextLink
         await supabase
           .from('catalog_materials')
-          .update({ photo_url: url })
+          .update(update)
           .eq('id', row.id)
-        results.push({ id: row.id, url })
+        results.push({ id: row.id, url: result.url, product_url: result.contextLink || null })
       } else {
         results.push({ id: row.id, url: null })
       }
     } catch (e) {
       results.push({ id: row.id, error: e.message })
     }
-    // Small delay to avoid rate-limit bursts
-    await new Promise(r => setTimeout(r, 120))
+    // Delay between requests
+    await new Promise(r => setTimeout(r, 500))
   }
 
   const filled  = results.filter(r => r.url).length

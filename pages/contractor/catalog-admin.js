@@ -77,7 +77,8 @@ export default function CatalogAdmin() {
   var [pasteURL,    setPasteURL]    = useState('')
   var [fetching,    setFetching]    = useState(false)
   var [uploading,   setUploading]   = useState(false)
-  var [fillingPhotos, setFillingPhotos] = useState(false)
+  var [fillingPhotos,   setFillingPhotos]   = useState(false)
+  var [refreshingImgs,  setRefreshingImgs]  = useState(false)
 
   useEffect(function() {
     if (typeof window === 'undefined') return
@@ -152,6 +153,45 @@ export default function CatalogAdmin() {
     setShowForm(false); setEditing(null); setForm(BLANK)
     loadMaterials()
     setTimeout(() => setMsg(''), 3000)
+  }
+
+  // Refresh images via Google Custom Search (new route, 500ms delay, saves product_url too)
+  async function refreshImages() {
+    var missing = materials.filter(m => !m.photo_url || !m.photo_url.trim())
+    if (missing.length === 0) { setMsg('All items already have photos.'); setTimeout(() => setMsg(''), 3000); return }
+    if (!confirm('Refresh images for ' + missing.length + ' items missing photos?\n\nThis calls Google Custom Search API (~' + missing.length + ' queries). Processing in batches of 50 with 500ms delay.')) return
+
+    setRefreshingImgs(true)
+    var totalFilled = 0
+    var remaining   = missing.length
+
+    setMsg('Refreshing images — 0 / ' + remaining + ' done…')
+
+    // Call in 50-item batches (each API call processes up to 50 rows server-side)
+    var batches = Math.ceil(remaining / 50)
+    for (var b = 0; b < batches; b++) {
+      try {
+        var r = await fetch('/api/admin/refresh-catalog-images', { method: 'POST' })
+        var d = await r.json()
+        if (d.ok) {
+          totalFilled += (d.filled || 0)
+          setMsg('Refreshing images — ' + totalFilled + ' filled so far…')
+        } else if (d.error) {
+          setMsg('Error: ' + d.error)
+          break
+        }
+        // If this batch returned 0 total, all done
+        if (!d.total || d.total === 0) break
+      } catch(e) {
+        setMsg('Error: ' + e.message)
+        break
+      }
+    }
+
+    setRefreshingImgs(false)
+    setMsg(totalFilled + ' images refreshed via Google Search.')
+    loadMaterials()
+    setTimeout(() => setMsg(''), 5000)
   }
 
   // Bulk-fill photos for all items currently missing a photo_url
@@ -271,9 +311,13 @@ export default function CatalogAdmin() {
               {uploading ? 'Importing…' : '⬆ Import Excel'}
               <input type="file" accept=".xlsx,.xls" style={{display:'none'}} onChange={uploadExcel} disabled={uploading} />
             </label>
-            <button onClick={fillMissingPhotos} disabled={fillingPhotos || loading}
+            <button onClick={fillMissingPhotos} disabled={fillingPhotos || refreshingImgs || loading}
               style={{background:'#1a1a1a', color:'rgba(255,255,255,.7)', border:'1px solid rgba(255,255,255,.15)', padding:'7px 14px', fontSize:12, fontWeight:600, borderRadius:3, cursor: fillingPhotos ? 'wait' : 'pointer', fontFamily:'Poppins,sans-serif', opacity: fillingPhotos ? .6 : 1}}>
               {fillingPhotos ? 'Searching…' : '⬡ Fill photos'}
+            </button>
+            <button onClick={refreshImages} disabled={refreshingImgs || fillingPhotos || loading}
+              style={{background: refreshingImgs ? '#7a4400' : '#FF8C00', color:'#fff', border:'none', padding:'7px 14px', fontSize:12, fontWeight:700, borderRadius:3, cursor: refreshingImgs ? 'wait' : 'pointer', fontFamily:'Poppins,sans-serif', opacity: refreshingImgs ? .7 : 1}}>
+              {refreshingImgs ? '⏳ Refreshing…' : '⟳ Refresh Images'}
             </button>
             <button onClick={openNew} style={{background:'#D06830', color:'#fff', border:'none', padding:'8px 18px', fontSize:12, fontWeight:700, borderRadius:3, cursor:'pointer', fontFamily:'Poppins,sans-serif'}}>+ Add item</button>
           </div>
