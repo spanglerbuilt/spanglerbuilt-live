@@ -1,4 +1,4 @@
-import ClientNav from './_nav'
+import Layout from '../../components/Layout'
 import { useState, useEffect } from 'react'
 import { useSession } from 'next-auth/react'
 
@@ -222,9 +222,8 @@ export default function ClientSelections() {
   }
 
   return (
-    <div style={{minHeight:'100vh',background:'#111',fontFamily:'Poppins,sans-serif'}}>
+    <Layout>
 
-      <ClientNav />
       {savedMsg && <div style={{background:'rgba(59,109,17,.15)',borderBottom:'1px solid rgba(59,109,17,.3)',padding:'6px 1.5rem',fontSize:12,color:'#7BC67A',fontWeight:600}}>✓ {savedMsg}</div>}
 
       <div style={{maxWidth:1100,margin:'0 auto',padding:'1.5rem',display:'grid',gridTemplateColumns:'180px 1fr',gap:20}}>
@@ -460,7 +459,7 @@ export default function ClientSelections() {
         </div>
 
       </div>
-    </div>
+    </Layout>
   )
 }
 

@@ -1,3 +1,4 @@
+import Layout from '../../components/Layout'
 import { useState, useEffect } from 'react'
 
 var ROOM_CATS = [
@@ -99,7 +100,7 @@ export default function Presentation() {
   var spotlitPhoto = spotlight ? CATEGORY_PHOTOS[spotlight] : null
 
   return (
-    <div style={{minHeight:'100vh',background:'#0a0a0a',fontFamily:'Poppins,sans-serif',display:'flex',flexDirection:'column'}}>
+    <Layout>
 
       {/* Spotlight overlay */}
       {spotlight && spotlitSel && (
@@ -349,7 +350,7 @@ export default function Presentation() {
           </div>
         </div>
       )}
-    </div>
+    </Layout>
   )
 }
 

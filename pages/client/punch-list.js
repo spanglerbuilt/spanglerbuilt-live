@@ -1,4 +1,4 @@
-import ClientNav from './_nav'
+import Layout from '../../components/Layout'
 import { useState } from 'react'
 
 const PRIORITIES = { high:'#c0392b', medium:'#D06830', low:'#3B6D11' }
@@ -27,8 +27,7 @@ export default function PunchListPage() {
   const done   = items.filter(i=>i.status==='complete').length
 
   return (
-    <div style={{minHeight:'100vh',background:'#111',fontFamily:'Poppins,sans-serif'}}>
-      <ClientNav />
+    <Layout>
 
       <div style={{maxWidth:800,margin:'0 auto',padding:'1.5rem'}}>
 
@@ -109,6 +108,6 @@ export default function PunchListPage() {
           Photo upload coming soon · Call (404) 492-7650 for urgent issues
         </div>
       </div>
-    </div>
+    </Layout>
   )
 }

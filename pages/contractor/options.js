@@ -1,3 +1,4 @@
+import Layout from '../../components/Layout'
 import { useState } from 'react'
 import { useSession, signOut } from 'next-auth/react'
 
@@ -144,7 +145,7 @@ export default function OptionsBuilder() {
   }
 
   return (
-    <div style={{minHeight:'100vh',background:'#111',fontFamily:'Poppins,sans-serif'}}>
+    <Layout>
 
       {/* Edit option modal */}
       {editOpt && (
@@ -317,7 +318,7 @@ export default function OptionsBuilder() {
           </div>
         )}
       </div>
-    </div>
+    </Layout>
   )
 }
 

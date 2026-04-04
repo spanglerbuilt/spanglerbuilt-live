@@ -1,4 +1,4 @@
-import ClientNav from './_nav'
+import Layout from '../../components/Layout'
 import { useState } from 'react'
 
 export default function WarrantyPage() {
@@ -14,8 +14,7 @@ export default function WarrantyPage() {
 
   if (submitted) {
     return (
-      <div style={{minHeight:'100vh',background:'#111',fontFamily:'Poppins,sans-serif'}}>
-        <ClientNav />
+      <Layout>
         <div style={{maxWidth:600,margin:'3rem auto',padding:'0 1.5rem',textAlign:'center'}}>
           <div style={{background:'#161616',border:'1px solid rgba(255,255,255,.09)',borderRadius:4,padding:'3rem',borderTop:'4px solid #D06830'}}>
             <div style={{fontSize:36,marginBottom:'1rem',color:'#3B6D11'}}>✓</div>
@@ -28,13 +27,12 @@ export default function WarrantyPage() {
             <a href="/client/dashboard" style={{display:'inline-block',background:'#0a0a0a',color:'#fff',padding:'10px 28px',fontSize:12,fontWeight:700,letterSpacing:'.1em',textTransform:'uppercase',textDecoration:'none',borderRadius:3}}>← Back to portal</a>
           </div>
         </div>
-      </div>
+      </Layout>
     )
   }
 
   return (
-    <div style={{minHeight:'100vh',background:'#111',fontFamily:'Poppins,sans-serif'}}>
-      <ClientNav />
+    <Layout>
 
       <div style={{maxWidth:680,margin:'0 auto',padding:'1.5rem'}}>
 
@@ -93,6 +91,6 @@ export default function WarrantyPage() {
           SpanglerBuilt Inc. · Warranty: Apr 22, 2026 – Apr 22, 2027 · (404) 492-7650
         </div>
       </div>
-    </div>
+    </Layout>
   )
 }

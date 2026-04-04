@@ -1,5 +1,5 @@
+import Layout from '../../components/Layout'
 import { useEffect, useState } from 'react'
-import MarketingNav from './_nav'
 
 var PRESETS = [
   'Professional kitchen remodel, modern design, high-end finishes, Atlanta home',
@@ -209,8 +209,7 @@ export default function MarketingCreative() {
   ]
 
   return (
-    <div style={{minHeight:'100vh',background:'#111',fontFamily:'Poppins,sans-serif'}}>
-      <MarketingNav />
+    <Layout>
       <div style={{maxWidth:1000,margin:'0 auto',padding:'1.5rem'}}>
 
         <div style={{marginBottom:'1.25rem'}}>
@@ -236,7 +235,7 @@ export default function MarketingCreative() {
         {tab==='images' && <ImageTool />}
         {tab==='copy'   && <CopyTool  />}
       </div>
-    </div>
+    </Layout>
   )
 }
 

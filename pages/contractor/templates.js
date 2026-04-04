@@ -1,3 +1,4 @@
+import Layout from '../../components/Layout'
 import { useState } from 'react'
 
 const INIT_TEMPLATES = [
@@ -203,7 +204,7 @@ export default function TemplatesPage() {
   }
 
   return (
-    <div style={{minHeight:'100vh',background:'#111',fontFamily:'Poppins,sans-serif'}}>
+    <Layout>
 
       {/* Clone modal */}
       {cloning && (
@@ -447,7 +448,7 @@ export default function TemplatesPage() {
           SpanglerBuilt Inc. · Project template library · michael@spanglerbuilt.com · (404) 492-7650
         </div>
       </div>
-    </div>
+    </Layout>
   )
 }
 

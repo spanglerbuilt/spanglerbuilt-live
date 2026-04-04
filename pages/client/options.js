@@ -1,6 +1,5 @@
-import ClientNav from './_nav'
+import Layout from '../../components/Layout'
 import { useState, useEffect } from 'react'
-import { useSession } from 'next-auth/react'
 import { INIT_OPTION_GROUPS } from '../contractor/options'
 
 var BADGE_STYLE = {
@@ -14,7 +13,6 @@ var TIER_LABELS = { good:'Good', better:'Better', best:'Best', luxury:'Luxury' }
 function fmt(n) { return '$' + Math.round(n).toLocaleString('en-US') }
 
 export default function ClientOptions() {
-  var { data: session } = useSession()
   // picks: { groupId → optionId }
   var [picks, setPicks]       = useState({})
   var [confirmed, setConfirmed] = useState(false)
@@ -104,7 +102,7 @@ export default function ClientOptions() {
 
   if (confirmed) {
     return (
-      <div style={{minHeight:'100vh',background:'#111',fontFamily:'Poppins,sans-serif',display:'flex',alignItems:'center',justifyContent:'center'}}>
+      <Layout>
         <div style={{maxWidth:520,width:'100%',padding:'2rem',textAlign:'center'}}>
           <div style={{width:64,height:64,borderRadius:'50%',background:'#0a0a0a',display:'flex',alignItems:'center',justifyContent:'center',margin:'0 auto 1.25rem',border:'3px solid #D06830'}}>
             <span style={{fontSize:28,color:'#D06830'}}>✓</span>
@@ -123,14 +121,12 @@ export default function ClientOptions() {
             <a href="/client/dashboard" style={{fontSize:12,color:'rgba(255,255,255,.35)',textDecoration:'none'}}>← Back to dashboard</a>
           </div>
         </div>
-      </div>
+      </Layout>
     )
   }
 
   return (
-    <div style={{minHeight:'100vh',background:'#111',fontFamily:'Poppins,sans-serif'}}>
-
-      <ClientNav />
+    <Layout>
 
       {/* Sticky upgrade bar */}
       <div style={{background:'#0a0a0a',borderBottom:'1px solid rgba(255,255,255,.08)',padding:'0.6rem 2rem',display:'flex',alignItems:'center',justifyContent:'space-between',position:'sticky',top:72,zIndex:49}}>
@@ -298,7 +294,8 @@ export default function ClientOptions() {
         </div>
 
       </div>
-    </div>
+    </Layout>
+    
   )
 }
 

@@ -1,3 +1,4 @@
+import Layout from '../../components/Layout'
 import { useState } from 'react'
 
 // ─── Tier multipliers ───────────────────────────────────────────────────────
@@ -402,7 +403,7 @@ export default function EstimatePage() {
   }
 
   return (
-    <div style={{minHeight:'100vh',background:'#111',fontFamily:'Poppins,sans-serif'}}>
+    <Layout>
 
       {/* Topbar */}
       <div style={{background:'#0a0a0a',padding:'1rem 2rem',display:'flex',alignItems:'center',justifyContent:'space-between',borderBottom:'3px solid #D06830'}}>
@@ -648,7 +649,7 @@ export default function EstimatePage() {
           </div>
         </div>
       </div>
-    </div>
+    </Layout>
   )
 }
 

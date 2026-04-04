@@ -1,4 +1,4 @@
-import ClientNav from './_nav'
+import Layout from '../../components/Layout'
 
 export default function ScopePage() {
   const phases = [
@@ -51,8 +51,7 @@ export default function ScopePage() {
     upcoming:    {bg:'rgba(255,255,255,.07)',color:'rgba(255,255,255,.35)',dot:'#e8e6e0',label:'Upcoming'},
   }
   return (
-    <div style={{minHeight:'100vh',background:'#111',fontFamily:'Poppins,sans-serif'}}>
-      <ClientNav />
+    <Layout>
       <div style={{maxWidth:800,margin:'0 auto',padding:'1.5rem'}}>
         <div style={{background:'#0a0a0a',borderRadius:4,padding:'1rem 1.5rem',marginBottom:'1.25rem',display:'flex',justifyContent:'space-between',alignItems:'center',flexWrap:'wrap',gap:8}}>
           <div>
@@ -96,6 +95,6 @@ export default function ScopePage() {
           Questions about scope? Call Michael at (404) 492-7650 · SpanglerBuilt Inc.
         </div>
       </div>
-    </div>
+    </Layout>
   )
 }

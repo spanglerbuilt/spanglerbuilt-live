@@ -1,5 +1,5 @@
+import Layout from '../../components/Layout'
 import { useEffect, useState } from 'react'
-import MarketingNav from './_nav'
 
 export default function MarketingDashboard() {
   var [auth,  setAuth]  = useState(null)
@@ -56,8 +56,7 @@ export default function MarketingDashboard() {
   ]
 
   return (
-    <div style={{minHeight:'100vh', background:'#111', fontFamily:'Poppins,sans-serif'}}>
-      <MarketingNav />
+    <Layout>
 
       <div style={{maxWidth:960, margin:'0 auto', padding:'1.5rem'}}>
 
@@ -144,7 +143,7 @@ export default function MarketingDashboard() {
         </div>
 
       </div>
-    </div>
+    </Layout>
   )
 }
 

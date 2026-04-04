@@ -1,4 +1,4 @@
-import ClientNav from './_nav'
+import Layout from '../../components/Layout'
 import { useEffect, useState } from 'react'
 
 var PHASES = ['Pre-construction','Demo & framing','Drywall & rough-ins','Paint & flooring','Closeout']
@@ -40,9 +40,8 @@ export default function ClientDashboard() {
   var phasePct = Math.round((phaseNum / PHASES.length) * 100)
 
   return (
-    <div style={{minHeight:'100vh', background:'#111', fontFamily:'Poppins,sans-serif'}}>
+    <Layout>
 
-      <ClientNav />
 
       <div style={{maxWidth:900, margin:'0 auto', padding:'1.5rem'}}>
 
@@ -150,7 +149,7 @@ export default function ClientDashboard() {
           </div>
         </div>
       </div>
-    </div>
+    </Layout>
   )
 }
 

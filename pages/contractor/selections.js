@@ -1,3 +1,4 @@
+import Layout from '../../components/Layout'
 import React, { useState } from 'react'
 import { useSession, signOut } from 'next-auth/react'
 
@@ -102,7 +103,7 @@ export default function ContractorSelections() {
   var totalPending = projects.reduce(function(sum, p){ return sum + getStats(p).pending }, 0)
 
   return (
-    <div style={{minHeight:'100vh',background:'#111',fontFamily:'Poppins,sans-serif'}}>
+    <Layout>
 
       <div style={{background:'#0a0a0a',padding:'1rem 2rem',display:'flex',alignItems:'center',justifyContent:'space-between',borderBottom:'3px solid #D06830'}}>
         <div style={{display:'flex',alignItems:'center',gap:12}}>
@@ -224,7 +225,7 @@ export default function ContractorSelections() {
           SpanglerBuilt Inc. · michael@spanglerbuilt.com · (404) 492-7650
         </div>
       </div>
-    </div>
+    </Layout>
   )
 }
 

@@ -1,5 +1,5 @@
+import Layout from '../../components/Layout'
 import { useEffect, useState } from 'react'
-import MarketingNav from './_nav'
 
 export default function MarketingChannels() {
   var [hubspotKey, setHubspotKey] = useState('')
@@ -46,8 +46,7 @@ export default function MarketingChannels() {
   ]
 
   return (
-    <div style={{minHeight:'100vh', background:'#111', fontFamily:'Poppins,sans-serif'}}>
-      <MarketingNav />
+    <Layout>
       <div style={{maxWidth:960, margin:'0 auto', padding:'1.5rem'}}>
 
         <div style={{fontSize:20, fontWeight:700, color:'#fff', marginBottom:4}}>Channels & integrations</div>
@@ -101,7 +100,7 @@ export default function MarketingChannels() {
         </div>
 
       </div>
-    </div>
+    </Layout>
   )
 }
 

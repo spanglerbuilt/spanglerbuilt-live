@@ -1,3 +1,4 @@
+import Layout from '../../components/Layout'
 import { useState, useEffect } from 'react'
 
 var CAT_DISPLAY = {
@@ -106,7 +107,7 @@ export default function CatalogPage() {
   var queueCount = Object.keys(estimateQueue).length
 
   return (
-    <div style={{minHeight:'100vh', background:'#1a1a1a', fontFamily:'Poppins,sans-serif'}}>
+    <Layout>
 
       {/* Topbar */}
       <div style={{
@@ -321,7 +322,7 @@ export default function CatalogPage() {
           )}
         </div>
       </div>
-    </div>
+    </Layout>
   )
 }
 

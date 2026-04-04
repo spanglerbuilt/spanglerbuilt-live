@@ -1,5 +1,5 @@
+import Layout from '../../components/Layout'
 import { useEffect, useState } from 'react'
-import MarketingNav from './_nav'
 
 var STATUS_OPTIONS = ['new_lead','contacted','proposal_sent','in_progress','closed_won','closed_lost']
 
@@ -36,8 +36,7 @@ export default function MarketingLeads() {
   var inp = { padding:'8px 12px', background:'#1a1a1a', border:'1px solid rgba(255,255,255,.1)', borderRadius:4, color:'rgba(255,255,255,.8)', fontSize:12, outline:'none' }
 
   return (
-    <div style={{minHeight:'100vh', background:'#111', fontFamily:'Poppins,sans-serif'}}>
-      <MarketingNav />
+    <Layout>
       <div style={{maxWidth:960, margin:'0 auto', padding:'1.5rem'}}>
 
         <div style={{display:'flex', alignItems:'center', justifyContent:'space-between', marginBottom:'1.25rem', flexWrap:'wrap', gap:10}}>
@@ -86,7 +85,7 @@ export default function MarketingLeads() {
           Showing {filtered.length} of {leads.length} leads
         </div>
       </div>
-    </div>
+    </Layout>
   )
 }
 

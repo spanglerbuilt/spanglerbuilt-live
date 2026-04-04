@@ -1,5 +1,5 @@
+import Layout from '../../components/Layout'
 import { useEffect, useState } from 'react'
-import MarketingNav from './_nav'
 
 export default function MarketingCampaigns() {
   var [auth, setAuth] = useState(null)
@@ -14,8 +14,7 @@ export default function MarketingCampaigns() {
   }, [])
 
   return (
-    <div style={{minHeight:'100vh', background:'#111', fontFamily:'Poppins,sans-serif'}}>
-      <MarketingNav />
+    <Layout>
       <div style={{maxWidth:960, margin:'0 auto', padding:'1.5rem'}}>
 
         <div style={{fontSize:20, fontWeight:700, color:'#fff', marginBottom:4}}>Email campaigns</div>
@@ -39,7 +38,7 @@ export default function MarketingCampaigns() {
         </div>
 
       </div>
-    </div>
+    </Layout>
   )
 }
 

@@ -1,5 +1,5 @@
+import Layout from '../../components/Layout'
 import { useEffect, useState, useRef } from 'react'
-import MarketingNav from './_nav'
 
 var COLUMNS = [
   { id: 'new_lead',      label: 'New Lead',      color: '#D06830' },
@@ -90,8 +90,7 @@ export default function Pipeline() {
   }
 
   return (
-    <div style={{minHeight:'100vh', background:'#111', fontFamily:'Poppins,sans-serif'}}>
-      <MarketingNav />
+    <Layout>
 
       <div style={{padding:'1.5rem'}}>
         <div style={{fontSize:20, fontWeight:700, color:'#fff', marginBottom:4}}>Lead pipeline</div>
@@ -184,7 +183,7 @@ export default function Pipeline() {
           {projects.length} total leads · drag a card to update its stage
         </div>
       </div>
-    </div>
+    </Layout>
   )
 }
 

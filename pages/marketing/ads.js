@@ -1,5 +1,5 @@
+import Layout from '../../components/Layout'
 import { useEffect, useState } from 'react'
-import MarketingNav from './_nav'
 
 var PLATFORMS = [
   {
@@ -107,8 +107,7 @@ export default function AdsPage() {
   }
 
   return (
-    <div style={{minHeight:'100vh', background:'#111', fontFamily:'Poppins,sans-serif'}}>
-      <MarketingNav />
+    <Layout>
       <div style={{maxWidth:1040, margin:'0 auto', padding:'1.5rem'}}>
 
         {/* Header */}
@@ -243,7 +242,7 @@ export default function AdsPage() {
           Metrics are saved locally in your browser. Live API sync (Google Ads, Meta) will pull real-time data automatically once connected.
         </div>
       </div>
-    </div>
+    </Layout>
   )
 }
 

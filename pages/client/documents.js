@@ -1,4 +1,4 @@
-import ClientNav from './_nav'
+import Layout from '../../components/Layout'
 import { useState } from 'react'
 
 const INIT_DOCS = [
@@ -49,7 +49,7 @@ export default function DocumentsPage() {
   const pendingCount = docs.filter(d => d.status === 'pending').length
 
   return (
-    <div style={{minHeight:'100vh',background:'#111',fontFamily:'Poppins,sans-serif'}}>
+    <Layout>
 
       {/* Document viewer modal */}
       {viewing && (
@@ -113,7 +113,6 @@ export default function DocumentsPage() {
         </div>
       )}
 
-      <ClientNav />
 
       <div style={{maxWidth:800,margin:'0 auto',padding:'1.5rem'}}>
         {pendingCount > 0 && (
@@ -150,7 +149,7 @@ export default function DocumentsPage() {
           Questions about any document? Call Michael at (404) 492-7650
         </div>
       </div>
-    </div>
+    </Layout>
   )
 }
 

@@ -1,4 +1,4 @@
-import ClientNav from './_nav'
+import Layout from '../../components/Layout'
 import { useState, useEffect } from 'react'
 
 var DEMO_PHOTOS = [
@@ -20,9 +20,8 @@ export default function PhotosPage() {
   var phases = [...new Set(photos.map(function(p){ return p.phase }))]
 
   return (
-    <div style={{minHeight:'100vh', background:'#111', fontFamily:'Poppins,sans-serif'}}>
+    <Layout>
 
-      <ClientNav />
 
       <div style={{maxWidth:900, margin:'0 auto', padding:'1.5rem'}}>
 
@@ -105,7 +104,7 @@ export default function PhotosPage() {
           </div>
         </div>
       )}
-    </div>
+    </Layout>
   )
 }
 

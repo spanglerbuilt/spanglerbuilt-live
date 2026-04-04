@@ -1,4 +1,4 @@
-import ClientNav from './_nav'
+import Layout from '../../components/Layout'
 import { useState } from 'react'
 
 var TIER_MULT   = { good:1.0, better:1.18, best:1.38, luxury:1.65 }
@@ -112,12 +112,9 @@ export default function ClientEstimate() {
     setTimeout(function(){ window.scrollTo({ top:0, behavior:'smooth' }) }, 100)
   }
 
-  var topbar = <ClientNav />
-
   if (confirmed) {
     return (
-      <div style={{minHeight:'100vh', background:'#111', fontFamily:'Poppins,sans-serif'}}>
-        {topbar}
+      <Layout>
         <div style={{maxWidth:700, margin:'3rem auto', padding:'0 1.5rem', textAlign:'center'}}>
           <div style={{background:'#161616', border:'1px solid rgba(255,255,255,.09)', borderRadius:4, padding:'3rem', borderTop:'4px solid #D06830'}}>
             <div style={{fontSize:40, marginBottom:'1rem', color:'#D06830'}}>✓</div>
@@ -146,13 +143,12 @@ export default function ClientEstimate() {
             </div>
           </div>
         </div>
-      </div>
+      </Layout>
     )
   }
 
   return (
-    <div style={{minHeight:'100vh', background:'#111', fontFamily:'Poppins,sans-serif'}}>
-      {topbar}
+    <Layout>
 
       <div style={{maxWidth:900, margin:'0 auto', padding:'1.5rem'}}>
 
@@ -319,7 +315,8 @@ export default function ClientEstimate() {
           SpanglerBuilt Inc. · Michael Spangler, GC · 44 Milton Ave, Alpharetta GA 30009 · (404) 492-7650 · Estimate valid 30 days
         </div>
       </div>
-    </div>
+    </Layout>
+    
   )
 }
 

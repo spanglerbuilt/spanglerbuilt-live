@@ -1,3 +1,4 @@
+import Layout from '../../components/Layout'
 import { useState } from 'react'
 
 var PROJECTS = [
@@ -111,7 +112,7 @@ export default function PaymentsPage() {
   }
 
   return (
-    <div style={{minHeight:'100vh',background:'#111',fontFamily:'Poppins,sans-serif'}}>
+    <Layout>
 
       {/* Invoice modal */}
       {invoiceFor && (
@@ -247,7 +248,7 @@ export default function PaymentsPage() {
           SpanglerBuilt Inc. · michael@spanglerbuilt.com · (404) 492-7650
         </div>
       </div>
-    </div>
+    </Layout>
   )
 }
 

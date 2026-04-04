@@ -1,3 +1,4 @@
+import Layout from '../../components/Layout'
 import { useState, useEffect } from 'react'
 
 const STATUSES = ['New lead','Contacted','Estimate','Approved','Started','Completed','Lost']
@@ -122,7 +123,7 @@ export default function LeadsPage() {
   }
 
   return (
-    <div style={S.page}>
+    <Layout>
 
       {/* New lead modal */}
       {showNew && (
@@ -267,14 +268,6 @@ export default function LeadsPage() {
         </div>
       )}
 
-      <div style={S.topbar}>
-        <div style={{display:'flex',alignItems:'center',gap:12}}>
-          <img src="/logo.png" alt="SpanglerBuilt" style={{height:34,width:'auto'}}/>
-          <span style={{fontSize:11,color:'#D06830',letterSpacing:'.12em',textTransform:'uppercase',fontWeight:500}}>&nbsp;· Leads</span>
-        </div>
-        <a href="/dashboard" style={{fontSize:11,color:'rgba(255,255,255,.6)',textDecoration:'none'}}>← Dashboard</a>
-      </div>
-
       <div style={S.wrap}>
         <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:'1rem',flexWrap:'wrap',gap:8}}>
           <div>
@@ -315,7 +308,7 @@ export default function LeadsPage() {
                 return (
                   <tr key={lead.id} onClick={()=>openLead(lead)} style={{cursor:'pointer'}}
                     onMouseEnter={e=>e.currentTarget.style.background='rgba(208,104,48,.1)'}
-                    onMouseLeave={e=>e.currentTarget.style.background='#fff'}>
+                    onMouseLeave={e=>e.currentTarget.style.background='transparent'}>
                     <td style={{...S.td,color:'#185FA5',fontWeight:500,fontSize:11}}>
                       {lead.pn}
                       {lead.fromWeb && <span style={{marginLeft:5,background:'#e3f2fd',color:'#0d47a1',fontSize:8,fontWeight:700,padding:'1px 5px',borderRadius:2,textTransform:'uppercase'}}>Web</span>}
@@ -340,7 +333,7 @@ export default function LeadsPage() {
           SpanglerBuilt Inc. · michael@spanglerbuilt.com · (404) 492-7650
         </div>
       </div>
-    </div>
+    </Layout>
   )
 }
 

@@ -1,4 +1,4 @@
-import ClientNav from './_nav'
+import Layout from '../../components/Layout'
 import { useState } from 'react'
 
 const INIT_MESSAGES = [
@@ -23,8 +23,7 @@ export default function MessagesPage() {
   function onKey(e) { if (e.key==='Enter' && !e.shiftKey) { e.preventDefault(); send() } }
 
   return (
-    <div style={{minHeight:'100vh',background:'#111',fontFamily:'Poppins,sans-serif',display:'flex',flexDirection:'column'}}>
-      <ClientNav />
+    <Layout>
 
       <div style={{maxWidth:700,width:'100%',margin:'0 auto',padding:'1.5rem',flex:1,display:'flex',flexDirection:'column',gap:16}}>
 
@@ -70,6 +69,6 @@ export default function MessagesPage() {
           For urgent matters call (404) 492-7650 · SpanglerBuilt Inc.
         </div>
       </div>
-    </div>
+    </Layout>
   )
 }

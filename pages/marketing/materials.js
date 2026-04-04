@@ -1,5 +1,5 @@
+import Layout from '../../components/Layout'
 import { useEffect, useState } from 'react'
-import MarketingNav from './_nav'
 
 var FOLDERS = [
   { id: 'Project Photos',   icon: '◉', desc: 'Before & after, in-progress shots' },
@@ -71,8 +71,7 @@ export default function MarketingMaterials() {
   var docs   = sorted.filter(function(f){ return !IMAGE_TYPES.includes(f.mimeType) })
 
   return (
-    <div style={{minHeight:'100vh', background:'#111', fontFamily:'Poppins,sans-serif'}}>
-      <MarketingNav />
+    <Layout>
 
       {/* Lightbox */}
       {lightbox && (
@@ -242,7 +241,7 @@ export default function MarketingMaterials() {
           </div>
         </div>
       </div>
-    </div>
+    </Layout>
   )
 }
 
