@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 var ACTIONS = [
   {id:'estimate',    label:'Generate estimate'},
@@ -22,10 +22,41 @@ var PRESETS = [
 
 // ── Claude text tool ──────────────────────────────────────────────────────────
 function ClaudeTool() {
-  var [action,  setAction]  = useState('estimate')
-  var [prompt,  setPrompt]  = useState('')
-  var [result,  setResult]  = useState('')
-  var [loading, setLoading] = useState(false)
+  var [action,   setAction]   = useState('estimate')
+  var [prompt,   setPrompt]   = useState('')
+  var [result,   setResult]   = useState('')
+  var [loading,  setLoading]  = useState(false)
+  var [projects, setProjects] = useState([])
+  var [selProj,  setSelProj]  = useState('')
+
+  useEffect(function() {
+    fetch('/api/leads/list')
+      .then(function(r){ return r.json() })
+      .then(function(j){
+        var active = (j.leads || []).filter(function(l){
+          return l.status !== 'Lost' && l.status !== 'Completed'
+        })
+        setProjects(active)
+      })
+      .catch(function(){})
+  }, [])
+
+  function onProjectSelect(e) {
+    var pn = e.target.value
+    setSelProj(pn)
+    if (!pn) return
+    var proj = projects.find(function(p){ return p.pn === pn })
+    if (!proj) return
+    var details = [
+      'Project: ' + proj.pn,
+      'Client: ' + proj.name,
+      'Type: ' + proj.type,
+      proj.address ? 'Address: ' + proj.address : '',
+      proj.value  ? 'Budget: $' + Number(proj.value).toLocaleString() : '',
+      proj.note   ? 'Notes: ' + proj.note : '',
+    ].filter(Boolean).join('\n')
+    setPrompt(details)
+  }
 
   function run() {
     if (!prompt.trim()) return
@@ -44,6 +75,28 @@ function ClaudeTool() {
 
   return (
     <div>
+      {/* Project selector */}
+      {projects.length > 0 && (
+        <div style={{background:'#1a1a1a',border:'1px solid rgba(255,255,255,.09)',borderRadius:4,padding:'12px 16px',marginBottom:'1.25rem',display:'flex',alignItems:'center',gap:12,flexWrap:'wrap'}}>
+          <span style={{fontSize:10,fontWeight:600,color:'rgba(255,255,255,.35)',textTransform:'uppercase',letterSpacing:'.1em',whiteSpace:'nowrap'}}>Load project</span>
+          <select value={selProj} onChange={onProjectSelect} style={{
+            flex:1,minWidth:200,padding:'7px 10px',background:'#111',border:'1px solid rgba(255,255,255,.12)',
+            borderRadius:3,color:'rgba(255,255,255,.75)',fontSize:12,fontFamily:'inherit',outline:'none',cursor:'pointer',
+          }}>
+            <option value=''>— Select a project to auto-fill —</option>
+            {projects.map(function(p){
+              return <option key={p.pn} value={p.pn}>{p.pn} · {p.name} · {p.type}</option>
+            })}
+          </select>
+          {selProj && (
+            <button onClick={function(){ setSelProj(''); setPrompt('') }}
+              style={{background:'transparent',border:'1px solid rgba(255,255,255,.12)',color:'rgba(255,255,255,.35)',fontSize:11,padding:'5px 10px',borderRadius:3,cursor:'pointer',fontFamily:'inherit',whiteSpace:'nowrap'}}>
+              Clear ✕
+            </button>
+          )}
+        </div>
+      )}
+
       <div style={{display:'flex',gap:6,flexWrap:'wrap',marginBottom:'1.25rem'}}>
         {ACTIONS.map(function(a){
           return (

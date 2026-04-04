@@ -31,6 +31,29 @@ var TIER_SC = {
 var PROJECT_TYPES = ['all','basement','kitchen','bathroom','addition']
 var TYPE_LABELS   = { all:'All types', basement:'Basement', kitchen:'Kitchen', bathroom:'Bathroom', addition:'Addition' }
 
+var CATEGORY_PHOTOS = {
+  'Flooring':      'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&q=80',
+  'lvp_flooring':  'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&q=80',
+  'Countertops':   'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=400&q=80',
+  'countertops':   'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=400&q=80',
+  'Tile':          'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?w=400&q=80',
+  'bathroom_floor_tile': 'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?w=400&q=80',
+  'shower_wall_tile':    'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?w=400&q=80',
+  'shower_floor_tile':   'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?w=400&q=80',
+  'Cabinets':      'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=400&q=80',
+  'cabinets':      'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=400&q=80',
+  'Fixtures':      'https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?w=400&q=80',
+  'bath_faucets':  'https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?w=400&q=80',
+  'toilets':       'https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?w=400&q=80',
+  'vanities':      'https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?w=400&q=80',
+  'Doors and Trim':'https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=400&q=80',
+  'interior_doors':'https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=400&q=80',
+  'shower_doors':  'https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?w=400&q=80',
+  'Hardware':      'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=400&q=80',
+  'hardware':      'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=400&q=80',
+  'Lighting':      'https://images.unsplash.com/photo-1565814329452-e1efa11c5b89?w=400&q=80',
+  'lighting':      'https://images.unsplash.com/photo-1565814329452-e1efa11c5b89?w=400&q=80',
+}
 var DEFAULT_PHOTO = 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&q=80'
 
 export default function CatalogPage() {
@@ -256,9 +279,9 @@ export default function CatalogPage() {
             <div style={{display:'grid', gridTemplateColumns:'repeat(3, minmax(0, 1fr))', gap:12}}>
               {filtered.map(function(m) {
                 var inQueue      = !!estimateQueue[m.id]
-                var inSelections = !!(selections[m.category] && selections[m.category].value === m.name)
-                var photo        = m.image_url || DEFAULT_PHOTO
-                var tier         = TIER_SC[m.tier] || TIER_SC.good
+                var inSelections = !!(selections[m.category] && selections[m.category].value === (m.product_name || m.name))
+                var photo        = m.photo_url || m.image_url || CATEGORY_PHOTOS[m.category] || DEFAULT_PHOTO
+                var tier         = TIER_SC[(m.tier||'').toLowerCase()] || TIER_SC.good
 
                 return (
                   <div key={m.id} style={{
@@ -282,13 +305,15 @@ export default function CatalogPage() {
 
                     <div style={{padding:'10px 12px', flex:1, display:'flex', flexDirection:'column', gap:3}}>
                       <div style={{fontSize:10, color:'rgba(255,255,255,.35)', fontWeight:500}}>{m.brand}</div>
-                      <div style={{fontSize:13, fontWeight:600, color:'rgba(255,255,255,.75)', lineHeight:1.35}}>{m.name}</div>
+                      <div style={{fontSize:13, fontWeight:600, color:'rgba(255,255,255,.75)', lineHeight:1.35}}>{m.product_name || m.name}</div>
                       <div style={{fontSize:10, color:'rgba(255,255,255,.35)', lineHeight:1.4}}>
-                        {[m.description, m.dimensions].filter(Boolean).join(' · ')}
+                        {[m.description || m.subcategory, m.dimensions || m.size].filter(Boolean).join(' · ')}
                       </div>
                       <div style={{display:'flex', alignItems:'baseline', gap:6, marginTop:4}}>
                         <span style={{fontSize:13, fontWeight:700, color:'rgba(255,255,255,.75)'}}>
-                          ${parseFloat(m.price_low).toFixed(0)}–${parseFloat(m.price_high).toFixed(0)}
+                          {m.price_low != null || m.price_high != null
+                            ? '$' + (parseFloat(m.price_low)||0).toFixed(0) + '–$' + (parseFloat(m.price_high)||0).toFixed(0)
+                            : m.total_installed ? '$' + m.total_installed : '—'}
                         </span>
                         <span style={{fontSize:10, color:'rgba(255,255,255,.35)'}}>/ {m.unit}</span>
                       </div>

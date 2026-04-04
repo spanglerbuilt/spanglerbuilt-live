@@ -309,7 +309,7 @@ export default function LeadsPage() {
                   <tr key={lead.id} onClick={()=>openLead(lead)} style={{cursor:'pointer'}}
                     onMouseEnter={e=>e.currentTarget.style.background='rgba(208,104,48,.1)'}
                     onMouseLeave={e=>e.currentTarget.style.background='transparent'}>
-                    <td style={{...S.td,color:'#185FA5',fontWeight:500,fontSize:11}}>
+                    <td style={{...S.td,color:'#FF8C00',fontWeight:500,fontSize:11}}>
                       {lead.pn}
                       {lead.fromWeb && <span style={{marginLeft:5,background:'#e3f2fd',color:'#0d47a1',fontSize:8,fontWeight:700,padding:'1px 5px',borderRadius:2,textTransform:'uppercase'}}>Web</span>}
                     </td>

@@ -1,10 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
 
 :root {
-  --orange:   #D06830;
-  --dark:     #0a0a0a;
-  --surface:  #161616;
-  --border:   rgba(255,255,255,.09);
+  --orange:   #FF8C00;
+  --dark:     #0d1117;
+  --surface:  #1a1f2e;
+  --border:   rgba(255, 140, 0, 0.2);
   --text:     rgba(255,255,255,.85);
   --muted:    rgba(255,255,255,.45);
   --green:    #27ae60;
@@ -17,7 +17,7 @@
 body {
   font-family: 'Poppins', -apple-system, sans-serif;
   font-weight: 300;
-  background: #111;
+  background: #0d1117;
   color: rgba(255,255,255,.85);
   -webkit-font-smoothing: antialiased;
 }
@@ -44,8 +44,8 @@ input, select, textarea, button { font-family: 'Poppins', sans-serif; }
 
 /* Card surface */
 .card {
-  background: #161616;
-  border: 1px solid rgba(255,255,255,.09);
+  background: #1a1f2e;
+  border: 1px solid rgba(255, 140, 0, 0.2);
   border-radius: 6px;
 }
 

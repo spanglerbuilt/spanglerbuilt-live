@@ -152,7 +152,7 @@ export default function ContractorSelections() {
                 <div style={{padding:'1rem 1.25rem',display:'flex',alignItems:'center',gap:12,cursor:'pointer'}} onClick={function(){ setExpanded(isExp ? null : proj.id) }}>
                   <div style={{flex:1,minWidth:0}}>
                     <div style={{display:'flex',alignItems:'center',gap:8,marginBottom:4,flexWrap:'wrap'}}>
-                      <span style={{fontSize:11,fontWeight:500,color:'#185FA5'}}>{proj.pn}</span>
+                      <span style={{fontSize:11,fontWeight:500,color:'#FF8C00'}}>{proj.pn}</span>
                       <span style={{background:tc.bg,color:tc.color,fontSize:9,fontWeight:700,padding:'2px 7px',borderRadius:3,textTransform:'uppercase',letterSpacing:'.06em'}}>{proj.tier}</span>
                     </div>
                     <div style={{fontSize:14,fontWeight:500,color:'rgba(255,255,255,.75)',marginBottom:2}}>{proj.client}</div>
