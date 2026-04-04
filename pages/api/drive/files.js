@@ -16,7 +16,7 @@ async function getAccessToken() {
   var now     = Math.floor(Date.now() / 1000)
   var payload = Buffer.from(JSON.stringify({
     iss:   email,
-    scope: 'https://www.googleapis.com/auth/drive.readonly',
+    scope: 'https://www.googleapis.com/auth/drive.file https://www.googleapis.com/auth/drive.readonly',
     aud:   'https://oauth2.googleapis.com/token',
     iat:   now,
     exp:   now + 3600,

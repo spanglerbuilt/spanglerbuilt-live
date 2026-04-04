@@ -35,6 +35,8 @@ export default function MarketingMaterials() {
   var [error,        setError]        = useState('')
   var [view,         setView]         = useState('grid')  // grid | list
   var [lightbox,     setLightbox]     = useState(null)
+  var [uploading,    setUploading]    = useState(false)
+  var [uploadMsg,    setUploadMsg]    = useState('')
 
   useEffect(function() {
     if (typeof window === 'undefined') return
@@ -97,7 +99,29 @@ export default function MarketingMaterials() {
             <div style={{fontSize:20,fontWeight:700,color:'#fff'}}>Marketing materials</div>
             <div style={{fontSize:12,color:'rgba(255,255,255,.35)',marginTop:3}}>Pulled live from Google Drive · <a href="https://drive.google.com" target="_blank" rel="noopener noreferrer" style={{color:'#D06830',textDecoration:'none'}}>Open Drive ↗</a></div>
           </div>
-          <div style={{display:'flex',gap:6}}>
+          <div style={{display:'flex',gap:6,alignItems:'center'}}>
+            {uploadMsg && <span style={{fontSize:11,color:uploadMsg.startsWith('Error')?'#e57373':'#22c55e'}}>{uploadMsg}</span>}
+            <label style={{padding:'6px 14px',background:'rgba(208,104,48,.15)',border:'1px solid rgba(208,104,48,.3)',color:'#D06830',borderRadius:3,cursor:'pointer',fontSize:12,fontWeight:600,opacity:uploading?.6:1}}>
+              {uploading ? 'Uploading…' : '↑ Upload'}
+              <input type="file" multiple style={{display:'none'}} disabled={uploading} onChange={function(e){
+                var fileList = Array.from(e.target.files || [])
+                if (!fileList.length) return
+                setUploading(true); setUploadMsg('')
+                Promise.all(fileList.map(function(file){
+                  var fd = new FormData()
+                  fd.append('file', file)
+                  fd.append('folder', activeFolder)
+                  return fetch('/api/drive/upload', { method:'POST', body:fd })
+                    .then(function(r){ return r.json() })
+                })).then(function(results){
+                  setUploading(false)
+                  var failed = results.filter(function(r){ return r.error })
+                  if (failed.length) setUploadMsg('Error: ' + failed[0].error)
+                  else { setUploadMsg(fileList.length + ' file' + (fileList.length>1?'s':'') + ' uploaded!'); loadFolder(activeFolder); setTimeout(function(){setUploadMsg('')},4000) }
+                }).catch(function(err){ setUploading(false); setUploadMsg('Error: '+err.message) })
+                e.target.value = ''
+              }}/>
+            </label>
             <button onClick={function(){setView('grid')}} style={{padding:'6px 12px',background:view==='grid'?'#D06830':'#1a1a1a',border:'1px solid',borderColor:view==='grid'?'#D06830':'rgba(255,255,255,.1)',color:view==='grid'?'#fff':'rgba(255,255,255,.4)',borderRadius:3,cursor:'pointer',fontSize:12}}>Grid</button>
             <button onClick={function(){setView('list')}} style={{padding:'6px 12px',background:view==='list'?'#D06830':'#1a1a1a',border:'1px solid',borderColor:view==='list'?'#D06830':'rgba(255,255,255,.1)',color:view==='list'?'#fff':'rgba(255,255,255,.4)',borderRadius:3,cursor:'pointer',fontSize:12}}>List</button>
           </div>
