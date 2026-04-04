@@ -339,6 +339,97 @@ export default function EstimatePage() {
     setExcludedItems(function(prev){ return Object.assign({}, prev, { [itemId]: !prev[itemId] }) })
   }
 
+  function fmtQBDate(dt) {
+    var m = String(dt.getMonth()+1).padStart(2,'0')
+    var d = String(dt.getDate()).padStart(2,'0')
+    return m + '/' + d + '/' + dt.getFullYear()
+  }
+
+  function downloadFile(content, filename, mime) {
+    var blob = new Blob([content], { type: mime })
+    var a    = document.createElement('a')
+    a.href   = URL.createObjectURL(blob)
+    a.download = filename
+    a.click()
+    URL.revokeObjectURL(a.href)
+  }
+
+  function exportIIF() {
+    var today    = fmtQBDate(new Date())
+    var projNum  = 'SB-EXPORT'
+    var client   = 'SpanglerBuilt Client'
+    try {
+      var params  = new URLSearchParams(window.location.search)
+      if (params.get('pn'))   projNum = params.get('pn')
+      if (params.get('name')) client  = params.get('name')
+    } catch(e) {}
+
+    var mult      = TIER_MULT[tier]
+    var divLines  = []
+    var baseTotal = 0
+
+    activeDivisions.forEach(function(div) {
+      if (!div.items || div.items.length === 0) return
+      var raw    = div.items.reduce(function(s,i){ return s + i.qty*i.rate }, 0)
+      var tiered = raw * mult
+      baseTotal += tiered
+      divLines.push({ name: 'Div ' + div.num + ' — ' + div.name, amount: tiered })
+    })
+
+    var cont  = baseTotal * 0.05
+    var op    = (baseTotal + cont) * 0.10
+    var tax   = (baseTotal + cont + op) * 0.08
+    var grand = baseTotal + cont + op + tax
+
+    var lines = [
+      '!TRNS\tTRNSID\tTRNSTYPE\tDATE\tACCNT\tNAME\tAMOUNT\tDOCNUM\tMEMO',
+      '!SPL\tSPLID\tTRNSTYPE\tDATE\tACCNT\tNAME\tAMOUNT\tMEMO',
+      '!ENDTRNS',
+      'TRNS\t\tINVOICE\t'+today+'\tAccounts Receivable\t'+client+'\t'+grand.toFixed(2)+'\t'+projNum+'\t'+TIER_LABELS[tier]+' Tier',
+    ]
+    divLines.forEach(function(d) {
+      lines.push('SPL\t\tINVOICE\t'+today+'\tConstruction Income\t'+client+'\t-'+d.amount.toFixed(2)+'\t'+d.name)
+    })
+    lines.push('SPL\t\tINVOICE\t'+today+'\tConstruction Income\t'+client+'\t-'+cont.toFixed(2)+'\tContingency (5%)')
+    lines.push('SPL\t\tINVOICE\t'+today+'\tConstruction Income\t'+client+'\t-'+op.toFixed(2)+'\tOverhead & Profit (10%)')
+    lines.push('SPL\t\tINVOICE\t'+today+'\tSales Tax Payable\t'+client+'\t-'+tax.toFixed(2)+'\tSales Tax (8%)')
+    lines.push('ENDTRNS')
+
+    downloadFile(lines.join('\r\n') + '\r\n', 'SpanglerBuilt_'+projNum+'_Invoice.iif', 'application/octet-stream')
+  }
+
+  function exportCSV() {
+    var today   = fmtQBDate(new Date())
+    var projNum = 'SB-EXPORT'
+    var client  = 'SpanglerBuilt Client'
+    try {
+      var params = new URLSearchParams(window.location.search)
+      if (params.get('pn'))   projNum = params.get('pn')
+      if (params.get('name')) client  = params.get('name')
+    } catch(e) {}
+
+    var mult = TIER_MULT[tier]
+    var rows = [['Customer','Date','Invoice#','Division','Description','Qty','Unit','Rate','Amount','Tier','Tiered Amount']]
+
+    activeDivisions.forEach(function(div) {
+      if (!div.items || div.items.length === 0) return
+      div.items.forEach(function(item) {
+        var raw    = item.qty * item.rate
+        var tiered = raw * mult
+        rows.push([client, today, projNum, 'Div '+div.num+' — '+div.name, item.desc, item.qty, item.unit||'LS', item.rate.toFixed(2), raw.toFixed(2), TIER_LABELS[tier], tiered.toFixed(2)])
+      })
+    })
+
+    var direct = totals.direct
+    rows.push(['','','','','Contingency (5%)','','','','','',totals.cont.toFixed(2)])
+    rows.push(['','','','','Overhead & Profit (10%)','','','','','',totals.op.toFixed(2)])
+    rows.push(['','','','','Sales Tax (8%)','','','','','',totals.tax.toFixed(2)])
+    rows.push(['','','','','GRAND TOTAL — '+TIER_LABELS[tier],'','','','','',totals.grand.toFixed(2)])
+
+    var csv = rows.map(function(r){ return r.map(function(c){ return '"'+String(c).replace(/"/g,'""')+'"' }).join(',') }).join('\r\n') + '\r\n'
+    downloadFile(csv, 'SpanglerBuilt_'+projNum+'_Estimate.csv', 'text/csv')
+  }
+
   function saveToProjectBook() {
     var exportDivs = activeDivisions
       .filter(function(d){ return d.items.length > 0 })
@@ -410,8 +501,21 @@ export default function EstimatePage() {
         <div style={{fontFamily:'Poppins,sans-serif',fontSize:16,color:'#fff',fontWeight:700,letterSpacing:'.08em'}}>
           SPANGLERBUILT <span style={{fontSize:11,color:'#c9a96e',fontWeight:400}}> · ESTIMATING</span>
         </div>
-        <div style={{display:'flex',gap:12,alignItems:'center'}}>
-          <a href="/contractor/catalog" style={{fontSize:11,color:'rgba(255,255,255,.35)',textDecoration:'none'}}>Catalog ↗</a>
+        <div style={{display:'flex',gap:8,alignItems:'center'}}>
+          <div style={{position:'relative',display:'inline-block'}}>
+            <button
+              onClick={exportIIF}
+              title="File → Utilities → Import → IIF Files in QuickBooks"
+              style={{background:'rgba(208,104,48,.15)',border:'1px solid rgba(208,104,48,.4)',color:'#D06830',fontSize:11,fontWeight:700,padding:'6px 13px',borderRadius:3,cursor:'pointer',fontFamily:'inherit',letterSpacing:'.04em'}}>
+              Export to QuickBooks
+            </button>
+          </div>
+          <button
+            onClick={exportCSV}
+            style={{background:'transparent',border:'1px solid rgba(255,255,255,.12)',color:'rgba(255,255,255,.5)',fontSize:11,padding:'6px 13px',borderRadius:3,cursor:'pointer',fontFamily:'inherit'}}>
+            Export CSV
+          </button>
+          <a href="/contractor/catalog" style={{fontSize:11,color:'rgba(255,255,255,.35)',textDecoration:'none',marginLeft:4}}>Catalog ↗</a>
           <a href="/dashboard" style={{fontSize:11,color:'rgba(255,255,255,.35)',textDecoration:'none'}}>← Dashboard</a>
         </div>
       </div>

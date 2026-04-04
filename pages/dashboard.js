@@ -119,7 +119,35 @@ export default function Dashboard() {
           )})}
         </div>
 
-        <div style={{marginTop:'1rem',fontSize:10,color:'rgba(255,255,255,.35)',textAlign:'center'}}>
+        {/* Integrations */}
+        <div style={{marginTop:'1.5rem',marginBottom:'.75rem',fontSize:10,fontWeight:500,color:'rgba(255,255,255,.35)',textTransform:'uppercase',letterSpacing:'.05em'}}>Integrations</div>
+        <div style={{background:'#161616',border:'1px solid rgba(255,255,255,.09)',borderRadius:4,padding:'1rem 1.25rem',display:'flex',gap:'2rem',flexWrap:'wrap',alignItems:'flex-start',marginBottom:'1rem'}}>
+          <div style={{flex:'1',minWidth:240}}>
+            <div style={{display:'flex',alignItems:'center',gap:8,marginBottom:8}}>
+              <div style={{width:32,height:32,background:'#2CA01C',borderRadius:4,display:'flex',alignItems:'center',justifyContent:'center',fontSize:14,flexShrink:0}}>QB</div>
+              <div>
+                <div style={{fontSize:13,fontWeight:700,color:'rgba(255,255,255,.8)'}}>QuickBooks Enterprise Desktop</div>
+                <div style={{fontSize:11,color:'rgba(255,255,255,.35)'}}>File-based import — no API required</div>
+              </div>
+            </div>
+            <div style={{fontSize:12,color:'rgba(255,255,255,.45)',lineHeight:1.8}}>
+              <div style={{fontWeight:600,color:'rgba(255,255,255,.6)',marginBottom:4}}>To import an estimate as an invoice:</div>
+              <div>1. Open any estimate and click <strong style={{color:'#D06830'}}>Export to QuickBooks</strong></div>
+              <div>2. In QuickBooks: <strong style={{color:'rgba(255,255,255,.55)'}}>File → Utilities → Import → IIF Files</strong></div>
+              <div>3. Select the downloaded <code style={{background:'#0a0a0a',padding:'1px 5px',borderRadius:2,fontSize:11}}>.iif</code> file</div>
+              <div>4. Invoice imports automatically with all line items</div>
+            </div>
+          </div>
+          <div style={{fontSize:11,color:'rgba(255,255,255,.3)',borderLeft:'1px solid rgba(255,255,255,.07)',paddingLeft:'2rem',alignSelf:'stretch',display:'flex',flexDirection:'column',justifyContent:'center',gap:6,minWidth:160}}>
+            <div style={{fontWeight:600,color:'rgba(255,255,255,.45)',marginBottom:2}}>Also available:</div>
+            <div>• Export CSV for spreadsheet import</div>
+            <div>• One .iif per project estimate</div>
+            <div>• All 16 CSI divisions included</div>
+            <div>• Contingency + tax calculated</div>
+          </div>
+        </div>
+
+        <div style={{marginTop:'.5rem',fontSize:10,color:'rgba(255,255,255,.35)',textAlign:'center'}}>
           SpanglerBuilt Inc. · Design/Build Contractor · GC &amp; Home Builder · michael@spanglerbuilt.com · (404) 492-7650
         </div>
       </div>
