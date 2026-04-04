@@ -178,7 +178,7 @@ export default function CatalogPage() {
         </div>
       )}
 
-      <div style={{display:'flex', alignItems:'flex-start', maxWidth:1380, margin:'0 auto', padding:'1.5rem', gap:16}}>
+      <div style={{display:'flex', alignItems:'flex-start', maxWidth:2100, margin:'0 auto', padding:'1.5rem', gap:16}}>
 
         {/* Sidebar */}
         <div style={{width:220, flexShrink:0, position:'sticky', top:queueCount > 0 ? 102 : 62}}>
@@ -276,7 +276,7 @@ export default function CatalogPage() {
               <div style={{fontSize:12, color:'rgba(255,255,255,.35)'}}>Try adjusting your filters or search terms.</div>
             </div>
           ) : (
-            <div style={{display:'grid', gridTemplateColumns:'repeat(3, minmax(0, 1fr))', gap:12}}>
+            <div style={{display:'grid', gridTemplateColumns:'repeat(auto-fill, minmax(260px, 1fr))', gap:12}}>
               {filtered.map(function(m) {
                 var inQueue      = !!estimateQueue[m.id]
                 var inSelections = !!(selections[m.category] && selections[m.category].value === (m.product_name || m.name))

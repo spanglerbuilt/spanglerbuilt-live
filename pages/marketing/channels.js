@@ -47,7 +47,7 @@ export default function MarketingChannels() {
 
   return (
     <Layout>
-      <div style={{maxWidth:960, margin:'0 auto', padding:'1.5rem'}}>
+      <div style={{maxWidth:1800, margin:'0 auto', padding:'1.5rem'}}>
 
         <div style={{fontSize:20, fontWeight:700, color:'#fff', marginBottom:4}}>Channels & integrations</div>
         <div style={{fontSize:12, color:'rgba(255,255,255,.35)', marginBottom:'1.5rem'}}>Connect your marketing platforms.</div>

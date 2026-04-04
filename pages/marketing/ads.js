@@ -108,7 +108,7 @@ export default function AdsPage() {
 
   return (
     <Layout>
-      <div style={{maxWidth:1040, margin:'0 auto', padding:'1.5rem'}}>
+      <div style={{maxWidth:1800, margin:'0 auto', padding:'1.5rem'}}>
 
         {/* Header */}
         <div style={{display:'flex', alignItems:'flex-start', justifyContent:'space-between', marginBottom:'1.25rem', flexWrap:'wrap', gap:8}}>

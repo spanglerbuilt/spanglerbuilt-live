@@ -130,7 +130,7 @@ export default function ContractorSchedule() {
 
   return (
     <Layout>
-      <div style={{maxWidth:1200}}>
+      <div style={{maxWidth:2400}}>
 
         {/* Header */}
         <div style={{display:'flex', alignItems:'center', justifyContent:'space-between', marginBottom:'1.25rem', flexWrap:'wrap', gap:10}}>

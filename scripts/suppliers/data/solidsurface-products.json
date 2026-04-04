@@ -1,0 +1,34 @@
+[
+  {
+    "supplier": "Solid Surface",
+    "category": "Countertops",
+    "subcategory": "Solid Surface",
+    "brand": "Solid Surface",
+    "product_name": "",
+    "sku": "",
+    "description": "",
+    "photo_url": "https://www.solidsurface.com/media/wysiwyg/footer-logo-surfacenet-powered.png",
+    "product_url": "https://www.solidsurface.com/solid-surface/",
+    "unit": "SF",
+    "price": 38.98,
+    "tier": "Good",
+    "finish": "",
+    "size": ""
+  },
+  {
+    "supplier": "Solid Surface",
+    "category": "Countertops",
+    "subcategory": "Solid Surface",
+    "brand": "Solid Surface",
+    "product_name": "LEARN MORE",
+    "sku": "",
+    "description": "",
+    "photo_url": "https://www.solidsurface.com/media/wysiwyg/footer-logo-surfacenet-powered.png",
+    "product_url": "https://www.solidsurface.com/products/",
+    "unit": "SF",
+    "price": 499,
+    "tier": "Better",
+    "finish": "",
+    "size": ""
+  }
+]

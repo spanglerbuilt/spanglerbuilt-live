@@ -232,7 +232,7 @@ export default function OptionsBuilder() {
         </div>
       </div>
 
-      <div style={{maxWidth:1200,margin:'0 auto',padding:'1.5rem',display:'grid',gridTemplateColumns:'240px 1fr',gap:16}}>
+      <div style={{maxWidth:1900,margin:'0 auto',padding:'1.5rem',display:'grid',gridTemplateColumns:'240px 1fr',gap:16}}>
 
         {/* Left: group list */}
         <div>

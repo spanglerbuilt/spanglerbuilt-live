@@ -58,7 +58,7 @@ export default function MarketingDashboard() {
   return (
     <Layout>
 
-      <div style={{maxWidth:960, margin:'0 auto', padding:'1.5rem'}}>
+      <div style={{maxWidth:1800, margin:'0 auto', padding:'1.5rem'}}>
 
         {/* Header */}
         <div style={{marginBottom:'1.5rem'}}>

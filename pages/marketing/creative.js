@@ -210,7 +210,7 @@ export default function MarketingCreative() {
 
   return (
     <Layout>
-      <div style={{maxWidth:1000,margin:'0 auto',padding:'1.5rem'}}>
+      <div style={{maxWidth:1800,margin:'0 auto',padding:'1.5rem'}}>
 
         <div style={{marginBottom:'1.25rem'}}>
           <div style={{fontSize:20,fontWeight:700,color:'#fff'}}>AI Creative Studio</div>

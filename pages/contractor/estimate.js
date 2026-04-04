@@ -417,7 +417,7 @@ export default function EstimatePage() {
       </div>
 
       {/* Two-column layout */}
-      <div style={{display:'flex',alignItems:'flex-start',maxWidth:1380,margin:'0 auto',padding:'1.5rem',gap:16}}>
+      <div style={{display:'flex',alignItems:'flex-start',maxWidth:2100,margin:'0 auto',padding:'1.5rem',gap:16}}>
 
         {/* ── LEFT: Material catalog ────────────────────────────────────────── */}
         <div style={{width:300,flexShrink:0,position:'sticky',top:'1.5rem'}}>

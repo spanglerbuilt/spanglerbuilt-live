@@ -12,7 +12,7 @@ const supabase = createClient(
   process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
 )
 
-const DATA_DIR = path.join(__dirname, 'data')
+const DATA_DIR = path.join(__dirname, 'suppliers', 'data')
 
 async function importCatalog() {
   console.log('\n📥 Importing catalog to Supabase...')

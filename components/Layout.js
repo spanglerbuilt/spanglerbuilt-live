@@ -104,6 +104,18 @@ export default function Layout({ children }) {
           flex: 1;
           min-width: 0;
         }
+        @media (min-width: 1440px) {
+          .sb-sidebar { width: 260px; }
+          .sb-main    { margin-left: 260px; }
+          .sb-grid-4       { grid-template-columns: repeat(5, 1fr) !important; }
+          .sb-grid-modules { grid-template-columns: repeat(5, minmax(0,1fr)) !important; }
+        }
+        @media (min-width: 1920px) {
+          .sb-sidebar { width: 280px; }
+          .sb-main    { margin-left: 280px; }
+          .sb-grid-4       { grid-template-columns: repeat(6, 1fr) !important; }
+          .sb-grid-modules { grid-template-columns: repeat(6, minmax(0,1fr)) !important; }
+        }
         .sb-hamburger {
           display: none;
           flex-direction: column;

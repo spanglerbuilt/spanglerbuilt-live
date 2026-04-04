@@ -72,7 +72,7 @@ export default function Dashboard() {
 
   return (
     <Layout>
-      <div style={{padding:'1.5rem',maxWidth:1100,margin:'0 auto'}}>
+      <div style={{padding:'1.5rem',maxWidth:1800,margin:'0 auto'}}>
 
         <div className="sb-grid-4" style={{marginBottom:'1.5rem'}}>
           {[['Active projects','3'],['Open leads','7'],['Pipeline','$284K'],['YTD revenue','$127K']].map(function(item){return (

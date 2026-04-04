@@ -297,7 +297,7 @@ export default function AIPage() {
         <a href="/dashboard" style={{fontSize:11,color:'rgba(255,255,255,.6)',textDecoration:'none'}}>Back to dashboard</a>
       </div>
 
-      <div style={{padding:'1.5rem',maxWidth:1000,margin:'0 auto'}}>
+      <div style={{padding:'1.5rem',maxWidth:1600,margin:'0 auto'}}>
         {/* Tab switcher */}
         <div style={{display:'flex',gap:4,marginBottom:'1.5rem',background:'#161616',border:'1px solid rgba(255,255,255,.08)',borderRadius:4,padding:4,width:'fit-content'}}>
           {tabs.map(function(t){

@@ -25,7 +25,7 @@ const BLANK_FORM = { name:'', type:'Basement', address:'', phone:'', email:'', v
 const S = {
   page:   { minHeight:'100vh', background:'#1a1a1a', fontFamily:'Poppins,sans-serif' },
   topbar: { background:'#0a0a0a', padding:'1rem 2rem', display:'flex', alignItems:'center', justifyContent:'space-between', borderBottom:'3px solid #D06830' },
-  wrap:   { padding:'1.5rem', maxWidth:1100, margin:'0 auto' },
+  wrap:   { padding:'1.5rem', maxWidth:1800, margin:'0 auto' },
   card:   { background:'#161616', border:'1px solid rgba(255,255,255,.09)', borderRadius:4, overflow:'hidden' },
   th:     { padding:'7px 12px', background:'#0a0a0a', fontSize:10, fontWeight:500, color:'#D06830', textTransform:'uppercase', letterSpacing:'.06em', textAlign:'left' },
   td:     { padding:'10px 12px', borderBottom:'1px solid rgba(255,255,255,.07)', fontSize:12, color:'rgba(255,255,255,.65)' },

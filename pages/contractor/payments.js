@@ -153,7 +153,7 @@ export default function PaymentsPage() {
         <a href="/dashboard" style={{fontSize:11,color:'rgba(255,255,255,.6)',textDecoration:'none'}}>← Dashboard</a>
       </div>
 
-      <div style={{maxWidth:1000,margin:'0 auto',padding:'1.5rem'}}>
+      <div style={{maxWidth:1800,margin:'0 auto',padding:'1.5rem'}}>
 
         <div style={{display:'grid',gridTemplateColumns:'repeat(4,1fr)',gap:10,marginBottom:'1.5rem'}}>
           {[

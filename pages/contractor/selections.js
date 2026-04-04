@@ -116,7 +116,7 @@ export default function ContractorSelections() {
         </div>
       </div>
 
-      <div style={{maxWidth:1100,margin:'0 auto',padding:'1.5rem'}}>
+      <div style={{maxWidth:1800,margin:'0 auto',padding:'1.5rem'}}>
 
         <div style={{display:'grid',gridTemplateColumns:'repeat(4,1fr)',gap:10,marginBottom:'1.5rem'}}>
           {[

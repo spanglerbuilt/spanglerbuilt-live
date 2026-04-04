@@ -37,7 +37,7 @@ export default function MarketingLeads() {
 
   return (
     <Layout>
-      <div style={{maxWidth:960, margin:'0 auto', padding:'1.5rem'}}>
+      <div style={{maxWidth:1800, margin:'0 auto', padding:'1.5rem'}}>
 
         <div style={{display:'flex', alignItems:'center', justifyContent:'space-between', marginBottom:'1.25rem', flexWrap:'wrap', gap:10}}>
           <div style={{fontSize:20, fontWeight:700, color:'#fff'}}>Lead pipeline</div>

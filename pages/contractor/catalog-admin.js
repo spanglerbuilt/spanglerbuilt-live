@@ -257,7 +257,7 @@ export default function CatalogAdmin() {
 
   return (
     <Layout>
-      <div style={{maxWidth:1100, margin:'0 auto', padding:'1.5rem'}}>
+      <div style={{maxWidth:1900, margin:'0 auto', padding:'1.5rem'}}>
 
         {/* Header */}
         <div style={{display:'flex', alignItems:'center', justifyContent:'space-between', marginBottom:'1.25rem', flexWrap:'wrap', gap:8}}>

@@ -1,0 +1,96 @@
+[2026-04-04T20:58:07.752Z] [Home Depot] luxury vinyl plank flooring: Request failed with status code 403
+[2026-04-04T20:58:11.852Z] [Home Depot] carpet flooring roll: Request failed with status code 403
+[2026-04-04T20:58:13.547Z] [Home Depot] kitchen cabinets stock shaker: Request failed with status code 403
+[2026-04-04T20:58:17.578Z] [Home Depot] cabinet pulls bar pull: Request failed with status code 403
+[2026-04-04T20:58:19.186Z] [Home Depot] cabinet hinges soft close: Request failed with status code 403
+[2026-04-04T20:58:26.642Z] [Home Depot] recessed lighting LED 6 inch: Request failed with status code 403
+[2026-04-04T20:58:29.994Z] [Home Depot] french door refrigerator: Request failed with status code 403
+[2026-04-04T20:58:31.533Z] [Home Depot] dishwasher stainless steel: Request failed with status code 403
+[2026-04-04T20:58:33.049Z] [Home Depot] electric range stainless: Request failed with status code 403
+[2026-04-04T20:58:34.873Z] [Wayfair] Vanity: Request failed with status code 429
+[2026-04-04T20:58:36.608Z] [Wayfair] Freestanding Tub: Request failed with status code 429
+[2026-04-04T20:58:38.299Z] [Wayfair] Shower Door: Request failed with status code 429
+[2026-04-04T20:58:40.294Z] [Wayfair] Pendant: Request failed with status code 429
+[2026-04-04T20:58:41.911Z] [Wayfair] Ceiling Fan: Request failed with status code 429
+[2026-04-04T20:58:43.861Z] [Wayfair] Vanity Light: Request failed with status code 429
+[2026-04-04T20:58:45.619Z] [Wayfair] Cabinet Pulls: Request failed with status code 429
+[2026-04-04T20:58:47.051Z] [Wayfair] Door Hardware: Request failed with status code 429
+[2026-04-04T20:58:48.461Z] [Wayfair] Kitchen Sink: Request failed with status code 429
+[2026-04-04T20:58:49.901Z] [Wayfair] Range Hood: Request failed with status code 429
+[2026-04-04T20:58:51.887Z] [The Tile Shop] Ceramic: Request failed with status code 404
+[2026-04-04T20:58:54.550Z] [The Tile Shop] Porcelain: Request failed with status code 404
+[2026-04-04T20:58:56.610Z] [The Tile Shop] Natural Stone: Request failed with status code 404
+[2026-04-04T20:58:58.720Z] [The Tile Shop] Mosaic: Request failed with status code 404
+[2026-04-04T20:59:01.511Z] [The Tile Shop] Large Format: Request failed with status code 404
+[2026-04-04T20:59:03.962Z] [The Tile Shop] Wood Look: Request failed with status code 404
+[2026-04-04T20:59:06.236Z] [The Tile Shop] Subway Tile: Request failed with status code 404
+[2026-04-04T20:59:08.471Z] [The Tile Shop] Bathroom Floor: Request failed with status code 404
+[2026-04-04T20:59:11.681Z] [Ferguson] Kitchen Faucet HTML: Request failed with status code 404
+[2026-04-04T20:59:13.973Z] [Ferguson] Bath Faucet HTML: Request failed with status code 404
+[2026-04-04T20:59:15.746Z] [Ferguson] Shower System HTML: Request failed with status code 404
+[2026-04-04T20:59:17.569Z] [Ferguson] Tub Filler HTML: Request failed with status code 404
+[2026-04-04T20:59:19.984Z] [Ferguson] Toilet HTML: Request failed with status code 404
+[2026-04-04T20:59:22.128Z] [Ferguson] Bathroom Sink HTML: Request failed with status code 404
+[2026-04-04T20:59:24.313Z] [Ferguson] Kitchen Sink HTML: Request failed with status code 404
+[2026-04-04T20:59:26.839Z] [Ferguson] Shower Valve HTML: Request failed with status code 404
+[2026-04-04T20:59:28.797Z] [Ferguson] Shower Door HTML: Request failed with status code 404
+[2026-04-04T20:59:31.002Z] [Ferguson] Bathtub HTML: Request failed with status code 404
+[2026-04-04T20:59:33.623Z] [Progressive Lighting] Recessed Lighting: Request failed with status code 404
+[2026-04-04T20:59:36.503Z] [Progressive Lighting] Pendant Light: Request failed with status code 404
+[2026-04-04T20:59:38.892Z] [Progressive Lighting] Chandelier: Request failed with status code 404
+[2026-04-04T20:59:41.711Z] [Progressive Lighting] Vanity Light: Request failed with status code 404
+[2026-04-04T20:59:44.857Z] [Progressive Lighting] Ceiling Fan: Request failed with status code 404
+[2026-04-04T20:59:47.671Z] [Progressive Lighting] Under Cabinet: Request failed with status code 404
+[2026-04-04T20:59:50.206Z] [Progressive Lighting] Flush Mount: Request failed with status code 404
+[2026-04-04T20:59:52.926Z] [Progressive Lighting] Outdoor: Request failed with status code 404
+[2026-04-04T21:38:35.735Z] [Home Depot] luxury vinyl plank flooring: Request failed with status code 403
+[2026-04-04T21:38:37.341Z] [Home Depot] engineered hardwood flooring: Request failed with status code 403
+[2026-04-04T21:38:38.860Z] [Home Depot] carpet flooring roll: Request failed with status code 403
+[2026-04-04T21:38:40.574Z] [Home Depot] kitchen cabinets stock shaker: Request failed with status code 403
+[2026-04-04T21:38:42.014Z] [Home Depot] semi custom kitchen cabinets: Request failed with status code 403
+[2026-04-04T21:38:43.411Z] [Home Depot] cabinet pulls bar pull: Request failed with status code 403
+[2026-04-04T21:38:45.034Z] [Home Depot] cabinet hinges soft close: Request failed with status code 403
+[2026-04-04T21:38:47.114Z] [Home Depot] interior door prehung shaker: Request failed with status code 403
+[2026-04-04T21:38:48.823Z] [Home Depot] exterior door fiberglass: Request failed with status code 403
+[2026-04-04T21:38:50.511Z] [Home Depot] ceiling fan with light: Request failed with status code 403
+[2026-04-04T21:38:52.026Z] [Home Depot] recessed lighting LED 6 inch: Request failed with status code 403
+[2026-04-04T21:38:53.938Z] [Home Depot] vanity light bar bathroom: Request failed with status code 403
+[2026-04-04T21:38:55.307Z] [Home Depot] french door refrigerator: Request failed with status code 403
+[2026-04-04T21:38:57.237Z] [Home Depot] dishwasher stainless steel: Request failed with status code 403
+[2026-04-04T21:38:58.913Z] [Home Depot] electric range stainless: Request failed with status code 403
+[2026-04-04T21:39:00.747Z] [Wayfair] Vanity: Request failed with status code 429
+[2026-04-04T21:39:02.181Z] [Wayfair] Freestanding Tub: Request failed with status code 429
+[2026-04-04T21:39:03.587Z] [Wayfair] Shower Door: Request failed with status code 429
+[2026-04-04T21:39:05.259Z] [Wayfair] Pendant: Request failed with status code 429
+[2026-04-04T21:39:06.893Z] [Wayfair] Ceiling Fan: Request failed with status code 429
+[2026-04-04T21:39:08.434Z] [Wayfair] Vanity Light: Request failed with status code 429
+[2026-04-04T21:39:10.086Z] [Wayfair] Cabinet Pulls: Request failed with status code 429
+[2026-04-04T21:39:12.191Z] [Wayfair] Door Hardware: Request failed with status code 429
+[2026-04-04T21:39:13.667Z] [Wayfair] Kitchen Sink: Request failed with status code 429
+[2026-04-04T21:39:15.318Z] [Wayfair] Range Hood: Request failed with status code 429
+[2026-04-04T21:39:17.380Z] [The Tile Shop] Ceramic: Request failed with status code 404
+[2026-04-04T21:39:19.474Z] [The Tile Shop] Porcelain: Request failed with status code 404
+[2026-04-04T21:39:20.899Z] [The Tile Shop] Natural Stone: Request failed with status code 404
+[2026-04-04T21:39:22.271Z] [The Tile Shop] Mosaic: Request failed with status code 404
+[2026-04-04T21:39:24.453Z] [The Tile Shop] Large Format: Request failed with status code 404
+[2026-04-04T21:39:26.413Z] [The Tile Shop] Wood Look: Request failed with status code 404
+[2026-04-04T21:39:27.999Z] [The Tile Shop] Subway Tile: Request failed with status code 404
+[2026-04-04T21:39:29.899Z] [The Tile Shop] Bathroom Floor: Request failed with status code 404
+[2026-04-04T21:39:32.202Z] [Ferguson] Kitchen Faucet HTML: Request failed with status code 404
+[2026-04-04T21:39:33.837Z] [Ferguson] Bath Faucet HTML: Request failed with status code 404
+[2026-04-04T21:39:35.622Z] [Ferguson] Shower System HTML: Request failed with status code 404
+[2026-04-04T21:39:37.265Z] [Ferguson] Tub Filler HTML: Request failed with status code 404
+[2026-04-04T21:39:39.424Z] [Ferguson] Toilet HTML: Request failed with status code 404
+[2026-04-04T21:39:41.058Z] [Ferguson] Bathroom Sink HTML: Request failed with status code 404
+[2026-04-04T21:39:43.017Z] [Ferguson] Kitchen Sink HTML: Request failed with status code 404
+[2026-04-04T21:39:45.449Z] [Ferguson] Shower Valve HTML: Request failed with status code 404
+[2026-04-04T21:39:47.670Z] [Ferguson] Shower Door HTML: Request failed with status code 404
+[2026-04-04T21:39:50.094Z] [Ferguson] Bathtub HTML: Request failed with status code 404
+[2026-04-04T21:39:53.244Z] [Progressive Lighting] Recessed Lighting: Request failed with status code 404
+[2026-04-04T21:39:56.131Z] [Progressive Lighting] Pendant Light: Request failed with status code 404
+[2026-04-04T21:39:58.783Z] [Progressive Lighting] Chandelier: Request failed with status code 404
+[2026-04-04T21:40:01.492Z] [Progressive Lighting] Vanity Light: Request failed with status code 404
+[2026-04-04T21:40:04.340Z] [Progressive Lighting] Ceiling Fan: Request failed with status code 404
+[2026-04-04T21:40:07.067Z] [Progressive Lighting] Under Cabinet: Request failed with status code 404
+[2026-04-04T21:40:10.355Z] [Progressive Lighting] Flush Mount: Request failed with status code 404
+[2026-04-04T21:40:13.450Z] [Progressive Lighting] Outdoor: Request failed with status code 404
