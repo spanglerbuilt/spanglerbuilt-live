@@ -34,6 +34,7 @@ export default function MarketingMaterials() {
   var [loading,      setLoading]      = useState(false)
   var [error,        setError]        = useState('')
   var [view,         setView]         = useState('grid')  // grid | list
+  var [sort,         setSort]         = useState('newest') // newest | alpha
   var [lightbox,     setLightbox]     = useState(null)
   var [uploading,    setUploading]    = useState(false)
   var [uploadMsg,    setUploadMsg]    = useState('')
@@ -62,8 +63,12 @@ export default function MarketingMaterials() {
       .catch(function(e){ setLoading(false); setError(e.message) })
   }
 
-  var images = files.filter(function(f){ return IMAGE_TYPES.includes(f.mimeType) })
-  var docs   = files.filter(function(f){ return !IMAGE_TYPES.includes(f.mimeType) })
+  var sorted = files.slice().sort(function(a, b) {
+    if (sort === 'alpha') return a.name.localeCompare(b.name)
+    return new Date(b.modifiedTime || b.createdTime) - new Date(a.modifiedTime || a.createdTime)
+  })
+  var images = sorted.filter(function(f){ return IMAGE_TYPES.includes(f.mimeType) })
+  var docs   = sorted.filter(function(f){ return !IMAGE_TYPES.includes(f.mimeType) })
 
   return (
     <div style={{minHeight:'100vh', background:'#111', fontFamily:'Poppins,sans-serif'}}>
@@ -122,6 +127,9 @@ export default function MarketingMaterials() {
                 e.target.value = ''
               }}/>
             </label>
+            <button onClick={function(){setSort('newest')}} style={{padding:'6px 12px',background:sort==='newest'?'#D06830':'#1a1a1a',border:'1px solid',borderColor:sort==='newest'?'#D06830':'rgba(255,255,255,.1)',color:sort==='newest'?'#fff':'rgba(255,255,255,.4)',borderRadius:3,cursor:'pointer',fontSize:12}}>Newest</button>
+            <button onClick={function(){setSort('alpha')}}  style={{padding:'6px 12px',background:sort==='alpha'?'#D06830':'#1a1a1a',border:'1px solid',borderColor:sort==='alpha'?'#D06830':'rgba(255,255,255,.1)',color:sort==='alpha'?'#fff':'rgba(255,255,255,.4)',borderRadius:3,cursor:'pointer',fontSize:12}}>A–Z</button>
+            <div style={{width:1,height:20,background:'rgba(255,255,255,.1)'}}/>
             <button onClick={function(){setView('grid')}} style={{padding:'6px 12px',background:view==='grid'?'#D06830':'#1a1a1a',border:'1px solid',borderColor:view==='grid'?'#D06830':'rgba(255,255,255,.1)',color:view==='grid'?'#fff':'rgba(255,255,255,.4)',borderRadius:3,cursor:'pointer',fontSize:12}}>Grid</button>
             <button onClick={function(){setView('list')}} style={{padding:'6px 12px',background:view==='list'?'#D06830':'#1a1a1a',border:'1px solid',borderColor:view==='list'?'#D06830':'rgba(255,255,255,.1)',color:view==='list'?'#fff':'rgba(255,255,255,.4)',borderRadius:3,cursor:'pointer',fontSize:12}}>List</button>
           </div>

@@ -53,8 +53,8 @@ async function listFiles(folderId, token) {
   var q = `'${folderId}' in parents and trashed=false`
   var r = await fetch(
     DRIVE_API + '/files?q=' + encodeURIComponent(q) +
-    '&fields=files(id,name,mimeType,thumbnailLink,webViewLink,webContentLink,createdTime,size,imageMediaMetadata)' +
-    '&orderBy=createdTime desc&pageSize=100',
+    '&fields=files(id,name,mimeType,thumbnailLink,webViewLink,webContentLink,createdTime,modifiedTime,size,imageMediaMetadata)' +
+    '&orderBy=modifiedTime desc&pageSize=100',
     { headers: { Authorization: 'Bearer ' + token } }
   )
   return r.json()
