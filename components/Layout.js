@@ -138,7 +138,7 @@ export default function Layout({ children }) {
           border-radius: 2px;
           transition: all .2s;
         }
-        /* Responsive grids used across pages */
+        /* ── Responsive grids ───────────────────────────────────── */
         .sb-grid-4 {
           display: grid;
           grid-template-columns: repeat(4, 1fr);
@@ -163,6 +163,63 @@ export default function Layout({ children }) {
           overflow-x: auto;
           -webkit-overflow-scrolling: touch;
         }
+
+        /* ── Split panel (sidebar + content, stacks on mobile) ── */
+        .sb-split {
+          display: flex;
+          align-items: flex-start;
+          gap: 16px;
+        }
+        .sb-split-aside {
+          flex-shrink: 0;
+        }
+        .sb-split-main {
+          flex: 1;
+          min-width: 0;
+        }
+
+        /* ── Sidebar grid (used by estimate/options) ─────────── */
+        .sb-grid-sidebar {
+          display: grid;
+          grid-template-columns: 240px 1fr;
+          gap: 16px;
+        }
+        .sb-grid-sidebar-wide {
+          display: grid;
+          grid-template-columns: 300px 1fr;
+          gap: 16px;
+        }
+        .sb-grid-sidebar-sm {
+          display: grid;
+          grid-template-columns: 180px 1fr;
+          gap: 20px;
+        }
+
+        /* ── Touch-friendly minimum tap target ───────────────── */
+        .sb-btn { min-height: 44px; }
+
+        /* ── Prevent iOS font-size zoom on inputs ────────────── */
+        @media (max-width: 768px) {
+          input, select, textarea { font-size: 16px !important; }
+        }
+
+        /* ── Tablet breakpoint (≤900px) ──────────────────────── */
+        @media (max-width: 900px) {
+          .sb-split {
+            flex-direction: column;
+          }
+          .sb-split-aside {
+            width: 100% !important;
+            position: static !important;
+          }
+          .sb-grid-sidebar,
+          .sb-grid-sidebar-wide,
+          .sb-grid-sidebar-sm {
+            grid-template-columns: 1fr !important;
+          }
+        }
+
+        /* ── Mobile breakpoint (≤768px) ──────────────────────── */
         @media (max-width: 768px) {
           .sb-sidebar {
             transform: translateX(-220px);
@@ -192,9 +249,11 @@ export default function Layout({ children }) {
             display: none !important;
           }
           .sb-page-pad {
-            padding: 1rem !important;
+            padding: 0.75rem !important;
           }
         }
+
+        /* ── Small phone (≤480px) ────────────────────────────── */
         @media (max-width: 480px) {
           .sb-grid-4 {
             grid-template-columns: 1fr !important;

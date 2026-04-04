@@ -178,10 +178,10 @@ export default function CatalogPage() {
         </div>
       )}
 
-      <div style={{display:'flex', alignItems:'flex-start', maxWidth:2100, margin:'0 auto', padding:'1.5rem', gap:16}}>
+      <div className="sb-split" style={{maxWidth:2100, margin:'0 auto', padding:'1.5rem'}}>
 
         {/* Sidebar */}
-        <div style={{width:220, flexShrink:0, position:'sticky', top:queueCount > 0 ? 102 : 62}}>
+        <div className="sb-split-aside" style={{width:220, position:'sticky', top:queueCount > 0 ? 102 : 62}}>
 
           <div style={{marginBottom:12}}>
             <div style={{fontSize:10, fontWeight:600, color:'rgba(255,255,255,.35)', textTransform:'uppercase', letterSpacing:'.08em', marginBottom:6}}>Project type</div>
@@ -245,7 +245,7 @@ export default function CatalogPage() {
         </div>
 
         {/* Main grid */}
-        <div style={{flex:1, minWidth:0}}>
+        <div className="sb-split-main">
 
           <div style={{display:'flex', alignItems:'center', justifyContent:'space-between', marginBottom:12}}>
             <div style={{fontSize:12, color:'rgba(255,255,255,.35)'}}>

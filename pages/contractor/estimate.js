@@ -417,10 +417,10 @@ export default function EstimatePage() {
       </div>
 
       {/* Two-column layout */}
-      <div style={{display:'flex',alignItems:'flex-start',maxWidth:2100,margin:'0 auto',padding:'1.5rem',gap:16}}>
+      <div className="sb-split" style={{maxWidth:2100,margin:'0 auto',padding:'1.5rem'}}>
 
         {/* ── LEFT: Material catalog ────────────────────────────────────────── */}
-        <div style={{width:300,flexShrink:0,position:'sticky',top:'1.5rem'}}>
+        <div className="sb-split-aside" style={{width:300,position:'sticky',top:'1.5rem'}}>
 
           <div style={{background:'#0a0a0a',borderRadius:'4px 4px 0 0',padding:'10px 14px',borderBottom:'2px solid #D06830'}}>
             <div style={{fontSize:11,fontWeight:700,color:'#D06830',textTransform:'uppercase',letterSpacing:'.1em',marginBottom:8}}>Material catalog</div>
@@ -493,7 +493,7 @@ export default function EstimatePage() {
         </div>
 
         {/* ── RIGHT: Estimate ───────────────────────────────────────────────── */}
-        <div style={{flex:1,minWidth:0}}>
+        <div className="sb-split-main">
 
           <div style={{marginBottom:'1rem',display:'flex',alignItems:'center',justifyContent:'space-between',flexWrap:'wrap',gap:8}}>
             <div>
