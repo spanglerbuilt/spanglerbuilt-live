@@ -56,6 +56,21 @@ var CATEGORY_PHOTOS = {
 }
 var DEFAULT_PHOTO = 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&q=80'
 
+var VARIANT_TYPE_LABEL = { style:'Style', size:'Size', finish:'Finish', trim:'Trim Style' }
+var VARIANT_TYPE_ORDER = ['style','size','finish','trim']
+
+function isDoorProduct(m) {
+  var cat = (m.category || '').toLowerCase()
+  var sub = (m.subcategory || '').toLowerCase()
+  return cat.includes('door') || sub.includes('door')
+}
+
+function getBasePrice(m) {
+  if (m.total_installed && !isNaN(parseFloat(m.total_installed))) return parseFloat(m.total_installed)
+  if (m.price_low != null && m.price_high != null) return (parseFloat(m.price_low||0) + parseFloat(m.price_high||0)) / 2
+  return 0
+}
+
 export default function CatalogPage() {
   var [materials,     setMaterials]     = useState([])
   var [loading,       setLoading]       = useState(true)
@@ -64,6 +79,12 @@ export default function CatalogPage() {
   var [activeCat,     setActiveCat]     = useState('all')
   var [estimateQueue, setEstimateQueue] = useState({})
   var [selections,    setSelections]    = useState({})
+
+  // Door variant modal
+  var [variantModal,  setVariantModal]  = useState(null)  // { material, variants }
+  var [variantSel,    setVariantSel]    = useState({})    // { style:'', size:'', ... }
+  var [variantQty,    setVariantQty]    = useState(1)
+  var [variantLoading,setVariantLoading]= useState(false)
 
   useEffect(function() {
     var q = localStorage.getItem('sb_catalog_queue')
@@ -80,13 +101,62 @@ export default function CatalogPage() {
       .catch(function(){ setLoading(false) })
   }, [])
 
-  function toggleEstimate(m) {
+  function toggleEstimate(m, overridePrice) {
     setEstimateQueue(function(prev) {
       var next = Object.assign({}, prev)
-      if (next[m.id]) { delete next[m.id] } else { next[m.id] = true }
+      if (next[m.id] && overridePrice == null) {
+        delete next[m.id]
+      } else {
+        next[m.id] = overridePrice != null ? { price: overridePrice } : true
+      }
       localStorage.setItem('sb_catalog_queue', JSON.stringify(next))
       return next
     })
+  }
+
+  async function openDoorVariants(m) {
+    setVariantLoading(true)
+    setVariantSel({})
+    setVariantQty(1)
+    setVariantModal({ material: m, variants: [] })
+    try {
+      var r = await fetch('/api/catalog/variants?material_id=' + m.id)
+      var d = await r.json()
+      var variants = d.variants || []
+      // Default selections: first in-stock variant per type
+      var defaults = {}
+      VARIANT_TYPE_ORDER.forEach(function(type) {
+        var opts = variants.filter(function(v) { return v.variant_type === type && v.in_stock })
+        if (opts.length > 0) defaults[type] = opts[0].id
+      })
+      setVariantSel(defaults)
+      setVariantModal({ material: m, variants })
+    } catch(e) {
+      setVariantModal({ material: m, variants: [] })
+    }
+    setVariantLoading(false)
+  }
+
+  function calcVariantPrice(material, variants, sel, qty) {
+    var base = getBasePrice(material)
+    var selectedVariants = Object.values(sel).map(function(id) {
+      return variants.find(function(v) { return v.id === id })
+    }).filter(Boolean)
+    // Check for price_override (replaces base entirely)
+    var overrideV = selectedVariants.find(function(v) { return v.price_override != null })
+    var effectiveBase = overrideV ? parseFloat(overrideV.price_override) : base
+    var delta = selectedVariants.reduce(function(sum, v) {
+      if (v.price_override != null) return sum // override doesn't stack
+      return sum + parseFloat(v.price_delta || 0)
+    }, 0)
+    return (effectiveBase + delta) * (qty || 1)
+  }
+
+  function addVariantToEstimate() {
+    if (!variantModal) return
+    var price = calcVariantPrice(variantModal.material, variantModal.variants, variantSel, variantQty)
+    toggleEstimate(variantModal.material, price)
+    setVariantModal(null)
   }
 
   function addToSelections(m) {
@@ -323,12 +393,12 @@ export default function CatalogPage() {
                     </div>
 
                     <div style={{display:'grid', gridTemplateColumns:'1fr 1fr', borderTop:'1px solid rgba(255,255,255,.07)'}}>
-                      <button onClick={function(){ toggleEstimate(m) }} style={{
+                      <button onClick={function(){ isDoorProduct(m) ? openDoorVariants(m) : toggleEstimate(m) }} style={{
                         padding:'8px 6px', fontSize:11, fontWeight:700, fontFamily:'Poppins,sans-serif', cursor:'pointer',
                         border:'none', borderRight:'1px solid rgba(255,255,255,.07)',
                         background:inQueue?'#3B6D11':'#0a0a0a', color:'#fff', letterSpacing:'.02em',
                       }}>
-                        {inQueue ? '✓ In estimate' : '＋ Estimate'}
+                        {inQueue ? '✓ In estimate' : isDoorProduct(m) ? '⊞ Configure' : '＋ Estimate'}
                       </button>
                       <button onClick={function(){ addToSelections(m) }} style={{
                         padding:'8px 6px', fontSize:11, fontWeight:700, fontFamily:'Poppins,sans-serif', cursor:'pointer',
@@ -347,6 +417,113 @@ export default function CatalogPage() {
           )}
         </div>
       </div>
+
+      {/* ── Door Variant Modal ───────────────────────────────────────────── */}
+      {variantModal && (
+        <div
+          onClick={function(e){ if (e.target === e.currentTarget) setVariantModal(null) }}
+          style={{position:'fixed', inset:0, background:'rgba(0,0,0,.75)', zIndex:500, display:'flex', alignItems:'center', justifyContent:'center', padding:'1rem'}}
+        >
+          <div style={{background:'#1a1f2e', border:'1px solid rgba(255,140,0,.3)', borderRadius:8, width:'100%', maxWidth:520, boxShadow:'0 16px 48px rgba(0,0,0,.7)', overflow:'hidden'}}>
+            {/* Modal header */}
+            <div style={{background:'#FF8C00', padding:'12px 16px', display:'flex', alignItems:'center', justifyContent:'space-between'}}>
+              <span style={{fontSize:13, fontWeight:700, color:'#fff'}}>⊞ Configure Door</span>
+              <button onClick={function(){ setVariantModal(null) }} style={{background:'transparent', border:'none', color:'rgba(255,255,255,.8)', fontSize:20, cursor:'pointer', lineHeight:1, padding:0}}>×</button>
+            </div>
+
+            <div style={{padding:'16px'}}>
+              {/* Product info */}
+              <div style={{display:'flex', gap:12, marginBottom:14, alignItems:'center'}}>
+                {variantModal.material.photo_url && (
+                  <img src={variantModal.material.photo_url} alt="" style={{width:60, height:60, objectFit:'cover', borderRadius:4, border:'1px solid rgba(255,255,255,.1)', flexShrink:0}} onError={function(e){e.target.style.display='none'}}/>
+                )}
+                <div>
+                  <div style={{fontSize:11, color:'rgba(255,255,255,.35)'}}>{variantModal.material.brand}</div>
+                  <div style={{fontSize:14, fontWeight:700, color:'#fff'}}>{variantModal.material.product_name || variantModal.material.name}</div>
+                  <div style={{fontSize:11, color:'rgba(255,255,255,.4)'}}>Base: ${getBasePrice(variantModal.material).toFixed(0)} / {variantModal.material.unit}</div>
+                </div>
+              </div>
+
+              {variantLoading ? (
+                <div style={{textAlign:'center', padding:'1.5rem', color:'rgba(255,255,255,.4)', fontSize:13}}>Loading variants…</div>
+              ) : variantModal.variants.length === 0 ? (
+                <div style={{background:'rgba(255,255,255,.04)', borderRadius:4, padding:'1rem', marginBottom:14, fontSize:12, color:'rgba(255,255,255,.4)', textAlign:'center'}}>
+                  No variants configured. Set them up in <a href="/contractor/catalog-admin" style={{color:'#FF8C00'}}>Catalog Admin</a>.
+                </div>
+              ) : (
+                <>
+                  {/* Variant dropdowns */}
+                  <div style={{display:'flex', flexDirection:'column', gap:10, marginBottom:14}}>
+                    {VARIANT_TYPE_ORDER.map(function(type) {
+                      var opts = variantModal.variants.filter(function(v) { return v.variant_type === type })
+                      if (opts.length === 0) return null
+                      return (
+                        <div key={type}>
+                          <label style={{display:'block', fontSize:10, fontWeight:600, color:'rgba(255,255,255,.4)', textTransform:'uppercase', letterSpacing:'.08em', marginBottom:5}}>
+                            {VARIANT_TYPE_LABEL[type] || type}
+                          </label>
+                          <select
+                            value={variantSel[type] || ''}
+                            onChange={function(e){ var id = e.target.value; setVariantSel(function(prev){ return Object.assign({}, prev, { [type]: id }) }) }}
+                            style={{width:'100%', padding:'9px 10px', background:'#0d1117', border:'1px solid rgba(255,140,0,.2)', borderRadius:4, color:'#fff', fontSize:13, fontFamily:'Poppins,sans-serif', outline:'none', boxSizing:'border-box', cursor:'pointer'}}
+                          >
+                            <option value="">— Select {VARIANT_TYPE_LABEL[type]||type} —</option>
+                            {opts.map(function(v) {
+                              var delta = parseFloat(v.price_delta || 0)
+                              var suffix = v.price_override != null
+                                ? ' (replaces base: $' + parseFloat(v.price_override).toFixed(0) + ')'
+                                : delta === 0 ? '' : delta > 0 ? ' (+$' + delta.toFixed(0) + ')' : ' (-$' + Math.abs(delta).toFixed(0) + ')'
+                              return (
+                                <option key={v.id} value={v.id} disabled={!v.in_stock}>
+                                  {v.variant_name}{suffix}{!v.in_stock ? ' (out of stock)' : ''}
+                                </option>
+                              )
+                            })}
+                          </select>
+                        </div>
+                      )
+                    })}
+                  </div>
+
+                  {/* Quantity */}
+                  <div style={{marginBottom:14}}>
+                    <label style={{display:'block', fontSize:10, fontWeight:600, color:'rgba(255,255,255,.4)', textTransform:'uppercase', letterSpacing:'.08em', marginBottom:5}}>Quantity</label>
+                    <input
+                      type="number" min="1" value={variantQty}
+                      onChange={function(e){ setVariantQty(Math.max(1, parseInt(e.target.value)||1)) }}
+                      style={{width:100, padding:'9px 10px', background:'#0d1117', border:'1px solid rgba(255,140,0,.2)', borderRadius:4, color:'#fff', fontSize:13, fontFamily:'Poppins,sans-serif', outline:'none', boxSizing:'border-box'}}
+                    />
+                  </div>
+
+                  {/* Live price */}
+                  <div style={{background:'#0d1117', border:'1px solid rgba(255,140,0,.25)', borderRadius:4, padding:'10px 14px', marginBottom:14}}>
+                    <div style={{fontSize:10, color:'rgba(255,255,255,.35)', textTransform:'uppercase', letterSpacing:'.08em', marginBottom:4}}>Installed price</div>
+                    <div style={{fontSize:22, fontWeight:700, color:'#FF8C00'}}>
+                      ${calcVariantPrice(variantModal.material, variantModal.variants, variantSel, variantQty).toLocaleString(undefined, {minimumFractionDigits:0, maximumFractionDigits:0})}
+                    </div>
+                    {variantQty > 1 && (
+                      <div style={{fontSize:11, color:'rgba(255,255,255,.35)', marginTop:2}}>
+                        ${calcVariantPrice(variantModal.material, variantModal.variants, variantSel, 1).toFixed(0)} × {variantQty} units
+                      </div>
+                    )}
+                  </div>
+                </>
+              )}
+
+              {/* Buttons */}
+              <div style={{display:'flex', gap:8}}>
+                <button onClick={function(){ setVariantModal(null) }} style={{flex:1, padding:'10px', background:'transparent', border:'1px solid rgba(255,255,255,.12)', borderRadius:4, color:'rgba(255,255,255,.5)', fontSize:12, cursor:'pointer', fontFamily:'Poppins,sans-serif'}}>
+                  Cancel
+                </button>
+                <button onClick={addVariantToEstimate} style={{flex:2, padding:'10px', background:'#FF8C00', border:'none', borderRadius:4, color:'#fff', fontSize:13, fontWeight:700, cursor:'pointer', fontFamily:'Poppins,sans-serif'}}>
+                  ＋ Add to Estimate
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
     </Layout>
   )
 }

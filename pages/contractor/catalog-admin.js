@@ -1,5 +1,5 @@
 import Layout from '../../components/Layout'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, Fragment } from 'react'
 
 var CATEGORIES = ['Flooring','Tile','Countertops','Cabinets','Fixtures','Bath','Hardware','Doors and Trim','Lighting','Appliances','Kitchen','Other']
 var TIERS      = ['Good','Better','Best','Luxury']
@@ -79,6 +79,12 @@ export default function CatalogAdmin() {
   var [uploading,   setUploading]   = useState(false)
   var [fillingPhotos,   setFillingPhotos]   = useState(false)
   var [refreshingImgs,  setRefreshingImgs]  = useState(false)
+  var [variantPanel,    setVariantPanel]    = useState(null)   // { materialId, materialName, variants }
+  var [variantForm,     setVariantForm]     = useState({ variant_type:'style', variant_name:'', price_delta:'0', price_override:'', in_stock:true })
+  var [variantSaving,   setVariantSaving]   = useState(false)
+  var [variantMsg,      setVariantMsg]      = useState('')
+
+  var VARIANT_TYPES = ['style','size','finish','trim']
 
   useEffect(function() {
     if (typeof window === 'undefined') return
@@ -223,6 +229,55 @@ export default function CatalogAdmin() {
     setMsg(filled + ' photos added.')
     loadMaterials()
     setTimeout(() => setMsg(''), 4000)
+  }
+
+  async function openVariantPanel(m) {
+    setVariantMsg('')
+    setVariantPanel({ materialId: m.id, materialName: m.product_name || m.brand, variants: null })
+    try {
+      var r = await fetch('/api/catalog/variants?material_id=' + m.id)
+      var d = await r.json()
+      setVariantPanel({ materialId: m.id, materialName: m.product_name || m.brand, variants: d.variants || [] })
+    } catch(e) {
+      setVariantPanel({ materialId: m.id, materialName: m.product_name || m.brand, variants: [] })
+    }
+  }
+
+  async function addVariant() {
+    if (!variantPanel || !variantForm.variant_name.trim()) { setVariantMsg('Name is required.'); return }
+    setVariantSaving(true); setVariantMsg('')
+    try {
+      var r = await fetch('/api/catalog/variants', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          material_id:    variantPanel.materialId,
+          variant_type:   variantForm.variant_type,
+          variant_name:   variantForm.variant_name,
+          price_delta:    variantForm.price_delta,
+          price_override: variantForm.price_override || null,
+          in_stock:       variantForm.in_stock,
+        }),
+      })
+      var d = await r.json()
+      if (!d.ok) throw new Error(d.error || 'Failed')
+      setVariantPanel(function(prev) {
+        return Object.assign({}, prev, { variants: [...(prev.variants||[]), d.variant] })
+      })
+      setVariantForm({ variant_type: variantForm.variant_type, variant_name: '', price_delta: '0', price_override: '', in_stock: true })
+      setVariantMsg('Variant added.')
+    } catch(e) { setVariantMsg('Error: ' + e.message) }
+    setVariantSaving(false)
+    setTimeout(function(){ setVariantMsg('') }, 2500)
+  }
+
+  async function deleteVariant(id) {
+    try {
+      await fetch('/api/catalog/variants?id=' + id, { method: 'DELETE' })
+      setVariantPanel(function(prev) {
+        return Object.assign({}, prev, { variants: (prev.variants||[]).filter(function(v){ return v.id !== id }) })
+      })
+    } catch(e) {}
   }
 
   async function deleteMaterial(id, name) {
@@ -508,7 +563,8 @@ export default function CatalogAdmin() {
               <div style={{padding:'2rem', textAlign:'center', fontSize:13, color:'rgba(255,255,255,.3)'}}>No items match.</div>
             )}
             {filtered.map((m, i) => (
-              <div key={m.id} style={{display:'grid', gridTemplateColumns:'44px 1fr 1fr 100px 90px 100px 110px', gap:8, padding:'9px 14px', alignItems:'center', borderTop: i===0 ? 'none' : '1px solid rgba(255,255,255,.05)', fontSize:12, minWidth:640}}>
+              <Fragment key={m.id}>
+              <div style={{display:'grid', gridTemplateColumns:'44px 1fr 1fr 100px 90px 100px 110px', gap:8, padding:'9px 14px', alignItems:'center', borderTop: i===0 ? 'none' : '1px solid rgba(255,255,255,.05)', fontSize:12, minWidth:640}}>
                 <div style={{width:36, height:36, borderRadius:3, overflow:'hidden', background:'#0a0a0a', border:'1px solid rgba(255,255,255,.07)', flexShrink:0}}>
                   {m.photo_url
                     ? <img src={m.photo_url} alt="" style={{width:'100%', height:'100%', objectFit:'cover'}} onError={e => { e.target.style.display='none'; e.target.parentNode.style.background='#111' }}/>
@@ -537,10 +593,93 @@ export default function CatalogAdmin() {
                   )}
                   <button onClick={() => openEdit(m)}
                     style={{background:'rgba(208,104,48,.15)', border:'1px solid rgba(208,104,48,.3)', color:'#D06830', fontSize:10, padding:'3px 8px', borderRadius:2, cursor:'pointer', fontFamily:'Poppins,sans-serif', fontWeight:600}}>Edit</button>
+                  <button onClick={() => openVariantPanel(m)}
+                    style={{background:'rgba(255,140,0,.1)', border:'1px solid rgba(255,140,0,.25)', color:'#FF8C00', fontSize:10, padding:'3px 8px', borderRadius:2, cursor:'pointer', fontFamily:'Poppins,sans-serif', fontWeight:600}}>Variants</button>
                   <button onClick={() => deleteMaterial(m.id, m.product_name)}
                     style={{background:'rgba(192,57,43,.15)', border:'1px solid rgba(192,57,43,.25)', color:'#e57373', fontSize:10, padding:'3px 8px', borderRadius:2, cursor:'pointer', fontFamily:'Poppins,sans-serif'}}>Del</button>
                 </div>
               </div>
+
+              {/* Variant management panel — shown inline below the row */}
+              {variantPanel && variantPanel.materialId === m.id && (
+                <div style={{gridColumn:'1 / -1', background:'#0d1117', border:'1px solid rgba(255,140,0,.2)', borderRadius:4, padding:'14px', margin:'0 0 4px 0'}}>
+                  <div style={{display:'flex', alignItems:'center', justifyContent:'space-between', marginBottom:12}}>
+                    <span style={{fontSize:12, fontWeight:700, color:'#FF8C00'}}>Variants — {variantPanel.materialName}</span>
+                    <button onClick={() => setVariantPanel(null)} style={{background:'transparent', border:'none', color:'rgba(255,255,255,.4)', fontSize:16, cursor:'pointer', padding:0}}>×</button>
+                  </div>
+
+                  {/* Existing variants */}
+                  {variantPanel.variants === null ? (
+                    <div style={{fontSize:11, color:'rgba(255,255,255,.3)', marginBottom:10}}>Loading…</div>
+                  ) : variantPanel.variants.length === 0 ? (
+                    <div style={{fontSize:11, color:'rgba(255,255,255,.3)', marginBottom:10}}>No variants yet.</div>
+                  ) : (
+                    <div style={{display:'flex', flexWrap:'wrap', gap:6, marginBottom:12}}>
+                      {['style','size','finish','trim'].map(function(type) {
+                        var typeVariants = variantPanel.variants.filter(function(v){ return v.variant_type === type })
+                        if (typeVariants.length === 0) return null
+                        return (
+                          <div key={type} style={{background:'#1a1f2e', border:'1px solid rgba(255,255,255,.08)', borderRadius:4, padding:'8px 10px', minWidth:160}}>
+                            <div style={{fontSize:9, fontWeight:700, color:'rgba(255,255,255,.3)', textTransform:'uppercase', letterSpacing:'.08em', marginBottom:6}}>{type}</div>
+                            {typeVariants.map(function(v) {
+                              var delta = parseFloat(v.price_delta||0)
+                              return (
+                                <div key={v.id} style={{display:'flex', alignItems:'center', justifyContent:'space-between', gap:8, marginBottom:3}}>
+                                  <span style={{fontSize:11, color: v.in_stock ? 'rgba(255,255,255,.75)' : 'rgba(255,255,255,.3)'}}>
+                                    {v.variant_name}
+                                    {v.price_override != null ? <span style={{color:'#FF8C00'}}> =${parseFloat(v.price_override).toFixed(0)}</span>
+                                      : delta !== 0 ? <span style={{color:delta>0?'#e57373':'#81c784'}}> {delta>0?'+':''}{delta.toFixed(0)}</span>
+                                      : null}
+                                  </span>
+                                  <button onClick={() => deleteVariant(v.id)} style={{background:'transparent', border:'none', color:'rgba(192,57,43,.7)', fontSize:12, cursor:'pointer', padding:'0 3px', lineHeight:1}}>×</button>
+                                </div>
+                              )
+                            })}
+                          </div>
+                        )
+                      })}
+                    </div>
+                  )}
+
+                  {/* Add variant form */}
+                  <div style={{display:'grid', gridTemplateColumns:'auto 1fr 80px 80px auto auto', gap:6, alignItems:'end'}}>
+                    <div>
+                      <div style={{fontSize:9, fontWeight:600, color:'rgba(255,255,255,.35)', textTransform:'uppercase', letterSpacing:'.06em', marginBottom:4}}>Type</div>
+                      <select value={variantForm.variant_type} onChange={e => setVariantForm(f => ({...f, variant_type: e.target.value}))}
+                        style={{padding:'6px 8px', background:'#1a1f2e', border:'1px solid rgba(255,255,255,.12)', borderRadius:3, color:'#fff', fontSize:11, fontFamily:'Poppins,sans-serif'}}>
+                        {['style','size','finish','trim'].map(t => <option key={t}>{t}</option>)}
+                      </select>
+                    </div>
+                    <div>
+                      <div style={{fontSize:9, fontWeight:600, color:'rgba(255,255,255,.35)', textTransform:'uppercase', letterSpacing:'.06em', marginBottom:4}}>Name *</div>
+                      <input value={variantForm.variant_name} onChange={e => setVariantForm(f => ({...f, variant_name: e.target.value}))} placeholder="e.g. Shaker"
+                        style={{width:'100%', padding:'6px 8px', background:'#1a1f2e', border:'1px solid rgba(255,255,255,.12)', borderRadius:3, color:'#fff', fontSize:11, fontFamily:'Poppins,sans-serif', boxSizing:'border-box'}}/>
+                    </div>
+                    <div>
+                      <div style={{fontSize:9, fontWeight:600, color:'rgba(255,255,255,.35)', textTransform:'uppercase', letterSpacing:'.06em', marginBottom:4}}>± Delta</div>
+                      <input type="number" step="1" value={variantForm.price_delta} onChange={e => setVariantForm(f => ({...f, price_delta: e.target.value}))} placeholder="0"
+                        style={{width:'100%', padding:'6px 8px', background:'#1a1f2e', border:'1px solid rgba(255,255,255,.12)', borderRadius:3, color:'#fff', fontSize:11, fontFamily:'Poppins,sans-serif', boxSizing:'border-box'}}/>
+                    </div>
+                    <div>
+                      <div style={{fontSize:9, fontWeight:600, color:'rgba(255,255,255,.35)', textTransform:'uppercase', letterSpacing:'.06em', marginBottom:4}}>Override $</div>
+                      <input type="number" step="1" value={variantForm.price_override} onChange={e => setVariantForm(f => ({...f, price_override: e.target.value}))} placeholder="—"
+                        style={{width:'100%', padding:'6px 8px', background:'#1a1f2e', border:'1px solid rgba(255,255,255,.12)', borderRadius:3, color:'#fff', fontSize:11, fontFamily:'Poppins,sans-serif', boxSizing:'border-box'}}/>
+                    </div>
+                    <div style={{paddingBottom:2}}>
+                      <label style={{display:'flex', alignItems:'center', gap:5, fontSize:11, color:'rgba(255,255,255,.5)', cursor:'pointer', paddingTop:16}}>
+                        <input type="checkbox" checked={variantForm.in_stock} onChange={e => setVariantForm(f => ({...f, in_stock: e.target.checked}))} style={{accentColor:'#FF8C00'}}/>
+                        In stock
+                      </label>
+                    </div>
+                    <button onClick={addVariant} disabled={variantSaving || !variantForm.variant_name.trim()}
+                      style={{background:'#FF8C00', border:'none', color:'#fff', fontSize:11, fontWeight:700, padding:'7px 12px', borderRadius:3, cursor:'pointer', fontFamily:'Poppins,sans-serif', opacity: variantSaving||!variantForm.variant_name.trim() ? .5 : 1, alignSelf:'flex-end'}}>
+                      {variantSaving ? '…' : '＋ Add'}
+                    </button>
+                  </div>
+                  {variantMsg && <div style={{fontSize:11, marginTop:8, color: variantMsg.startsWith('Error') ? '#e57373' : '#81c784'}}>{variantMsg}</div>}
+                </div>
+              )}
+              </Fragment>
             ))}
           </div>
         )}
