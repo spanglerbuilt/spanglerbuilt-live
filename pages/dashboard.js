@@ -120,7 +120,7 @@ export default function Dashboard() {
         </div>
 
         <div style={{marginTop:'1rem',fontSize:10,color:'rgba(255,255,255,.35)',textAlign:'center'}}>
-          SpanglerBuilt Inc. · michael@spanglerbuilt.com · (404) 492-7650 · app.spanglerbuilt.com
+          SpanglerBuilt Inc. · Design/Build Contractor · GC &amp; Home Builder · michael@spanglerbuilt.com · (404) 492-7650
         </div>
       </div>
     </Layout>

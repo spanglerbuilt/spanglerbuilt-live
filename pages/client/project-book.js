@@ -557,7 +557,8 @@ export default function ProjectBook() {
         <div style={{borderTop:'1px solid #e8e6e0',paddingTop:'1.5rem',display:'flex',justifyContent:'space-between',alignItems:'center'}}>
           <img src="/logo.png" alt="SpanglerBuilt" style={{height:28,width:'auto'}}/>
           <div style={{fontSize:9,color:'rgba(255,255,255,.35)',fontFamily:'Poppins,sans-serif',textAlign:'right',lineHeight:1.7}}>
-            SpanglerBuilt Inc. · 44 Milton Ave, Suite 243 · Woodstock, GA 30188<br/>
+            SpanglerBuilt Inc. · Design/Build Contractor · GC &amp; Home Builder<br/>
+            44 Milton Ave, Suite 243 · Woodstock, GA 30188<br/>
             (404) 492-7650 · michael@spanglerbuilt.com · spanglerbuilt.com<br/>
             Licensed General Contractor · State of Georgia · {projectMeta ? projectMeta.project_number : DEFAULT_PROJECT.number}
           </div>

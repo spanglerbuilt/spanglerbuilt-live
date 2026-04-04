@@ -2,6 +2,7 @@ import { useState } from 'react'
 
 var CONTRACTOR_EMAIL = 'michael@spanglerbuilt.com'
 var CONTRACTOR_PASS  = process.env.NEXT_PUBLIC_CONTRACTOR_PASS || ''
+var IS_QA            = process.env.NEXT_PUBLIC_APP_ENV === 'qa'
 
 // step: 'email' | 'staff-password' | 'set-password'
 export default function Login() {
@@ -16,12 +17,37 @@ export default function Login() {
   var isContractor  = email.trim().toLowerCase() === CONTRACTOR_EMAIL.toLowerCase()
   var needsPassword = isContractor && CONTRACTOR_PASS !== ''
 
-  function saveAndRedirect(role, email, extra) {
+  function saveAndRedirect(role, email, name, extra) {
     if (typeof window !== 'undefined') {
       localStorage.setItem('sb_auth', JSON.stringify(Object.assign({ role, email, ts: Date.now() }, extra || {})))
+      // Persist QA tester identity for feedback widget
+      if (IS_QA) {
+        localStorage.setItem('qa_tester_email', email)
+        if (name) localStorage.setItem('qa_tester_name', name)
+      }
     }
     var dest = role === 'contractor' ? '/dashboard' : role === 'marketing' ? '/marketing/dashboard' : '/client/dashboard'
     window.location.href = dest
+  }
+
+  async function checkQATester(clean) {
+    // Verify the email is on the QA testers list
+    var supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
+    var supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+    if (!supabaseUrl || !supabaseKey) return { allowed: true, name: null }
+    try {
+      var { createClient } = await import('@supabase/supabase-js')
+      var sb = createClient(supabaseUrl, supabaseKey)
+      var { data } = await sb
+        .from('qa_testers')
+        .select('name')
+        .eq('email', clean)
+        .eq('active', true)
+        .single()
+      return data ? { allowed: true, name: data.name } : { allowed: false, name: null }
+    } catch (e) {
+      return { allowed: true, name: null } // Fail open if Supabase unreachable
+    }
   }
 
   function handleLogin(e) {
@@ -30,12 +56,29 @@ export default function Login() {
     setLoading(true); setError('')
     var clean = email.trim().toLowerCase()
 
+    // ── QA gate: check tester list before proceeding ─────────────────────────
+    if (IS_QA) {
+      checkQATester(clean).then(function(result) {
+        if (!result.allowed) {
+          setError('This email is not on the QA tester list. Contact michael@spanglerbuilt.com for access.')
+          setLoading(false)
+          return
+        }
+        continueLogin(clean, result.name)
+      })
+      return
+    }
+
+    continueLogin(clean, null)
+  }
+
+  function continueLogin(clean, testerName) {
     // ── Contractor ──────────────────────────────────────────────────────────
     if (clean === CONTRACTOR_EMAIL.toLowerCase()) {
       if (needsPassword && password !== CONTRACTOR_PASS) {
         setError('Incorrect password.'); setLoading(false); return
       }
-      saveAndRedirect('contractor', clean)
+      saveAndRedirect('contractor', clean, testerName || 'Michael')
       return
     }
 
@@ -49,7 +92,7 @@ export default function Login() {
         .then(function(r) { return r.json().then(function(d) { return { ok: r.ok, data: d } }) })
         .then(function(res) {
           if (!res.ok) { setError(res.data.error || 'Incorrect password.'); setLoading(false); return }
-          saveAndRedirect(res.data.role, clean)
+          saveAndRedirect(res.data.role, clean, testerName)
         })
         .catch(function() { setError('Unable to connect. Please try again.'); setLoading(false) })
       return
@@ -67,7 +110,7 @@ export default function Login() {
         .then(function(r) { return r.json().then(function(d) { return { ok: r.ok, data: d } }) })
         .then(function(res) {
           if (!res.ok) { setError(res.data.error || 'Could not set password.'); setLoading(false); return }
-          saveAndRedirect(res.data.role, clean)
+          saveAndRedirect(res.data.role, clean, testerName)
         })
         .catch(function() { setError('Unable to connect. Please try again.'); setLoading(false) })
       return
@@ -86,7 +129,7 @@ export default function Login() {
       .then(function(r) { return r.json().then(function(d) { return { ok: r.ok, data: d } }) })
       .then(function(clientRes) {
         if (clientRes.ok) {
-          saveAndRedirect('client', clean, { project: clientRes.data.project })
+          saveAndRedirect('client', clean, testerName, { project: clientRes.data.project })
           return
         }
         // Not a client — try staff
@@ -136,6 +179,7 @@ export default function Login() {
       }}>
         <div style={{textAlign:'center', marginBottom:'2rem'}}>
           <img src="/logo.png" alt="SpanglerBuilt" style={{width:180, height:'auto', marginBottom:'1rem'}}/>
+          <div style={{fontSize:11, color:'rgba(255,255,255,.35)', letterSpacing:'.04em', marginBottom:2}}>Design/Build Contractor · GC &amp; Home Builder</div>
           <div style={{fontSize:11, color:'rgba(255,255,255,.4)', letterSpacing:'.14em', textTransform:'uppercase'}}>Client &amp; Project Portal</div>
           <p style={{fontSize:13, color:'rgba(255,255,255,.7)', fontWeight:500, marginTop:10, lineHeight:1.5}}>We build more than projects — we build lifestyles.</p>
           <p style={{fontSize:11, color:'rgba(255,255,255,.35)', fontStyle:'italic', marginTop:4}}>Delivering precision, quality, and lasting value.</p>

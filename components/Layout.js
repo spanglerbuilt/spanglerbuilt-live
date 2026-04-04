@@ -14,6 +14,7 @@ var NAV = {
     { href: '/contractor/catalog',     label: 'Catalog',        icon: '◈' },
     { href: '/contractor/catalog-admin', label: 'Catalog Admin', icon: '⚙' },
     { href: '/ai',                     label: 'AI Tools',       icon: '✦' },
+    { href: '/contractor/qa-feedback', label: 'QA Feedback',    icon: '💬', qaOnly: true },
   ],
   marketing: [
     { section: 'Sales & Marketing' },
@@ -284,6 +285,8 @@ export default function Layout({ children }) {
                 </div>
               )
             }
+            // Hide qaOnly links unless in QA env or michael's account
+            if (item.qaOnly && process.env.NEXT_PUBLIC_APP_ENV !== 'qa' && (auth && auth.email) !== 'michael@spanglerbuilt.com') return null
             var active = current === item.href || current.startsWith(item.href + '/')
             return (
               <a key={item.href} href={item.href} style={{

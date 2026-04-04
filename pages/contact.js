@@ -52,7 +52,10 @@ export default function ContactPage() {
       <div style={{display:'flex',alignItems:'center',gap:12}}>
         <img src="/logo.png" alt="SpanglerBuilt" style={{height:34,width:'auto'}}/>
       </div>
-      <div style={{fontSize:11,color:'rgba(255,255,255,.6)'}}>We build more than projects — we build lifestyles.</div>
+      <div style={{textAlign:'right'}}>
+          <div style={{fontSize:11,color:'rgba(255,255,255,.6)'}}>We build more than projects — we build lifestyles.</div>
+          <div style={{fontSize:10,color:'rgba(255,255,255,.35)',marginTop:2}}>Design/Build Contractor · GC &amp; Home Builder</div>
+        </div>
     </div>
   )
 
@@ -227,7 +230,7 @@ export default function ContactPage() {
         )}
 
         <div style={{marginTop:'1rem',fontSize:10,color:'rgba(255,255,255,.35)',textAlign:'center'}}>
-          SpanglerBuilt Inc. · Woodstock, GA · (404) 492-7650 · michael@spanglerbuilt.com
+          SpanglerBuilt Inc. · Design/Build Contractor · GC &amp; Home Builder · Woodstock, GA · (404) 492-7650 · michael@spanglerbuilt.com
         </div>
       </div>
     </div>

@@ -312,7 +312,7 @@ export default function ClientEstimate() {
         )}
 
         <div style={{marginTop:'1.5rem', fontSize:10, color:'rgba(255,255,255,.25)', textAlign:'center'}}>
-          SpanglerBuilt Inc. · Michael Spangler, GC · 44 Milton Ave, Alpharetta GA 30009 · (404) 492-7650 · Estimate valid 30 days
+          SpanglerBuilt Inc. · Design/Build Contractor · GC &amp; Home Builder · 44 Milton Ave, Suite 243, Woodstock, GA 30188 · (404) 492-7650 · Estimate valid 30 days
         </div>
       </div>
     </Layout>

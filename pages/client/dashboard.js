@@ -141,7 +141,7 @@ export default function ClientDashboard() {
         <div style={{background:'#161616', border:'1px solid rgba(255,255,255,.08)', borderRadius:4, padding:'1rem 1.5rem', display:'flex', justifyContent:'space-between', alignItems:'center', flexWrap:'wrap', gap:8}}>
           <div>
             <div style={{fontSize:12, color:'rgba(255,255,255,.55)', marginBottom:2}}>Questions? Contact Michael directly</div>
-            <div style={{fontSize:11, color:'rgba(255,255,255,.3)'}}>SpanglerBuilt Inc. · 44 Milton Ave, Alpharetta GA 30009</div>
+            <div style={{fontSize:11, color:'rgba(255,255,255,.3)'}}>SpanglerBuilt Inc. · Design/Build Contractor · GC &amp; Home Builder · Woodstock, GA 30188</div>
           </div>
           <div style={{display:'flex', gap:8}}>
             <a href="tel:4044927650" style={{background:'#D06830', color:'#fff', padding:'8px 16px', fontSize:12, fontWeight:700, textDecoration:'none', borderRadius:3}}>(404) 492-7650</a>
