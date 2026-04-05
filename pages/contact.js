@@ -230,7 +230,7 @@ export default function ContactPage() {
         )}
 
         <div style={{marginTop:'1rem',fontSize:10,color:'rgba(255,255,255,.35)',textAlign:'center'}}>
-          SpanglerBuilt Inc. · Design/Build Contractor · GC &amp; Home Builder · Woodstock, GA · (404) 492-7650 · michael@spanglerbuilt.com
+          SpanglerBuilt Inc. · Design/Build Contractor · GC &amp; Home Builder · Alpharetta, GA · (404) 492-7650 · michael@spanglerbuilt.com
         </div>
       </div>
     </div>

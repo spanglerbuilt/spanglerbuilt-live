@@ -259,7 +259,7 @@ export default function ProjectBook() {
             </div>
           </div>
         </div>
-        <div style={{fontSize:10,color:'rgba(255,255,255,.25)',fontFamily:'Poppins,sans-serif',letterSpacing:'.06em',marginTop:'2rem'}}>SPANGLERBUILT INC. · 44 MILTON AVE SUITE 243 · WOODSTOCK GA 30188 · (404) 492-7650 · SPANGLERBUILT.COM</div>
+        <div style={{fontSize:10,color:'rgba(255,255,255,.25)',fontFamily:'Poppins,sans-serif',letterSpacing:'.06em',marginTop:'2rem'}}>SPANGLERBUILT INC. · 44 MILTON AVE · ALPHARETTA GA 30009 · (404) 492-7650 · SPANGLERBUILT.COM</div>
       </div>
 
       {/* ABOUT */}
@@ -558,7 +558,7 @@ export default function ProjectBook() {
           <img src="/logo.png" alt="SpanglerBuilt" style={{height:28,width:'auto'}}/>
           <div style={{fontSize:9,color:'rgba(255,255,255,.35)',fontFamily:'Poppins,sans-serif',textAlign:'right',lineHeight:1.7}}>
             SpanglerBuilt Inc. · Design/Build Contractor · GC &amp; Home Builder<br/>
-            44 Milton Ave, Suite 243 · Woodstock, GA 30188<br/>
+            44 Milton Ave, Alpharetta, GA 30009<br/>
             (404) 492-7650 · michael@spanglerbuilt.com · spanglerbuilt.com<br/>
             Licensed General Contractor · State of Georgia · {projectMeta ? projectMeta.project_number : DEFAULT_PROJECT.number}
           </div>

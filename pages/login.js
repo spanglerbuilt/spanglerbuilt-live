@@ -267,7 +267,7 @@ export default function Login() {
         <p style={{fontSize:11, color:'rgba(255,255,255,.3)', textAlign:'center', lineHeight:2, marginTop:'1.5rem'}}>
           <strong style={{color:'rgba(255,255,255,.5)'}}>Clients:</strong> use the email on your project agreement.<br/>
           <strong style={{color:'rgba(255,255,255,.5)'}}>SpanglerBuilt team:</strong> michael@spanglerbuilt.com<br/>
-          44 Milton Ave, Suite 243, Woodstock, GA 30188<br/>
+          44 Milton Ave, Alpharetta, GA 30009<br/>
           <a href="tel:4044927650" style={{color:'#D06830'}}>Need help? (404) 492-7650</a>
         </p>
       </div>

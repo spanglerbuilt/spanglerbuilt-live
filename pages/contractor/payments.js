@@ -69,7 +69,7 @@ export default function PaymentsPage() {
     var amount = project.contract * milestone.pct / 100
     return [
       'INVOICE — SPANGLERBUILT INC.',
-      '44 Milton Ave, Suite 243 · Woodstock, GA 30188',
+      '44 Milton Ave, Alpharetta, GA 30009',
       '(404) 492-7650 · michael@spanglerbuilt.com',
       '',
       'Project: ' + project.pn + ' — ' + project.client,

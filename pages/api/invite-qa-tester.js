@@ -29,7 +29,7 @@ export default async function handler(req, res) {
     // Send invite email via Resend
     if (resendKey) {
       var greeting = name ? ('Hi ' + name + ',') : 'Hi,'
-      var body = greeting + '\n\nMichael Spangler has invited you to preview and test the new SpanglerBuilt client portal.\n\nAccess the QA portal here:\nhttps://qa.spanglerbuilt.com\n\nUse this email address to log in: ' + email + '\n\nAs you explore, use the orange 💬 Feedback button on any page to report bugs or leave comments. Your feedback helps us build a better experience.\n\nThank you for your time!\n\nMichael Spangler\nSpanglerBuilt Inc. · Design/Build Contractor · GC & Home Builder\n44 Milton Ave, Suite 243, Woodstock, GA 30188\n(404) 492-7650'
+      var body = greeting + '\n\nMichael Spangler has invited you to preview and test the new SpanglerBuilt client portal.\n\nAccess the QA portal here:\nhttps://qa.spanglerbuilt.com\n\nUse this email address to log in: ' + email + '\n\nAs you explore, use the orange 💬 Feedback button on any page to report bugs or leave comments. Your feedback helps us build a better experience.\n\nThank you for your time!\n\nMichael Spangler\nSpanglerBuilt Inc. · Design/Build Contractor · GC & Home Builder\n44 Milton Ave, Alpharetta, GA 30009\n(404) 492-7650'
 
       var emailRes = await fetch('https://api.resend.com/emails', {
         method: 'POST',

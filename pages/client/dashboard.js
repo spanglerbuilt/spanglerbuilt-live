@@ -232,7 +232,7 @@ export default function ClientDashboard() {
               <div style={{fontSize:13, fontWeight:700, color:'rgba(255,255,255,.75)', marginBottom:4}}>Questions? Contact Michael directly</div>
               <div style={{fontSize:11, color:'rgba(255,255,255,.35)', lineHeight:1.7}}>
                 SpanglerBuilt Inc. · Design/Build Contractor · GC &amp; Home Builder<br/>
-                44 Milton Ave, Suite 243 · Woodstock, GA 30188
+                44 Milton Ave, Alpharetta, GA 30009
               </div>
             </div>
             <div style={{display:'flex', gap:8}}>

@@ -2,7 +2,7 @@ import Anthropic from '@anthropic-ai/sdk'
 
 var client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY })
 
-var BASE = 'SpanglerBuilt Inc. — Licensed Design/Build Contractor & General Contractor. Owner: Michael Spangler. Phone: (404) 492-7650. Address: 44 Milton Ave, Suite 243, Woodstock, GA 30188. Specializes in basement renovations, kitchen remodels, bathroom remodels, home additions, custom home builds. Service area: Cherokee, Fulton, Cobb, DeKalb counties. 4 pricing tiers — Good (1.0x), Better (1.18x), Best (1.38x), Luxury (1.65x). Project numbers: SB-YYYY-NNN format.'
+var BASE = 'SpanglerBuilt Inc. — Licensed Design/Build Contractor & General Contractor. Owner: Michael Spangler. Phone: (404) 492-7650. Address: 44 Milton Ave, Alpharetta, GA 30009. Specializes in basement renovations, kitchen remodels, bathroom remodels, home additions, custom home builds. Service area: Cherokee, Fulton, Cobb, DeKalb counties. 4 pricing tiers — Good (1.0x), Better (1.18x), Best (1.38x), Luxury (1.65x). Project numbers: SB-YYYY-NNN format.'
 
 var SYSTEM = {
   proposal:
